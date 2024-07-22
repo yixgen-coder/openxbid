@@ -1,0 +1,26 @@
+.pp{
+  margin-bottom:70rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.custom-tab-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.tabbar-bg{
+ width: 100%;
+ height: 131rpx;
+ position: absolute;
+ top: -46rpx;
+ left: 0;
+}
+.custom-tab-bar-wrapper .text {
+  font-size: 20rpx;
+  color:#221F1C;
+}
+.custom-tab-bar-wrapper .active{
+  color: #F22800;
+}

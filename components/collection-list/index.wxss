@@ -1,0 +1,52 @@
+.collection-list-wrap .collection-item {
+  width: 702rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx 16rpx 16rpx 16rpx;
+  margin-bottom: 20rpx;
+  padding: 0 28rpx;
+  box-sizing: border-box;
+  position: relative;
+}
+.collection-list-wrap .collection-item .action {
+  position: absolute;
+  right: 20rpx;
+  bottom: 30rpx;
+}
+.collection-list-wrap .collection-item .item-box {
+  padding: 28rpx 0;
+  display: flex;
+}
+.collection-list-wrap .collection-item .item-box .left {
+  width: 176rpx;
+  height: 176rpx;
+  border-radius: 12rpx 12rpx 12rpx 12rpx;
+  margin-right: 28rpx;
+}
+.collection-list-wrap .collection-item .item-box .right {
+  width: 398rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.collection-list-wrap .collection-item .item-box .right .title {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+}
+.collection-list-wrap .collection-item .item-box .right .time {
+  font-size: 28rpx;
+  color: #A8A8A8;
+  margin: 20rpx 0;
+}
+.collection-list-wrap .collection-item .item-box .right .bottom {
+  font-size: 24rpx;
+  color: #000000;
+}
+.collection-list-wrap .collection-item .item-box .right .bottom .dw {
+  color: #221F1C;
+  font-size: 24rpx;
+}
+.collection-list-wrap .collection-item .item-box .right .bottom .num {
+  color: #221F1C;
+  font-size: 32rpx;
+}

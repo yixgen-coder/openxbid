@@ -1,0 +1,48 @@
+<view class="bidding-list-wrap wr-class" id="{{independentID}}">
+	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+  <view class="bidding-item">
+    <view class="item-top">
+    <view class="left">
+      <image src="https://imgs.phanlink.com/program/images/tabadd.png"></image>
+      <text>某某某海外贸易有限公司</text>
+    </view>
+    <view class="right">竞价中</view>
+    </view>
+    <view class="item-box">
+      <image class="left" src="https://imgs.phanlink.com/program/images/topbg.png"></image>
+      <view class="right">
+        <view class="top">
+          <view class="title">三去黄菇鱼</view>
+          <view class="time">00天16时11分47秒后结束</view>
+          <view class="tags">
+            <view class="color1">出售</view>
+            <view class="color2">出售</view>
+            <view class="color3">出售</view>
+          </view>
+        </view>
+        <view class="bottom">
+          我的出价：
+          <text class="dw">$</text>
+          <text class="num">156600.00</text>
+        </view>
+      </view>
+    </view>
+    <view class="item-bottom">
+      <view class="btn btn1">查看详情</view>
+      <view class="btn btn2">修改出价</view>
+    </view>
+  </view>
+		<!-- <goods-card
+		  id="{{independentID}}-gd-{{index}}"
+		  data="{{item}}"
+		  currency="{{item.currency || '¥'}}"
+		  thresholds="{{thresholds}}"
+		  class="goods-card-inside"
+		  data-index="{{index}}"
+		  bind:thumb="onClickGoodsThumb"
+		  bind:click="onClickGoods"
+		  bind:add-cart="onAddCart"
+		/> -->
+	</block>
+</view>
+

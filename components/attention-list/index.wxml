@@ -1,0 +1,24 @@
+<view class="attention-list-wrap wr-class" id="{{independentID}}">
+	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+  <view class="attention-item">
+    <view class="item-box">
+      <image class="left" src="https://imgs.phanlink.com/program/images/topbg.png"></image>
+      <view class="right">
+        <view class="top">
+          <view class="title">
+          <view class="text">三去黄菇鱼</view>
+          <view class="btn">已关注</view>
+          </view>
+          <view class="tags">
+            <view class="color1">出售</view>
+            <view class="color2">出售</view>
+            <view class="color3">出售</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+	</block>
+</view>
+

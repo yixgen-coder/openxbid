@@ -1,0 +1,93 @@
+.attention-list-wrap .attention-item {
+  width: 702rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx 16rpx 16rpx 16rpx;
+  margin-bottom: 20rpx;
+  padding: 0 28rpx;
+  box-sizing: border-box;
+}
+.attention-list-wrap .attention-item .item-box {
+  padding: 28rpx 0;
+  display: flex;
+}
+.attention-list-wrap .attention-item .item-box .left {
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 28rpx;
+  background: #FFFFFF;
+  border-radius: 8rpx 8rpx 8rpx 8rpx;
+  border: 1rpx solid #E6E6E6;
+}
+.attention-list-wrap .attention-item .item-box .right {
+  width: 498rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.attention-list-wrap .attention-item .item-box .right .title {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.attention-list-wrap .attention-item .item-box .right .title .btn {
+  height: 52rpx;
+  border-radius: 28rpx 28rpx 28rpx 28rpx;
+  border: 1rpx solid #DADADA;
+  text-align: center;
+  line-height: 52rpx;
+  padding: 0 25rpx;
+  color: #999999;
+  font-size: 26rpx;
+}
+.attention-list-wrap .attention-item .item-box .right .tags {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20rpx;
+}
+.attention-list-wrap .attention-item .item-box .right .tags > view {
+  height: 32rpx;
+  line-height: 32rpx;
+  background: #F7F8FA;
+  border-radius: 4rpx 4rpx 4rpx 4rpx;
+  font-size: 22rpx;
+  padding: 0 10rpx;
+  margin-right: 10rpx;
+}
+.attention-list-wrap .attention-item .item-box .right .tags .color1 {
+  background: #FFF4F2;
+  color: #FF5533;
+}
+.attention-list-wrap .attention-item .item-box .right .tags .color2 {
+  background: #F7F8FA;
+  color: #979797;
+}
+.attention-list-wrap .attention-item .item-box .right .tags .color3 {
+  background: #EBF7FF;
+  color: #33AAFF;
+}
+.attention-list-wrap .attention-item .item-bottom {
+  text-align: right;
+  margin-top: 20rpx;
+}
+.attention-list-wrap .attention-item .item-bottom .btn {
+  display: inline-block;
+  width: 160rpx;
+  height: 64rpx;
+  border-radius: 32rpx 32rpx 32rpx 32rpx;
+  box-sizing: border-box;
+  line-height: 64rpx;
+  text-align: center;
+  font-size: 26rpx;
+  margin-left: 20rpx;
+}
+.attention-list-wrap .attention-item .item-bottom .btn1 {
+  border: 1rpx solid #B5B5B5;
+  color: #666666;
+}
+.attention-list-wrap .attention-item .item-bottom .btn2 {
+  background: linear-gradient(90deg, #FF6426 0%, #FF2A00 100%);
+  color: #FFFFFF;
+}

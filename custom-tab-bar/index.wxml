@@ -1,0 +1,25 @@
+
+<t-tab-bar
+ value="{{active}}"
+ bindchange="onChange"
+ split="{{false}}"
+ bordered="{{false}}"
+>
+<image class="tabbar-bg"
+				src="https://imgs.phanlink.com/program/images/bar-bg.png"
+				mode="aspectFill">
+			</image>
+	<t-tab-bar-item
+	 wx:for="{{list}}"
+	 wx:for-item="item"
+	 wx:for-index="index"
+	 wx:key="index"
+   badge-props="{{ {count: 16} }}"
+	>
+		<view class="custom-tab-bar-wrapper">
+			<t-icon  class="{{index==2?'pp':''}}" prefix="wr" name="{{active==index&&index!=2?item.aicon:item.icon}}" size="{{index==2?'110rpx':'48rpx'}}" />
+			<view class="{{['text',index==active?'active':'']}}">{{ item.text }}</view>
+		</view>
+	</t-tab-bar-item>
+</t-tab-bar>
+

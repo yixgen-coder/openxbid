@@ -1,0 +1,33 @@
+<view class="collection-list-wrap wr-class" id="{{independentID}}">
+	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+  <view class="collection-item">
+    <t-icon class="action" name="more" size="38rpx" color="#aaa" bind:click="onIconTap" />
+    <view class="item-box">
+      <image class="left" src="https://imgs.phanlink.com/program/images/topbg.png"></image>
+      <view class="right">
+        <view class="top">
+          <view class="title">三去黄菇鱼</view>
+          <view class="time">00天16时11分47秒后结束</view>
+        </view>
+        <view class="bottom">
+          我的出价：
+          <text class="dw">$</text>
+          <text class="num">156600.00</text>
+        </view>
+      </view>
+    </view>
+  </view>
+		<!-- <goods-card
+		  id="{{independentID}}-gd-{{index}}"
+		  data="{{item}}"
+		  currency="{{item.currency || '¥'}}"
+		  thresholds="{{thresholds}}"
+		  class="goods-card-inside"
+		  data-index="{{index}}"
+		  bind:thumb="onClickGoodsThumb"
+		  bind:click="onClickGoods"
+		  bind:add-cart="onAddCart"
+		/> -->
+	</block>
+</view>
+
