@@ -8,7 +8,7 @@
   },
   "[javascript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "nullExtensionDescription"
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
@@ -33,5 +33,8 @@
   "editor.tabSize": 2,
   "[less]": {
     "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[wxml]": {
+    "editor.defaultFormatter": "nullExtensionDescription"
   }
 }

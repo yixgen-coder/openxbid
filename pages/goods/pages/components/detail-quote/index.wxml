@@ -1,0 +1,48 @@
+<view class="detail-quote">
+    <view class="title">规格：AA</view>
+    <view class="detail-quote-box">
+     <view class="margin-right-14">
+        <text>型号</text>
+        <text class="black">500/700</text>
+     </view>
+     <view>
+        <text>型号</text>
+        <text  class="black">500/700</text>
+     </view>
+     <view class="margin-right-14"> 
+        <text>型号</text>
+        <text  class="black">500/700</text>
+     </view>
+     <view>
+        <text>型号</text>
+        <text  class="black">500/700</text>
+     </view>
+     <view class="margin-right-14">
+        <text>型号</text>
+        <text  class="black">500/700</text>
+     </view>
+     <view>
+        <text>型号</text>
+        <text class="red">500/700</text>
+     </view>
+     <view>
+        <text>型号</text>
+        <text  class="red">500/700</text>
+     </view>
+    </view>
+    <view class="title">总计</view>
+    <view class="detail-quote-box">
+      <view class="margin-right-14">
+        <text>数量</text>
+        <text>500/700</text>
+     </view>
+     <view>
+        <text>净重(KG)</text>
+        <text class="red">500/700</text>
+     </view>
+      <view class="redb">
+        <text>型号</text>
+        <text class="red">500/700</text>
+     </view>
+    </view>
+</view>

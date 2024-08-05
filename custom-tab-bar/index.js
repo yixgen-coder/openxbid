@@ -1,21 +1,20 @@
 import TabMenu from './data';
 Component({
   data: {
-    active: 0,
+    active: -1,
     list: TabMenu,
   },
 
   methods: {
     onChange(event) {
-      if(event.detail.value==2){
-          return false
-      }
-      console.log(event.detail.value)
-      this.setData({ active: event.detail.value });
+
+      // console.log(event.detail.value)
+      this.setData({
+        active: event.detail.value
+      });
       wx.switchTab({
-        url: this.data.list[event.detail.value].url.startsWith('/')
-          ? this.data.list[event.detail.value].url
-          : `/${this.data.list[event.detail.value].url}`,
+        url: this.data.list[event.detail.value].url.startsWith('/') ?
+          this.data.list[event.detail.value].url : `/${this.data.list[event.detail.value].url}`,
       });
     },
 
@@ -24,10 +23,12 @@ Component({
       const route = page ? page.route.split('?')[0] : '';
       const active = this.data.list.findIndex(
         (item) =>
-          (item.url.startsWith('/') ? item.url.substr(1) : item.url) ===
-          `${route}`,
+        (item.url.startsWith('/') ? item.url.substr(1) : item.url) ===
+        `${route}`,
       );
-      this.setData({ active });
+      this.setData({
+        active
+      });
     },
   },
 });

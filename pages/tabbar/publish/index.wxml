@@ -1,0 +1,18 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/color-bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <!-- <t-icon name="chevron-left" color="#221F1C" size="56rpx" /> -->
+    </view>
+    <view class="title">
+      <view class="text">
+        请选择您要发布的内容
+      </view>
+    </view>
+  </view>
+  <view class="publish-content">
+    <t-cell t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布产品" description="上架商品，竞拍获客" align="top" image="https://imgs.phanlink.com/program/images/d1.png" hover bordered="{{false}}" arrow />
+    <t-cell t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布求购" description="需求发布，快速响应" align="top" image="https://imgs.phanlink.com/program/images/d2.png" hover bordered="{{false}}" arrow />
+    <t-cell t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布资讯" description="实时精选，热点话题" align="top" image="https://imgs.phanlink.com/program/images/d3.png" hover bordered="{{false}}" arrow />
+    <t-cell t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布动态" description="新鲜内容，实时更新" align="top" image="https://imgs.phanlink.com/program/images/d4.png" hover bordered="{{false}}" arrow />
+  </view>
+</view>

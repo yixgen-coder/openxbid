@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "会员登录",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-button": "tdesign-miniprogram/button/button"
+  },
+  "enablePullDownRefresh": true
+}

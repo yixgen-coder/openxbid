@@ -2,7 +2,7 @@
 	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
   <view class="attention-item">
     <view class="item-box">
-      <image class="left" src="https://imgs.phanlink.com/program/images/topbg.png"></image>
+      <image class="left" src="/images/topbg.png"></image>
       <view class="right">
         <view class="top">
           <view class="title">

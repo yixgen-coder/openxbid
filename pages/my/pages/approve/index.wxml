@@ -1,0 +1,20 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/color-bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#221F1C" size="56rpx" bind:click="goback" />
+    </view>
+    <view class="title">
+      <view class="text">
+        请选择您要认证的类型
+      </view>
+    </view>
+  </view>
+  <view class="publish-content">
+    <navigator url="/pages/my/pages/approve/auhor/index?item=1" class="cell-class">
+      <t-cell t-class-title="cell-title" t-class-description="cell-description" t-class-right-icon="cell-icon" title="企业营业执照认证" description="立即前往认证客" arrow />
+    </navigator>
+    <navigator url="/pages/my/pages/approve/auhor/index?item=2" class="cell-class">
+      <t-cell t-class-title="cell-title" t-class-description="cell-description" t-class-right-icon="cell-icon" title="个人身份证认证" description="立即前往认证" arrow />
+    </navigator>
+  </view>
+</view>

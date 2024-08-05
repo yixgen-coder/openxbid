@@ -1,0 +1,49 @@
+.detail-quote {
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+.detail-quote .title {
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #221F1C;
+  margin-bottom: 30rpx;
+}
+.detail-quote .detail-quote-box {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #E6E6E6;
+  margin-bottom: 40rpx;
+}
+.detail-quote .detail-quote-box > view {
+  width: 336rpx;
+  height: 72rpx;
+  background: #F7F8FA;
+  border-radius: 8rpx 8rpx 8rpx 8rpx;
+  font-size: 28rpx;
+  color: #999999;
+  line-height: 72rpx;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+}
+.detail-quote .detail-quote-box > view .black {
+  color: #221F1C;
+}
+.detail-quote .detail-quote-box > view .red {
+  color: #F22800;
+}
+.detail-quote .detail-quote-box .redb {
+  width: 686rpx;
+  height: 72rpx;
+  background: #FFF4F2;
+  color: #F22800;
+}
+.detail-quote .detail-quote-box .margin-right-14 {
+  margin-right: 14rpx;
+}
+.detail-quote .detail-quote-box:last-child {
+  border-bottom: none;
+}

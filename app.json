@@ -1,17 +1,37 @@
 {
   "pages": [
-    "pages/home/home",
-    "pages/usercenter/index",
-    "pages/usercenter/person-info/index",
-    "pages/usercenter/address/list/index",
-    "pages/usercenter/address/edit/index",
-    "pages/promotion-detail/index",
-    "pages/usercenter/name-edit/index",
-    "pages/news/index",
-    "pages/publish/index",
-    "pages/serve/index",
-    "pages/home/classify/index"
+    "pages/tabbar/home/home",
+    "pages/tabbar/my/index",
+    "pages/tabbar/message/index",
+    "pages/tabbar/publish/index",
+    "pages/tabbar/serve/index",
+    "pages/tabbar/login/login"
   ],
+  "subPackages": [
+    {
+      "root": "pages/goods",
+      "pages": [
+        "pages/index/index",
+        "pages/info/index"
+      ]
+    },
+    {
+      "root": "pages/my",
+      "pages": [
+        "pages/info/index",
+        "pages/approve/index",
+        "pages/approve/auhor/index"
+      ]
+    },
+    {
+      "root": "pages/news",
+      "pages": [
+        "pages/index/index"
+      ]
+    }
+  ],
+
+
   "tabBar": {
     "custom": true,
     "color": "#666666",
@@ -20,26 +40,28 @@
     "borderStyle": "black",
     "list": [
       {
-        "pagePath": "pages/home/home",
+        "pagePath": "pages/tabbar/home/home",
         "text": "首页"
       },
       {
-        "pagePath": "pages/serve/index",
+        "pagePath": "pages/tabbar/serve/index",
         "text": "分类"
       },
       {
-        "pagePath": "pages/news/index",
+        "pagePath": "pages/tabbar/publish/index",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/tabbar/message/index",
         "text": "信息"
       },
       {
-        "pagePath": "pages/usercenter/index",
+        "pagePath": "pages/tabbar/my/index",
         "text": "我的"
       }
     ]
   },
-  "requiredPrivateInfos": [
-    "chooseAddress"
-  ],
+
   "lazyCodeLoading": "requiredComponents",
   "usingComponents": {},
   "window": {

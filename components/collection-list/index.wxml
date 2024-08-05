@@ -3,7 +3,7 @@
   <view class="collection-item">
     <t-icon class="action" name="more" size="38rpx" color="#aaa" bind:click="onIconTap" />
     <view class="item-box">
-      <image class="left" src="https://imgs.phanlink.com/program/images/topbg.png"></image>
+      <image class="left" src="/images/topbg.png"></image>
       <view class="right">
         <view class="top">
           <view class="title">三去黄菇鱼</view>

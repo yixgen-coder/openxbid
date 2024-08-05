@@ -1,0 +1,15 @@
+.detail-parameter {
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+.detail-parameter > view {
+  display: flex;
+  align-items: center;
+  color: #221F1C;
+  font-size: 28rpx;
+  margin-bottom: 40rpx;
+}
+.detail-parameter > view .label {
+  width: 248rpx;
+  color: #999999;
+}

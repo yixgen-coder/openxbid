@@ -1,0 +1,24 @@
+<view class="user-center-card" style="background: url('https://imgs.phanlink.com/program/images/user-bg.png') no-repeat top;background-size: cover;">
+  <view style="padding-top:{{statusbar}}px;height:{{jiaonangheight}}px;line-height:{{jiaonangheight}}px;text-align:center">我的</view>
+  <view class="user-center-card__header">
+    <view class="left">
+      <view class="avatar">
+        <image src="{{userInfo.avatar}}"></image>
+        <view class="rz" wx:if="{{userInfo.company_status==2}}">{{userInfo.company_type==2?'企业':'个人'}}认证</view>
+        <view class="wrz" wx:if="{{userInfo.company_status!=2}}">未认证</view>
+      </view>
+      <view class="info">
+        <view class="name"><text>{{userInfo.nickname}}</text>
+          <navigator url="/pages/my/pages/info/index" open-type="navigateTo">
+            <image src="https://imgs.phanlink.com/program/images/edit.png"></image>
+          </navigator>
+
+        </view>
+        <view class="id">ID：{{userInfo.code}}</view>
+      </view>
+    </view>
+    <view class="right" wx:if="{{userInfo.company_status==2}}">
+      <view class="btn">进入店铺</view>
+    </view>
+  </view>
+</view>

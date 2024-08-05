@@ -3,13 +3,13 @@
   <view class="bidding-item">
     <view class="item-top">
     <view class="left">
-      <image src="https://imgs.phanlink.com/program/images/tabadd.png"></image>
+      <image src="/images/tabadd.png"></image>
       <text>某某某海外贸易有限公司</text>
     </view>
     <view class="right">竞价中</view>
     </view>
     <view class="item-box">
-      <image class="left" src="https://imgs.phanlink.com/program/images/topbg.png"></image>
+      <image class="left" src="/images/topbg.png"></image>
       <view class="right">
         <view class="top">
           <view class="title">三去黄菇鱼</view>
