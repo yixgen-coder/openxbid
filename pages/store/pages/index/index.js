@@ -1,47 +1,75 @@
 // pages/my/approve/auhor/index.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-
   data: {
-    items: 1,
-    itemTitle: '个人认证',
+    storeInfo: [],
+    options: [],
+    demoCheckboxMax: [],
+    itemTitle: '商家配置',
     statusbar: '',
     jiaonangheight: '',
-    grInfos: {},
-    qyInfos: {},
-    regionText: '中国',
-    regionValue: [96],
-    regionTitle: '',
-    regions: {},
-
-    typeText: '身份证',
-    typeValue: [1, 2],
-    typeTitle: '',
+    shop_name: '',
+    shop_status: '',
+    shop_time: '',
+    shop_desc: '',
+    typeText: '商家性质',
+    typeValue: ['1'],
+    typeTitle: '选择主营产品',
     types: [{
-        label: '身份证',
-        value: 1
+        label: '厂家',
+        value: '1'
       },
       {
-        label: '个体工商户',
-        value: 2,
+        label: '贸易商',
+        value: '2',
       },
       {
-        label: '护照',
-        value: 3,
+        label: '服务商',
+        value: '3',
       }
     ],
     fileList: [],
     imgTmp: '',
-    btnText: '立即认证',
+    btnText: '保存',
     btnStatus: false,
+    visible: false,
+    disselect: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
+  onSelectChange(e) {
+
+    const {
+      value
+    } = e.detail;
+
+    var label = '';
+    var selected = [];
+    if (value.length > 0) {
+      for (let i = 0; i < value.length; i++) {
+        label += this.splitStringAtDelimiter(value[i], '-')[0] + ',';
+        selected.push(this.splitStringAtDelimiter(value[i], '-')[1]);
+      }
+    } else {
+      label = '选择主营产品'
+    }
+    this.setData({
+      demoCheckboxMax: selected,
+      typeTitle: label,
+    })
+  },
+  splitStringAtDelimiter(inputStr, delimiter) {
+    const index = inputStr.indexOf(delimiter);
+
+    if (index !== -1) {
+      const beforeDelimiter = inputStr.slice(0, index);
+      const afterDelimiter = inputStr.slice(index + delimiter.length);
+      return [beforeDelimiter, afterDelimiter];
+    } else {
+      return [inputStr, ''];
+    }
+  },
   onLoad(options) {
     let token = wx.getStorageSync('token');
     if (!token) {
@@ -56,54 +84,53 @@ Page({
       jiaonangheight: res.height // 胶囊高度
     })
 
-    if (options.items) {
-      this.setData({
-        items: options.items,
-        itemTitle: options.items == 2 ? '企业认证' : '个人认证'
-      });
-    }
-    this.addInfo('region', 96);
-    let that = this;
-    const types = this.data.types;
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getRegion', // 服务器地址
-      method: 'POST',
-      data: {
-        'token': token
-      },
-
-      success: function (res) {
-        //console.log(res);
-        if (res.data.code === 1) {
-          let gr_infos = JSON.parse(res.data.data.info.gr_infos)
-          let qy_infos = JSON.parse(res.data.data.info.qy_infos)
-          that.setData({
-            //items: res.data.data.info.company_type,
-            //itemTitle: res.data.data.info.company_type == 2 ? '企业认证' : '个人认证',
-            regions: res.data.data.region,
-            grInfos: gr_infos,
-            qyInfos: qy_infos,
-            fileList: [{
-              'url': options.items == 1 ? gr_infos.imgs : qy_infos.imgs
-            }],
-            imgTmp: options.items == 1 ? gr_infos.imgs : qy_infos.imgs,
-            regionText: that.findValue(options.items == 1 ? gr_infos.region : qy_infos.region, res.data.data.region),
-            regionValue: [options.items == 1 ? gr_infos.region : qy_infos.region],
-            typeText: that.findValue(gr_infos.type, types),
-            typeValue: [gr_infos.type],
-          });
+    this.fetStoreiInfoHandle();
+  },
+  fetchData(url) {
+    let token = wx.getStorageSync('token');
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: url,
+        method: 'POST',
+        data: {
+          'token': token
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          resolve(res.data);
+        },
+        fail: function (err) {
+          reject(err);
         }
-      },
-      fail: function (error) {
-        console.error('提交失败', error);
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none',
-          duration: 2000
+      });
+    });
+  },
+  async fetStoreiInfoHandle() {
+    try {
+      const url = 'https://kpy.phanlink.com/v1/getStore';
+      const res = await this.fetchData(url);
+      const types = this.data.types;
+      if (res.code == 1) {
+        this.setData({
+          storeInfo: res.data.info,
+          options: res.data.ftys,
+          fileList: [{
+            'url': res.data.info.shop_logo
+          }],
+          imgTmp: res.data.info.shop_logo,
+          shop_name: res.data.info.shop_name,
+          shop_status: res.data.info.status == 1 ? '已开通' : '未开通',
+          shop_time: res.data.info.uptime,
+          shop_desc: res.data.info.shop_desc,
+          typeText: this.findValue(res.data.info.type, types),
+          typeValue: [res.data.info.type],
         });
       }
-    });
-
+    } catch (error) {
+      console.error('请求失败', error);
+    }
   },
   findValue(value, data) {
     const foundItems = data.filter(item => item.value === value);
@@ -116,32 +143,23 @@ Page({
     const {
       value
     } = e.detail;
+
     this.addInfo(key, value);
 
   },
   addInfo: function (key, value) {
-    const items = this.data.items;
-
     const {
-      grInfos,
-      qyInfos
+      storeInfo
     } = this.data;
+    storeInfo[key] = value;
+    this.setData({
+      key: value
+    });
 
-    if (items == 1) {
-      grInfos[key] = value;
-      this.setData({
-        grInfos: grInfos
-      });
-    } else {
-      qyInfos[key] = value;
-      this.setData({
-        qyInfos: qyInfos
-      });
-    }
   },
 
   onColumnChange(e) {
-    console.log('picker pick:', e);
+    //console.log('picker pick:', e);
   },
   onPickerChange(e) {
     const {
@@ -167,16 +185,20 @@ Page({
       [`${key}Visible`]: false,
     });
   },
-  onRegionPicker() {
+  onXZPicker() {
+    // let updatedItems = this.data.options.map(item => {
+    //   item.disabled = !item.disabled;
+    //   return item;
+    // });
+    // console.log(updatedItems);
+    const visible = this.data.visible
     this.setData({
-      regionVisible: true,
-      regionTitle: '选择国家'
+      visible: !visible,
     });
   },
   onTitlePicker() {
     this.setData({
       typeVisible: true,
-      typeTitle: '选择证件类型'
     });
   },
   handleAdd(e) {
@@ -187,13 +209,11 @@ Page({
       files
     } = e.detail;
 
-    // 方法1：选择完所有图片之后，统一上传，因此选择完就直接展示
     this.setData({
-      fileList: [...fileList, ...files], // 此时设置了 fileList 之后才会展示选择的图片
+      fileList: [...fileList, ...files],
       imgTmp: files[0].url
     });
     this.onUpload(files[0].url);
-    //console.log(files[0].url);
 
   },
   onUpload(file) {
@@ -253,27 +273,26 @@ Page({
     });
   },
   onFormSubmit: function (e) {
-    const items = this.data.items;
-    const formData = items == 1 ? this.data.grInfos : this.data.qyInfos;
 
+    const formData = this.data.storeInfo;
     const imgTmp = this.data.imgTmp;
+    const demoCheckboxMax = this.data.demoCheckboxMax;
     const token = wx.getStorageSync('token');
     formData.token = token;
-    formData.items = items;
-    formData.imgs = imgTmp;
+    formData.stype = demoCheckboxMax;
+    formData.shop_logo = imgTmp;
     //console.log(formData);
     // 发送数据到服务器
     this.sendFormData(formData);
   },
   sendFormData: function (data) {
-    const url = 'https://kpy.phanlink.com/v1/setGrApprove'
-    const url1 = 'https://kpy.phanlink.com/v1/setQyApprove'
+    const url = 'https://kpy.phanlink.com/v1/setStore'
     wx.request({
-      url: data.items == 1 ? url : url1, // 服务器地址
+      url: url, // 服务器地址
       method: 'POST',
       data: data,
       success: function (res) {
-        console.log(res);
+        //console.log(res);
         if (res.data.code == 1) {
           wx.showToast({
             title: res.data.msg,
@@ -282,7 +301,7 @@ Page({
             mask: true,
             complete: () => {
               wx.navigateBack({
-                delta: 2
+                delta: 1
               });
             }
           });

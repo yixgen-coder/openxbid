@@ -1,76 +1,166 @@
-<view id="js-page-wrap" class="promotion-detail-container">
-	<view wx:if="{{banner}}" class="wrap" id="{{independentID}}">
-		<view class="banner-wrap">
-			<t-image
-			  src="{{banner}}"
-			  mode="aspectFill"
-			  webp="{{true}}"
-			  t-class="t-class-promotion-head"
-			/>
-			<view wx:if="{{!showBannerDesc && (time >= 0 || statusTag === 'finish')}}" class="count-down-wrap in-banner-count-down-wrap">
-				<block wx:if="{{statusTag === 'finish'}}">
-					<view class="status-tag {{statusTag}}">已结束</view>
-					<text class="count-down-label">活动已结束</text>
-				</block>
-				<block wx:else>
-					<view wx:if="{{statusTag === 'before'}}" class="status-tag {{statusTag}}">
-						未开始
-					</view>
-					<text class="count-down-label">距结束仅剩</text>
-					<count-down
-					  wx:if="{{time > 0}}"
-					  t-class="wr-cd-class"
-					  time="{{time}}"
-					  format="DD天 HH:mm:ss"
-					  bind:finish="countDownFinishHandle"
-					/>
-				</block>
-				<view class="detail-entry" bind:tap="bannerClickHandle">
-					<text class="detail-entry-label">规则详情</text>
-					<t-icon name="chevron-right" size="34rpx" style="color: #999" />
-				</view>
-			</view>
-			<view wx:if="{{showBannerDesc && (useBannerDescSlot || time >= 0 || statusTag === 'finish')}}" class="banner-desc-wrap">
-				<block wx:if="{{useBannerDescSlot}}">
-					<slot name="banner-desc" />
-				</block>
-				<block wx:else>
-					<view class="count-down-wrap after-banner-count-down-wrap">
-						<block wx:if="{{statusTag === 'finish'}}">
-							<view class="status-tag {{statusTag}}">已结束</view>
-							<text class="count-down-label">活动已结束</text>
-						</block>
-						<block wx:else>
-							<view wx:if="{{statusTag === 'before'}}" class="status-tag {{statusTag}}">
-								未开始
-							</view>
-							<text class="count-down-label">距结束仅剩</text>
-							<count-down
-							  class="{{cdClass}}"
-							  wr-class="wr-cd-class"
-							  wx:if="{{time > 0}}"
-							  time="{{time}}"
-							  format="DD天 HH:mm:ss"
-							  bind:finish="countDownFinishHandle"
-							/>
-						</block>
-						<view class="detail-entry" bind:tap="bannerClickHandle">
-							<text class="detail-entry-label">规则详情</text>
-							<t-icon name="chevron-right" size="34rpx" style="color: #999" />
-						</view>
-					</view>
-				</block>
-			</view>
-		</view>
-	</view>
-	<view wx:if="{{list && list.length>0}}" class="promotion-goods-list">
-		<goods-list
-		  wr-class="goods-list-container"
-		  goodsList="{{list}}"
-		  bind:click="goodClickHandle"
-		  bind:addcart="cardClickHandle"
-		/>
-	</view>
-	<t-toast id="t-toast" />
+<view class="classify-header">
+  <view class="top-bar" style="padding-top:{{statusbar}}px;height: {{jiaonangheight}}px;">
+    <image src="https://imgs.phanlink.com/program/images/left.png" bind:click="goback"></image>
+    <image bind:tap="handleShareShow" src="https://imgs.phanlink.com/program/images/sher.png"></image>
+  </view>
+  <!-- <image src="https://imgs.phanlink.com/program/images/topbg.png"></image> -->
+  <t-swiper current="{{current}}" autoplay="{{autoplay}}" duration="{{duration}}" interval="{{interval}}" list="{{goodsInfo.pics}}" navigation="{{ { type: 'dots-bar' } }}" height="750rpx" />
+  <view wx:if="{{goodsInfo.statu==2}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm.png') no-repeat bottom;background-size: cover;">
+    <view>竞价进行中</view>
+    <view class="right"><text class="time-text">距结束</text>
+      <view class="demo-count-down-content">
+        <t-count-down bindfinish="handleFinish" t-class="count-down-class" t-class-split="class-split" content="default" time="{{goodsInfo.time}}" format="DD:HH:mm:ss" splitWithUnit theme="square"> </t-count-down>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{goodsInfo.statu==1}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm1.png') no-repeat bottom;background-size: cover;">
+    <view>竞价未开始</view>
+    <view class="right"><text class="time-text">距开始</text>
+      <view class="demo-count-down-content">
+        <t-count-down t-class="count-down-class1" t-class-split="class-split" content="default" time="{{goodsInfo.time}}" format="DD:HH:mm:ss" splitWithUnit theme="square"> </t-count-down>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{goodsInfo.statu==3}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm2.png') no-repeat bottom;background-size: cover;">
+    <view>竞价已结束</view>
+    <view class="right"><text class="time-text">结束时间：{{goodsInfo.etime}}</text>
+    </view>
+  </view>
+</view>
+<!-- 标题信息 -->
+<view class="classify-box">
+  <view class="title">{{goodsInfo.title}}</view>
+  <view class="tags">
+    <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==1}}" variant="light" theme="warning">出售</t-tag>
+    <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==2}}" variant="light" theme="success">求购</t-tag>
+    <t-tag class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.nature}}</t-tag>
+    <t-tag class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.spec1}}</t-tag>
+  </view>
+  <view class="price">
+    <view>当前竞价 <text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.current_price?goodsInfo.current_price:goodsInfo.pric}}</text></view>
+    <view>出价 <text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.price}}</text></view>
+  </view>
+  <view class="viewpoit">围观 <text>{{goodsInfo.hits}}人</text>参与 <text>{{goodsInfo.apply}}人</text></view>
 </view>
 
+<view class="classify-box">
+  <view class="fixed">
+    <view>竞价列表</view>
+
+    <view class="has-icon" bindtap="handleGoOffer"><text>{{goodsInfo.apply}}条</text>
+      <t-icon name="chevron-right" color="#999" size="42rpx" />
+    </view>
+  </view>
+</view>
+
+<view class="classify-box">
+  <view class="fixed margin-b-35">
+    <view class="gray">目的港（所在地）</view>
+    <view><text>{{goodsInfo.bourn}}</text></view>
+  </view>
+  <view class="fixed margin-b-35">
+    <view class="gray">重量</view>
+    <view><text>{{goodsInfo.weight}}KG</text></view>
+  </view>
+  <view class="fixed margin-b-35">
+    <view class="gray">原产地</view>
+    <view><text>{{goodsInfo.place}}</text></view>
+  </view>
+  <view class="fixed">
+    <view class="gray">生产厂家</view>
+    <view><text>{{goodsInfo.manufacturer}}</text></view>
+  </view>
+</view>
+
+<!-- 评价 -->
+<view class="classify-box">
+  <view class="circt-title">
+    <view class="left">商品评论<text> ({{goodsInfo.pldats_counts?goodsInfo.pldats_counts:0}})</text></view>
+    <view class="right" bindtap="handleGoReview"><text>查看全部</text>
+      <t-icon name="chevron-right" color="#999" size="32rpx" />
+    </view>
+  </view>
+  <view class="circt-box">
+    <view class="circt-item" wx:for="{{goodsInfo.pldats}}">
+      <view class="top">
+        <view class="left">
+          <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
+          <text>{{item.nickname}}</text>
+        </view>
+        <view class="right">{{item.addtime}}</view>
+      </view>
+      <view class="bottom">{{item.msg}}</view>
+    </view>
+  </view>
+</view>
+
+<!-- 公司信息 -->
+<view class="classify-box box-fixed">
+  <image class="compiny-image" src="{{goodsInfo.store.shop_logo}}"></image>
+  <view class="compiny-right">
+    <view class="compiny-title">
+      <view class="title-text">{{goodsInfo.store.shop_name}}</view>
+      <view class="title-btn">进入店铺</view>
+    </view>
+    <view class="rate">
+      <text>评分 </text>
+      <t-rate size="15" gap="3" value="{{goodsInfo.store.pf}}" />
+      <text style="margin-left: 28rpx;">综合评价 </text>
+      <text class="red">{{goodsInfo.store.pf}}分</text>
+    </view>
+  </view>
+</view>
+
+<!-- tab详情 -->
+<view class="tab-box">
+  <t-tabs t-class-active="tab-class-active" t-class-track="t-class-track" defaultValue="{{0}}" bind:change="onTabsChange" bind:click="onTabsClick" t-class="custom-tabs">
+    <t-tab-panel label="商品详情" value="0" />
+    <t-tab-panel label="规格参数" value="1" />
+    <t-tab-panel label="商品竞价单" value="2" />
+  </t-tabs>
+  <!-- 商品详情 -->
+  <t-detail-image wx:if="{{goodslabs==0}}" goodsimg="{{goodsInfo}}" />
+  <!-- 参数规格 -->
+  <t-detail-parameter wx:if="{{goodslabs==1}}" goodsgg="{{goodsInfo}}" />
+  <t-detail-quote wx:if="{{goodslabs==2}}" goodsbj="{{goodsInfo}}" />
+</view>
+<!-- 底部栏 -->
+<view class="footer-box">
+  <view class="img-txt">
+    <image src="https://imgs.phanlink.com/program/images/dd1.png"></image>
+    <view>店铺</view>
+  </view>
+  <view class="img-txt">
+    <image src="https://imgs.phanlink.com/program/images/dd2.png"></image>
+    <view>客服</view>
+  </view>
+  <view class="img-txt" wx:if="{{sc==0}}" bindtap="handlesc" id="{{goodsInfo.id}}">
+    <image src="https://imgs.phanlink.com/program/images/dd3.png"></image>
+    <view>收藏</view>
+  </view>
+  <view class="img-txt" wx:if="{{sc==1}}" bindtap="handlesc" id="{{goodsInfo.id}}">
+    <image src="https://imgs.phanlink.com/program/images/dd33.png"></image>
+    <view>已收藏</view>
+  </view>
+  <view bind:tap="handleShow" class="btn">参与竞价</view>
+</view>
+
+<!-- 竞价弹窗 -->
+<t-popup visible="{{isShow}}" bind:visible-change="onVisibleChange" placement="bottom">
+  <t-bidding-popup goodsspec="{{goodsInfo.spec}}" bindsubmitBJ="submitBJ" bindcancel="onVisibleChange" total="{{total}}" bindggainput="ggainput" />
+</t-popup>
+
+<!-- 分享弹窗 -->
+<t-popup visible="{{isShareShow}}" bind:visible-change="onShareVisibleChange" placement="bottom">
+  <view class="share">
+    <view class="share-item">
+      <image src="https://imgs.phanlink.com/program/images/wx.png"></image>
+      <view>分享给微信好友</view>
+    </view>
+    <view class="share-item">
+      <image src="https://imgs.phanlink.com/program/images/pyq.png"></image>
+      <view>分享到朋友圈</view>
+    </view>
+  </view>
+  <view bind:tap="onShareVisibleChange" class="qx">取消</view>
+</t-popup>

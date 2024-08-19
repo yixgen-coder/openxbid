@@ -20,11 +20,9 @@ Component({
         if (!data) {
           return;
         }
-        let isValidityLinePrice = true;
-        if (data.originPrice && data.price && data.originPrice < data.price) {
-          isValidityLinePrice = false;
-        }
-        this.setData({ goods: data, isValidityLinePrice });
+        this.setData({
+          goods: data
+        });
       },
     },
     currency: {
@@ -47,8 +45,9 @@ Component({
 
   data: {
     independentID: '',
-    goods: { id: '' },
-    isValidityLinePrice: false,
+    goods: {
+      id: ''
+    },
   },
 
   lifetimes: {
@@ -64,23 +63,18 @@ Component({
 
   methods: {
     clickHandle() {
-      this.triggerEvent('click', { goods: this.data.goods });
+      this.triggerEvent('click', {
+        goods: this.data.goods
+      });
     },
 
     clickThumbHandle() {
-      this.triggerEvent('thumb', { goods: this.data.goods });
-    },
-
-    addCartHandle(e) {
-      const { id } = e.currentTarget;
-      const { id: cardID } = e.currentTarget.dataset;
-      this.triggerEvent('add-cart', {
-        ...e.detail,
-        id,
-        cardID,
-        goods: this.data.goods,
+      this.triggerEvent('thumb', {
+        goods: this.data.goods
       });
     },
+
+
 
     genIndependentID(id) {
       let independentID;
@@ -89,11 +83,16 @@ Component({
       } else {
         independentID = `goods-card-${~~(Math.random() * 10 ** 8)}`;
       }
-      this.setData({ independentID });
+      this.setData({
+        independentID
+      });
     },
 
     init() {
-      const { thresholds, id } = this.properties;
+      const {
+        thresholds,
+        id
+      } = this.properties;
       this.genIndependentID(id);
       if (thresholds && thresholds.length) {
         this.createIntersectionObserverHandle();

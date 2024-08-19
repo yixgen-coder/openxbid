@@ -1,0 +1,31 @@
+<view class="review">
+  <view class="circt-box">
+    <view class="circt-item" wx:for="{{reviewList}}">
+      <view class="top">
+        <view class="left">
+          <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
+          <text>{{item.nickname}}</text>
+        </view>
+        <view class="right">{{item.addtime}}</view>
+      </view>
+      <view class="bottom">{{item.msg}}</view>
+    </view>
+  </view>
+</view>
+
+<view class="msg">
+  <t-cell t-class="wr" title="填写商品评论，参与互动" align="center" left-icon="https://imgs.phanlink.com/program/images/wr.png" hover bordered="{{false}}" bindclick="handleShowMsg" />
+</view>
+
+<t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom">
+  <view class="block">
+    <view class="header">
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">取消</view>
+      <view class="title">商品评论</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+    </view>
+    <view class="msgtxt">
+      <t-textarea bindchange="handleMsg" t-class="external-class" placeholder="请输入内容" maxlength="100" disableDefaultPadding="{{true}}" indicator />
+    </view>
+  </view>
+</t-popup>

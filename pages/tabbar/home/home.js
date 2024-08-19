@@ -30,7 +30,7 @@ Page({
   },
 
   goodListPagination: {
-    index: 0,
+    index: 1,
     num: 20,
   },
 
@@ -92,7 +92,10 @@ Page({
 
   tabChangeHandle(e) {
     console.log(e)
-    this.privateData.tabIndex = e.detail;
+    this.privateData.tabIndex = e.detail.value;
+    this.setData({
+      goodsList: [],
+    });
     this.loadGoodsList(true);
   },
 
@@ -103,7 +106,7 @@ Page({
   async loadGoodsList(fresh = false) {
     if (fresh) {
       wx.pageScrollTo({
-        scrollTop: 0,
+        scrollTop: 500,
       });
     }
 
@@ -112,31 +115,63 @@ Page({
     });
 
     const pageSize = this.goodListPagination.num;
-    let pageIndex = this.privateData.tabIndex * pageSize + this.goodListPagination.index + 1;
+    var pageIndex = this.goodListPagination.index;
+    var action = this.privateData.tabIndex;
     if (fresh) {
-      pageIndex = 0;
+      pageIndex = 1;
     }
 
     try {
+      const res = await this.fetchGoodsList(pageIndex, pageSize, action);
+      if (res.code == 1) {
+        const nextList = res.data.pros;
+        this.setData({
+          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+        });
+        this.goodListPagination.index = pageIndex + 1;
+      }
       this.setData({
         goodsListLoadStatus: 0
       });
+
     } catch (err) {
       this.setData({
         goodsListLoadStatus: 3
       });
     }
   },
-
+  fetchGoodsList(pageIndex, pageSize, action) {
+    let token = wx.getStorageSync('token');
+    const url = 'https://kpy.phanlink.com/v1/getHomeDatas';
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: url,
+        method: 'POST',
+        data: {
+          'token': token,
+          'page': pageIndex,
+          'limit': pageSize,
+          'action': action
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          resolve(res.data);
+        },
+        fail: function (err) {
+          reject(err);
+        }
+      });
+    });
+  },
   goodListClickHandle(e) {
     const {
-      index
-    } = e.detail;
-    const {
-      spuId
-    } = this.data.goodsList[index];
+      id
+    } = e.detail.goods;
+
     wx.navigateTo({
-      url: `/pages/goods/info/index?spuId=${spuId}`,
+      url: `/pages/goods/pages/index/index?spuId=${id}`,
     });
   },
 

@@ -1,0 +1,363 @@
+page {
+  background: #F7F8FA;
+  padding-bottom: 120rpx;
+}
+
+.classify-header {
+  height: 750rpx;
+  width: 750rpx;
+  position: relative;
+  background-color: #fff;
+
+  .top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 24rpx;
+    z-index: 1;
+
+    >image {
+      width: 68rpx;
+      height: 68rpx;
+    }
+  }
+
+  .t-swiper image {
+    height: 750rpx;
+    width: 750rpx;
+  }
+
+  .count-down {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 100rpx;
+    width: 750rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32rpx;
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 34rpx;
+
+    .right {
+      display: flex;
+      align-items: center;
+
+      .time-text {
+        font-size: 28rpx;
+        margin-right: 15rpx;
+      }
+
+      .count-down-class {
+        --td-countdown-bg-color: #fff;
+        --td-countdown-round-color: #FF5F23;
+      }
+      .count-down-class1 {
+        --td-countdown-bg-color: #fff;
+        --td-countdown-round-color: #28C667;
+      }
+      .class-split {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.classify-box {
+  background-color: #fff;
+  padding: 32rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+
+  .title {
+    font-weight: bold;
+    font-size: 34rpx;
+    color: #221F1C;
+    margin-bottom: 20rpx;
+  }
+
+  .tags {
+    .margin-right-12 {
+      margin-right: 12rpx;
+    }
+
+    .tag-class {
+      --td-tag-default-font-color: #979797;
+    }
+  }
+
+  .price {
+    margin-top: 42rpx;
+    margin-bottom: 36rpx;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 24rpx;
+
+    .red {
+      color: #F22800;
+    }
+
+    .big {
+      font-size: 36rpx;
+    }
+  }
+
+  .viewpoit {
+    font-size: 26rpx;
+    color: #979797;
+
+    text {
+      color: #666666;
+      margin-right: 32rpx;
+    }
+  }
+
+  // 竞价列表
+  .margin-b-35 {
+    margin-bottom: 35rpx;
+  }
+
+  .fixed {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 28rpx;
+    color: #221F1C;
+
+    .gray {
+      color: #666666;
+    }
+
+    .has-icon {
+      display: flex;
+      align-items: center;
+    }
+
+  }
+
+  // 评论
+  .circt-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left {
+      font-size: 32rpx;
+      color: #221F1C;
+      font-weight: 800;
+
+      text {
+        font-weight: normal;
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      font-size: 24rpx;
+      color: #A8A8A8;
+    }
+  }
+
+  .circt-box {
+    margin-top: 12rpx;
+
+    .circt-item {
+      padding: 28rpx 0;
+      box-sizing: border-box;
+      border-bottom: 1rpx solid #E6E6E6;
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .left {
+          font-size: 28rpx;
+          color: #666666;
+          display: flex;
+          align-items: center;
+
+          >image {
+            width: 56rpx;
+            height: 56rpx;
+            box-sizing: border-box;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            margin-right: 16rpx;
+          }
+        }
+
+        .right {
+          font-size: 24rpx;
+          color: #B3B3B3;
+        }
+      }
+
+      .bottom {
+        margin-top: 20rpx;
+        font-size: 28rpx;
+        color: #221F1C;
+        text-align: justify;
+      }
+    }
+
+    .circt-item:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+// 店铺信息
+.box-fixed {
+  display: flex;
+  align-items: center;
+
+  .compiny-image {
+    width: 100%;
+    height: 100rpx;
+    border-radius: 12rpx;
+    margin-right: 20rpx;
+  }
+
+  .compiny-right {
+    .compiny-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 558rpx;
+
+      .title-text {
+        font-weight: bold;
+        font-size: 32rpx;
+        color: #221F1C;
+      }
+
+      .title-btn {
+        width: 116rpx;
+        height: 44rpx;
+        border-radius: 24rpx 24rpx 24rpx 24rpx;
+        border: 1rpx solid #FF5959;
+        display: inline-block;
+        font-size: 22rpx;
+        color: #FF5959;
+        line-height: 44rpx;
+        text-align: center;
+      }
+    }
+
+    .rate {
+      display: flex;
+      align-items: center;
+      font-size: 24rpx;
+      color: #666666;
+      margin-top: 20rpx;
+
+      .red {
+        color: #F22800;
+        margin-left: 6rpx;
+      }
+    }
+  }
+}
+
+
+.tab-box {
+  background-color: #fff;
+
+  .tab-class-active {
+    color: #221F1C;
+  }
+
+  .t-class-track {
+    width: 50rpx;
+    margin-left: -14rpx;
+    background-color: #FF5533;
+  }
+}
+
+.footer-box {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 120rpx;
+  border-top: 1rpx solid #E6E6E6;
+  padding-bottom: 82rpx;
+  padding-right: 36rpx;
+  padding-left: 36rpx;
+  padding-top: 20rpx;
+  background-color: #fff;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+
+  .img-txt {
+    text-align: center;
+
+    >image {
+      display: block;
+      width: 40rpx;
+      height: 40rpx;
+      margin: 0 auto;
+    }
+
+    >view {
+      display: block;
+      text-align: center;
+      font-size: 22rpx;
+      color: #666666;
+      margin-top: 5rpx;
+    }
+  }
+
+  .btn {
+    width: 416rpx;
+    height: 80rpx;
+    border-radius: 40rpx;
+    line-height: 80rpx;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(to right, #FF6426, #FF4A26);
+  }
+}
+
+.share {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding-top: 56rpx;
+  padding-bottom: 40rpx;
+  border-bottom: 1rpx solid #E6E6E6;
+
+  .share-item {
+    >image {
+      display: block;
+      width: 120rpx;
+      height: 120rpx;
+      margin: 0 auto;
+    }
+
+    >view {
+      font-size: 30rpx;
+      color: #221F1C;
+    }
+  }
+}
+
+.qx {
+  text-align: center;
+  padding-bottom: 68rpx;
+  padding-top: 34rpx;
+  font-size: 32rpx;
+  color: #999999;
+}

@@ -5,28 +5,21 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    goodsspec: {
+      type: Object,
+      value: {},
+    },
+    total: {
+      type: Object,
+      value: {},
+    },
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-    list: [{
-      name:'AA',
-      groupId:'11',
-      children:[{
-        name:'女装',
-        groupId:'11',
-      }],
-    },{
-      name:'BB',
-      groupId:'11',
-      children:[{
-        name:'女装',
-        groupId:'11',
-      }],
-    }],
+
   },
 
   /**
@@ -48,6 +41,18 @@ Component({
   //   }
   // },
   methods: {
-
+    gginput(e) {
+      const gg = e.detail[0].gg;
+      
+      this.triggerEvent('ggainput', [{
+        gg: e.detail[0].gg
+      }]);
+    },
+    cancel(e){
+      this.triggerEvent('cancel', []);
+    },
+    submitBJ(){
+      this.triggerEvent('submitBJ', []);
+    }
   }
 })

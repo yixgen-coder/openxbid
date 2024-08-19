@@ -10,10 +10,10 @@
     </view>
   </view>
   <view class="publish-content">
-    <navigator url="/pages/my/pages/approve/auhor/index?item=1" class="cell-class">
+    <navigator url="/pages/my/pages/approve/auhor/index?items=2" class="cell-class" wx:if="{{items==2||items==0}}">
       <t-cell t-class-title="cell-title" t-class-description="cell-description" t-class-right-icon="cell-icon" title="企业营业执照认证" description="立即前往认证客" arrow />
     </navigator>
-    <navigator url="/pages/my/pages/approve/auhor/index?item=2" class="cell-class">
+    <navigator url="/pages/my/pages/approve/auhor/index?items=1" class="cell-class" wx:if="{{items==1||items==0}}">
       <t-cell t-class-title="cell-title" t-class-description="cell-description" t-class-right-icon="cell-icon" title="个人身份证认证" description="立即前往认证" arrow />
     </navigator>
   </view>

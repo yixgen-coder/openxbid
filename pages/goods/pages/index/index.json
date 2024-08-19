@@ -1,10 +1,31 @@
 {
-  "navigationBarTitleText": "营销详情",
+  "navigationBarTitleText": "商品页",
+  "navigationStyle": "custom",
+  "onReachBottomDistance": 10,
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh": true,
   "usingComponents": {
-    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "t-swiper": "tdesign-miniprogram/swiper/swiper",
+    "t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav",
     "t-image": "/components/webp-image/index",
     "t-icon": "tdesign-miniprogram/icon/icon",
-    "count-down": "tdesign-miniprogram/count-down/count-down",
-    "goods-list": "/components/goods-list/index"
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "goods-list": "/components/goods-list/index",
+    "load-more": "/components/load-more/index",
+    "t-grid": "tdesign-miniprogram/grid/grid",
+    "t-grid-item": "tdesign-miniprogram/grid-item/grid-item",
+    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+    "t-count-down": "tdesign-miniprogram/count-down/count-down",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-rate": "tdesign-miniprogram/rate/rate",
+    "t-detail-image": "../components/detail-image/index",
+    "t-detail-parameter": "../components/detail-parameter/index",
+    "t-detail-quote": "../components/detail-quote/index",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-bidding-popup": "../components/bidding-popup/index"
   }
 }

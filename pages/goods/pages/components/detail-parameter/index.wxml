@@ -1,34 +1,30 @@
 <view class="detail-parameter">
-    <view>
-      <view class="label">商品种类</view>
-      <view>甲壳类</view>
-    </view>
-    <view>
-      <view  class="label">商品分类</view>
-      <view>甲壳类</view>
-    </view>
-    <view>
-      <view  class="label">商品种类</view>
-      <view>甲壳类</view>
-    </view>
-    <view>
-      <view  class="label">商品性质</view>
-      <view>甲壳类</view>
-    </view>
-    <view>
-      <view  class="label">原产地</view>
-      <view>甲壳类</view>
-    </view>
-    <view>
-      <view  class="label">生产厂家</view>
-      <view>甲壳类</view>
-    </view>
-    <view>
-      <view  class="label">目的港（所在地）</view>
-      <view>甲壳类</view>
-    </view>
-    <view>
-      <view  class="label">生产时间</view>
-      <view>2024-04-24</view>
-    </view>
+  <view>
+    <view class="label">商品种类</view>
+    <view>{{goodsgg.topid}}</view>
+  </view>
+  <view>
+    <view class="label">商品分类</view>
+    <view>{{goodsgg.typeid}}</view>
+  </view>
+  <view>
+    <view class="label">商品性质</view>
+    <view>{{goodsgg.nature}}</view>
+  </view>
+  <view>
+    <view class="label">原产地</view>
+    <view>{{goodsgg.place}}</view>
+  </view>
+  <view>
+    <view class="label">生产厂家</view>
+    <view>{{goodsgg.manufacturer}}</view>
+  </view>
+  <view>
+    <view class="label">目的港（所在地）</view>
+    <view>{{goodsgg.bourn}}</view>
+  </view>
+  <view>
+    <view class="label">生产时间</view>
+    <view>{{goodsgg.ptime}}</view>
+  </view>
 </view>

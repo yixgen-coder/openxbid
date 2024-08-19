@@ -1,32 +1,34 @@
 <view class="goods-category custom-class">
   <c-sidebar custom-class="custom-sidebar" bindchange="onParentChange" activeKey="{{activeKey}}">
-    <c-sidebar-item wx:for="{{ category }}" wx:key="index" title="{{ item.name }}" disabled="{{ item.disabled }}" />
+    <c-sidebar-item wx:for="{{ category }}" wx:key="index" title="{{ item.a1 }}" />
   </c-sidebar>
   <view class="goods-category__right">
-    <view class="sidebar-right">
+    <view class="sidebar-right" wx:for="{{ category }}" wx:key="index" wx:if="{{index==activeKey}}">
       <view class="right-item">
         <view class="label">型号</view>
-        <view class="number">500/700</view>
+        <view class="number">{{item.a2}}</view>
       </view>
       <view class="right-item">
         <view class="label">数量</view>
-        <view class="number">500/700</view>
+        <view class="number">{{item.a3}}</view>
       </view>
       <view class="right-item">
         <view class="label">包装</view>
-        <view class="number">500/700</view>
+        <view class="number">{{item.a8}}</view>
       </view>
       <view class="right-item">
-        <view class="label">净重(公斤)</view>
-        <view class="number">500/700</view>
+        <view class="label">净重(KG)</view>
+        <view class="number">{{item.a4}}</view>
       </view>
       <view class="item-long">
-        <view class="label">单价(USD/公斤)</view>
-        <view class="number">2.4</view>
+        <view class="label">单价(USD/KG)</view>
+        <view class="number">
+          <input placeholder="请出价" value="{{item.a5}}" bindinput="handleGrInfos" data-key="{{index}}" style="text-align:right;margin-top:15rpx;padding:10rpx;width:200rpx;background-color: #f3ec09;" />
+        </view>
       </view>
       <view class="item-long">
         <view class="label">总价(USD)</view>
-        <view class="red">2.4</view>
+        <view class="red">{{item.a4*item.a5}}</view>
       </view>
     </view>
   </view>

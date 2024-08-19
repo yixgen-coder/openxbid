@@ -26,6 +26,7 @@ Component({
   data: {
     activeKey: 0,
     subActiveKey: 0,
+    gg: [],
   },
   attached() {
     if (this.properties.initActive && this.properties.initActive.length > 0) {
@@ -36,7 +37,33 @@ Component({
     }
   },
   methods: {
+    handleGrInfos(e) {
+      const index = e.currentTarget.dataset.key;
+      const value = e.detail.value;
+      let category = this.data.category;
+      let gg = this.data.gg;
+      category[index].a5 = value
+
+      for (let i = 0; i < category.length; i++) {
+        if (i == index) {
+          gg[i] = value
+        } else {
+          gg[i] = category[i].a5
+        }
+
+
+      }
+      this.setData({
+        //['gg[' + index + ']']: value,
+        gg: gg,
+        category: category
+      });
+      this.triggerEvent('gginput', [{
+        gg: this.data.gg
+      }]);
+    },
     onParentChange(event) {
+
       this.setActiveKey(event.detail.index, 0).then(() => {
         this.triggerEvent('change', [
           this.data.activeKey,
@@ -53,15 +80,16 @@ Component({
       });
     },
     changCategory(event) {
-      const { item } = event.currentTarget.dataset;
+      const {
+        item
+      } = event.currentTarget.dataset;
       this.triggerEvent('changeCategory', {
         item,
       });
     },
     setActiveKey(key, subKey) {
       return new Promise((resolve) => {
-        this.setData(
-          {
+        this.setData({
             activeKey: key,
             subActiveKey: subKey,
           },
@@ -72,4 +100,5 @@ Component({
       });
     },
   },
+
 });

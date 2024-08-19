@@ -1,68 +1,41 @@
-<view
-  id="{{independentID}}"
-  class="goods-card"
-  bind:tap="clickHandle"
-  data-goods="{{ goods }}"
->
-	<view class="goods-card__main">
-		<view class="goods-card__thumb" bind:tap="clickThumbHandle">
-			<t-image
-			  wx:if="{{ !!goods.thumb }}"
-			  t-class="goods-card__img"
-			  src="{{ goods.thumb }}"
-			  mode="aspectFill"
-			  lazy-load
-			/>
-		</view>
-		<view class="goods-card__body">
-			<view class="goods-card__upper">
-				<view wx:if="{{ goods.title }}" class="goods-card__title">
-					{{ goods.title }}
-				</view>
-				<view wx:if="{{ goods.tags && !!goods.tags.length }}" class="goods-card__tags">
-					<view
-					  wx:for="{{ goods.tags }}"
-					  wx:key="index"
-					  wx:for-item="tag"
-					  class="goods-card__tag color1"
-					  data-index="{{index}}"
-					>
-					爱尔兰
-					</view>
-          <view
-					  wx:for="{{ goods.tags }}"
-					  wx:key="index"
-					  wx:for-item="tag"
-					  class="goods-card__tag color2"
-					  data-index="{{index}}"
-					>
-          出售
-					</view>
-          <view
-					  wx:for="{{ goods.tags }}"
-					  wx:key="index"
-					  wx:for-item="tag"
-					  class="goods-card__tag color3"
-					  data-index="{{index}}"
-					>
-          冻品
-					</view>
-				</view>
-			</view>
-			<view class="goods-card__down">
-      <view class="price-now"> 当前价</view>
-				<price
-				  wr-class="spec-for-price"
-				  symbol-class="spec-for-symbol"
-				  symbol="{{currency}}"
-				  price="{{goods.price}}"
-				/>
-			</view>
-      <view class="goods-card__bottom">
-        <view class="left">166人围观</view>
-        <view class="right">20人参与</view>
-      </view>
-		</view>
-	</view>
-</view>
+<view id="{{independentID}}" class="goods-card" bind:tap="clickHandle" data-goods="{{ goods }}">
+  <view class="pro_statu">
+    <span wx:if="{{goods.statu==1}}" class="cc1">未开始</span>
+    <span wx:if="{{goods.statu==2}}" class="cc2">竞价中</span>
+    <span wx:if="{{goods.statu==3}}" class="cc3">已结束</span>
+  </view>
+  <view class="goods-card__main">
+    <view class="goods-card__thumb" bind:tap="clickThumbHandle">
+      <t-image wx:if="{{ !!goods.pic}}" t-class="goods-card__img" src="{{ goods.pic }}" mode="aspectFill" lazy-load />
+    </view>
+    <view class="goods-card__body">
+      <view class="goods-card__upper">
+        <view class="goods-card__title">
+          {{ goods.title }}
+        </view>
+        <view class="goods-card__tags">
+          <view wx:if="{{goods.btype==2}}" class="goods-card__tag color1">
+            求购
+          </view>
+          <view wx:if="{{goods.btype==1}}" class="goods-card__tag color2">
+            出售
+          </view>
 
+          <view class="goods-card__tag color3">
+            {{goods.nature}}
+          </view>
+          <view class="goods-card__tag color4">
+            {{goods.place}}
+          </view>
+        </view>
+      </view>
+      <view class="goods-card__down">
+        <view class="price-now"> 当前价<text>{{goods.currencyType==1?'$':'￥'}}{{goods.current_price}}</text></view>
+      </view>
+      <view class="goods-card__bottom">
+        <view class="left">{{goods.hits}}人围观</view>
+        <view class="right">{{goods.apply}}人参与</view>
+      </view>
+    </view>
+  </view>
+</view>

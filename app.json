@@ -12,6 +12,8 @@
       "root": "pages/goods",
       "pages": [
         "pages/index/index",
+        "pages/offer/index",
+        "pages/review/index",
         "pages/info/index"
       ]
     },
@@ -25,6 +27,12 @@
     },
     {
       "root": "pages/news",
+      "pages": [
+        "pages/index/index"
+      ]
+    },
+    {
+      "root": "pages/store",
       "pages": [
         "pages/index/index"
       ]

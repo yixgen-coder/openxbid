@@ -4,6 +4,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
+    goodsbj: {
+      type: Object,
+      value: {},
+    },
 
   },
 

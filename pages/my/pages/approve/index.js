@@ -7,6 +7,7 @@ Page({
   data: {
     statusbar: '',
     jiaonangheight: '',
+    items: 3
   },
   goback: function () {
     wx.navigateBack({
@@ -29,8 +30,35 @@ Page({
       statusbar: res.top, // 胶囊顶部高度
       jiaonangheight: res.height // 胶囊高度
     })
+    this.fetchData()
   },
+  fetchData() {
+    const token = wx.getStorageSync('token');
+    const that = this;
+    wx.request({
+      url: 'https://kpy.phanlink.com/v1/getmyInfo',
+      method: 'POST',
+      data: {
+        token: token
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        if (res.data.code == 1) {
+          that.setData({
+            items: res.data.data.company_type
+          })
+          if (res.data.data.company_type) {
+            wx.navigateTo({
+              url: `/pages/my/pages/approve/auhor/index?items=${res.data.data.company_type}`,
+            });
+          }
 
+        }
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

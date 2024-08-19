@@ -4,20 +4,44 @@
   border-radius: 12rpx 12rpx 0rpx 0rpx;
   border-bottom: none;
   overflow: hidden;
+  position: relative;
 }
-
+.pro_statu{
+  position: absolute;
+  top:-1rpx;
+  left:0;
+  z-index: 999;
+}
+.pro_statu>span{
+  font-weight: 500;
+  font-size: 28rpx;
+  padding:15rpx;
+  display: inline-block;
+  border-radius: 12rpx 0rpx 30rpx 0rpx;
+  color: #FFFFFF;
+}
+.pro_statu>span.cc1{
+  background: #00CC81;
+}
+.pro_statu>span.cc2{
+  background: linear-gradient( 90deg, #FF6426 0%, #FF4A26 100%);
+}
+.pro_statu>span.cc3{
+  background: #C2C2C2;
+}
 .goods-card__main {
   position: relative;
   display: flex;
   line-height: 1;
   padding: 0;
   background: transparent;
-  width: 342rpx;
+  width: 335rpx;
   border-radius: 0 0 16rpx 16rpx;
   align-items: center;
   justify-content: center;
   margin-bottom: 16rpx;
   flex-direction: column;
+
 }
 
 .goods-card__thumb {
@@ -45,8 +69,11 @@
   flex: 1 1 auto;
   background: #fff;
   border-radius: 0 0 16rpx 16rpx;
-  padding: 16rpx 24rpx 18rpx;
+  padding: 20rpx 0;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
   flex-direction: column;
+  width:300rpx;
 }
 
 .goods-card__upper {
@@ -89,14 +116,18 @@
   text-overflow: ellipsis;
 }
 .color1{
+  background: #E1FAE8;
+  color: #26BF63;
+}
+.color2{
   background: #FFF4F2;
   color: #FF5533;
 }
-.color2{
+.color3{
   background: #F7F8FA;
   color: #979797;
 }
-.color3{
+.color4{
   background: #EBF7FF;
   color: #33AAFF;
 }
@@ -113,36 +144,16 @@
   font-size: 24rpx;
   color: #221F1C;
   margin-right: 10rpx;
+  
 }
-.goods-card__origin-price {
-  white-space: nowrap;
-  font-weight: 700;
-  order: 2;
-  color: #bbbbbb;
-  font-size: 24rpx;
-  margin: 0 0 0 8rpx;
-}
-
-.goods-card__add-cart {
-  order: 3;
-  margin: auto 0 0 auto;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+.goods-card__down .price-now>text{
+  margin-left:10rpx;
+  font-weight: 600;
+  font-size: 30rpx;
+  color: #F22800;
 }
 
-.spec-for-price {
-  font-size: 36rpx;
-  white-space: nowrap;
-  font-weight: 700;
-  order: 1;
-  color: #fa4126;
-  margin: 0;
-}
 
-.spec-for-symbol {
-  font-size: 24rpx;
-}
 .goods-card__bottom{
   display: flex;
   justify-content: space-between;

@@ -1,0 +1,55 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bind:click="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+  <view class="rz">
+    <form bindsubmit="onFormSubmit">
+      <view>
+        <view class="logo">
+          <t-cell title="店铺LOGO" required />
+          <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleAdd" bind:remove="handleRemove" style="margin-top:40rpx;margin-left:20rpx;" />
+        </view>
+        <t-input t-class-label="tlabel" label="店铺名称" value="{{shop_name}}" data-key="shop_name" bindchange="handleGrInfos" placeholder="请输入店铺名称" align="right" />
+        <t-cell title="店铺状态" arrow t-class-note="tnote" note="{{shop_status}}" />
+        <t-cell title="开店时间" note="{{shop_time}}" />
+        <t-cell title="商家性质" arrow note="{{typeText}}" bind:click="onTitlePicker" required />
+        <t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="{{typeTitle}}" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindpick="onColumnChange" bindcancel="onPickerCancel">
+          <t-picker-item options="{{types}}"></t-picker-item>
+        </t-picker>
+        <t-cell title="主营产品" arrow note="{{typeTitle}}" bind:click="onXZPicker" required />
+        <t-popup visible="{{visible}}" placement="bottom">
+          <view class="block">
+            <view class="header">
+              <view class="btn btn--cancel" aria-role="button" bindtap="onXZPicker">取消</view>
+              <view class="title">选择主营产品</view>
+              <view class="btn btn--confirm" aria-role="button" bindtap="onXZPicker">确定</view>
+            </view>
+            <t-tabs defaultValue="{{0}}" show-bottom-line="{{false}}">
+              <t-checkbox-group t-class="box" bind:change="onSelectChange" defaultValue="{{demoCheckboxMax}}" disabled="{{disselect}}">
+                <block wx:for="{{ options }}" wx:for-item="item" wx:for-index="index" wx:key="unique">
+                  <t-tab-panel t-class="tabpanel" label="{{item.label}}" value="{{index}}">
+                    <block wx:for="{{ item.children }}" wx:for-item="myItem" wx:for-index="myIndex" wx:key="unique">
+                      <t-checkbox block="{{false}}" value="{{myItem.value}}" label="{{myItem.label}}" icon="rectangle" checked="{{myItem.check}}" disabled="{{myItem.dis}}" />
+                    </block>
+                  </t-tab-panel>
+                </block>
+              </t-checkbox-group>
+            </t-tabs>
+
+          </view>
+        </t-popup>
+        <view class="intro">
+          <text>店铺介绍</text>
+          <t-textarea t-class="external-class" placeholder="请从这里输入简介" value="{{shop_desc}}" data-key="shop_desc" bindchange="handleGrInfos" disableDefaultPadding="{{true}}" />
+        </view>
+
+      </view>
+      <view class="tjbtn">
+        <t-button disabled="{{btnStatus}}" theme="danger" size="large" type="submit" block>{{btnText}}</t-button>
+      </view>
+    </form>
+  </view>
+</view>
