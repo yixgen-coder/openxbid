@@ -1,24 +1,23 @@
 <view class="attention-list-wrap wr-class" id="{{independentID}}">
-	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
-  <view class="attention-item">
-    <view class="item-box">
-      <image class="left" src="/images/topbg.png"></image>
-      <view class="right">
-        <view class="top">
-          <view class="title">
-          <view class="text">三去黄菇鱼</view>
-          <view class="btn">已关注</view>
-          </view>
-          <view class="tags">
-            <view class="color1">出售</view>
-            <view class="color2">出售</view>
-            <view class="color3">出售</view>
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <view class="attention-item">
+      <view class="item-box">
+        <image class="left" src="{{item.shop_logo}}" bindtap="onClickStores" data-id="{{item.id}}"></image>
+        <view class="right">
+          <view class="top">
+            <view class="title">
+              <view class="text" bindtap="onClickStores" data-id="{{item.id}}">{{item.shop_name}}</view>
+              <view class="btn" bindtap="onCancelGz" data-id="{{item.id}}">取消关注</view>
+            </view>
+            <view class="tags">
+              <view class="color1">{{item.btype==2?'企业':'个体'}}</view>
+              <view class="color2">{{item.place}}</view>
+              <view class="color3">{{item.type}}</view>
+            </view>
           </view>
         </view>
       </view>
     </view>
-  </view>
 
-	</block>
+  </block>
 </view>
-

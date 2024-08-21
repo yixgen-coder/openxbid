@@ -1,6 +1,6 @@
 <view class="classify-header">
   <view class="top-bar" style="padding-top:{{statusbar}}px;height: {{jiaonangheight}}px;">
-    <image src="https://imgs.phanlink.com/program/images/left.png" bind:click="goback"></image>
+    <image src="https://imgs.phanlink.com/program/images/left.png" bindtap="goback"></image>
     <image bind:tap="handleShareShow" src="https://imgs.phanlink.com/program/images/sher.png"></image>
   </view>
   <!-- <image src="https://imgs.phanlink.com/program/images/topbg.png"></image> -->
@@ -142,7 +142,9 @@
     <image src="https://imgs.phanlink.com/program/images/dd33.png"></image>
     <view>已收藏</view>
   </view>
-  <view bind:tap="handleShow" class="btn">参与竞价</view>
+  <view class="btn1" wx:if="{{goodsInfo.statu==1}}">竞价未开始</view>
+  <view bind:tap="handleShow" class="btn" wx:if="{{goodsInfo.statu==2}}">参与竞价</view>
+  <view class="btn2" wx:if="{{goodsInfo.statu==3}}">竞价已结束</view>
 </view>
 
 <!-- 竞价弹窗 -->

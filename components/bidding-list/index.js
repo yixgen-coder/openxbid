@@ -31,18 +31,20 @@ Component({
 
   methods: {
     onClickGoods(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('click', { ...e.detail, index });
+      const {
+        key
+      } = e.currentTarget.dataset;
+      wx.navigateTo({
+        url: '/pages/goods/pages/index/index?spuId=' + key,
+      });
     },
-
-    onAddCart(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('addcart', { ...e.detail, index });
-    },
-
-    onClickGoodsThumb(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('thumb', { ...e.detail, index });
+    onClickOrders(e) {
+      const {
+        key
+      } = e.currentTarget.dataset;
+      wx.navigateTo({
+        url: '/pages/tabbar/serve/info/index?ordId=' + key,
+      });
     },
 
     init() {
@@ -51,7 +53,9 @@ Component({
 
     genIndependentID(id) {
       if (id) {
-        this.setData({ independentID: id });
+        this.setData({
+          independentID: id
+        });
       } else {
         this.setData({
           independentID: `goods-list-${~~(Math.random() * 10 ** 8)}`,

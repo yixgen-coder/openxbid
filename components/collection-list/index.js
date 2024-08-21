@@ -30,28 +30,31 @@ Component({
   },
 
   methods: {
-    onClickGoods(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('click', { ...e.detail, index });
+    handleGoGoods(e) {
+      const {
+        id
+      } = e.currentTarget.dataset;
+      wx.navigateTo({
+        url: `/pages/goods/pages/index/index?spuId=${id}`,
+      });
     },
-
-    onAddCart(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('addcart', { ...e.detail, index });
+    onIconTap(e) {
+      const {
+        id
+      } = e.currentTarget.dataset;
+      this.triggerEvent('click', {
+        id
+      });
     },
-
-    onClickGoodsThumb(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('thumb', { ...e.detail, index });
-    },
-
     init() {
       this.genIndependentID(this.id || '');
     },
 
     genIndependentID(id) {
       if (id) {
-        this.setData({ independentID: id });
+        this.setData({
+          independentID: id
+        });
       } else {
         this.setData({
           independentID: `goods-list-${~~(Math.random() * 10 ** 8)}`,

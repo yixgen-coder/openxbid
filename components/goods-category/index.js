@@ -5,6 +5,10 @@ Component({
     category: {
       type: Array,
     },
+    stype: {
+      type: Number,
+      value: 0
+    },
     initActive: {
       type: Array,
       value: [],
@@ -42,13 +46,17 @@ Component({
       const value = e.detail.value;
       let category = this.data.category;
       let gg = this.data.gg;
-      category[index].a5 = value
 
+      if (this.data.stype == 1) {
+        category[index].a6 = value
+      } else {
+        category[index].a5 = value
+      }
       for (let i = 0; i < category.length; i++) {
         if (i == index) {
           gg[i] = value
         } else {
-          gg[i] = category[i].a5
+          gg[i] = this.data.stype == 1 ? category[i].a6 : category[i].a5;
         }
 
 

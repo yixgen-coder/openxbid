@@ -1,0 +1,31 @@
+<view class="pop-box">
+  <view class="title">
+    修改报价
+    <image class="close" src="https://imgs.phanlink.com/program/images/close.png" bindtap="cancel"></image>
+  </view>
+  <goods-category level="{{1}}" custom-class="goods-category-class" category="{{goodsspec}}" stype="{{1}}" bindgginput="gginput" />
+  <!-- 总计 -->
+  <view class="total">
+    <view class="total-title">总计</view>
+
+    <view class="total-box">
+      <view class="totle-item">
+        <view class="label">数量</view>
+        <view class="num">{{total.stock}}</view>
+      </view>
+      <view class="totle-item">
+        <view class="label">净重(KG)</view>
+        <view class="num">{{total.weight}}</view>
+      </view>
+    </view>
+    <view class="totle-long">
+      <view class="label">总价</view>
+      <view class="num">{{total.price}}</view>
+    </view>
+  </view>
+  <!-- 按钮曲艺 -->
+  <view class="btn-box">
+    <view class="left" bindtap="cancel">取消</view>
+    <view class="right" bindtap="submitBJ">修改出价</view>
+  </view>
+</view>

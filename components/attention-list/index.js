@@ -13,10 +13,7 @@ Component({
         this.genIndependentID(id);
       },
     },
-    thresholds: {
-      type: Array,
-      value: [],
-    },
+
   },
 
   data: {
@@ -30,20 +27,23 @@ Component({
   },
 
   methods: {
-    onClickGoods(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('click', { ...e.detail, index });
+    onClickStores(e) {
+      const {
+        id
+      } = e.currentTarget.dataset;
+      wx.navigateTo({
+        url: `/pages/store/pages/info/index?storeId=${id}`,
+      });
+    },
+    onCancelGz(e) {
+      const {
+        id
+      } = e.currentTarget.dataset;
+      this.triggerEvent('click', {
+        id
+      });
     },
 
-    onAddCart(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('addcart', { ...e.detail, index });
-    },
-
-    onClickGoodsThumb(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('thumb', { ...e.detail, index });
-    },
 
     init() {
       this.genIndependentID(this.id || '');
@@ -51,7 +51,9 @@ Component({
 
     genIndependentID(id) {
       if (id) {
-        this.setData({ independentID: id });
+        this.setData({
+          independentID: id
+        });
       } else {
         this.setData({
           independentID: `goods-list-${~~(Math.random() * 10 ** 8)}`,

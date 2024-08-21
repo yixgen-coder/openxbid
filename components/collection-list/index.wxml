@@ -1,33 +1,40 @@
 <view class="collection-list-wrap wr-class" id="{{independentID}}">
-	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
-  <view class="collection-item">
-    <t-icon class="action" name="more" size="38rpx" color="#aaa" bind:click="onIconTap" />
-    <view class="item-box">
-      <image class="left" src="/images/topbg.png"></image>
-      <view class="right">
-        <view class="top">
-          <view class="title">三去黄菇鱼</view>
-          <view class="time">00天16时11分47秒后结束</view>
-        </view>
-        <view class="bottom">
-          我的出价：
-          <text class="dw">$</text>
-          <text class="num">156600.00</text>
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <view class="collection-item">
+      <t-icon class="action" name="more" size="38rpx" color="#aaa" bind:click="onIconTap" data-id="{{item.id}}" />
+      <view class="item-box" bindtap="handleGoGoods" data-id="{{item.id}}">
+        <image class="left" src="{{item.pic}}"></image>
+        <view class="right">
+          <view class="top">
+            <view class="title">{{item.title}}</view>
+            <view class="tags">
+              <view wx:if="{{item.btype==2}}" class="color1">
+                求购
+              </view>
+              <view wx:if="{{item.btype==1}}" class="color2">
+                出售
+              </view>
+              <view class="color3">{{item.place}}</view>
+              <view class="color4">{{item.nature}}</view>
+            </view>
+            <view class="time">
+              <view wx:if="{{item.statu == 2}}">
+                <t-count-down t-class="external-count" t-class-split="external-split" format="DD:HH:mm:ss" content="default" time="{{ item.time }}" splitWithUnit />
+              </view>
+              <view wx:if="{{item.statu == 2}}"><text>后结束</text></view>
+              <view wx:if="{{item.statu == 1}}"><text style="color: #26BF63;">未开始</text></view>
+              <view wx:if="{{item.statu == 3}}"><text style="color: #979797;">已结束</text></view>
+            </view>
+
+          </view>
+          <view class="bottom">
+            当前价：
+            <text class="dw">$</text>
+            <text class="num">{{item.current_price}}</text>
+          </view>
         </view>
       </view>
     </view>
-  </view>
-		<!-- <goods-card
-		  id="{{independentID}}-gd-{{index}}"
-		  data="{{item}}"
-		  currency="{{item.currency || '¥'}}"
-		  thresholds="{{thresholds}}"
-		  class="goods-card-inside"
-		  data-index="{{index}}"
-		  bind:thumb="onClickGoodsThumb"
-		  bind:click="onClickGoods"
-		  bind:add-cart="onAddCart"
-		/> -->
-	</block>
-</view>
 
+  </block>
+</view>

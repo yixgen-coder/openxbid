@@ -273,6 +273,24 @@ page {
   color: #fff;
   background: linear-gradient(to right, #FF6426, #FF4A26);
 }
+.footer-box .btn1 {
+  width: 416rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(to right, #26BF63, #26BF63);
+}
+.footer-box .btn2 {
+  width: 416rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(to right, #979797, #979797);
+}
 .share {
   display: flex;
   width: 100%;

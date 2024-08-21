@@ -102,9 +102,11 @@ Page({
   ggainput(e) {
     let goodsspec = this.data.goodsInfo.spec;
     let total = this.data.total;
+    total.price = 0;
     const gg = e.detail[0].gg;
     for (let i = 0; i < gg.length; i++) {
-      total.price = parseFloat(total.price) + parseFloat(goodsspec[i].a4 * gg[i]) - parseFloat(goodsspec[i].a4 * goodsspec[i].a5);
+
+      total.price += parseFloat(goodsspec[i].a4 * gg[i]);
     }
 
     this.setData({

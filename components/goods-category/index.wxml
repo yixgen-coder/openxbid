@@ -23,12 +23,12 @@
       <view class="item-long">
         <view class="label">单价(USD/KG)</view>
         <view class="number">
-          <input placeholder="请出价" value="{{item.a5}}" bindinput="handleGrInfos" data-key="{{index}}" style="text-align:right;margin-top:15rpx;padding:10rpx;width:200rpx;background-color: #f3ec09;" />
+          <input placeholder="请出价" value="{{stype==1?item.a6:item.a5}}" bindinput="handleGrInfos" data-key="{{index}}" style="text-align:right;margin-top:15rpx;padding:10rpx;width:200rpx;background-color: #f3ec09;" />
         </view>
       </view>
       <view class="item-long">
         <view class="label">总价(USD)</view>
-        <view class="red">{{item.a4*item.a5}}</view>
+        <view class="red">{{stype==1?item.a4*item.a6:item.a4*item.a5}}</view>
       </view>
     </view>
   </view>

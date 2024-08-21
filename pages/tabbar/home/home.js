@@ -44,15 +44,15 @@ Page({
   onLoad() {
     this.init();
   },
-  checkUserLogin: function () {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
-    }
-  },
+  // checkUserLogin: function () {
+  //   let token = wx.getStorageSync('token');
+  //   if (!token) {
+  //     // 用户未登录，跳转到登录页面
+  //     wx.navigateTo({
+  //       url: '/pages/tabbar/login/login',
+  //     });
+  //   }
+  // },
   onReachBottom() {
     if (this.data.goodsListLoadStatus === 0) {
       this.loadGoodsList();
@@ -72,7 +72,7 @@ Page({
     })
 
     this.loadHomePage();
-    this.checkUserLogin();
+
   },
 
 

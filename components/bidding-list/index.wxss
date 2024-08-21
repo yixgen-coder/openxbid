@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 .bidding-list-wrap .bidding-item .item-top {
-  padding: 30rpx 0;
+  padding: 10rpx 0;
   display: flex;
   align-items: center;
   width: 638rpx;
@@ -21,8 +21,8 @@
   align-items: center;
 }
 .bidding-list-wrap .bidding-item .item-top .left > image {
-  width: 40rpx;
-  height: 40rpx;
+  width: 60rpx;
+  height: 60rpx;
   margin-right: 18rpx;
 }
 .bidding-list-wrap .bidding-item .item-top .left > view {
@@ -32,6 +32,21 @@
 .bidding-list-wrap .bidding-item .item-top .right {
   color: #F22800;
   font-size: 28rpx;
+}
+.bidding-list-wrap .bidding-item .item-top .right > span {
+  font-weight: 600;
+  font-size: 28rpx;
+  padding: 15rpx;
+  display: inline-block;
+}
+.bidding-list-wrap .bidding-item .item-top .right > span.cc1 {
+  color: #00CC81;
+}
+.bidding-list-wrap .bidding-item .item-top .right > span.cc2 {
+  color: #F22800;
+}
+.bidding-list-wrap .bidding-item .item-top .right > span.cc3 {
+  color: #A8A8A8;
 }
 .bidding-list-wrap .bidding-item .item-box {
   padding: 28rpx 0;
@@ -56,10 +71,18 @@
   color: #221F1C;
 }
 .bidding-list-wrap .bidding-item .item-box .right .time {
-  font-size: 24rpx;
+  font-size: 28rpx;
   color: #F22800;
   line-height: 24rpx;
   margin: 20rpx 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.bidding-list-wrap .bidding-item .item-box .right .time .external-count {
+  color: #F22800;
+  font-size: 30rpx;
+  line-height: 48rpx;
 }
 .bidding-list-wrap .bidding-item .item-box .right .tags {
   display: flex;
@@ -74,14 +97,18 @@
   margin-right: 10rpx;
 }
 .bidding-list-wrap .bidding-item .item-box .right .tags .color1 {
+  background: #E1FAE8;
+  color: #26BF63;
+}
+.bidding-list-wrap .bidding-item .item-box .right .tags .color2 {
   background: #FFF4F2;
   color: #FF5533;
 }
-.bidding-list-wrap .bidding-item .item-box .right .tags .color2 {
+.bidding-list-wrap .bidding-item .item-box .right .tags .color3 {
   background: #F7F8FA;
   color: #979797;
 }
-.bidding-list-wrap .bidding-item .item-box .right .tags .color3 {
+.bidding-list-wrap .bidding-item .item-box .right .tags .color4 {
   background: #EBF7FF;
   color: #33AAFF;
 }

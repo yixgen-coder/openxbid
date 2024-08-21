@@ -2,70 +2,39 @@
   <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
 </view>
 <!-- 头部 -->
-<view class="serve-page-header" >
-<view class="baibg">
-  <view class="bg" style="background: url('https://imgs.phanlink.com/program/images/topbg.png')no-repeat top; background-size: cover; padding-top:{{statusbar}}px;">
-  <view class="serve-tab" style="height: {{jiaonangheight}}px;">
-    <view class="active">竞价辅助</view>
-    <view>商家服务</view>
+<view class="serve-page-header">
+  <view class="baibg">
+    <view class="bg" style="background: url('https://imgs.phanlink.com/program/images/topbg.png')no-repeat top; background-size: cover; padding-top:{{statusbar}}px;">
+      <view class="serve-tab" style="height: {{jiaonangheight}}px;">
+        <view class="active">竞价辅助</view>
+        <view>商家服务</view>
+      </view>
+      <!-- 搜索 -->
+      <view class="search" bind:tap="navToSearchPage">
+        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="输入关键词" leftIcon="" disabled>
+          <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+        </t-search>
+        <view class="btn">搜索</view>
+      </view>
+    </view>
   </view>
-  <!-- 搜索 -->
-  <view class="search" bind:tap="navToSearchPage">
-    <t-search
-      t-class-input="t-search__input"
-      t-class-input-container="t-search__input-container"
-      placeholder="输入关键词"
-      leftIcon=""
-      disabled
-    >
-      <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
-    </t-search>
-    <view class="btn">搜索</view>
-  </view>
- </view>
-</view>
 </view>
 <!-- tab区域 -->
 <view class="tab-box">
-    <t-tabs
-      t-class="t-tabs"
-      t-class-active="tabs-external__active"
-      t-class-item="tabs-external__item"
-      defaultValue="{{0}}"
-      bind:change="tabChangeHandle"
-    >
-      <t-tab-panel
-        wx:for="{{tabList}}"
-        wx:for-index="index"
-        wx:key="index"
-        label="{{item.text}}"
-        value="{{item.key}}"
-      />
-    </t-tabs>
-  </view>
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{0}}" bind:change="tabChangeHandle">
+    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
+  </t-tabs>
+</view>
 <!-- 内容区域 商品展示区 -->
 <view class="home-page-container">
-    <view class="fish-list">
+  <view class="fish-list">
     <!-- 参与竞价&&成功竞价 -->
-      <bidding-list wx:if="{{tabIndex==0||tabIndex==1}}"
-        wr-class="goods-list-container"
-        goodsList="{{goodsList}}"
-        bind:click="goodListClickHandle"
-        bind:addcart="goodListAddCartHandle"
-      />
-      <!-- 关注商家 -->
-      <attention-list  wx:if="{{tabIndex==2}}" wr-class="goods-list-container"
-        goodsList="{{goodsList}}"
-        bind:click="goodListClickHandle"
-        bind:addcart="goodListAddCartHandle"
-      />
-      <!-- 收藏商品 -->
-      <collection-list wr-class="goods-list-container"  wx:if="{{tabIndex==3}}" 
-        goodsList="{{goodsList}}"
-        bind:click="goodListClickHandle"
-        bind:addcart="goodListAddCartHandle"
-      />
-      <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
-      <t-toast id="t-toast" />
-    </view>
+    <bidding-list wx:if="{{tabIndex==0||tabIndex==1}}" wr-class="goods-list-container" goodsList="{{goodsList}}" bindgoodsClick="goodListClickHandle" />
+    <!-- 关注商家 -->
+    <attention-list wx:if="{{tabIndex==2}}" wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="storeClickHandle" />
+    <!-- 收藏商品 -->
+    <collection-list wr-class="goods-list-container" wx:if="{{tabIndex==3}}" goodsList="{{goodsList}}" bind:click="goodsClickHandle" />
+    <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
+    <t-toast id="t-toast" />
+  </view>
 </view>

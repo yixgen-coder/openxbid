@@ -1,38 +1,51 @@
 <view class="bidding-list-wrap wr-class" id="{{independentID}}">
-	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
-  <view class="bidding-item">
-    <view class="item-top">
-    <view class="left">
-      <image src="/images/tabadd.png"></image>
-      <text>某某某海外贸易有限公司</text>
-    </view>
-    <view class="right">竞价中</view>
-    </view>
-    <view class="item-box">
-      <image class="left" src="/images/topbg.png"></image>
-      <view class="right">
-        <view class="top">
-          <view class="title">三去黄菇鱼</view>
-          <view class="time">00天16时11分47秒后结束</view>
-          <view class="tags">
-            <view class="color1">出售</view>
-            <view class="color2">出售</view>
-            <view class="color3">出售</view>
-          </view>
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <view class="bidding-item">
+      <view class="item-top">
+        <view class="left">
+          <image src="{{item.shop_logo}}"></image>
+          <text>{{item.shop_name}}</text>
         </view>
-        <view class="bottom">
-          我的出价：
-          <text class="dw">$</text>
-          <text class="num">156600.00</text>
+        <view class="right">
+          <span wx:if="{{item.status==2}}" class="cc1">竞价成功</span>
+          <span wx:if="{{item.status==1}}" class="cc2">竞价中</span>
+          <span wx:if="{{item.status==0}}" class="cc3">竞价失败</span>
         </view>
       </view>
+      <view class="item-box" bindtap="onClickGoods" data-key="{{item.goods_id}}">
+        <image class="left" src="{{item.pic}}"></image>
+        <view class="right">
+          <view class="top">
+            <view class="title">{{item.title}}</view>
+            <view class="time">
+              <view wx:if="{{item.statu != 3}}">
+                <t-count-down t-class="external-count" t-class-split="external-split" format="DD:HH:mm:ss" content="default" time="{{ item.time }}" splitWithUnit />
+              </view>
+              <view wx:if="{{item.statu != 3}}"><text>后结束</text></view>
+            </view>
+            <view class="tags">
+              <view wx:if="{{item.btype==2}}" class="color1">
+                求购
+              </view>
+              <view wx:if="{{item.btype==1}}" class="color2">
+                出售
+              </view>
+              <view class="color3">{{item.place}}</view>
+              <view class="color4">{{item.nature}}</view>
+            </view>
+          </view>
+          <view class="bottom">
+            我的出价：
+            <text class="dw">$</text>
+            <text class="num">{{item.orderTotal}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="item-bottom">
+        <view class="btn btn1" bindtap="onClickOrders" data-key="{{item.id}}">查看详情</view>
+      </view>
     </view>
-    <view class="item-bottom">
-      <view class="btn btn1">查看详情</view>
-      <view class="btn btn2">修改出价</view>
-    </view>
-  </view>
-		<!-- <goods-card
+    <!-- <goods-card
 		  id="{{independentID}}-gd-{{index}}"
 		  data="{{item}}"
 		  currency="{{item.currency || '¥'}}"
@@ -43,6 +56,5 @@
 		  bind:click="onClickGoods"
 		  bind:add-cart="onAddCart"
 		/> -->
-	</block>
+  </block>
 </view>
-

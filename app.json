@@ -5,6 +5,7 @@
     "pages/tabbar/message/index",
     "pages/tabbar/publish/index",
     "pages/tabbar/serve/index",
+    "pages/tabbar/serve/info/index",
     "pages/tabbar/login/login"
   ],
   "subPackages": [
@@ -14,7 +15,7 @@
         "pages/index/index",
         "pages/offer/index",
         "pages/review/index",
-        "pages/info/index"
+        "pages/list/index"
       ]
     },
     {
