@@ -7,26 +7,18 @@
       <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
       <text class="avatar-text">{{itemTitle}}</text>
     </view>
-
-    <!-- 搜索 -->
-    <view class="search">
-      <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="输入关键词" leftIcon="">
-        <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
-      </t-search>
-      <view class="btn" bindtap="handleSearh">搜索</view>
-    </view>
   </view>
 </view>
 <!-- tab区域 -->
 <view class="tab-box">
-  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{1}}" bind:change="tabChangeHandle">
-    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" icon="app" value="{{item.key}}" />
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{4}}" bind:change="tabChangeHandle">
+    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
   </t-tabs>
 </view>
-
 <view class="home-page-container">
   <view class="fish-list">
-    <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" />
+    <!-- 参与竞价&&成功竞价 -->
+    <bidding-list wr-class="goods-list-container" goodsList="{{goodsList}}" bindgoodsClick="goodListClickHandle" />
     <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
   </view>
 </view>

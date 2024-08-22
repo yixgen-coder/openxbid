@@ -1,28 +1,19 @@
 Page({
   data: {
-    itemTitle: '我的竞价',
+    itemTitle: '我的收藏',
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
     tabList: [{
-      text: "综合",
-      key: 1
-    }, {
-      text: "最新",
-      key: 2
-    }, {
-      text: "热度",
+      text: "收藏的商品",
       key: 3
     }, {
-      text: "价格",
-      key: 4
-    }, {
-      text: "筛选",
-      key: 5
+      text: "收藏的文章",
+      key: 6
     }],
     goodsList: [],
-    tabIndex: 4,
+    tabIndex: 3,
     num: 0,
   },
   goodListPagination: {
@@ -50,7 +41,13 @@ Page({
   },
 
   init() {
-
+    let token = wx.getStorageSync('token');
+    if (!token) {
+      // 用户未登录，跳转到登录页面
+      wx.navigateTo({
+        url: '/pages/tabbar/login/login',
+      });
+    }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
       statusbar: res.top, // 胶囊顶部高度

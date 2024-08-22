@@ -23,7 +23,11 @@
       "pages": [
         "pages/info/index",
         "pages/approve/index",
-        "pages/approve/auhor/index"
+        "pages/approve/auhor/index",
+        "pages/fans/index",
+        "pages/bid/index",
+        "pages/follow/index",
+        "pages/collect/index"
       ]
     },
     {

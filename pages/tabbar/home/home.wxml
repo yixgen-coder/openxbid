@@ -6,15 +6,15 @@
   <view class="baibg">
     <view class="bg" style="background: url('https://imgs.phanlink.com/program/images/topbg.png')no-repeat top; background-size: contain; padding-top:{{statusbar}}px;">
       <view class="home-tab" style="height: {{jiaonangheight}}px;">
-        <view class="active">商品展示</view>
-        <view>商家展示</view>
+        <view class="{{currentPage==1?'active':''}}" bindtap="handleShowPage" data-index="1">商品展示</view>
+        <view class="{{currentPage==2?'active':''}}" bindtap="handleShowPage" data-index="2">商家展示</view>
       </view>
       <!-- 搜索 -->
       <view class="search" bind:tap="navToSearchPage">
-        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="输入关键词" leftIcon="" disabled>
+        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="输入关键词" leftIcon="">
           <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
         </t-search>
-        <view class="btn">搜索</view>
+        <view class="btn" bindtap="handleSearh">搜索</view>
       </view>
       <!-- 轮播 -->
       <view class="swiper-wrap">
@@ -24,7 +24,7 @@
   </view>
 </view>
 <!-- 内容区域 商品展示区 -->
-<view class="home-page-container">
+<view class="home-page-container" wx:if="{{currentPage==1}}">
   <!-- 金刚区 -->
   <view class="home-grid">
     <t-grid class="block" column="{{4}}">
@@ -60,3 +60,25 @@
     <t-toast id="t-toast" />
   </view>
 </view>
+<view class="store-page-container" wx:if="{{currentPage==2}}">
+  <view class="storetabs">
+    <view class="region">
+      <view class="btn {{storeBtn==1?'active':''}}" bindtap="handleShowTJStore">推荐</view>
+      <view class="btn slt {{storeBtn==2?'active':''}}" bindtap="handleShowRegions">{{regionTitle}}</view>
+    </view>
+    <view class="btn slt {{storeBtn==3?'active':''}}" bindtap="handleShowType">{{typeTitle}}</view>
+  </view>
+  <view class="fish-list">
+    <store-list storesList="{{goodsList}}" />
+    <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
+    <t-toast id="t-toast" />
+  </view>
+</view>
+
+<t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="国家或地区" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onRegionChange" bindcancel="handleShowRegions">
+  <t-picker-item options="{{regionTypes}}"></t-picker-item>
+</t-picker>
+<t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="选择时间" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onTypeChange" bindpick="onPickerTypeChange" bindcancel="handleShowType">
+  <t-picker-item options="{{topids}}"></t-picker-item>
+  <t-picker-item options="{{typeids}}"></t-picker-item>
+</t-picker>

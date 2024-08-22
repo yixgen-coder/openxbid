@@ -5,12 +5,11 @@
   "component": true,
   "usingComponents": {
     "t-icon": "tdesign-miniprogram/icon/icon",
+    "collection-list": "/components/collection-list/index",
     "t-loading": "tdesign-miniprogram/loading/loading",
     "load-more": "/components/load-more/index",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
-    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
-    "t-search": "tdesign-miniprogram/search/search",
-    "goods-list": "/components/goods-list/index"
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel"
   },
   "enablePullDownRefresh": true
 }

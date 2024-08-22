@@ -6,19 +6,13 @@ Page({
     loadStatus: 0,
     pageLoading: false,
     tabList: [{
-      text: "综合",
-      key: 1
-    }, {
-      text: "最新",
-      key: 2
-    }, {
-      text: "热度",
-      key: 3
-    }, {
-      text: "价格",
+      text: "竞价中",
       key: 4
     }, {
-      text: "筛选",
+      text: "竞价成功",
+      key: 1
+    }, {
+      text: "竞价失败",
       key: 5
     }],
     goodsList: [],
@@ -50,7 +44,13 @@ Page({
   },
 
   init() {
-
+    let token = wx.getStorageSync('token');
+    if (!token) {
+      // 用户未登录，跳转到登录页面
+      wx.navigateTo({
+        url: '/pages/tabbar/login/login',
+      });
+    }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
       statusbar: res.top, // 胶囊顶部高度

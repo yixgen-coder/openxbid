@@ -1,6 +1,7 @@
 page {
   box-sizing: border-box;
   padding-bottom: calc(env(safe-area-inset-bottom) + 96rpx);
+  background: #F7F8FA;
 }
 .t-tabs.t-tabs--top .t-tabs__scroll {
   border-bottom: none !important;
@@ -40,6 +41,7 @@ page {
   position: absolute;
   right: 5rpx;
   bottom: 5rpx;
+  z-index: 9999;
 }
 .home-page-header .search .t-search__input-container {
   border-radius: 32rpx !important;
@@ -172,6 +174,42 @@ page {
   width: 400rpx;
 }
 .fish-list {
-  padding: 32rpx;
+  padding: 20rpx 5rpx;
   box-sizing: border-box;
+}
+.store-page-container {
+  margin: 60rpx 20rpx 30rpx 20rpx;
+}
+.store-page-container .storetabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.store-page-container .storetabs .region {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+.store-page-container .storetabs .btn {
+  background: #FFFFFF;
+  border-radius: 10rpx;
+  padding: 15rpx 30rpx;
+  font-size: 30rpx;
+}
+.store-page-container .storetabs .active {
+  font-weight: bold;
+  color: #F22800;
+}
+.store-page-container .storetabs .slt {
+  position: relative;
+}
+.store-page-container .storetabs .slt::after {
+  position: absolute;
+  content: ' ';
+  right: 0;
+  bottom: 0rpx;
+  background: url(https://imgs.phanlink.com/program/images/rgtb.png) no-repeat;
+  width: 17rpx;
+  height: 15rpx;
 }

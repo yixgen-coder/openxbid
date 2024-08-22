@@ -1,0 +1,14 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="user" wx:for="{{fansList}}" wx:key="index">
+  <t-cell title="{{item.nickname}}" description="开始关注你了 {{item.addtime}}" align="top" image="https://imgs.phanlink.com/{{item.avatar}}" hover bordered="{{true}}">
+    <t-button slot="right-icon" shape="round" size="small" bindtap="handleDel" data-uid="{{item.uid}}">移除</t-button>
+  </t-cell>
+</view>

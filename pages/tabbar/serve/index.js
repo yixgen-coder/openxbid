@@ -22,6 +22,7 @@ Page({
     jiaonangheight: '',
     num: 0,
     tabIndex: 0,
+    searchName: '',
   },
 
   goodListPagination: {
@@ -76,6 +77,26 @@ Page({
       url: '/pages/goods/pages/index/index?spuId=' + e.detail.key,
     });
   },
+  handleSearchValue(e) {
+    const {
+      value
+    } = e.detail;
+    this.setData({
+      searchName: value
+    });
+  },
+  handleSearh() {
+    const searchName = this.data.searchName;
+    if (searchName == '') {
+      wx.showToast({
+        title: '请输入关键词',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
+    this.loadGoodsList(true);
+  },
   async init() {
     const res = wx.getMenuButtonBoundingClientRect()
     this.setData({
@@ -117,12 +138,13 @@ Page({
     const pageSize = this.goodListPagination.num;
     var pageIndex = this.goodListPagination.index;
     var action = this.data.tabIndex;
+    var searchName = this.data.searchName;
     if (fresh) {
       pageIndex = 1;
     }
 
     try {
-      const res = await this.fetchGoodsList(pageIndex, pageSize, action);
+      const res = await this.fetchGoodsList(pageIndex, pageSize, action, searchName);
       if (res.code == 1) {
         const nextList = res.result;
         this.setData({
@@ -140,7 +162,7 @@ Page({
       });
     }
   },
-  fetchGoodsList(pageIndex, pageSize, action) {
+  fetchGoodsList(pageIndex, pageSize, action, searchName) {
     let token = wx.getStorageSync('token');
     const url = 'https://kpy.phanlink.com/v1/getOrderDatas';
     return new Promise((resolve, reject) => {
@@ -151,7 +173,8 @@ Page({
           'token': token,
           'page': pageIndex,
           'limit': pageSize,
-          'action': action
+          'action': action,
+          'searchName': searchName
         },
         header: {
           'content-type': 'application/json'

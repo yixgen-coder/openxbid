@@ -1,0 +1,19 @@
+<view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+</view>
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="home-page-container">
+  <view class="fish-list">
+    <!-- 关注商家 -->
+    <attention-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="storeClickHandle" />
+    <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
+  </view>
+</view>

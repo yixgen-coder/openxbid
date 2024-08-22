@@ -1,40 +1,19 @@
 Page({
   data: {
-    itemTitle: '我的竞价',
+    itemTitle: '我的关注',
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
-    tabList: [{
-      text: "综合",
-      key: 1
-    }, {
-      text: "最新",
-      key: 2
-    }, {
-      text: "热度",
-      key: 3
-    }, {
-      text: "价格",
-      key: 4
-    }, {
-      text: "筛选",
-      key: 5
-    }],
     goodsList: [],
-    tabIndex: 4,
+    tabIndex: 2,
     num: 0,
   },
   goodListPagination: {
     index: 1,
     num: 20,
   },
-  tabChangeHandle(e) {
-    this.setData({
-      tabIndex: e.detail.value
-    })
-    this.fetchHomeDatas(true);
-  },
+
   onLoad(options) {
     this.init();
   },
@@ -43,14 +22,34 @@ Page({
       delta: 1
     });
   },
-  goodListClickHandle(e) {
-    wx.navigateTo({
-      url: '/pages/goods/pages/index/index?spuId=' + e.detail.key,
-    });
+  async storeClickHandle(e) {
+    const {
+      id
+    } = e.detail;
+    const url = 'https://kpy.phanlink.com/v1/setStoreGz';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    formData.storeId = id;
+    const res = await this.fetchSetOrders(url, formData);
+
+    if (res.code == 1) {
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000
+      });
+      this.removeDataById(id);
+    }
   },
 
   init() {
-
+    let token = wx.getStorageSync('token');
+    if (!token) {
+      // 用户未登录，跳转到登录页面
+      wx.navigateTo({
+        url: '/pages/tabbar/login/login',
+      });
+    }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
       statusbar: res.top, // 胶囊顶部高度

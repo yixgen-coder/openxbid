@@ -27,6 +27,21 @@ Page({
     },
     statusbar: '',
     jiaonangheight: '',
+    currentPage: 1, //当前页面
+    searchName: '', //搜索条件
+    region: '', //国家
+    regionValue: [96],
+    regionTitle: '国家或地区',
+    regionVisible: false,
+    regionTypes: [],
+    type: '', //行业分类
+    typeTitle: '商品分类', //行业分类
+    typeVisible: false,
+    typeValue: [],
+    typeList: [],
+    topids: [],
+    typeids: [],
+    storeBtn: 1
   },
 
   goodListPagination: {
@@ -41,18 +56,10 @@ Page({
   onShow() {
     this.getTabBar().init();
   },
+
   onLoad() {
     this.init();
   },
-  // checkUserLogin: function () {
-  //   let token = wx.getStorageSync('token');
-  //   if (!token) {
-  //     // 用户未登录，跳转到登录页面
-  //     wx.navigateTo({
-  //       url: '/pages/tabbar/login/login',
-  //     });
-  //   }
-  // },
   onReachBottom() {
     if (this.data.goodsListLoadStatus === 0) {
       this.loadGoodsList();
@@ -75,21 +82,40 @@ Page({
 
   },
 
-
-
   loadHomePage() {
     wx.stopPullDownRefresh();
-
+    this.loadGoodsList(true);
+  },
+  handleSearchValue(e) {
+    const {
+      value
+    } = e.detail;
     this.setData({
-      pageLoading: true,
+      searchName: value
     });
-
-    this.setData({
-      pageLoading: false,
-    });
+  },
+  handleSearh() {
+    const searchName = this.data.searchName;
+    if (searchName == '') {
+      wx.showToast({
+        title: '请输入关键词',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
     this.loadGoodsList(true);
   },
 
+  handleShowPage(e) {
+    const {
+      index
+    } = e.currentTarget.dataset;
+    this.setData({
+      currentPage: index,
+    });
+    this.loadGoodsList(true);
+  },
   tabChangeHandle(e) {
     console.log(e)
     this.privateData.tabIndex = e.detail.value;
@@ -102,11 +128,71 @@ Page({
   onReTry() {
     this.loadGoodsList();
   },
-
+  handleShowTJStore() {
+    this.setData({
+      type: '',
+      typeTitle: '商品分类',
+      regionTitle: '国家或地区',
+      region: '',
+      storeBtn: 1
+    });
+    this.loadGoodsList(true);
+  },
+  handleShowRegions() {
+    this.setData({
+      regionVisible: !this.data.regionVisible,
+    });
+  },
+  onRegionChange(e) {
+    const {
+      key
+    } = e.currentTarget.dataset;
+    const {
+      value,
+      label
+    } = e.detail;
+    this.setData({
+      [`${key}Visible`]: false,
+      [`${key}`]: value[0],
+      [`${key}Value`]: value,
+      [`${key}Title`]: label.join(' '),
+      storeBtn: 2
+    });
+    this.loadGoodsList(true);
+  },
+  handleShowType() {
+    this.setData({
+      typeVisible: !this.data.typeVisible,
+    });
+  },
+  onTypeChange(e) {
+    const {
+      key
+    } = e.currentTarget.dataset;
+    const {
+      value,
+      label
+    } = e.detail;
+    this.setData({
+      [`${key}Visible`]: false,
+      [`${key}`]: value[1],
+      [`${key}Value`]: value,
+      [`${key}Title`]: label.join('-'),
+      storeBtn: 3
+    });
+    this.loadGoodsList(true);
+  },
+  onPickerTypeChange(e) {
+    if (e.detail.column === 0) {
+      this.setData({
+        typeids: this.data.typeList.filter(item => item.pid === e.detail.value[0]),
+      });
+    }
+  },
   async loadGoodsList(fresh = false) {
     if (fresh) {
       wx.pageScrollTo({
-        scrollTop: 500,
+        scrollTop: 0,
       });
     }
 
@@ -117,18 +203,45 @@ Page({
     const pageSize = this.goodListPagination.num;
     var pageIndex = this.goodListPagination.index;
     var action = this.privateData.tabIndex;
+    var searchname = this.data.searchname;
+    var currentPage = this.data.currentPage;
+    var region = this.data.region;
+    var type = this.data.type;
     if (fresh) {
       pageIndex = 1;
     }
 
     try {
-      const res = await this.fetchGoodsList(pageIndex, pageSize, action);
-      if (res.code == 1) {
-        const nextList = res.data.pros;
-        this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-        });
-        this.goodListPagination.index = pageIndex + 1;
+      const res = await this.fetchGoodsList(pageIndex, pageSize, action, currentPage, searchname, region, type);
+      if (currentPage == 1) {
+        if (res.code == 1) {
+          let nextList = [];
+          if (res.data.pros.length > 0) {
+            nextList = res.data.pros;
+            this.goodListPagination.index = pageIndex + 1;
+          }
+          this.setData({
+            goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+          });
+        }
+      } else {
+        if (res.code == 1) {
+          let nextList = [];
+          if (res.data.stores.length > 0) {
+            nextList = res.data.stores;
+            this.goodListPagination.index = pageIndex + 1;
+          }
+          const ptys = res.data.ptys;
+          const topids = ptys.filter(item => item.pid === 0);
+          const typeids = ptys.filter(item => item.pid === topids[0].value);
+          this.setData({
+            goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+            regionTypes: res.data.regions,
+            typeList: ptys,
+            topids: topids,
+            typeids: typeids,
+          });
+        }
       }
       this.setData({
         goodsListLoadStatus: 0
@@ -136,11 +249,11 @@ Page({
 
     } catch (err) {
       this.setData({
-        goodsListLoadStatus: 3
+        goodsListLoadStatus: 0
       });
     }
   },
-  fetchGoodsList(pageIndex, pageSize, action) {
+  fetchGoodsList(pageIndex, pageSize, action, currentPage, searchname, region = '', type = '') {
     let token = wx.getStorageSync('token');
     const url = 'https://kpy.phanlink.com/v1/getHomeDatas';
     return new Promise((resolve, reject) => {
@@ -151,7 +264,11 @@ Page({
           'token': token,
           'page': pageIndex,
           'limit': pageSize,
-          'action': action
+          'action': action,
+          'currentPage': currentPage,
+          'searchname': searchname,
+          'region': region,
+          'type': type
         },
         header: {
           'content-type': 'application/json'
@@ -172,24 +289,6 @@ Page({
 
     wx.navigateTo({
       url: `/pages/goods/pages/index/index?spuId=${id}`,
-    });
-  },
-
-
-  navToSearchPage() {
-    wx.navigateTo({
-      url: '/pages/goods/search/index'
-    });
-  },
-
-  navToActivityDetail({
-    detail
-  }) {
-    const {
-      index: promotionID = 0
-    } = detail || {};
-    wx.navigateTo({
-      url: `/pages/promotion-detail/index?promotion_id=${promotionID}`,
     });
   },
 });

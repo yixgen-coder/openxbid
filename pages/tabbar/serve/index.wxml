@@ -10,11 +10,11 @@
         <view>商家服务</view>
       </view>
       <!-- 搜索 -->
-      <view class="search" bind:tap="navToSearchPage">
-        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="输入关键词" leftIcon="" disabled>
+      <view class="search">
+        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="输入关键词" leftIcon="">
           <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
         </t-search>
-        <view class="btn">搜索</view>
+        <view class="btn" bindtap="handleSearh">搜索</view>
       </view>
     </view>
   </view>

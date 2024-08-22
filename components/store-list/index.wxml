@@ -1,0 +1,23 @@
+<view class="items" wx:for="{{storesList}}">
+  <view class="store">
+    <view>
+      <image src="{{item.shop_logo}}"></image>
+    </view>
+    <view>
+      <view class="title">{{item.shop_name}}</view>
+      <view class="pj">
+        <t-rate value="{{item.pf}}" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
+      </view>
+      <view class="tags">
+        <text class="color1">{{item.region}}</text>
+        <text class="color2">{{item.type}}</text>
+      </view>
+    </view>
+    <view>
+      <view class="stbtn" bindtap="handleGoStores" data-id="{{item.id}}">进入店铺></view>
+    </view>
+  </view>
+  <view class="goodsType">
+    <text>主营商品：{{item.stype}}</text>
+  </view>
+</view>

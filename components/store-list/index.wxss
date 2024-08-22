@@ -1,0 +1,66 @@
+.items {
+  background: #FFFFFF;
+  margin: 30rpx 0rpx;
+  padding: 30rpx 20rpx 30rpx 20rpx;
+  border-radius: 16rpx 16rpx 16rpx 16rpx;
+}
+.items .store {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid #E6E6E6;
+  width: 100%;
+}
+.items .store > view:nth-child(1) {
+  width: 20%;
+}
+.items .store > view:nth-child(1) image {
+  width: 130rpx;
+  height: 130rpx;
+}
+.items .store > view:nth-child(2) {
+  width: 52%;
+}
+.items .store > view:nth-child(2) .title {
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #221F1C;
+}
+.items .store > view:nth-child(2) .pj {
+  margin: 20rpx 0;
+}
+.items .store > view:nth-child(2) .tags {
+  margin-top: 10rpx;
+  font-size: 20rpx;
+}
+.items .store > view:nth-child(2) .tags text {
+  margin-right: 10rpx;
+  padding: 10rpx;
+  border-radius: 4rpx 4rpx 4rpx 4rpx;
+}
+.items .store > view:nth-child(2) .tags .color1 {
+  background: #EBF7FF;
+  color: #33AAFF;
+}
+.items .store > view:nth-child(2) .tags .color2 {
+  background: #F7F8FA;
+  color: #999999;
+}
+.items .store > view:nth-child(3) {
+  width: 25%;
+  margin-right: -20rpx;
+}
+.items .store > view:nth-child(3) .stbtn {
+  background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
+  border-radius: 50rpx 0rpx 0rpx 50rpx;
+  padding: 10rpx 5rpx 10rpx 25rpx;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #FFFFFF;
+  text-align: center;
+}
+.items .goodsType {
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
