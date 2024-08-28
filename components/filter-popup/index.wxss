@@ -1,39 +1,105 @@
-.content .filter-btns-wrap {
-  width: 100%;
-  position: absolute;
-  bottom: calc(20rpx + env(safe-area-inset-bottom));
-  display: flex;
-  flex-direction: row;
-  border-radius: 10rpx 0 0 10rpx;
-  padding: 16rpx 32rpx;
-  border-top: 1rpx solid #e5e5e5;
-  box-sizing: border-box;
-}
-
-.filter-btn {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 28rpx;
-  font-weight: 500;
-  height: 80rpx;
-}
-
-.btn-reset {
-  color: #fa4126;
-  background: rgba(255, 255, 255, 1);
+.pop-box {
+  background-color: #F7F8FA;
+  border-radius: 32rpx 32rpx 0rpx 0rpx;
+  overflow: hidden;
+  height: 60vh;
   position: relative;
-  border: 1rpx solid #fa4126;
-  border-radius: 84rpx 0 0 84rpx;
 }
-
-.btn-confirm {
-  border-radius: 0 84rpx 84rpx 0;
-  border: 1rpx solid #fa4126;
+.pop-box .title {
+  background-color: #fff;
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  position: relative;
 }
-
-.btn-confirm {
+.pop-box .title .close {
+  width: 48rpx;
+  height: 48rpx;
+  position: absolute;
+  right: 30rpx;
+  top: 25rpx;
+}
+.side-bar-wrapper {
+  display: flex;
+  height: 50vh;
+  --td-side-bar-active-color: #FF5533;
+  --td-side-bar-width: 250rpx;
+}
+.side-bar-wrapper .content {
+  width: 100%;
+  height: 100%;
+}
+.side-bar-wrapper .content .section {
+  height: 95%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 10rpx;
+  touch-action: auto;
+}
+.side-bar-wrapper .content .section .baritem {
+  padding-left: 20rpx;
+  margin-bottom: 8rpx;
+  color: var(--td-text-color-primary);
+  text-align: left;
+}
+.side-bar-wrapper .content .section .baritem .tit {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+  margin: 30rpx 0;
+}
+.side-bar-wrapper .content .section .baritem .type text {
+  display: inline-block;
+  width: 140rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  background: #eaeaeb;
+  border-radius: 40rpx;
+  margin: 10rpx 10rpx 10rpx 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 12rpx;
+}
+.side-bar-wrapper .content .section .baritem .type .active {
+  background: #FFF4F2;
+  border: 2rpx solid #FF5533;
+  color: #FF5533;
+}
+.btn-box {
+  margin-top: 1rpx;
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  z-index: 99999;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  justify-content: space-between;
+}
+.btn-box .left {
+  width: 220rpx;
+  height: 92rpx;
+  border-radius: 12rpx;
+  background: #F2F3F5;
+  color: #999999;
+  line-height: 92rpx;
+  text-align: center;
+}
+.btn-box .right {
+  width: 440rpx;
+  height: 92rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(to right, #FF6426, #FF4A26);
   color: #fff;
-  background: #fa4126;
+  line-height: 92rpx;
+  text-align: center;
 }

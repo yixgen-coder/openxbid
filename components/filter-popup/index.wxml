@@ -1,18 +1,50 @@
-<t-popup
- visible="{{visible}}"
- placement="right"
- bind:visible-change="close"
- data-index="5"
- close-btn="{{closeBtn}}"
->
-	<view class="content">
-		<slot name="filterSlot" />
-		<view class="filter-btns-wrap">
-			<view class="filter-btn btn-reset" bind:tap="reset">重置</view>
-			<view class="filter-btn btn-confirm" bind:tap="confirm" data-index="5">
-				确定
-			</view>
-		</view>
-	</view>
-</t-popup>
-
+<view class="pop-box">
+  <view class="title">
+    全部筛选
+    <image class="close" src="https://imgs.phanlink.com/program/images/close.png" data-index="{{1}}" bindtap="submitBJ"></image>
+  </view>
+  <view class="side-bar-wrapper">
+    <t-side-bar value="{{sideBarIndex}}" bind:change="onSideBarChange">
+      <t-side-bar-item wx:for="{{categories}}" wx:key="label" value="{{index}}" label="{{item.label}}" disabled="{{item.disabled}}" />
+    </t-side-bar>
+    <view class="content">
+      <scroll-view class="section" scroll-y>
+        <view class="baritem" wx:if="{{sideBarIndex==0}}">
+          <view class="tit">商品类型</view>
+          <view class="type">
+            <text data-value="{{1}}" class="{{1==filterValue[0]?'active':''}}" data-index="{{0}}" bindtap="handleFilterValue">出售</text>
+            <text data-value="{{2}}" class="{{2==filterValue[0]?'active':''}}" data-index="{{0}}" bindtap="handleFilterValue">求购</text>
+          </view>
+        </view>
+        <view class="baritem" wx:if="{{sideBarIndex==1}}">
+          <block wx:for="{{ftys}}" wx:key="fty">
+            <view class="tit">{{item.title}}</view>
+            <view class="type">
+              <text wx:for="{{item.children}}" wx:key="pty" class="{{item.id==filterValue[1]?'active':''}}" data-index="{{1}}" data-value="{{item.id}}" bindtap="handleFilterValue">{{item.title}}</text>
+            </view>
+          </block>
+        </view>
+        <view class="baritem" wx:if="{{sideBarIndex==2}}">
+          <view class="tit">商品性质</view>
+          <view class="type">
+            <text class="{{1==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{1}}" bindtap="handleFilterValue">活</text>
+            <text class="{{2==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{2}}" bindtap="handleFilterValue">冰鲜</text>
+            <text class="{{3==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{3}}" bindtap="handleFilterValue">冻品</text>
+            <text class="{{4==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{4}}" bindtap="handleFilterValue">干(盐)品</text>
+          </view>
+        </view>
+        <view class="baritem" wx:if="{{sideBarIndex==3}}">
+          <view class="tit">国家地区</view>
+          <view class="type">
+            <text wx:for="regions" wx:for="{{regions}}" wx:key="region" class="{{item.id==filterValue[3]?'active':''}}" data-index="{{3}}" data-value="{{item.id}}" bindtap="handleFilterValue">{{item.title}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <!-- 按钮曲艺 -->
+  <view class="btn-box">
+    <view class="left" bindtap="cancel">重置</view>
+    <view class="right" data-index="{{2}}" bindtap="submitBJ">确定</view>
+  </view>
+</view>

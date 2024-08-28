@@ -3,6 +3,8 @@
   height: 360rpx;
   padding: 0 24rpx;
   position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 .user-center-card__header {
   position: absolute;

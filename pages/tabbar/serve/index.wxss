@@ -9,10 +9,11 @@ page {
 .serve-page-header {
   background-image: url('https://imgs.phanlink.com/program/images/topbg.png') no-repeat top;
   background-size: cover;
-  box-sizing: border-box;
   height: 284rpx;
   width: 100%;
   display: block;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 .serve-page-header .bg {
   background-image: url('https://imgs.phanlink.com/program/images/topbg.png') no-repeat top;

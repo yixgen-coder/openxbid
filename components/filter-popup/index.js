@@ -1,36 +1,75 @@
 Component({
-  externalClasses: ['wr-class'],
-
-  options: {
-    multipleSlots: true,
-  },
-
+  /**
+   * 组件的属性列表
+   */
   properties: {
-    show: {
-      type: Boolean,
-      observer(show) {
-        this.setData({ visible: show });
-      },
+    ftys: {
+      type: Array,
     },
-    closeBtn: {
-      type: Boolean,
-      value: false,
+    regions: {
+      type: Array,
+    },
+    filterValue: {
+      type: Array,
     },
   },
 
-  data: { visible: false },
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    sideBarIndex: 0,
+    categories: [{
+        label: '商品类型'
+      }, {
+        label: '商品分类',
+      },
+      {
+        label: '商品性质'
+      },
+      {
+        label: '国家地区'
+      },
+    ],
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  attached() {
+
+  },
 
   methods: {
-    reset() {
-      this.triggerEvent('reset');
+    onSideBarChange(e) {
+      this.setData({
+        sideBarIndex: e.detail.value
+      });
     },
-    confirm() {
-      this.triggerEvent('confirm');
+    handleFilterValue(e) {
+      const {
+        index,
+        value
+      } = e.currentTarget.dataset;
+      let filterValue = this.data.filterValue;
+      filterValue[index] = value;
+      this.setData({
+        filterValue: filterValue
+      });
     },
-    close() {
-      this.triggerEvent('showFilterPopupClose');
-
-      this.setData({ visible: false });
+    cancel() {
+      this.setData({
+        filterValue: [0, 0, 0, 0]
+      });
     },
-  },
-});
+    submitBJ(e) {
+      const {
+        index
+      } = e.currentTarget.dataset;
+      this.triggerEvent('submitBJ', [{
+        index: index,
+        filterValue: this.data.filterValue
+      }]);
+    }
+  }
+})

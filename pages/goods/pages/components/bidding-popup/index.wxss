@@ -2,7 +2,7 @@
   background-color: #F7F8FA;
   border-radius: 32rpx 32rpx 0rpx 0rpx;
   overflow: hidden;
-  height: 1338rpx;
+  height: 85vh;
 }
 .pop-box .title {
   background-color: #fff;
@@ -24,7 +24,7 @@
 }
 .goods-category-class {
   background-color: #f6f6f6 !important;
-  height: 680rpx;
+  height: 40vh;
 }
 .total {
   background-color: #fff;

@@ -291,4 +291,25 @@ Page({
       url: `/pages/goods/pages/index/index?spuId=${id}`,
     });
   },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res);
+    }
+    return {
+      title: '开拍鱼',
+      imageUrl: 'https://imgs.phanlink.com/program/images/banner1.png',
+      path: '/pages/tabbar/home/home',
+    }
+  },
+  onShareTimeline: function (res) {
+    return {
+      title: '开拍鱼',
+      query: '/pages/tabbar/home/home',
+      imageUrl: 'https://imgs.phanlink.com/program/images/banner1.png'
+    }
+  },
 });

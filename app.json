@@ -15,7 +15,9 @@
         "pages/index/index",
         "pages/offer/index",
         "pages/review/index",
-        "pages/list/index"
+        "pages/list/index",
+        "pages/add/index",
+        "pages/manage/index"
       ]
     },
     {
@@ -33,13 +35,17 @@
     {
       "root": "pages/news",
       "pages": [
-        "pages/index/index"
+        "pages/index/index",
+        "pages/artadd/index",
+        "pages/dtadd/index"
       ]
     },
     {
       "root": "pages/store",
       "pages": [
-        "pages/index/index"
+        "pages/index/index",
+        "pages/list/index",
+        "pages/info/index"
       ]
     }
   ],
@@ -80,7 +86,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "开拍鱼",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",

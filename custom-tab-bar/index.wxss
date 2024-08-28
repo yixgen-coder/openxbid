@@ -6,7 +6,7 @@
   height:110rpx !important;
 }
 .tabbar-bg{
- width: 100%;
+ width: 750rpx;
  height: 190rpx;
  position: absolute;
  top: -46rpx;

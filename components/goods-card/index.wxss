@@ -9,12 +9,12 @@
 .pro_statu{
   position: absolute;
   top:-1rpx;
-  left:0;
+  left:10rpx;
   z-index: 999;
 }
 .pro_statu>span{
   font-weight: 500;
-  font-size: 28rpx;
+  font-size: 24rpx;
   padding:15rpx;
   display: inline-block;
   border-radius: 12rpx 0rpx 30rpx 0rpx;
@@ -35,7 +35,7 @@
   line-height: 1;
   padding: 0;
   background: transparent;
-  width: 335rpx;
+  width: 365rpx;
   border-radius: 0 0 16rpx 16rpx;
   align-items: center;
   justify-content: center;
@@ -47,8 +47,9 @@
 .goods-card__thumb {
   flex-shrink: 0;
   position: relative;
-  width: 340rpx;
-  height: 340rpx;
+  width: 350rpx;
+  height: 300rpx;
+  border-radius: 0 0 16rpx 16rpx;
 }
 
 .goods-card__thumb:empty {
@@ -70,10 +71,10 @@
   background: #fff;
   border-radius: 0 0 16rpx 16rpx;
   padding: 20rpx 0;
-  padding-left: 20rpx;
-  padding-right: 20rpx;
+  padding-left: 15rpx;
+  padding-right: 15rpx;
   flex-direction: column;
-  width:300rpx;
+  width:320rpx;
 }
 
 .goods-card__upper {

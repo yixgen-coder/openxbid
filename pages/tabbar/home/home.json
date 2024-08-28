@@ -4,6 +4,11 @@
   "onReachBottomDistance": 10,
   "backgroundTextStyle": "light",
   "enablePullDownRefresh": true,
+  "shareAppMessage": {
+    "title": "开拍鱼",
+    "path": "/pages/tabber/home/home",
+    "imageUrl": "https://imgs.phanlink.com/program/images/banner1.png"
+  },
   "usingComponents": {
     "t-search": "tdesign-miniprogram/search/search",
     "t-loading": "tdesign-miniprogram/loading/loading",

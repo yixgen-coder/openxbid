@@ -299,6 +299,12 @@ page {
   padding-bottom: 40rpx;
   border-bottom: 1rpx solid #E6E6E6;
 }
+.share .share-item {
+  background-color: transparent;
+}
+.share .share-item::after {
+  border: none;
+}
 .share .share-item > image {
   display: block;
   width: 120rpx;

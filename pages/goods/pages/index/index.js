@@ -97,6 +97,12 @@ Page({
         icon: 'success',
         duration: 2000
       });
+    } else {
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000
+      });
     }
   },
   ggainput(e) {
@@ -205,7 +211,34 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage() {
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res);
+    }
 
-  }
+    let title = this.data.goodsInfo.title + '，';
+    title += this.data.goodsInfo.btype == 1 ? '出售' : '求购';
+    title += '，' + this.data.goodsInfo.place + '，';
+    title += this.data.goodsInfo.nature + '，';
+    title += this.data.goodsInfo.spec1;
+
+    return {
+      title: title,
+      imageUrl: 'https://imgs.phanlink.com/' + this.data.goodsInfo.pic,
+      path: '/pages/goods/pages/index/index?spuId=' + this.data.goodsInfo.id,
+    }
+  },
+  onShareTimeline: function (res) {
+    let title = this.data.goodsInfo.title + '，';
+    title += this.data.goodsInfo.btype == 1 ? '出售' : '求购';
+    title += '，' + this.data.goodsInfo.place + '，';
+    title += this.data.goodsInfo.nature + '，';
+    title += this.data.goodsInfo.spec1;
+    return {
+      title: title, //字符串  自定义标题
+      query: 'spuId=' + this.data.goodsInfo.id, //页面携带参数
+      imageUrl: 'https://imgs.phanlink.com/' + this.data.goodsInfo.pic //图片地址
+    }
+  },
 })

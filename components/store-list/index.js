@@ -20,7 +20,7 @@ Component({
         id
       } = e.currentTarget.dataset;
       wx.navigateTo({
-        url: `/pages/store/pages/info/index?storeId=${id}`,
+        url: `/pages/store/pages/list/index?storeId=${id}`,
       });
     },
   },

@@ -1,6 +1,7 @@
 {
     "component": true,
     "usingComponents": {
-        "t-popup": "tdesign-miniprogram/popup/popup"
+      "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
+      "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item"
     }
 }

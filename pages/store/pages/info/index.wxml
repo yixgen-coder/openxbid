@@ -1,0 +1,31 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/store_bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <image src="https://imgs.phanlink.com/program/images/store_left.png" bindtap="goback"></image>
+      <text class="avatar-text">商家介绍</text>
+    </view>
+  </view>
+</view>
+<view class="store-list">
+  <view class="left">
+    <view class="tit">{{storeInfo.shop_name}}</view>
+    <view class="tags"><text>{{storeInfo.region}}</text><text>{{storeInfo.type}}</text></view>
+  </view>
+  <view class="right">
+    <image src="{{storeInfo.shop_logo}}"></image>
+  </view>
+</view>
+<view class="store-addr">
+  <view class="tit">商家主营商品</view>
+  <view class="addr">
+    <text>主营商品：{{storeInfo.stype}}</text>
+  </view>
+</view>
+<view class="store-addr">
+  <view class="tit">商家介绍</view>
+  <view class="addr">
+    <text>
+      {{storeInfo.shop_desc}}
+    </text>
+  </view>
+</view>

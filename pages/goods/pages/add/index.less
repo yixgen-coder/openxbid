@@ -1,0 +1,108 @@
+page {
+  background: #F7F8FA;
+}
+
+.publish-wrap {
+  padding-bottom: 200rpx;
+  .publish-header {
+    background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;
+    background-size: cover;
+    height: 300rpx;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    z-index: -1;
+    .bar-right {
+      display: flex;
+      padding-left: 34rpx;
+      align-items: center;
+      .avatar-text{
+        display: block;
+        width: 80%;
+        font-size: 36rpx;
+        color: #FFFFFF;
+        text-align: center;
+      }
+    }
+  }
+  .goods-list{
+    background: #FFFFFF;
+    border-radius: 30rpx;
+    padding:30rpx;
+    margin:20rpx 0;
+    .title{
+      font-weight: bold;
+      font-size: 36rpx;
+      color: #221F1C;
+      position: relative;
+      border-bottom:1rpx solid #eeebeb;
+      padding-bottom: 20rpx;
+      &::after{
+        position: absolute;
+        content:'*';
+        font-size: 50rpx;
+        color: #F22800;
+      }
+    }
+    .items{
+      margin:20rpx 0;
+      border-bottom:1rpx solid #eeebeb;
+      --td-input-vertical-padding:10rpx;
+      text{
+        font-weight: bold;
+        font-size: 30rpx;
+        color: #221F1C;
+      }
+      .name{
+        margin-top:10rpx;
+        background: #F7F8FA;
+      }
+      .desc{
+        margin-top:10rpx;
+        font-size: 26rpx;
+        color: #999999;
+      }
+      .t-cell{
+        padding:25rpx 0;
+      }
+      .t-cell__title{
+        width:250rpx;
+      }
+      .t-cell__title-text{
+        font-weight: bold;
+        font-size: 30rpx;
+        color: #221F1C;
+      }
+      .t-cell__note text{
+        font-size: 28rpx;
+        color: #999999;
+      }
+      .t-textarea__label{
+        font-weight: bold;
+        font-size: 30rpx;
+        color: #221F1C;
+      }
+      .t-textarea__wrapper-inner{
+        background: #F7F8FA;
+        padding:10rpx;
+        line-height: 35rpx;
+        border-radius: 12rpx;
+      }
+      .adbjd{
+        font-weight: bold;
+        font-size: 32rpx;
+        color: #F22800;
+      }
+    }
+  }
+}
+.formBtn{
+  position: fixed;
+  width:700rpx;
+  background: #FFFFFF;
+  padding:30rpx 25rpx;
+  bottom: 0;
+  display: flex;
+  z-index: 115;
+}

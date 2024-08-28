@@ -100,7 +100,7 @@
   <view class="compiny-right">
     <view class="compiny-title">
       <view class="title-text">{{goodsInfo.store.shop_name}}</view>
-      <view class="title-btn">进入店铺</view>
+      <navigator class="title-btn" url="/pages/store/pages/list/index?storeId={{goodsInfo.storeid}}">进入店铺</navigator>
     </view>
     <view class="rate">
       <text>评分 </text>
@@ -155,14 +155,10 @@
 <!-- 分享弹窗 -->
 <t-popup visible="{{isShareShow}}" bind:visible-change="onShareVisibleChange" placement="bottom">
   <view class="share">
-    <view class="share-item">
+    <button class="share-item" open-type="share">
       <image src="https://imgs.phanlink.com/program/images/wx.png"></image>
       <view>分享给微信好友</view>
-    </view>
-    <view class="share-item">
-      <image src="https://imgs.phanlink.com/program/images/pyq.png"></image>
-      <view>分享到朋友圈</view>
-    </view>
+    </button>
   </view>
   <view bind:tap="onShareVisibleChange" class="qx">取消</view>
 </t-popup>

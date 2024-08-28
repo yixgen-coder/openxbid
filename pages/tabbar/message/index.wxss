@@ -3,6 +3,11 @@ page {
   padding-bottom: calc(env(safe-area-inset-bottom) + 96rpx);
   background-color: #F7F8FA;
 }
+.news-page-header {
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
 .news-page-header .bg {
   box-sizing: border-box;
   height: 176rpx;

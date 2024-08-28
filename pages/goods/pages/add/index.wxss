@@ -1,0 +1,107 @@
+page {
+  background: #F7F8FA;
+}
+.publish-wrap {
+  padding-bottom: 200rpx;
+}
+.publish-wrap .publish-header {
+  background: url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;
+  background-size: cover;
+  height: 300rpx;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+  z-index: -1;
+}
+.publish-wrap .publish-header .bar-right {
+  display: flex;
+  padding-left: 34rpx;
+  align-items: center;
+}
+.publish-wrap .publish-header .bar-right .avatar-text {
+  display: block;
+  width: 80%;
+  font-size: 36rpx;
+  color: #FFFFFF;
+  text-align: center;
+}
+.publish-wrap .goods-list {
+  background: #FFFFFF;
+  border-radius: 30rpx;
+  padding: 30rpx;
+  margin: 20rpx 0;
+}
+.publish-wrap .goods-list .title {
+  font-weight: bold;
+  font-size: 36rpx;
+  color: #221F1C;
+  position: relative;
+  border-bottom: 1rpx solid #eeebeb;
+  padding-bottom: 20rpx;
+}
+.publish-wrap .goods-list .title::after {
+  position: absolute;
+  content: '*';
+  font-size: 50rpx;
+  color: #F22800;
+}
+.publish-wrap .goods-list .items {
+  margin: 20rpx 0;
+  border-bottom: 1rpx solid #eeebeb;
+  --td-input-vertical-padding: 10rpx;
+}
+.publish-wrap .goods-list .items text {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+}
+.publish-wrap .goods-list .items .name {
+  margin-top: 10rpx;
+  background: #F7F8FA;
+}
+.publish-wrap .goods-list .items .desc {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #999999;
+}
+.publish-wrap .goods-list .items .t-cell {
+  padding: 25rpx 0;
+}
+.publish-wrap .goods-list .items .t-cell__title {
+  width: 250rpx;
+}
+.publish-wrap .goods-list .items .t-cell__title-text {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+}
+.publish-wrap .goods-list .items .t-cell__note text {
+  font-size: 28rpx;
+  color: #999999;
+}
+.publish-wrap .goods-list .items .t-textarea__label {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+}
+.publish-wrap .goods-list .items .t-textarea__wrapper-inner {
+  background: #F7F8FA;
+  padding: 10rpx;
+  line-height: 35rpx;
+  border-radius: 12rpx;
+}
+.publish-wrap .goods-list .items .adbjd {
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #F22800;
+}
+.formBtn {
+  position: fixed;
+  width: 700rpx;
+  background: #FFFFFF;
+  padding: 30rpx 25rpx;
+  bottom: 0;
+  display: flex;
+  z-index: 115;
+}

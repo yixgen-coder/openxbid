@@ -1,0 +1,51 @@
+<view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+</view>
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/user-bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#333333" size="56rpx" bindtap="goback" />
+      <!-- 搜索 -->
+      <view class="search">
+        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="输入关键词" leftIcon="">
+          <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+        </t-search>
+        <view class="btn" bindtap="handleSearh">搜索</view>
+      </view>
+    </view>
+    <view class="store-info">
+      <view class="logo">
+        <image src="{{storeInfo.shop_logo}}"></image>
+      </view>
+      <view class="info">
+        <view class="tit">
+          <navigator url="/pages/store/pages/info/index?storeId={{storeId}}"> {{storeInfo.shop_name}} ></navigator>
+        </view>
+        <view class="tags">
+          <text>认证商品</text>
+          <text>|</text>
+          <text>{{storeInfo.fans}}关注</text>
+        </view>
+      </view>
+      <view class="gzbtn" wx:if="{{storeInfo.gz==0}}" bindtap="storeClickHandle">+关注</view>
+      <view class="gzbtn" wx:if="{{storeInfo.gz==1}}" bindtap="storeClickHandle">已关注</view>
+    </view>
+
+  </view>
+</view>
+
+<!-- tab区域 -->
+<view class="tab-box">
+  <view class="order">
+    <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item {{tabIndex==4?'tabs-before__item':''}} {{tabIndex==5?'tabs-after__item':''}}" defaultValue="{{1}}" bind:click="tabChangeHandle">
+      <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" icon="" value="{{item.key}}" />
+    </t-tabs>
+  </view>
+</view>
+
+<view class="home-page-container">
+  <view class="fish-list">
+    <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" />
+    <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
+  </view>
+</view>

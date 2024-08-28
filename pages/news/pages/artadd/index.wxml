@@ -1,0 +1,19 @@
+<view class="publish-wrap">
+  <view class="publish-header">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#333333" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+<view style="margin-top: 300rpx;"></view>
+<editor class="editor" id="editor" show-img-toolbar show-img-resize value="{{content}}" placeholder="请输入" bindready="readyEditor" bindstatuschange="changeEditor" bindinput="inputEditor">
+</editor>
+
+<view class="toolbar" catchtouchend="formatOpt">
+  <view catchtouchend="insertImage">上传图片</view>
+  <view class="{{formats.bold ? 'active' : ''}}" data-name="bold">加粗</view>
+  <view class="{{formats.list=='unchecked' ? 'active' : ''}}" data-name="list" data-value="check">清单</view>
+  <view class="{{formats.list=='ordered' ? 'active' : ''}}" data-name="list" data-value="ordered">列表</view>
+  <view class="{{formats.align=='center' ? 'active' : ''}}" data-name="align" data-value="center">居中</view>
+</view>

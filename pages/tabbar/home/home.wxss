@@ -7,15 +7,13 @@ page {
   border-bottom: none !important;
 }
 .home-page-header {
-  background-image: url('https://imgs.phanlink.com/program/images/topbg.png') no-repeat top;
-  background-size: cover;
-  box-sizing: border-box;
   height: 330px;
-  width: 100%;
   display: block;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 .home-page-header .bg {
-  background-image: url('https://imgs.phanlink.com/program/images/topbg.png') no-repeat top;
   background-size: cover;
   box-sizing: border-box;
   height: 330px;
@@ -174,7 +172,7 @@ page {
   width: 400rpx;
 }
 .fish-list {
-  padding: 20rpx 5rpx;
+  padding: 20rpx 10rpx;
   box-sizing: border-box;
 }
 .store-page-container {

@@ -13,13 +13,17 @@
     </view>
     <view class="order-group__item" bindtap="onClickItem">
       <view class="order-group__item__icon icon-class">
+      <navigator url="/pages/goods/pages/manage/index?btype=1">
         <t-icon name="https://imgs.phanlink.com/program/images/f2.png" size="52rpx" customStyle="background-image: -webkit-linear-gradient(90deg, #6a6a6a 0%,#929292 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;" />
+        </navigator>
       </view>
       <view class="order-group__item__title title-class">商品管理</view>
     </view>
     <view class="order-group__item" bindtap="onClickItem">
       <view class="order-group__item__icon icon-class">
+      <navigator url="/pages/goods/pages/manage/index?btype=2">
         <t-icon name="https://imgs.phanlink.com/program/images/f3.png" size="52rpx" customStyle="background-image: -webkit-linear-gradient(90deg, #6a6a6a 0%,#929292 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;" />
+        </navigator>
       </view>
       <view class="order-group__item__title title-class">求购管理</view>
     </view>

@@ -28,14 +28,14 @@
   <!-- 金刚区 -->
   <view class="home-grid">
     <t-grid class="block" column="{{4}}">
-      <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="鱼品类" image="https://imgs.phanlink.com/program/images/g1.png" />
-      <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="甲壳类" image="https://imgs.phanlink.com/program/images/g2.png" />
-      <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="软体类" image="https://imgs.phanlink.com/program/images/g3.png" />
-      <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="其他类" image="https://imgs.phanlink.com/program/images/g4.png" />
-      <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="求购信息" image="https://imgs.phanlink.com/program/images/g5.png" />
+      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=1" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="鱼品类" image="https://imgs.phanlink.com/program/images/g1.png" />
+      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=2" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="甲壳类" image="https://imgs.phanlink.com/program/images/g2.png" />
+      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=3" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="软体类" image="https://imgs.phanlink.com/program/images/g3.png" />
+      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=4" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="其他类" image="https://imgs.phanlink.com/program/images/g4.png" />
+      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?lx=2" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="求购信息" image="https://imgs.phanlink.com/program/images/g5.png" />
       <t-grid-item jump-type="navigate-to" url="/pages/my/pages/approve/index" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="商家入驻" image="https://imgs.phanlink.com/program/images/g6.png" />
       <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="官方客服" image="https://imgs.phanlink.com/program/images/g7.png" />
-      <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="爱尔兰" image="https://imgs.phanlink.com/program/images/g8.png" />
+      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?dq=5" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="爱尔兰" image="https://imgs.phanlink.com/program/images/g8.png" />
     </t-grid>
   </view>
   <!-- 跑马灯 -->
@@ -49,9 +49,13 @@
       <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
     </t-tabs>
 
-    <view class="more">查看全部
-      <t-icon name="chevron-right" size="40rpx" color="#bbb" />
+    <view>
+      <navigator url="/pages/goods/pages/list/index" class="more">
+        查看全部
+        <t-icon name="chevron-right" size="40rpx" color="#bbb" />
+      </navigator>
     </view>
+
   </view>
 
   <view class="fish-list">

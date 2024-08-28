@@ -19,11 +19,18 @@
 </view>
 <!-- tab区域 -->
 <view class="tab-box">
-  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{1}}" bind:change="tabChangeHandle">
-    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" icon="app" value="{{item.key}}" />
-  </t-tabs>
+  <view class="order">
+    <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item {{tabIndex==4?'tabs-before__item':''}} {{tabIndex==5?'tabs-after__item':''}}" defaultValue="{{1}}" bind:click="tabChangeHandle">
+      <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" icon="" value="{{item.key}}" />
+    </t-tabs>
+  </view>
+  <view class="fiter">
+    <t-button theme="light" size="medium" variant="text" content="筛选" bind:tap="handleShowFilter" />
+  </view>
 </view>
-
+<t-popup visible="{{isShow}}" bind:visible-change="handleShowFilter" placement="bottom">
+  <filter-popup ftys="{{ftys}}" regions="{{regions}}" filterValue="{{filterValue}}" bindsubmitBJ="submitBJ" bindcancel="handleShowFilter" />
+</t-popup>
 <view class="home-page-container">
   <view class="fish-list">
     <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" />
