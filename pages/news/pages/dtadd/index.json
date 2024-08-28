@@ -1,3 +1,13 @@
 {
-  "usingComponents": {}
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "onReachBottomDistance": 10,
+  "component": true,
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-upload": "tdesign-miniprogram/upload/upload",
+    "t-textarea": "tdesign-miniprogram/textarea/textarea",
+    "t-button": "tdesign-miniprogram/button/button"
+  },
+  "enablePullDownRefresh": true
 }

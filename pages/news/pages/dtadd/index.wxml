@@ -1,2 +1,15 @@
-<!--pages/news/pages/dtadd/index.wxml-->
-<text>pages/news/pages/dtadd/index.wxml</text>
+<view class="publish-wrap">
+  <view class="publish-header">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#333333" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+<t-textarea value="{{dtTitle}}" bindchange="handleGrInfos" placeholder="说说您这一刻的想法" maxlength="200" disableDefaultPadding="{{true}}" indicator />
+<t-upload mediaType="{{['image']}}" max="{{9}}" files="{{imgList}}" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
+
+<view class="formBtn">
+  <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">重置</t-button>
+  <t-button size="large" style="width:450rpx;background: #FF4A26;font-size: 32rpx;" bindtap="handleTJForm">提交</t-button>
+</view>

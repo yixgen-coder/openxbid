@@ -213,15 +213,15 @@ Page({
    */
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res);
+      this.setData({
+        isShareShow: false
+      })
     }
 
-    let title = this.data.goodsInfo.title + '，';
+    let title = this.data.goodsInfo.place + ' ';
+    title += this.data.goodsInfo.title + ' ';
+    title += this.data.goodsInfo.nature + ' ';
     title += this.data.goodsInfo.btype == 1 ? '出售' : '求购';
-    title += '，' + this.data.goodsInfo.place + '，';
-    title += this.data.goodsInfo.nature + '，';
-    title += this.data.goodsInfo.spec1;
 
     return {
       title: title,
@@ -230,11 +230,10 @@ Page({
     }
   },
   onShareTimeline: function (res) {
-    let title = this.data.goodsInfo.title + '，';
+    let title = this.data.goodsInfo.place + ' ';
+    title += this.data.goodsInfo.title + ' ';
+    title += this.data.goodsInfo.nature + ' ';
     title += this.data.goodsInfo.btype == 1 ? '出售' : '求购';
-    title += '，' + this.data.goodsInfo.place + '，';
-    title += this.data.goodsInfo.nature + '，';
-    title += this.data.goodsInfo.spec1;
     return {
       title: title, //字符串  自定义标题
       query: 'spuId=' + this.data.goodsInfo.id, //页面携带参数

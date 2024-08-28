@@ -6,14 +6,38 @@
     </view>
   </view>
 </view>
-<view style="margin-top: 300rpx;"></view>
-<editor class="editor" id="editor" show-img-toolbar show-img-resize value="{{content}}" placeholder="请输入" bindready="readyEditor" bindstatuschange="changeEditor" bindinput="inputEditor">
-</editor>
-
-<view class="toolbar" catchtouchend="formatOpt">
-  <view catchtouchend="insertImage">上传图片</view>
-  <view class="{{formats.bold ? 'active' : ''}}" data-name="bold">加粗</view>
-  <view class="{{formats.list=='unchecked' ? 'active' : ''}}" data-name="list" data-value="check">清单</view>
-  <view class="{{formats.list=='ordered' ? 'active' : ''}}" data-name="list" data-value="ordered">列表</view>
-  <view class="{{formats.align=='center' ? 'active' : ''}}" data-name="align" data-value="center">居中</view>
+<view class="art-title">
+  <t-input placeholder="来个醒目的标题" maxlength="{{40}}" value="{{artTitle}}"  bindchange="handleGrInfos" />
 </view>
+<view class="art-type">
+  <t-cell title="选择要发布的栏目" left-icon="https://imgs.phanlink.com/program/images/arttype.png" note="{{typeText}}" bind:click="onTypePicker" bordered="{{true}}" arrow />
+</view>
+<view class="art-img">
+  <text>资讯封面图</text>
+  <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{imgList}}" data-index="0" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
+</view>
+<view class="editor-container">
+  <view class="toolbar" catchtouchend="formatOpt">
+    <t-icon name="image" size="32rpx" catchtouchend="insertImage" />
+    <t-icon name="format-vertical-align-center" size="32rpx" class="{{formats.align=='center' ? 'active' : ''}}" data-name="align" data-value="center" />
+    <t-icon name="format-vertical-align-left" size="32rpx" class="{{formats.align=='left' ? 'active' : ''}}" data-name="align" data-value="left" />
+    <t-icon name="format-vertical-align-right" size="32rpx" class="{{formats.align=='right' ? 'active' : ''}}" data-name="align" data-value="right" />
+    <t-icon name="view-list" size="32rpx" class="{{formats.align=='justify' ? 'active' : ''}}" data-name="align" data-value="justify" />
+    <t-icon name="textformat-bold" size="32rpx" class="{{formats.bold ? 'active' : ''}}" data-name="bold" />
+    <t-icon name="textformat-italic" size="32rpx" class="{{formats.italic ? 'active' : ''}}" data-name="italic" />
+    <t-icon name="textformat-underline" size="32rpx" class="{{formats.underline ? 'active' : ''}}" data-name="underline" />
+    <t-icon name="list" size="32rpx" class="{{formats.list=='ordered' ? 'active' : ''}}" data-name="list" data-value="ordered" />
+    <t-icon name="rectangle" size="32rpx" class="{{formats.list=='unchecked' ? 'active' : ''}}" data-name="list" data-value="check" />
+  </view>
+  <view class="editor">
+    <editor id="editor" show-img-toolbar show-img-resize value="{{content}}" placeholder="发表您的观点和看法" bindready="readyEditor" bindstatuschange="changeEditor" bindinput="inputEditor">
+    </editor>
+  </view>
+</view>
+<view class="formBtn">
+  <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">重置</t-button>
+  <t-button size="large" style="width:450rpx;background: #FF4A26;font-size: 32rpx;" bindtap="handleTJForm">提交</t-button>
+</view>
+<t-picker visible="{{typeVisible}}" value="{{typeValue}}" title="请选择资讯栏目" cancelBtn="取消" confirmBtn="确认" bindconfirm="handleConfirm" bindclose="handleCancel" bindcancel="handleCancel">
+  <t-picker-item options="{{typesList}}"></t-picker-item>
+</t-picker>

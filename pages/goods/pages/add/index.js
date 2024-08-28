@@ -215,8 +215,7 @@ Page({
         regionList: nextList.regions,
         typeList: nextList.ftys,
       });
-
-      if (goodsInfo.length > 0) {
+      if (goodsInfo.goodsId > 0) {
         this.setData({
           btype: goodsInfo.btype,
           goodsId: goodsInfo.goodsId,
