@@ -1,3 +1,4 @@
+<wxs module="filter" src="./index.wxs"></wxs>
 <view class="goods-category custom-class">
   <c-sidebar custom-class="custom-sidebar" bindchange="onParentChange" activeKey="{{activeKey}}">
     <c-sidebar-item wx:for="{{ category }}" wx:key="index" title="{{ item.a1 }}" />
@@ -28,7 +29,7 @@
       </view>
       <view class="item-long">
         <view class="label">总价(USD)</view>
-        <view class="red">{{stype==1?item.a4*item.a6:item.a4*item.a5}}</view>
+        <view class="red">{{stype==1?filter.numberToFixed(item.a4*item.a6):filter.numberToFixed(item.a4*item.a5)}}</view>
       </view>
     </view>
   </view>

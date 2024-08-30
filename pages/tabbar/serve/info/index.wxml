@@ -1,3 +1,4 @@
+<wxs module="filter" src="./index.wxs"></wxs>
 <view class="publish-wrap">
   <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/color-bg.png') no-repeat top;background-size: cover;">
     <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
@@ -102,7 +103,7 @@
           </view>
           <view>
             <text>总价</text>
-            <text class="red">{{item.a4*item.a6}}</text>
+            <text class="red">{{filter.numberToFixed(item.a4*item.a6)}}</text>
           </view>
         </view>
       </block>
