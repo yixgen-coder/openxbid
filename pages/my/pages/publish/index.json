@@ -5,8 +5,6 @@
   "component": true,
   "usingComponents": {
     "t-icon": "tdesign-miniprogram/icon/icon",
-    "collection-list": "/components/collection-list/index",
-    "collection-art-list": "/components/collection-art-list/index",
     "t-loading": "tdesign-miniprogram/loading/loading",
     "load-more": "/components/load-more/index",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",

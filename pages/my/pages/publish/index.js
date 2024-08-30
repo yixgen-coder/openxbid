@@ -1,20 +1,14 @@
 Page({
   data: {
-    itemTitle: '我的收藏',
+    itemTitle: '我的发布',
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
-    tabList: [{
-      text: "收藏的商品",
-      key: 3
-    }, {
-      text: "收藏的文章",
-      key: 6
-    }],
     goodsList: [],
-    tabIndex: 3,
+    tabIndex: 1,
     num: 0,
+    aCount: 0,
   },
   goodListPagination: {
     index: 1,
@@ -25,24 +19,30 @@ Page({
       tabIndex: e.detail.value
     })
     this.fetchHomeDatas(true);
+
   },
-  onLoad(options) {
-    this.init();
-  },
-  goback: function () {
-    wx.navigateBack({
-      delta: 1
-    });
-  },
-  goodListClickHandle(e) {
-    wx.navigateTo({
-      url: '/pages/goods/pages/index/index?spuId=' + e.detail.key,
-    });
-  },
-  goodsClickHandle(e) {
+
+  handleGoArtAdd(e) {
     const {
-      id
-    } = e.detail;
+      key
+    } = e.currentTarget.dataset;
+    const tabIndex = this.data.tabIndex;
+    if (tabIndex == 1) {
+      wx.navigateTo({
+        url: '/pages/news/pages/artadd/index?artId=' + key,
+      });
+    } else {
+      wx.navigateTo({
+        url: '/pages/news/pages/dtadd/index?dtId=' + key,
+      });
+    }
+
+  },
+
+  handleGoArtDel: function (e) {
+    const {
+      key
+    } = e.currentTarget.dataset;
     // 显示确认提示框
     wx.showModal({
       title: '提示',
@@ -52,29 +52,25 @@ Page({
       confirmText: '确定',
       success: res => {
         if (res.confirm) {
-          this.deleteData(id);
+          this.deleteData(key);
         }
       }
     });
   },
   deleteData: async function (id) {
-    let url = 'https://kpy.phanlink.com/v1/setGoodssc';
     const tabIndex = this.data.tabIndex;
-    if (tabIndex == 6) {
-      url = 'https://kpy.phanlink.com/v1/setArtSc';
+    let url = 'https://kpy.phanlink.com/v1/setArtDelDatas';
+    if (tabIndex == 2) {
+      url = 'https://kpy.phanlink.com/v1/setDtDelDatas';
     }
     const formData = {};
     formData.token = wx.getStorageSync('token');
-    if (tabIndex == 6) {
-      formData.artId = id;
-    } else {
-      formData.goodsId = id;
-    }
-
+    formData.goodsId = id;
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       this.setData({
         goodsList: this.data.goodsList.filter(item => item.id !== id),
+        aCount: this.data.aCount > 0 ? (this.data.aCount - 1) : 0
       });
       wx.showToast({
         title: '删除成功',
@@ -88,8 +84,35 @@ Page({
         duration: 2000
       });
     }
-  },
 
+  },
+  onLoad() {
+    this.init();
+  },
+  previewImage(e) {
+    const current = e.currentTarget.dataset.src;
+    const index = e.currentTarget.dataset.index;
+    wx.previewImage({
+      current: current,
+      urls: this.data.goodsList[index].pic.map(row => row.url)
+    });
+  },
+  goback: function () {
+    wx.navigateBack({
+      delta: 1
+    });
+  },
+  goodListClickHandle(e) {
+
+    wx.navigateTo({
+      url: '/pages/news/pages/art/index?artId=' + e.currentTarget.dataset.key,
+    });
+  },
+  dtPLListClickHandle(e) {
+    wx.navigateTo({
+      url: '/pages/news/pages/dt/index?dtId=' + e.currentTarget.dataset.key,
+    });
+  },
   init() {
     let token = wx.getStorageSync('token');
     if (!token) {
@@ -106,6 +129,7 @@ Page({
     this.loadHomePage();
   },
   fetchHomeDatas: async function (fresh = false) {
+    console.log(111);
     if (fresh) {
       wx.pageScrollTo({
         scrollTop: 0,
@@ -115,29 +139,36 @@ Page({
     this.setData({
       loadStatus: 1
     });
-    const url = 'https://kpy.phanlink.com/v1/getOrderDatas';
+    const tabIndex = this.data.tabIndex;
+    let url = 'https://kpy.phanlink.com/v1/getArtLists';
+    if (tabIndex == 2) {
+      url = 'https://kpy.phanlink.com/v1/getDtLists';
+    }
+
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.limit = this.goodListPagination.num;
     formData.page = fresh ? 1 : this.goodListPagination.index;
-
-    formData.action = this.data.tabIndex;
     try {
       const res = await this.fetchDatas(url, formData);
       if (res.code == 1) {
-        const nextList = res.result;
+        const nextList = res.result.pros;
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+          aCount: res.result.aCount,
         });
-        this.goodListPagination.index = formData.page + 1;
+        if (nextList.length > 0) {
+          this.goodListPagination.index = formData.page + 1;
+          wx.showToast({
+            title: res.msg,
+            icon: 'loading',
+            duration: 500
+          });
+        }
+
       }
       this.setData({
         loadStatus: 0
-      });
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
       });
     } catch (error) {
       this.setData({

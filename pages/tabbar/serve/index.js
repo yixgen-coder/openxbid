@@ -29,23 +29,45 @@ Page({
     index: 1,
     num: 20,
   },
-  async goodsClickHandle(e) {
+  goodsClickHandle(e) {
     const {
       id
     } = e.detail;
+    // 显示确认提示框
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除吗？',
+      showCancel: true,
+      cancelText: '取消',
+      confirmText: '确定',
+      success: res => {
+        if (res.confirm) {
+          this.deleteData(id);
+        }
+      }
+    });
+  },
+  deleteData: async function (id) {
     const url = 'https://kpy.phanlink.com/v1/setGoodssc';
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.goodsId = id;
-    const res = await this.fetchSetOrders(url, formData);
-
+    const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
+      this.setData({
+        goodsList: this.data.goodsList.filter(item => item.id !== id),
+      });
       wx.showToast({
-        title: res.msg,
+        title: '删除成功',
         icon: 'success',
         duration: 2000
       });
-      this.removeDataById(id);
+    } else {
+      wx.showToast({
+        title: '删除失败',
+        icon: 'loading',
+        duration: 2000
+      });
     }
   },
   async storeClickHandle(e) {

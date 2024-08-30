@@ -126,10 +126,10 @@
 </view>
 <!-- 底部栏 -->
 <view class="footer-box">
-  <view class="img-txt">
+  <navigator class="img-txt" url="/pages/store/pages/list/index?storeId={{goodsInfo.storeid}}">
     <image src="https://imgs.phanlink.com/program/images/dd1.png"></image>
     <view>店铺</view>
-  </view>
+  </navigator>
   <view class="img-txt">
     <image src="https://imgs.phanlink.com/program/images/dd2.png"></image>
     <view>客服</view>

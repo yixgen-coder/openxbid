@@ -7,7 +7,7 @@
   </view>
 </view>
 <view class="art-title">
-  <t-input placeholder="来个醒目的标题" maxlength="{{40}}" value="{{artTitle}}"  bindchange="handleGrInfos" />
+  <t-input placeholder="来个醒目的标题" maxlength="{{40}}" value="{{artTitle}}" bindchange="handleGrInfos" />
 </view>
 <view class="art-type">
   <t-cell title="选择要发布的栏目" left-icon="https://imgs.phanlink.com/program/images/arttype.png" note="{{typeText}}" bind:click="onTypePicker" bordered="{{true}}" arrow />

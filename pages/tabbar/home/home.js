@@ -308,7 +308,7 @@ Page({
   onShareTimeline: function (res) {
     return {
       title: '开拍鱼',
-      query: '/pages/tabbar/home/home',
+      query: '',
       imageUrl: 'https://imgs.phanlink.com/program/images/banner1.png'
     }
   },

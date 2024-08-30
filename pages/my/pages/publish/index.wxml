@@ -1,0 +1,73 @@
+<view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+</view>
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+<!-- tab区域 -->
+<view class="tab-box">
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{1}}" bind:change="tabChangeHandle">
+    <t-tab-panel label="我的资讯" value="{{1}}" />
+    <t-tab-panel label="我的动态" value="{{2}}" />
+  </t-tabs>
+</view>
+<view class="home-page-container">
+  <view class="tj">
+    <view class="mount">已发布<text>{{aCount}}</text>条</view>
+    <view class="gl">管理</view>
+  </view>
+  <view class="fish-list">
+    <view wx:if="{{tabIndex == 1}}" class="artlist" wx:for="{{goodsList}}" wx:key="goods">
+      <view class="goodsInfo" data-key="{{item.id}}" bindtap="goodListClickHandle">
+        <view class="info">
+          <text>{{item.title}}</text>
+          <view class="type">
+            <text wx:if="{{item.cid==3}}">行业资讯</text>
+            <text wx:if="{{item.cid==5}}">价格走势</text>
+            <text wx:if="{{item.cid==6}}">政策法规</text>
+          </view>
+        </view>
+        <image src="https://imgs.phanlink.com/{{item.pic}}"></image>
+      </view>
+      <view class="cz">
+        <text>{{item.ctime}}</text>
+        <view class="btn">
+          <span bindtap="handleGoArtDel" data-key="{{item.id}}">删除</span>
+          <span bindtap="handleGoArtAdd" data-key="{{item.id}}">编辑</span>
+        </view>
+      </view>
+    </view>
+    <view class="dtlist" wx:if="{{tabIndex == 2}}" wx:for="{{goodsList}}" wx:key="{{dt}}" wx:for-index="index">
+      <view class="date">
+        <view>{{item.dd}}</view>
+        <view>{{item.year}}</view>
+      </view>
+      <view class="dt">
+        <view class="tit">{{item.title}}</view>
+        <view class="imgs">
+          <image wx:for="{{item.pic}}" wx:key="{{img}}" wx:for-index="index1" src="{{item.url}}" data-index="{{index}}" data-src="{{item.url}}" bindtap="previewImage"></image>
+        </view>
+        <view class="cz">
+          <view class="zan">
+            <t-icon name="thumb-up-2" size="32rpx" style="display: inline-block;" />
+            <text>{{item.zan}}</text>
+          </view>
+          <view class="pl" bindtap="dtPLListClickHandle" data-key="{{item.id}}">
+            <t-icon name="chat-bubble-smile" size="32rpx" style="display: inline-block;" />
+            <text>{{item.pl}}</text>
+          </view>
+          <view class="btn">
+            <span bindtap="handleGoArtDel" data-key="{{item.id}}">删除</span>
+            <span bindtap="handleGoArtAdd" data-key="{{item.id}}">编辑</span>
+          </view>
+        </view>
+      </view>
+    </view>
+    <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
+  </view>
+</view>

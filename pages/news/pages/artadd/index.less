@@ -11,7 +11,7 @@ page {
     box-sizing: border-box;
     width: 100%;
     position: relative;
-    z-index: -1;
+    z-index: 10;
     .bar-right {
       display: flex;
       padding-left: 34rpx;
@@ -48,10 +48,8 @@ page {
   background:#FFFFFF;
   position: relative;
   border-bottom:1rpx solid #E6E6E6;
-  margin-bottom: 150rpx;
-  
   .editor {
-    height:50vh;
+    height:40vh;
     overflow-y: scroll;
     overflow-x: hidden;
     touch-action: auto;
@@ -59,7 +57,7 @@ page {
     padding:20rpx;
     background: #faf9f9;
     #editor{
-      height:50vh;
+      height:40vh;
     }
   }
   
@@ -89,11 +87,9 @@ page {
 }
 
 .formBtn{
-  position: fixed;
   width:700rpx;
   background: #FFFFFF;
   padding:30rpx 25rpx;
-  bottom: 0;
   display: flex;
   z-index: 115;
 }

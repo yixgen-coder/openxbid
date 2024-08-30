@@ -1,0 +1,19 @@
+<view class="collection-list-wrap wr-class">
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <view class="collection-item">
+      <t-icon class="action" name="more" size="38rpx" color="#aaa" bind:click="onIconTap" data-id="{{item.id}}" />
+      <view class="item-box" bindtap="handleGoGoods" data-id="{{item.id}}">
+        <image class="left" src="{{item.pic}}"></image>
+        <view class="right">
+          <view class="top">
+            <view class="title">{{item.title}}</view>
+          </view>
+          <view class="bottom">
+            <text class="num">{{item.ctime}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </block>
+</view>

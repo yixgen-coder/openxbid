@@ -29,14 +29,17 @@
         "pages/fans/index",
         "pages/bid/index",
         "pages/follow/index",
-        "pages/collect/index"
+        "pages/collect/index",
+        "pages/publish/index"
       ]
     },
     {
       "root": "pages/news",
       "pages": [
         "pages/index/index",
+        "pages/art/index",
         "pages/artadd/index",
+        "pages/dt/index",
         "pages/dtadd/index"
       ]
     },

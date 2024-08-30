@@ -1,0 +1,48 @@
+.collection-list-wrap {
+  .collection-item {
+    width: 702rpx;
+    background: #FFFFFF;
+    border-radius: 16rpx 16rpx 16rpx 16rpx;
+    margin-bottom: 20rpx;
+    padding: 0 28rpx;
+    box-sizing: border-box;
+    position: relative;
+
+    .action {
+      position: absolute;
+      right: 20rpx;
+      bottom: 30rpx
+    }
+
+    .item-box {
+      padding: 28rpx 0;
+      display: flex;
+
+      .left {
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 12rpx 12rpx 12rpx 12rpx;
+        margin-right: 28rpx;
+      }
+
+      .right {
+        width: 398rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .title {
+          font-weight: bold;
+          font-size: 30rpx;
+          color: #221F1C;
+        }
+        .bottom {
+          .num {
+            color: #858483;
+            font-size: 32rpx;
+          }
+        }
+      }
+    }
+  }
+}

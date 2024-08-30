@@ -13,6 +13,6 @@
     <t-cell url="/pages/goods/pages/add/index?lx=1" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布产品" description="上架商品，竞拍获客" align="top" image="https://imgs.phanlink.com/program/images/d1.png" hover bordered="{{false}}" arrow />
     <t-cell url="/pages/goods/pages/add/index?lx=2" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布求购" description="需求发布，快速响应" align="top" image="https://imgs.phanlink.com/program/images/d2.png" hover bordered="{{false}}" arrow />
     <t-cell url="/pages/news/pages/artadd/index" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布资讯" description="实时精选，热点话题" align="top" image="https://imgs.phanlink.com/program/images/d3.png" hover bordered="{{false}}" arrow />
-    <t-cell url="pages/news/pages/dtadd/index" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布动态" description="新鲜内容，实时更新" align="top" image="https://imgs.phanlink.com/program/images/d4.png" hover bordered="{{false}}" arrow />
+    <t-cell url="/pages/news/pages/dtadd/index" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布动态" description="新鲜内容，实时更新" align="top" image="https://imgs.phanlink.com/program/images/d4.png" hover bordered="{{false}}" arrow />
   </view>
 </view>

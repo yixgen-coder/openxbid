@@ -9,7 +9,7 @@ page {
   box-sizing: border-box;
   width: 100%;
   position: relative;
-  z-index: -1;
+  z-index: 10;
 }
 .publish-wrap .publish-header .bar-right {
   display: flex;
@@ -45,10 +45,9 @@ page {
   background: #FFFFFF;
   position: relative;
   border-bottom: 1rpx solid #E6E6E6;
-  margin-bottom: 150rpx;
 }
 .editor-container .editor {
-  height: 50vh;
+  height: 40vh;
   overflow-y: scroll;
   overflow-x: hidden;
   touch-action: auto;
@@ -57,7 +56,7 @@ page {
   background: #faf9f9;
 }
 .editor-container .editor #editor {
-  height: 50vh;
+  height: 40vh;
 }
 .editor-container .toolbar {
   position: absolute;
@@ -81,11 +80,9 @@ page {
   color: cadetblue;
 }
 .formBtn {
-  position: fixed;
   width: 700rpx;
   background: #FFFFFF;
   padding: 30rpx 25rpx;
-  bottom: 0;
   display: flex;
   z-index: 115;
 }

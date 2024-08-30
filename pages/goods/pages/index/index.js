@@ -97,6 +97,25 @@ Page({
         icon: 'success',
         duration: 2000
       });
+    } else if (res.code == -1) {
+      wx.showModal({
+        title: '提示',
+        content: res.msg,
+        showCancel: true,
+        cancelText: '退出',
+        confirmText: '去认证',
+        success: function (res) {
+          if (res.confirm) {
+            wx.redirectTo({
+              url: '/pages/my/pages/approve/index'
+            });
+          } else if (res.cancel) {
+            wx.navigateBack({
+              delta: 1
+            });
+          }
+        }
+      });
     } else {
       wx.showToast({
         title: res.msg,

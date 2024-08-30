@@ -19,6 +19,7 @@
   <view class="fish-list">
     <!-- 收藏商品 -->
     <collection-list wr-class="goods-list-container" wx:if="{{tabIndex==3}}" goodsList="{{goodsList}}" bind:click="goodsClickHandle" />
+    <collection-art-list wr-class="art-list-container" wx:if="{{tabIndex==6}}" goodsList="{{goodsList}}" bind:click="goodsClickHandle" />
     <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
   </view>
 </view>

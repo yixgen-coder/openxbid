@@ -2,7 +2,9 @@
   <view class="order-group__content">
     <view class="order-group__item" bindtap="onClickItem">
       <view class="order-group__item__icon icon-class">
-        <t-icon name="https://imgs.phanlink.com/program/images/gr1.png" size="88rpx" customStyle="background-image: -webkit-linear-gradient(90deg, #6a6a6a 0%,#929292 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;" />
+        <navigator url="/pages/my/pages/publish/index">
+          <t-icon name="https://imgs.phanlink.com/program/images/gr1.png" size="88rpx" customStyle="background-image: -webkit-linear-gradient(90deg, #6a6a6a 0%,#929292 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;" />
+        </navigator>
       </view>
       <view class="order-group__item__title title-class">我的发布</view>
     </view>
