@@ -276,7 +276,16 @@ Page({
     this.init(true);
   },
   onShow() {
-    this.getTabBar().init();
+    this.getMessageCount();
+  },
+  async getMessageCount() {
+    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    const res = await this.fetchSetOrders(url, formData);
+    if (res.code == 1) {
+      this.getTabBar().init(res.result.messageCount);
+    }
   },
   fetchSetOrders(url, data) {
     return new Promise((resolve, reject) => {

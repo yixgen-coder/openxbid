@@ -19,7 +19,7 @@
         <t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="商家性质" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
           <t-picker-item options="{{types}}"></t-picker-item>
         </t-picker>
-        <t-cell title="服务分类" arrow note="{{fwtypeText}}" bind:click="onfwTitlePicker" required />
+        <t-cell title="服务分类" wx:if="{{fwtypeVisible1}}" arrow note="{{fwtypeText}}" bind:click="onfwTitlePicker" required />
         <t-picker visible="{{fwtypeVisible}}" value="{{fwtypeValue}}" data-key="fwtype" title="服务分类" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
           <t-picker-item options="{{fwtypes}}"></t-picker-item>
         </t-picker>

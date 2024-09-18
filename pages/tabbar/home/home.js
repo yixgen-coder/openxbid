@@ -1,9 +1,9 @@
 Page({
   data: {
     imgSrcs: [
-      'https://imgs.phanlink.com/program/images/banner1.png',
-      'https://imgs.phanlink.com/program/images/banner1.png',
-      'https://imgs.phanlink.com/program/images/banner1.png'
+      'https://imgs.phanlink.com/program/images/ava/ban1.jpg',
+      'https://imgs.phanlink.com/program/images/ava/ban2.jpg',
+      'https://imgs.phanlink.com/program/images/ava/ban3.jpg'
     ],
     tabList: [{
       text: "推荐",
@@ -63,9 +63,17 @@ Page({
   },
 
   onShow() {
-    this.getTabBar().init();
+    this.getMessageCount();
   },
-
+  async getMessageCount() {
+    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    const res = await this.fetchDatas(url, formData);
+    if (res.code == 1) {
+      this.getTabBar().init(res.result.messageCount);
+    }
+  },
   onLoad() {
     this.init();
   },
@@ -326,7 +334,7 @@ Page({
     }
     return {
       title: '开拍鱼',
-      imageUrl: 'https://imgs.phanlink.com/program/images/banner1.png',
+      imageUrl: 'https://imgs.phanlink.com/program/images/ava/1.jpg',
       path: '/pages/tabbar/home/home',
     }
   },
@@ -334,7 +342,25 @@ Page({
     return {
       title: '开拍鱼',
       query: '',
-      imageUrl: 'https://imgs.phanlink.com/program/images/banner1.png'
+      imageUrl: 'https://imgs.phanlink.com/program/images/ava/1.jpg'
     }
+  },
+  fetchDatas(url, data) {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: url,
+        method: 'POST',
+        data: data,
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          resolve(res.data);
+        },
+        fail: function (err) {
+          reject(err);
+        }
+      });
+    });
   },
 });

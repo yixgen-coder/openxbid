@@ -35,7 +35,8 @@ Page({
     visible: false,
     disselect: false,
     fwtypeVisible: false,
-    fwtypeText: '服务分类',
+    fwtypeVisible1: false,
+    fwtypeText: '请选择',
     fwtypeValue: [1],
     fwtypes: [{
         label: '清关服务',
@@ -160,8 +161,9 @@ Page({
           address: res.data.info.address,
           typeText: this.findValue(res.data.info.type, types),
           typeValue: [res.data.info.type],
-          fwtypeText: this.findValue(res.data.info.fwtype, fwtypes),
-          fwtypeValue: [res.data.info.fwtype],
+          fwtypeText: res.data.info.type == 3 ? this.findValue(res.data.info.fwtype, fwtypes) : '请选择',
+          fwtypeValue: res.data.info.type == 3 ? [res.data.info.fwtype] : [],
+          fwtypeVisible1: res.data.info.type == 3 ? true : false,
           regionText: this.findValue(res.data.info.region, res.data.region),
           regionValue: [res.data.info.region],
           regions: res.data.region,
@@ -214,7 +216,17 @@ Page({
       [`${key}Value`]: value,
       [`${key}Text`]: label.join(' '),
     });
+
     this.addInfo(key, value[0]);
+    if (key == 'type') {
+      this.addInfo('fwtype', 0);
+      this.setData({
+        fwtypeVisible1: true,
+        fwtypeValue: [],
+        fwtypeText: '请选择',
+      });
+    }
+
   },
 
   onPickerCancel(e) {

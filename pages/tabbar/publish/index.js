@@ -5,8 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    statusbar :'',
-    jiaonangheight:'',
+    statusbar: '',
+    jiaonangheight: '',
   },
 
   /**
@@ -15,8 +15,8 @@ Page({
   onLoad(options) {
     const res = wx.getMenuButtonBoundingClientRect()
     this.setData({
-        statusbar :res.top, // 胶囊顶部高度
-        jiaonangheight: res.height  // 胶囊高度
+      statusbar: res.top, // 胶囊顶部高度
+      jiaonangheight: res.height // 胶囊高度
     })
   },
 
@@ -38,8 +38,17 @@ Page({
         url: '/pages/tabbar/login/login',
       });
     }
+    this.getMessageCount();
   },
-
+  async getMessageCount() {
+    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    const res = await this.fetchSetOrders(url, formData);
+    if (res.code == 1) {
+      this.getTabBar().init(res.result.messageCount);
+    }
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */
@@ -73,5 +82,23 @@ Page({
    */
   onShareAppMessage() {
 
-  }
+  },
+  fetchSetOrders(url, data) {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: url,
+        method: 'POST',
+        data: data,
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          resolve(res.data);
+        },
+        fail: function (err) {
+          reject(err);
+        }
+      });
+    });
+  },
 })

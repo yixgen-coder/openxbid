@@ -53,7 +53,11 @@
       </view>
       <view class="fs" wx:if="{{item.whatsapp!=''}}">
         <text>whatsapp：</text>
-        <text>1{{item.whatsapp}}</text>
+        <text>{{item.whatsapp}}</text>
+      </view>
+      <view class="fs" wx:if="{{item.other!=''}}">
+        <text>其他：</text>
+        <text>{{item.other}}</text>
       </view>
     </view>
     <view wx:if="{{crrentPage}}" class="del" bindtap="handleDelLx" data-id="{{item.id}}"><text>移除</text></view>

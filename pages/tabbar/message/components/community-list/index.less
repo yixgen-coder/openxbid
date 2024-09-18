@@ -4,24 +4,26 @@
     margin-top: 20rpx;
     padding: 40rpx 32rpx;
     box-sizing: border-box;
-
+    display: flex;
+    align-items: top;
+    gap: 10rpx;
+    .shop{
+      width:100rpx;
+      >image {
+        width: 80rpx;
+        height: 80rpx;
+        border-radius: 50%;
+      }
+    }
     .title-box {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 686rpx;
+      width: 100%;
 
       .left {
         display: flex;
         align-items: center;
-
-        >image {
-          width: 72rpx;
-          height: 72rpx;
-          border-radius: 50%;
-          margin-right: 22rpx;
-        }
-
         .title-info {
           .title {
             font-size: 30rpx;
@@ -30,6 +32,7 @@
           }
 
           .time {
+            margin-top:10rpx;
             font-size: 24rpx;
             color: #A8A8A8;
           }
@@ -49,9 +52,9 @@
     .img-list {
 
       >image{
-        width:155rpx;
-        height:155rpx;
-        margin:10rpx;
+        width:135rpx;
+        height:135rpx;
+        margin:5rpx;
         border-radius: 10rpx;
       }
 
@@ -61,11 +64,10 @@
     }
 
     .pj {
-      width: 686rpx;
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      margin-top: 36rpx;
+      margin-top: 20rpx;
 
       >image {
         width: 36rpx;

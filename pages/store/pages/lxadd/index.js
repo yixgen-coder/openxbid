@@ -10,6 +10,7 @@ Page({
     email: '',
     wx: '',
     whatsapp: '',
+    other: '',
     typeTitle: '请选择',
     fileList: [],
     imgTmp: '',
@@ -21,6 +22,7 @@ Page({
     emailValue: false,
     wxValue: false,
     whatsappValue: false,
+    otherValue: false
   },
 
   /**
@@ -49,6 +51,9 @@ Page({
     if (this.data.whatsappValue) {
       demoCheckboxMax.push(4)
     }
+    if (this.data.otherValue) {
+      demoCheckboxMax.push(5)
+    }
     this.setData({
       visible: !this.data.visible,
       demoCheckboxMax: demoCheckboxMax,
@@ -56,6 +61,7 @@ Page({
       emailValue: this.data.emailValue,
       wxValue: this.data.wxValue,
       whatsappValue: this.data.whatsappValue,
+      otherValue: this.data.otherValue,
     });
   },
   onQRPicker() {
@@ -67,7 +73,8 @@ Page({
       telValue: demoCheckboxMax.includes(1) ? true : false,
       emailValue: demoCheckboxMax.includes(2) ? true : false,
       wxValue: demoCheckboxMax.includes(3) ? true : false,
-      whatsappValue: demoCheckboxMax.includes(4) ? true : false
+      whatsappValue: demoCheckboxMax.includes(4) ? true : false,
+      otherValue: demoCheckboxMax.includes(5) ? true : false
     });
   },
   onChange(e) {
@@ -266,6 +273,14 @@ Page({
     if (formData.demoCheckboxMax.includes(4) && (!formData.whatsapp || formData.whatsapp == '')) {
       wx.showToast({
         title: '请输入whatsapp',
+        icon: 'none',
+        duration: 2000
+      });
+      return false;
+    }
+    if (formData.demoCheckboxMax.includes(5) && (!formData.other || formData.other == '')) {
+      wx.showToast({
+        title: '请输入其他联系方式',
         icon: 'none',
         duration: 2000
       });

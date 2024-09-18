@@ -25,6 +25,8 @@ Page({
     newsTabCurrent: 0,
     visible: false,
     searchName: '',
+    messCount: {},
+    messageCount: 0,
   },
 
   goodListPagination: {
@@ -166,6 +168,13 @@ Page({
         if (nextList.length > 0) {
           this.goodListPagination.index = formData.page + 1;
         }
+        if (this.data.tabCurrent == 0) {
+          this.setData({
+            messCount: res.count,
+            messageCount: res.count.messageCount
+          });
+
+        }
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
         });
@@ -186,11 +195,23 @@ Page({
   },
 
   onShow() {
-    this.getTabBar().init();
-  },
-
-  onLoad() {
     this.init(true);
+    this.getMessageCount();
+  },
+  async getMessageCount() {
+    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    const res = await this.fetchDatas(url, formData);
+    if (res.code == 1) {
+      this.getTabBar().init(res.result.messageCount);
+      this.setData({
+        messageCount: res.result.messageCount
+      })
+    }
+  },
+  onLoad() {
+
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面

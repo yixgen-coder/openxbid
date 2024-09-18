@@ -1,5 +1,5 @@
 <view class="message-list-wrap wr-class" id="{{independentID}}">
-  <block wx:for="{{gdDatas}}" wx:for-item="item" wx:key="index">
+  <block wx:for="{{gdDatas}}" wx:for-item="item" wx:for-index="index" wx:key="index">
     <t-cell url="{{item.url}}" title="{{item.title}}" description="{{item.desc}}" align="top" image="{{item.img}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
       <!-- *********** -->
       <!-- <view class="cell-note" slot="note" wx:if="{{index%2==0}}">
@@ -10,7 +10,10 @@
       <!-- ************ -->
       <view class="cell-note" slot="note">
         <t-icon class="time" name="chevron-right" color="#cccccc" size="42rpx" />
-        <t-badge count="{{item.note}}" class="wrapper1">
+        <t-badge wx:if="{{index==0}}" count="{{messCount.count1}}" class="wrapper1"></t-badge>
+        <t-badge wx:if="{{index==1}}" count="{{messCount.count5}}" class="wrapper1"></t-badge>
+        <t-badge wx:if="{{index==2}}" count="{{messCount.count4}}" class="wrapper1"></t-badge>
+        <t-badge wx:if="{{index==3}}" count="{{messCount.count2}}" class="wrapper1">
         </t-badge>
       </view>
     </t-cell>
@@ -19,10 +22,11 @@
   <view class="border"></view>
   <!-- ******************************************* -->
   <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
-    <t-cell url="/pages/news/pages/message/chat/index?storeId={{item.storeid}}" title="{{item.shop_name}}" description="{{item.msg}}" align="top" image="https://imgs.phanlink.com/{{item.shop_logo}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
+    <t-cell url="/pages/news/pages/message/chat/index?storeId={{item.storeid}}" title="{{item.shop_name}}" description="{{item.msg}}" align="bottom" image="https://imgs.phanlink.com/{{item.shop_logo}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
       <view class="cell-note" slot="note">
         <view class="time">{{item.addtime}}</view>
       </view>
+      <t-badge count="{{item.count}}" slot="note" />
     </t-cell>
   </block>
 </view>

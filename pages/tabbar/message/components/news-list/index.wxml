@@ -1,0 +1,21 @@
+<view class="news-list-wrap wr-class" id="{{independentID}}">
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <view class="news-item" bindtap="handleGoArt" data-id="{{item.id}}">
+      <view class="left">
+        <view class="title">{{item.title}}</view>
+        <view class="time">
+          <view class="left-num">
+            <image src="https://imgs.phanlink.com/{{item.shop_logo}}"></image>
+            <view class="desc">{{item.shop_name}}</view>
+            <view class="min">{{item.ctime}}</view>
+          </view>
+          <view class="right-num">
+            <t-icon style="margin-right: 10rpx;" name="browse" color="#A8A8A8 " size="30rpx" /><text>{{item.hits}}</text>
+          </view>
+        </view>
+      </view>
+      <image src="https://imgs.phanlink.com/{{item.pic}}" class="right"></image>
+    </view>
+
+  </block>
+</view>

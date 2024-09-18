@@ -5,7 +5,8 @@
   "usingComponents": {
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-loading": "tdesign-miniprogram/loading/loading",
-    "load-more": "/components/load-more/index"
+    "load-more": "/components/load-more/index",
+    "t-badge": "tdesign-miniprogram/badge/badge"
   },
   "enablePullDownRefresh": true
 }

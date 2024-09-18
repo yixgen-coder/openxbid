@@ -5,6 +5,7 @@
 }
 .message-list-wrap .cell-class {
   position: relative;
+  padding: 15rpx 20rpx;
 }
 .message-list-wrap .cell-class-description {
   font-size: 26rpx;
@@ -34,7 +35,7 @@
 }
 .message-list-wrap .border {
   background: #FFFFFF;
-  height: 61rpx;
+  height: 31rpx;
   position: relative;
 }
 .message-list-wrap .border::before {
@@ -45,5 +46,5 @@
   background-color: #E6E6E6;
   position: absolute;
   left: 32rpx;
-  top: 30rpx;
+  top: 10rpx;
 }

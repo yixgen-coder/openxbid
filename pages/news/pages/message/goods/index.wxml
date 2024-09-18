@@ -26,7 +26,7 @@
       </view>
     </view>
     <view class="more">
-      <t-cell url="/pages/tabbar/serve/info/index?ordId={{item.id}}" left-icon="https://imgs.phanlink.com/program/images/msg2.png" title="2024-01-22 18:00" hover note="查看详情" arrow style="color:#999999;" />
+      <t-cell url="/pages/goods/pages/info/index?ordId={{item.id}}" left-icon="https://imgs.phanlink.com/program/images/msg2.png" title="2024-01-22 18:00" hover note="查看详情" arrow style="color:#999999;" />
     </view>
   </view>
   <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />

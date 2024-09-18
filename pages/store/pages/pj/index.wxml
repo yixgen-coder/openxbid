@@ -57,7 +57,7 @@
   <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
 </view>
 <!-- 评价 -->
-<t-popup visible="{{pjvisible}}" placement="bottom">
+<t-popup visible="{{pjvisible}}" placement="bottom" style="bottom:{{keyboardheight}}rpx">
   <view class="block">
     <view class="header">
       <view class="btn btn--cancel" aria-role="button" bindtap="handleShowPj">取消</view>
@@ -65,7 +65,7 @@
       <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
     </view>
     <view class="msgtxt">
-      <t-textarea bindchange="handleReply" value="{{pjReply}}" t-class="external-class" placeholder="请输入回复内容" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
+      <t-textarea bindchange="handleReply" value="{{pjReply}}" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" placeholder="请输入回复内容" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
     </view>
   </view>
 </t-popup>

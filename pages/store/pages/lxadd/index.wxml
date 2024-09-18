@@ -13,6 +13,7 @@
         <t-input wx:if="{{emailValue}}" label="邮箱" value="{{email}}" data-key="email" bindchange="handleGrInfos" placeholder="请输入邮箱" align="right" />
         <t-input wx:if="{{wxValue}}" label="微信" value="{{wx}}" data-key="wx" bindchange="handleGrInfos" placeholder="请输入微信" align="right" />
         <t-input wx:if="{{whatsappValue}}" label="whatsapp" value="{{whatsapp}}" data-key="whatsapp" bindchange="handleGrInfos" placeholder="请输入whatsapp" align="right" />
+        <t-input wx:if="{{otherValue}}" label="其他" value="{{other}}" data-key="other" bindchange="handleGrInfos" placeholder="请输入其他联系方式" align="right" />
       </view>
       <view class="addlx" bindtap="onXZPicker">
         <image src="https://imgs.phanlink.com/program/images/add88.png"></image>
@@ -34,6 +35,7 @@
           <t-checkbox value="{{2}}" label="邮箱" icon="rectangle" checked="{{emailValue}}" />
           <t-checkbox value="{{3}}" label="微信" icon="rectangle" checked="{{wxValue}}" />
           <t-checkbox value="{{4}}" label="whatsapp" icon="rectangle" checked="{{whatsappValue}}" />
+          <t-checkbox value="{{5}}" label="其他" icon="rectangle" checked="{{otherValue}}" />
         </t-checkbox-group>
 
       </view>

@@ -6,6 +6,10 @@ Component({
       type: Array,
       value: [],
     },
+    messCount: {
+      type: Object,
+      value: {},
+    },
     id: {
       type: String,
       value: '',

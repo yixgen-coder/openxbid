@@ -87,8 +87,11 @@ Page({
         url: '/pages/tabbar/login/login',
       });
     }
+  },
+  onShow() {
     this.init(true);
   },
+
   fetchDatas(url, data) {
     return new Promise((resolve, reject) => {
       wx.request({

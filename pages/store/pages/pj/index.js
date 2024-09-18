@@ -18,11 +18,17 @@ Page({
     num: 0,
     pjvisible: false,
     pjReply: '',
-    pjId: 0
+    pjId: 0,
+    keyboardheight: 0
   },
   goodListPagination: {
     index: 1,
     num: 20,
+  },
+  handlekeyboardheight(e) {
+    this.setData({
+      keyboardheight: e.detail.height
+    })
   },
   tabChangeHandle(e) {
     this.setData({
