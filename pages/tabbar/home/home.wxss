@@ -10,7 +10,6 @@ page {
   height: 330px;
   display: block;
   width: 100%;
-  overflow-x: hidden;
   box-sizing: border-box;
 }
 .home-page-header .bg {
@@ -63,6 +62,17 @@ page {
   padding: 0 0 30rpx 0;
   overflow: hidden;
   display: block;
+}
+.home-page-container .contatBtn {
+  background-color: #fff;
+  padding: 0;
+}
+.home-page-container .contatBtn::after {
+  border: none;
+}
+.home-page-container .contatBtn image {
+  width: 95rpx;
+  height: 95rpx;
 }
 .home-page-container .t-tabs {
   background: #f5f5f5 !important;

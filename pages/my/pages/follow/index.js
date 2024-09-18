@@ -22,15 +22,30 @@ Page({
       delta: 1
     });
   },
-  async storeClickHandle(e) {
+  storeClickHandle(e) {
     const {
       id
     } = e.detail;
+    wx.showModal({
+      title: '提示',
+      content: '确定要取消关注吗？',
+      showCancel: true,
+      cancelText: '取消',
+      confirmText: '确定',
+      success: res => {
+        if (res.confirm) {
+          this.deleteGzData(id);
+        }
+      }
+    });
+
+  },
+  deleteGzData: async function (id) {
     const url = 'https://kpy.phanlink.com/v1/setStoreGz';
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.storeId = id;
-    const res = await this.fetchSetOrders(url, formData);
+    const res = await this.fetchDatas(url, formData);
 
     if (res.code == 1) {
       wx.showToast({
@@ -40,6 +55,11 @@ Page({
       });
       this.removeDataById(id);
     }
+  },
+  removeDataById: function (id) {
+    this.setData({
+      goodsList: this.data.goodsList.filter(message => message.id !== id)
+    });
   },
 
   init() {
@@ -81,7 +101,9 @@ Page({
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
         });
-        this.goodListPagination.index = formData.page + 1;
+        if (nextList.length > 0) {
+          this.goodListPagination.index = formData.page + 1;
+        }
       }
       this.setData({
         loadStatus: 0

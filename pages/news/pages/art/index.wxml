@@ -41,7 +41,7 @@
   <t-icon name="star" size="48rpx" color="#FF4A26" wx:if="{{artInfo.sc==1}}" bindclick="artScClickHandle" />
   <t-button icon="https://imgs.phanlink.com/program/images/fx1.png" variant="text" size="large" open-type="share"></t-button>
 </view>
-<t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom">
+<t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom" style="bottom:{{keyboardheight}}rpx">
   <view class="block">
     <view class="header">
       <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">取消</view>
@@ -49,7 +49,7 @@
       <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
     </view>
     <view class="msgtxt">
-      <t-textarea bindchange="handleMsg" t-class="external-class" value="{{msg}}" placeholder="请输入内容" maxlength="100" disableDefaultPadding="{{true}}" indicator />
+      <t-textarea bindchange="handleMsg" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" adjust-position="{{true}}" value="{{msg}}" placeholder="请输入内容" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
     </view>
   </view>
 </t-popup>

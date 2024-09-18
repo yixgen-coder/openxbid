@@ -1,0 +1,17 @@
+<view class="goods-list">
+  <view class="items" wx:for="{{goodsList}}">
+    <view class="gz">
+      <view class="st">
+        <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
+        <view>
+          <text>{{item.nickname}}</text>
+          <view>开始关注你了 {{item.addtime}}</view>
+        </view>
+      </view>
+      <view class="zt">
+        <text class="color1" bindtap="handleDel" data-uid="{{item.uid}}">移除</text>
+      </view>
+    </view>
+
+  </view>
+</view>

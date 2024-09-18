@@ -1,0 +1,111 @@
+page {
+  background: #F7F8FA;
+}
+.publish-wrap .rz {
+  background: #FFFFFF;
+  margin-top: 30rpx;
+}
+.publish-wrap .rz .tlabel {
+  font-size: 32rpx;
+  color: #221F1C;
+  position: relative;
+  padding-right: 20rpx;
+}
+.publish-wrap .rz .tlabel::after {
+  content: '*';
+  position: absolute;
+  right: 0rpx;
+  font-size: 32rpx;
+  color: #F22800;
+}
+.publish-wrap .rz .t-icon--image {
+  text-align: center;
+}
+.publish-wrap .rz .t-icon--image .t-icon__image {
+  max-width: 25%;
+}
+.publish-wrap .rz .logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.publish-wrap .rz .logo .t-upload {
+  margin-right: 30rpx;
+}
+.publish-wrap .rz .logo .t-upload .t-grid-item {
+  width: 100% !important;
+}
+.publish-wrap .rz .tnote {
+  color: #F22800;
+}
+.publish-wrap .rz .intro {
+  margin: 30rpx;
+}
+.publish-wrap .rz .intro text {
+  display: block;
+  padding-bottom: 20rpx;
+  font-size: 32rpx;
+  color: #221F1C;
+}
+.publish-wrap .rz .intro .external-class {
+  height: 250rpx;
+  background: #F7F8FA;
+}
+.publish-wrap .rz .tabpanel {
+  font-size: 28rpx;
+  margin: 30rpx;
+}
+.publish-wrap .rz .block {
+  width: 100vw;
+  height: 350px;
+  background: var(--td-bg-color-container);
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+.publish-wrap .rz .header {
+  display: flex;
+  align-items: center;
+  height: 116rpx;
+}
+.publish-wrap .rz .title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 36rpx;
+  color: var(--td-text-color-primary);
+}
+.publish-wrap .rz .btn {
+  font-size: 32rpx;
+  padding: 32rpx;
+}
+.publish-wrap .rz .btn--cancel {
+  color: var(--td-text-color-secondary);
+}
+.publish-wrap .rz .btn--confirm {
+  color: #0052d9;
+}
+.publish-wrap .tjbtn {
+  margin: 50rpx 20rpx;
+}
+.publish-wrap .tjbtn button {
+  background-color: #FF6426;
+}
+.addlx {
+  margin: 30rpx auto;
+  padding: 20rpx 0;
+  background: #e3e4e7;
+  display: flex;
+  justify-content: center;
+  gap: 10rpx;
+  width: 92%;
+}
+.addlx image {
+  margin-top: 5rpx;
+  width: 35rpx;
+  height: 35rpx;
+}
+.addlx text {
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #666666;
+}

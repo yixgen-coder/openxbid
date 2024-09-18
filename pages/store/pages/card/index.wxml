@@ -1,0 +1,65 @@
+<view class="gs">
+  <view class="info">
+    <view class="img">
+      <image src="{{storeInfo.shop_logo}}"></image>
+    </view>
+    <view class="cont">
+      <view class="txt">{{storeInfo.shop_name}}</view>
+      <view class="rate">
+        <view>信誉</view>
+        <t-rate value="{{storeInfo.pf}}" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
+      </view>
+      <view class="tags">
+        <text>进出口权</text>
+        <text>{{storeInfo.type}}</text>
+        <text>{{storeInfo.fwtype}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="addr">
+    <image src="https://imgs.phanlink.com/program/images/addre.png"></image>
+    <text>{{storeInfo.address}}</text>
+  </view>
+  <view class="addr">
+    <text>主营产品：</text>
+    <text>{{storeInfo.stype}}</text>
+  </view>
+  <view class="btn">
+    <button bindtap="handleGoStore">进入店铺</button>
+    <button bindtap="handleGoZx" wx:if="{{!crrentPage}}">在线留言</button>
+    <button class="fx" open-type="share">分享给好友</button>
+  </view>
+</view>
+<view class="lx">
+  <view class="tit">商家联系人</view>
+  <view class="items" wx:for="{{storeInfo.lx}}" wx:key="qq">
+    <image src="{{item.avatar}}"></image>
+    <view class="man">
+      <view class="name">
+        <text>{{item.name}}</text>
+        <text>{{item.post}}</text>
+      </view>
+      <view class="fs" wx:if="{{item.tel!=''}}">
+        <text>电话：</text>
+        <text>{{item.tel}}</text>
+      </view>
+      <view class="fs" wx:if="{{item.email!=''}}">
+        <text>邮箱：</text>
+        <text>{{item.email}}</text>
+      </view>
+      <view class="fs" wx:if="{{item.wx!=''}}">
+        <text>微信：</text>
+        <text>{{item.wx}}</text>
+      </view>
+      <view class="fs" wx:if="{{item.whatsapp!=''}}">
+        <text>whatsapp：</text>
+        <text>1{{item.whatsapp}}</text>
+      </view>
+    </view>
+    <view wx:if="{{crrentPage}}" class="del" bindtap="handleDelLx" data-id="{{item.id}}"><text>移除</text></view>
+  </view>
+</view>
+<navigator class="addlx" url="/pages/store/pages/lxadd/index" wx:if="{{crrentPage}}">
+  <image src="https://imgs.phanlink.com/program/images/add99.png"></image>
+  <text>添加联系人</text>
+</navigator>

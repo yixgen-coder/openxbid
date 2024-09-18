@@ -1,0 +1,71 @@
+<view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+</view>
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+<!-- tab区域 -->
+<view class="tab-box">
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{tabIndex}}" bind:change="tabChangeHandle">
+    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
+  </t-tabs>
+</view>
+<view class="home-page-container">
+  <view class="gl">
+    <text>共{{scount}}条</text>
+    <text>管理</text>
+  </view>
+  <view class="pj-list">
+    <view class="items" wx:for="{{goodsList}}">
+      <view class="usr">
+        <view class="dat">
+          <image src="{{item.avatar}}"></image>
+          <view class="tit">
+            <text>{{item.nickname}}</text>
+            <t-rate value="{{item.score}}" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
+          </view>
+        </view>
+        <view class="date">{{item.addtime}}</view>
+      </view>
+      <view class="cont">{{item.msg}}</view>
+      <navigator class="goods" url="/pages/goods/pages/index/index?spuId={{item.goods_id}}">
+        <image src="{{item.pic}}"></image>
+        <view class="tit">
+          <text>{{item.title}}</text>
+          <view class="tags">
+            <text>{{item.btype}}</text>
+            <text>{{item.nature}}</text>
+            <text>{{item.place}}</text>
+          </view>
+        </view>
+      </navigator>
+      <view class="reply" wx:if="{{tabIndex==2}}">
+        <text>我的回复：</text>
+        <text>{{item.reply}}</text>
+      </view>
+      <view class="btn">
+        <button data-id="{{item.id}}" wx:if="{{tabIndex==2}}" bindtap="pjClickHandle">删除评价</button>
+        <button bindtap="handleShowPj" data-id="{{item.id}}" data-index="{{index}}">{{item.status?'修改回复':'回复'}}</button>
+      </view>
+    </view>
+  </view>
+  <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
+</view>
+<!-- 评价 -->
+<t-popup visible="{{pjvisible}}" placement="bottom">
+  <view class="block">
+    <view class="header">
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowPj">取消</view>
+      <view class="title">评价回复</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+    </view>
+    <view class="msgtxt">
+      <t-textarea bindchange="handleReply" value="{{pjReply}}" t-class="external-class" placeholder="请输入回复内容" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
+    </view>
+  </view>
+</t-popup>

@@ -7,7 +7,7 @@
   </view>
 </view>
 <t-textarea value="{{dtTitle}}" bindchange="handleGrInfos" placeholder="说说您这一刻的想法" maxlength="200" disableDefaultPadding="{{true}}" indicator />
-<t-upload mediaType="{{['image']}}" max="{{9}}" files="{{imgList}}" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
+<t-upload mediaType="{{['image']}}" max="{{8}}" files="{{imgList}}" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
 
 <view class="formBtn">
   <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">重置</t-button>

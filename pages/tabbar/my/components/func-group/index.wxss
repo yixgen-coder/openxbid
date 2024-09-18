@@ -33,8 +33,11 @@
   align-items: center;
   justify-content: center;
   padding:20rpx 0;
+  background-color: #fff; 
+  border: none;  
   /* flex: 1; */
 }
+button::after { border: none !important; }
 .order-group__item:first-child {
   border-radius: 0 0 0 16rpx;
 }

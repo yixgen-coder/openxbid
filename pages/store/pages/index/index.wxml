@@ -9,16 +9,25 @@
     <form bindsubmit="onFormSubmit">
       <view>
         <view class="logo">
-          <t-cell title="店铺LOGO" required />
+          <t-cell title="商家LOGO" required />
           <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleAdd" bind:remove="handleRemove" style="margin-top:40rpx;margin-left:20rpx;" />
         </view>
-        <t-input t-class-label="tlabel" label="店铺名称" value="{{shop_name}}" data-key="shop_name" bindchange="handleGrInfos" placeholder="请输入店铺名称" align="right" />
-        <t-cell title="店铺状态" arrow t-class-note="tnote" note="{{shop_status}}" />
-        <t-cell title="开店时间" note="{{shop_time}}" />
+        <t-input t-class-label="tlabel" label="商家名称" value="{{shop_name}}" data-key="shop_name" bindchange="handleGrInfos" placeholder="请输入商家名称" align="right" />
+        <t-cell title="商家状态" arrow t-class-note="tnote" note="{{shop_status}}" />
+        <t-cell title="开通时间" note="{{shop_time}}" />
         <t-cell title="商家性质" arrow note="{{typeText}}" bind:click="onTitlePicker" required />
-        <t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="商家性质" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindpick="onColumnChange" bindcancel="onPickerCancel">
+        <t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="商家性质" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
           <t-picker-item options="{{types}}"></t-picker-item>
         </t-picker>
+        <t-cell title="服务分类" arrow note="{{fwtypeText}}" bind:click="onfwTitlePicker" required />
+        <t-picker visible="{{fwtypeVisible}}" value="{{fwtypeValue}}" data-key="fwtype" title="服务分类" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
+          <t-picker-item options="{{fwtypes}}"></t-picker-item>
+        </t-picker>
+        <t-cell title="请选择国家" arrow note="{{regionText}}" bind:click="onRegionPicker" required />
+        <t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="{{regionTitle}}" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindpick="onColumnChange" bindcancel="onPickerCancel">
+          <t-picker-item options="{{regions}}"></t-picker-item>
+        </t-picker>
+        <t-input label="经营地址" value="{{address}}" data-key="address" bindchange="handleGrInfos" placeholder="请输入经营地址" align="right" />
         <t-cell title="主营产品" arrow note="{{typeTitle}}" bind:click="onXZPicker" required />
         <t-popup visible="{{visible}}" placement="bottom">
           <view class="block">

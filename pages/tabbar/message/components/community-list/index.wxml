@@ -1,50 +1,55 @@
 <view class="community-list-wrap wr-class" id="{{independentID}}">
-	<block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
-  <view class="community-item">
-  <!-- 头像和标题信息板块 -->
-    <view class="title-box">
-    <view class="left">
-      <image src="https://imgs.phanlink.com/program/images/topbg.png"></image>
-      <view class="title-info">
-      <view class="title">某某某鱼品专卖店</view>
-      <view class="time">2023-10-17 · 发布了动态</view>
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index" wx:for-index="index">
+    <view class="community-item">
+      <!-- 头像和标题信息板块 -->
+      <view class="title-box">
+        <view class="left">
+          <image src="https://imgs.phanlink.com/{{item.shop_logo}}"></image>
+          <view class="title-info">
+            <view class="title">{{item.shop_name}}</view>
+            <view class="time">{{item.ctime}} · 发布了动态</view>
+          </view>
+        </view>
+        <view class="right">
+          <t-icon name="more" color="#A8A8A8 " size="38rpx" bind:click="onIconTap" bindclick="handleShowMsg" data-index="{{index}}" data-id="{{item.id}}" />
+        </view>
       </view>
-    </view>
-    <view class="right">
-      <t-icon name="more" color="#A8A8A8 " size="38rpx" bind:click="onIconTap" />
-  
-    </view>
-    </view>
-    <!-- 内容本快 -->
-    <view class="content-txt">
-      中国人喜欢吃鱼，但随着生活水平的提高，人们对饮食安全的要求也越来越高，很多人担心鱼类、水产会不会有重金属污染，怎么挑选、怎么吃更健？
-    </view>
-    <view class="img-list">
-        <image src="https://imgs.phanlink.com/program/images/topbg.png"></image>
-        <image src="https://imgs.phanlink.com/program/images/topbg.png"></image>
-        <image src="https://imgs.phanlink.com/program/images/topbg.png"></image>
-    </view>
+      <!-- 内容本快 -->
+      <view class="content-txt">
+        {{item.title}}
+      </view>
+      <view class="img-list">
+        <image wx:for="{{item.pic}}" wx:key="{{img}}" wx:for-index="index1" src="{{item.url}}" data-index="{{index}}" data-src="{{item.url}}" bindtap="previewImage"></image>
+      </view>
 
       <!-- 评价信息 -->
-  <view class="pj">
-    <image src="https://imgs.phanlink.com/program/images/z1.png"></image>
-    <text>123</text>
-    <image src="https://imgs.phanlink.com/program/images/z2.png"></image>
-    <text>123</text>
-    <image src="https://imgs.phanlink.com/program/images/z3.png"></image>
-    <text>123</text>
-  </view>
-  <!-- 点赞 -->
-  <view class="dz">
-    某某有限公司、某某某、某某有限公司、某某有限公司、某某某、某某有限公司、某某有限公司、等10人赞了
-  </view>
-  <!-- 回复 -->
-  <view class="replay">
-    <view><text class="name">某某某：</text>应该多出去运动了！</view>
-    <view><text class="name">某某某</text><text class="margin-5">回复</text><text class="name">某某某：</text>应该多出去运动了！</view>
-  </view>
-  </view>
+      <view class="pj">
+        <t-icon name="thumb-up-2" size="36rpx" wx:if="{{item.zan==0}}" data-id="{{item.id}}" data-index="{{index}}" bindclick="HandleZan" />
+        <t-icon name="thumb-up-2" size="36rpx" color="#FF4A26" data-id="{{item.id}}" data-index="{{index}}" wx:if="{{item.zan==1}}" bindclick="HandleZan" />
+        <text>{{item.zan}}</text>
+        <image src="https://imgs.phanlink.com/program/images/z2.png"></image>
+        <text>{{item.pl}}</text>
 
-	</block>
+      </view>
+      <!-- 点赞 -->
+      <view class="dz"></view>
+      <!-- 回复 -->
+      <view class="replay">
+        <view wx:for="{{item.plDat}}" wx:for-index="index2"><text class="name">{{item.nickname}}：</text>{{item.msg}}</view>
+      </view>
+    </view>
+
+  </block>
 </view>
-
+<t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom">
+  <view class="block">
+    <view class="header">
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">取消</view>
+      <view class="title">动态评论</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+    </view>
+    <view class="msgtxt">
+      <t-textarea bindchange="handleMsg" t-class="external-class" value="{{msg}}" placeholder="请输入内容" maxlength="100" disableDefaultPadding="{{true}}"  show-confirm-bar="{{false}}" indicator />
+    </view>
+  </view>
+</t-popup>

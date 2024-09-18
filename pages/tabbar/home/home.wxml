@@ -4,7 +4,7 @@
 <!-- 头部 -->
 <view class="home-page-header">
   <view class="baibg">
-    <view class="bg" style="background: url('https://imgs.phanlink.com/program/images/topbg.png')no-repeat top; background-size: contain; padding-top:{{statusbar}}px;">
+    <view class="bg" style="background: url('https://imgs.phanlink.com/program/images/topbg.png')no-repeat top; background-size: cover; padding-top:{{statusbar}}px;">
       <view class="home-tab" style="height: {{jiaonangheight}}px;">
         <view class="{{currentPage==1?'active':''}}" bindtap="handleShowPage" data-index="1">商品展示</view>
         <view class="{{currentPage==2?'active':''}}" bindtap="handleShowPage" data-index="2">商家展示</view>
@@ -34,7 +34,11 @@
       <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=4" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="其他类" image="https://imgs.phanlink.com/program/images/g4.png" />
       <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?lx=2" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="求购信息" image="https://imgs.phanlink.com/program/images/g5.png" />
       <t-grid-item jump-type="navigate-to" url="/pages/my/pages/approve/index" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="商家入驻" image="https://imgs.phanlink.com/program/images/g6.png" />
-      <t-grid-item jump-type="" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="官方客服" image="https://imgs.phanlink.com/program/images/g7.png" />
+      <t-grid-item t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="官方客服" image="slot">
+        <button slot="image" open-type="contact" class="contatBtn">
+          <image src="https://imgs.phanlink.com/program/images/g7.png"></image>
+        </button>
+      </t-grid-item>
       <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?dq=5" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="爱尔兰" image="https://imgs.phanlink.com/program/images/g8.png" />
     </t-grid>
   </view>
@@ -82,7 +86,7 @@
 <t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="国家或地区" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onRegionChange" bindcancel="handleShowRegions">
   <t-picker-item options="{{regionTypes}}"></t-picker-item>
 </t-picker>
-<t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="选择时间" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onTypeChange" bindpick="onPickerTypeChange" bindcancel="handleShowType">
+<t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="选择商品分类" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onTypeChange" bindpick="onPickerTypeChange" bindcancel="handleShowType">
   <t-picker-item options="{{topids}}"></t-picker-item>
   <t-picker-item options="{{typeids}}"></t-picker-item>
 </t-picker>

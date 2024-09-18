@@ -1,0 +1,26 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bind:click="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+  <view class="rz">
+    <form bindsubmit="onFormSubmit">
+      <view>
+        <view class="intro">
+          <text>反馈标题</text>
+          <t-input  value="{{title}}" data-key="title" bindchange="handleGrInfos" placeholder="请输入反馈标题"  />
+        </view>
+        <view class="intro">
+          <text>问题描述或建议</text>
+          <t-textarea placeholder="请描述您的问题或建议，我们将不断改进~" value="{{content}}" data-key="content" bindchange="handleGrInfos" disableDefaultPadding="{{true}}" />
+        </view>
+
+      </view>
+      <view class="tjbtn">
+        <t-button disabled="{{btnStatus}}" theme="danger" size="large" type="submit" block>提交反馈</t-button>
+      </view>
+    </form>
+  </view>
+</view>

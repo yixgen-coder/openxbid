@@ -1,0 +1,43 @@
+<view class="publish-wrap">
+  <view class="rz">
+    <form bindsubmit="onFormSubmit">
+      <view>
+        <view class="logo">
+          <t-cell title="头像" required />
+          <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleAdd" bind:remove="handleRemove" style="margin-top:40rpx;margin-left:20rpx;" />
+        </view>
+        <t-input t-class-label="tlabel" label="姓名" value="{{name}}" data-key="name" bindchange="handleGrInfos" placeholder="请输入姓名" align="right" />
+        <t-input t-class-label="tlabel" label="职位" value="{{post}}" data-key="post" bindchange="handleGrInfos" placeholder="请输入职位" align="right" />
+
+        <t-input wx:if="{{telValue}}" label="电话" value="{{tel}}" data-key="tel" bindchange="handleGrInfos" placeholder="请输入电话" align="right" />
+        <t-input wx:if="{{emailValue}}" label="邮箱" value="{{email}}" data-key="email" bindchange="handleGrInfos" placeholder="请输入邮箱" align="right" />
+        <t-input wx:if="{{wxValue}}" label="微信" value="{{wx}}" data-key="wx" bindchange="handleGrInfos" placeholder="请输入微信" align="right" />
+        <t-input wx:if="{{whatsappValue}}" label="whatsapp" value="{{whatsapp}}" data-key="whatsapp" bindchange="handleGrInfos" placeholder="请输入whatsapp" align="right" />
+      </view>
+      <view class="addlx" bindtap="onXZPicker">
+        <image src="https://imgs.phanlink.com/program/images/add88.png"></image>
+        <text>添加联系方式</text>
+      </view>
+      <view class="tjbtn">
+        <t-button disabled="{{btnStatus}}" theme="danger" size="large" type="submit" block>{{btnText}}</t-button>
+      </view>
+    </form>
+    <t-popup visible="{{visible}}" placement="bottom">
+      <view class="block">
+        <view class="header">
+          <view class="btn btn--cancel" aria-role="button" bindtap="onXZPicker">取消</view>
+          <view class="title">选择联系方式</view>
+          <view class="btn btn--confirm" aria-role="button" bindtap="onQRPicker">确定</view>
+        </view>
+        <t-checkbox-group t-class="box" borderless bind:change="onChange" defaultValue="{{demoCheckboxMax}}">
+          <t-checkbox value="{{1}}" label="电话" icon="rectangle" checked="{{telValue}}" />
+          <t-checkbox value="{{2}}" label="邮箱" icon="rectangle" checked="{{emailValue}}" />
+          <t-checkbox value="{{3}}" label="微信" icon="rectangle" checked="{{wxValue}}" />
+          <t-checkbox value="{{4}}" label="whatsapp" icon="rectangle" checked="{{whatsappValue}}" />
+        </t-checkbox-group>
+
+      </view>
+    </t-popup>
+  </view>
+
+</view>

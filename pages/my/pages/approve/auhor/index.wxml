@@ -7,10 +7,17 @@
   </view>
   <view class="rz">
     <form bindsubmit="onFormSubmit">
+      <view wx:if="{{items==companyType}}">
+        <t-cell title="认证状态" arrow note="认证失败" description="{{companyMsg}}" wx:if="{{companyStatus==-1}}" />
+        <t-cell title="认证状态" arrow note="待认证" wx:if="{{companyStatus==0}}" />
+        <t-cell title="认证状态" arrow note="认证中" wx:if="{{companyStatus==1}}" />
+        <t-cell title="认证状态" arrow note="认证成功" description="{{companyTime}}" wx:if="{{companyStatus>1}}" />
+      </view>
       <view wx:if="{{items==1}}">
+
         <t-input t-class-label="tlabel" label="姓名" value="{{grInfos.name}}" data-key="name" bindchange="handleGrInfos" placeholder="请输入您的姓名" align="right" />
         <t-cell title="请选择国家" arrow note="{{regionText}}" bind:click="onRegionPicker" required />
-        <t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="{{regionTitle}}" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindpick="onColumnChange" bindcancel="onPickerCancel">
+        <t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="{{regionTitle}}" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
           <t-picker-item options="{{regions}}"></t-picker-item>
         </t-picker>
         <t-input t-class-label="tlabel" label="地区" value="{{grInfos.city}}" data-key="city" bindchange="handleGrInfos" placeholder="请输入您所在城市" align="right" />
@@ -41,7 +48,7 @@
         <t-input t-class-label="tlabel" label="手机号码" value="{{qyInfos.mobile}}" data-key="mobile" bindchange="handleGrInfos" placeholder="请输入您的手机号码" align="right" />
         <t-input t-class-label="tlabel" label="邮箱" value="{{qyInfos.mail}}" data-key="mail" bindchange="handleGrInfos" placeholder="请输入您的邮箱地址" align="right" />
       </view>
-      <view class="tjbtn">
+      <view class="tjbtn" wx:if="{{items!=companyType || (items==companyType&&companyStatus<0)}}">
         <t-button disabled="{{btnStatus}}" theme="danger" size="large" type="submit" block>{{btnText}}</t-button>
       </view>
     </form>

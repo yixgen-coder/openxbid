@@ -12,7 +12,9 @@ Page({
     autoplay: true,
     duration: 500,
     interval: 5000,
+    paginationPosition: 'bottom-right',
     goodsInfo: [],
+    orderInfos: [],
     goodsId: '',
     sc: 0,
     goodslabs: 0,
@@ -21,13 +23,43 @@ Page({
       stock: 0,
       weight: 0,
       price: 0
-    }
+    },
+    currentPage: 0
 
   },
-  goback: function () {
-    wx.navigateBack({
-      delta: 1
+  previewImage(e) {
+    const index = e.detail.index;
+    const current = this.data.goodsInfo.pics[index];
+    wx.previewImage({
+      current: current,
+      urls: this.data.goodsInfo.pics
     });
+  },
+  // 判断是否有上一页
+  canGoBack: function () {
+    const pages = getCurrentPages();
+    const currentPageIndex = pages.length - 1;
+
+    if (currentPageIndex > 0) {
+      // 当前页面不是第一个页面，可以返回上一页
+      console.log('可以返回上一页');
+      return true;
+    } else {
+      // 当前页面是第一个页面，无法返回上一页
+      console.log('无法返回上一页');
+      return false;
+    }
+  },
+  goback: function () {
+    if (this.canGoBack()) {
+      wx.navigateBack({
+        delta: 1
+      });
+    } else {
+      wx.switchTab({
+        url: '/pages/tabbar/home/home',
+      });
+    }
   },
   onVisibleChange() {
     const goodsInfo = this.data.goodsInfo;
@@ -143,6 +175,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
+    if (options.cpage == 1) {
+      this.setData({
+        currentPage: 1
+      });
+    }
     this.init();
     const res = await this.fetchGoodsInfo(options.spuId);
     if (res.code == 1) {
@@ -152,6 +189,7 @@ Page({
       total.price = res.data.goods.price;
       this.setData({
         goodsInfo: res.data.goods,
+        orderInfos: res.data.orderInfos,
         goodsId: options.spuId,
         sc: res.data.goods.sc,
         total: total,
@@ -245,7 +283,7 @@ Page({
     return {
       title: title,
       imageUrl: 'https://imgs.phanlink.com/' + this.data.goodsInfo.pic,
-      path: '/pages/goods/pages/index/index?spuId=' + this.data.goodsInfo.id,
+      path: '/pages/goods/pages/index/index?cpage=1&spuId=' + this.data.goodsInfo.id,
     }
   },
   onShareTimeline: function (res) {

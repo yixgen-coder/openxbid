@@ -5,7 +5,6 @@
     "pages/tabbar/message/index",
     "pages/tabbar/publish/index",
     "pages/tabbar/serve/index",
-    "pages/tabbar/serve/info/index",
     "pages/tabbar/login/login"
   ],
   "subPackages": [
@@ -17,6 +16,7 @@
         "pages/review/index",
         "pages/list/index",
         "pages/add/index",
+        "pages/info/index",
         "pages/manage/index"
       ]
     },
@@ -30,17 +30,25 @@
         "pages/bid/index",
         "pages/follow/index",
         "pages/collect/index",
-        "pages/publish/index"
+        "pages/publish/index",
+        "pages/feedback/index",
+        "pages/system/index",
+        "pages/about/index"
       ]
     },
     {
       "root": "pages/news",
       "pages": [
-        "pages/index/index",
         "pages/art/index",
         "pages/artadd/index",
         "pages/dt/index",
-        "pages/dtadd/index"
+        "pages/dtadd/index",
+        "pages/message/info/index",
+        "pages/message/result/index",
+        "pages/message/goods/index",
+        "pages/message/gz/index",
+        "pages/message/chat/index"
+
       ]
     },
     {
@@ -48,7 +56,10 @@
       "pages": [
         "pages/index/index",
         "pages/list/index",
-        "pages/info/index"
+        "pages/info/index",
+        "pages/card/index",
+        "pages/lxadd/index",
+        "pages/pj/index"
       ]
     }
   ],
@@ -90,7 +101,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "开拍鱼",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "keyboardHeightBehavior": "fill"
   },
   "sitemapLocation": "sitemap.json",
   "permission": {

@@ -1,0 +1,90 @@
+
+.fwtit{
+  margin:50rpx 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .left{
+    padding-left:20rpx;
+    position: relative;
+    font-weight: bold;
+    font-size: 36rpx;
+    color: #221F1C;
+    &::before{
+      content:'';
+      position: absolute;
+      left:0;
+      top:8rpx;
+      width:10rpx;
+      height:35rpx;
+      background: #FF5533;
+      border-radius: 4rpx;
+    }
+  }
+  .right{
+    font-size: 30rpx;
+    color: #919B9D;
+    image{
+      width:28rpx;
+      height:28rpx;
+    }
+  }
+  
+}
+.tabler{
+  background:#FFFFFF;
+  --td-tab-nav-bg-color: transparent;
+  --td-tab-border-color: transparent;
+  --td-tab-item-color: #999999;
+  --td-tab-item-active-color: #F22800;
+  --td-tab-track-width: 0rpx;
+  --td-tab-font-size:30rpx;
+}
+.fwstorelist{
+  margin:30rpx 20rpx;
+  .fw-items{
+    background: #FFFFFF;
+    margin:10rpx 0;
+    padding:20rpx;
+    display: flex;
+    align-items: center;
+    gap:20rpx;
+    .img{
+      padding:10rpx;
+      border-radius: 10rpx;
+      border: 1rpx solid #E6E6E6;
+      image{
+        width:140rpx;
+        height:140rpx;
+        border-radius: 70rpx;
+      }
+    }
+    .txt{
+      .tit{
+        font-weight: bold;
+        font-size: 32rpx;
+        color: #221F1C;
+      }
+      .tags{
+        margin:15rpx 0;
+        text{
+          padding:5rpx;
+          background: #FFF2F0;
+          border-radius: 4rpx;
+          font-size: 24rpx;
+          color: #FF5533;
+        } 
+      }
+      .address{
+        font-size: 24rpx;
+        color: #999999;
+        image{
+          margin-right: 10rpx;
+          width:24rpx;
+          height:24rpx;
+        }
+      }
+      
+    }
+  }
+}

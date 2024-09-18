@@ -3,6 +3,7 @@ Component({
   data: {
     active: -1,
     list: TabMenu,
+    count: 0
   },
 
   methods: {
@@ -18,7 +19,7 @@ Component({
       });
     },
 
-    init() {
+    init(num = 0) {
       const page = getCurrentPages().pop();
       const route = page ? page.route.split('?')[0] : '';
       const active = this.data.list.findIndex(
@@ -27,7 +28,8 @@ Component({
         `${route}`,
       );
       this.setData({
-        active
+        active,
+        count: num
       });
     },
   },

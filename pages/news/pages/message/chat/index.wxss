@@ -1,0 +1,94 @@
+page {
+  background: #F7F8FA;
+}
+.publish-wrap {
+  background: #FFFFFF;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  width: 100%;
+}
+.publish-wrap .publish-header {
+  width: 100%;
+  height: 180rpx;
+  position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.publish-wrap .publish-header .bar-right {
+  display: flex;
+  padding-left: 34rpx;
+  align-items: center;
+}
+.publish-wrap .publish-header .bar-right .avatar-text {
+  display: block;
+  width: 80%;
+  font-size: 36rpx;
+  color: #000000;
+  text-align: center;
+}
+.news-list {
+  box-sizing: border-box;
+  margin: 30rpx 20rpx;
+}
+.news-list .chat-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+.news-list .items {
+  margin: 40rpx 0;
+}
+.news-list .items image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+}
+.news-list .items > view {
+  display: flex;
+  gap: 20rpx;
+}
+.news-list .items .items-left .content {
+  padding: 15rpx;
+  background: #FFFFFF;
+  border-radius: 0rpx 20rpx 20rpx 20rpx;
+  font-size: 30rpx;
+  color: #221F1C;
+}
+.news-list .items .items-left .content .time {
+  text-align: left;
+  margin-bottom: 15rpx;
+}
+.news-list .items .items-right {
+  flex-direction: row-reverse;
+}
+.news-list .items .items-right .content {
+  padding: 15rpx;
+  background: #FF4A26;
+  border-radius: 20rpx 0rpx 20rpx 20rpx;
+  font-size: 30rpx;
+  color: #FFFFFF;
+}
+.news-list .items .items-right .content .time {
+  text-align: right;
+  margin-bottom: 15rpx;
+}
+.chat-input {
+  background: #FFFFFF;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 10rpx 0;
+  z-index: 9999;
+}
+.chat-input t-input {
+  height: 150rpx;
+}
+.chat-input .tinput {
+  background: #F4F5F7;
+  border-radius: 20rpx;
+  height: 80rpx;
+  padding-left: 20rpx;
+}
+.chat-input .t-button {
+  background: #FF4A26;
+}

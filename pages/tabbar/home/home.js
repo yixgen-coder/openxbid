@@ -30,17 +30,26 @@ Page({
     currentPage: 1, //当前页面
     searchName: '', //搜索条件
     region: '', //国家
-    regionValue: [96],
+    regionValue: [0],
     regionTitle: '国家或地区',
     regionVisible: false,
-    regionTypes: [],
+    regionTypes: [{
+      label: '全部',
+      value: 0
+    }],
     type: '', //行业分类
     typeTitle: '商品分类', //行业分类
     typeVisible: false,
-    typeValue: [],
+    typeValue: [0, 0],
     typeList: [],
-    topids: [],
-    typeids: [],
+    topids: [{
+      label: '全部',
+      value: 0
+    }],
+    typeids: [{
+      label: '全部',
+      value: 0
+    }],
     storeBtn: 1
   },
 
@@ -69,7 +78,6 @@ Page({
   onPullDownRefresh() {
     this.init();
   },
-
   init() {
 
     const res = wx.getMenuButtonBoundingClientRect()
@@ -151,17 +159,25 @@ Page({
       value,
       label
     } = e.detail;
+
     this.setData({
       [`${key}Visible`]: false,
       [`${key}`]: value[0],
       [`${key}Value`]: value,
-      [`${key}Title`]: label.join(' '),
-      storeBtn: 2
+      [`${key}Title`]: value[0] == 0 ? '国家或地区' : label.join(' '),
+      storeBtn: value[0] == 0 ? 1 : 2,
     });
     this.loadGoodsList(true);
   },
-  handleShowType() {
+  handleShowType(e) {
+
+    let value = this.data.typeValue[0];
+
     this.setData({
+      typeids: value == 0 ? [{
+        label: '全部',
+        value: 0
+      }] : this.data.typeList.filter(item => item.pid === value),
       typeVisible: !this.data.typeVisible,
     });
   },
@@ -177,15 +193,19 @@ Page({
       [`${key}Visible`]: false,
       [`${key}`]: value[1],
       [`${key}Value`]: value,
-      [`${key}Title`]: label.join('-'),
-      storeBtn: 3
+      [`${key}Title`]: value[0] == 0 ? '商品分类' : label.join(' '),
+      storeBtn: value[0] == 0 ? 1 : 3,
     });
     this.loadGoodsList(true);
   },
   onPickerTypeChange(e) {
+    let value = e.detail.value[0];
     if (e.detail.column === 0) {
       this.setData({
-        typeids: this.data.typeList.filter(item => item.pid === e.detail.value[0]),
+        typeids: value == 0 ? [{
+          label: '全部',
+          value: 0
+        }] : this.data.typeList.filter(item => item.pid === value),
       });
     }
   },
@@ -233,13 +253,18 @@ Page({
           }
           const ptys = res.data.ptys;
           const topids = ptys.filter(item => item.pid === 0);
-          const typeids = ptys.filter(item => item.pid === topids[0].value);
+          //const typeids = ptys.filter(item => item.pid === topids[0].value);
           this.setData({
             goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-            regionTypes: res.data.regions,
+            regionTypes: [{
+              label: '全部',
+              value: 0
+            }].concat(res.data.regions),
             typeList: ptys,
-            topids: topids,
-            typeids: typeids,
+            topids: [{
+              label: '全部',
+              value: 0
+            }].concat(topids),
           });
         }
       }

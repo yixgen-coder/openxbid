@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "商家名片",
+  "component": true,
+  "usingComponents": {
+    "t-rate": "tdesign-miniprogram/rate/rate"
+  },
+  "enablePullDownRefresh": true
+}

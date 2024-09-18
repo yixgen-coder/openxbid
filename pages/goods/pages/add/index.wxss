@@ -29,19 +29,23 @@ page {
 .publish-wrap .goods-list {
   background: #FFFFFF;
   border-radius: 30rpx;
-  padding: 30rpx;
-  margin: 30rpx 0;
+  padding: 20rpx;
 }
 .publish-wrap .goods-list .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #eeebeb;
+  padding-bottom: 20rpx;
+}
+.publish-wrap .goods-list .title text {
   font-weight: bold;
   font-size: 36rpx;
   color: #221F1C;
   position: relative;
-  border-bottom: 1rpx solid #eeebeb;
-  padding-bottom: 20rpx;
   margin-top: 30rpx;
 }
-.publish-wrap .goods-list .title::after {
+.publish-wrap .goods-list .title text::after {
   position: absolute;
   content: '*';
   font-size: 50rpx;

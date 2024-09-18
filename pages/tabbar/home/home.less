@@ -14,7 +14,7 @@ page {
   width: 100%;
   display: block;
   width:100%;
-  overflow-x: hidden;
+  // overflow-x: hidden;
   box-sizing: border-box;
 
   .bg {
@@ -77,7 +77,15 @@ page {
   padding: 0 0 30rpx 0;
   overflow: hidden;
   display: block;
-
+  .contatBtn{
+    background-color: #fff; 
+    padding:0;
+    &::after { border: none; }
+    image{
+      width:95rpx;
+      height:95rpx;
+    }
+  }
   .t-tabs {
     background: #f5f5f5 !important;
   }

@@ -9,11 +9,17 @@ Page({
     goodsId: '',
     visible: false,
     msg: '',
+    keyboardheight: 0
   },
   handleShowMsg() {
     this.setData({
       visible: !this.data.visible,
     });
+  },
+  handlekeyboardheight(e) {
+    this.setData({
+      keyboardheight: e.detail.height
+    })
   },
   handleMsg(e) {
     this.setData({

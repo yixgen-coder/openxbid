@@ -1,0 +1,80 @@
+.pj-list {
+  margin: 0 20rpx;
+}
+.pj-list .items {
+  background-color: #FFFFFF;
+  padding: 30rpx 20rpx;
+  margin: 20rpx 0;
+  border-radius: 10rpx;
+}
+.pj-list .items .usr {
+  display: flex;
+  justify-content: space-between;
+}
+.pj-list .items .usr .dat {
+  display: flex;
+  gap: 20rpx;
+}
+.pj-list .items .usr .dat image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+}
+.pj-list .items .usr .dat .tit text {
+  display: block;
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #666666;
+  margin-bottom: 10rpx;
+}
+.pj-list .items .usr .date {
+  font-size: 24rpx;
+  color: #999999;
+}
+.pj-list .items .cont {
+  font-size: 28rpx;
+  color: #221F1C;
+  margin: 20rpx 0;
+}
+.pj-list .items .goods {
+  display: flex;
+  gap: 20rpx;
+  margin: 30rpx 0;
+}
+.pj-list .items .goods image {
+  width: 90rpx;
+  height: 90rpx;
+}
+.pj-list .items .goods .tit text {
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #221F1C;
+}
+.pj-list .items .goods .tit .tags {
+  margin-top: 15rpx;
+}
+.pj-list .items .goods .tit .tags text {
+  font-size: 22rpx;
+  border-radius: 10rpx;
+  margin-right: 20rpx;
+}
+.pj-list .items .goods .tit .tags text:first-child {
+  color: #FF5533;
+  background: #FFF4F2;
+}
+.pj-list .items .goods .tit .tags text:nth-child(2) {
+  color: #33AAFF;
+  background: #EBF7FF;
+}
+.pj-list .items .goods .tit .tags text:last-child {
+  color: #979797;
+  background: #F7F8FA;
+}
+.pj-list .items .reply {
+  margin: 20rpx 0;
+}
+.pj-list .items .reply text {
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #666666;
+}

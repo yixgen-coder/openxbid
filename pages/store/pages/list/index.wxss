@@ -72,6 +72,9 @@ page {
 .publish-wrap .store-info .info .tags text:first-child {
   color: #F22800;
 }
+.publish-wrap .store-info .info .tags text:last-child {
+  color: #33AAFF;
+}
 .publish-wrap .store-info .gzbtn {
   width: 100rpx;
   padding: 10rpx 20rpx;

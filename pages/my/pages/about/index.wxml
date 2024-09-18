@@ -1,0 +1,6 @@
+<view class="art-container">
+  <view class="tit">{{artInfo.title}}</view>
+  <view class="content">
+    <rich-text nodes="{{artInfo.content}}"></rich-text>
+  </view>
+</view>

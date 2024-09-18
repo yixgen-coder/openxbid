@@ -10,7 +10,9 @@
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
     "t-search": "tdesign-miniprogram/search/search",
-    "goods-list": "/components/goods-list/index"
+    "goods-list": "/components/goods-list/index",
+    "order-pj-list": "/components/order-pj-list/index",
+    "dt-list": "/components/dt-list/index"
   },
   "enablePullDownRefresh": true
 }

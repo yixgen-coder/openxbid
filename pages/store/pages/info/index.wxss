@@ -56,11 +56,20 @@ page {
 }
 .store-list .left .tags text {
   font-size: 28rpx;
-  color: #FF5533;
+  margin: 5rpx;
   background: #FFF2F0;
   border-radius: 4rpx;
   padding: 5rpx;
   margin-right: 5rpx;
+}
+.store-list .left .tags text:nth-child(1) {
+  color: #FF5533;
+}
+.store-list .left .tags text:nth-child(2) {
+  color: #a19e9e;
+}
+.store-list .left .tags text:nth-child(3) {
+  color: #33AAFF;
 }
 .store-list .right {
   width: 100rpx;
@@ -68,6 +77,7 @@ page {
 .store-list .right image {
   width: 100rpx;
   height: 100rpx;
+  border-radius: 50rpx;
 }
 .store-addr {
   background: #FFFFFF;
@@ -86,12 +96,19 @@ page {
   gap: 20rpx;
 }
 .store-addr .addr image {
-  width: 40rpx;
-  height: 40rpx;
+  width: 30rpx;
+  height: 30rpx;
 }
 .store-addr .addr text {
   font-size: 28rpx;
   color: #221F1C;
   text-align: justify;
-  line-height: 50rpx;
+}
+.zxzx {
+  margin-top: 30rpx;
+  background-color: #FF5533;
+  color: #FFFFFF;
+  font-size: 32rpx;
+  text-align: center;
+  padding: 15rpx 0;
 }

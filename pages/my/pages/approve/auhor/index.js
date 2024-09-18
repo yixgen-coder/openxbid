@@ -37,6 +37,10 @@ Page({
     imgTmp: '',
     btnText: '立即认证',
     btnStatus: false,
+    companyStatus: 0,
+    companyMsg: '',
+    companyTime: '',
+    companyType: 0,
   },
 
   /**
@@ -83,16 +87,21 @@ Page({
             regions: res.data.data.region,
             grInfos: gr_infos,
             qyInfos: qy_infos,
+            companyStatus: res.data.data.info.company_status,
+            companyMsg: res.data.data.info.company_msg,
+            companyTime: res.data.data.info.company_time,
+            companyType: res.data.data.info.company_type,
             fileList: [{
               'url': options.items == 1 ? gr_infos.imgs : qy_infos.imgs
             }],
             imgTmp: options.items == 1 ? gr_infos.imgs : qy_infos.imgs,
-            regionText: that.findValue(options.items == 1 ? gr_infos.region : qy_infos.region, res.data.data.region),
-            regionValue: [options.items == 1 ? gr_infos.region : qy_infos.region],
+            regionText: that.findValue(options.items == 1 ? parseInt(gr_infos.region) : parseInt(qy_infos.region), res.data.data.region),
+            regionValue: [options.items == 1 ? parseInt(gr_infos.region) : parseInt(qy_infos.region)],
             typeText: that.findValue(gr_infos.type, types),
             typeValue: [gr_infos.type],
           });
         }
+        console.log(that.data)
       },
       fail: function (error) {
         console.error('提交失败', error);

@@ -82,7 +82,9 @@ Page({
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
         });
-        this.goodListPagination.index = formData.page + 1;
+        if(nextList.length>0){
+          this.goodListPagination.index = formData.page + 1;
+        }
       }
       this.setData({
         loadStatus: 0

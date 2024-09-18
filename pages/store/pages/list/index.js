@@ -105,6 +105,67 @@ Page({
 
     }
   },
+  handlePlSubmit: async function (e) {
+    const formData = {};
+    formData.msg = e.detail.msg;
+    formData.dtId = e.detail.dtId;
+    formData.token = wx.getStorageSync('token');
+
+    const url = 'https://kpy.phanlink.com/v1/setDtPl';
+    const res = await this.fetchDatas(url, formData);
+    if (res.code == 1) {
+      let goodsList = this.data.goodsList;
+      if (res.result.length > 0) {
+        goodsList[e.detail.dtIndex].plDat = res.result;
+        goodsList[e.detail.dtIndex].pl += 1;
+      }
+
+      wx.showToast({
+        title: '评论成功',
+        icon: 'success',
+        duration: 2000,
+        mask: true,
+        complete: () => {
+          setTimeout(() => {
+            this.setData({
+              visible: false,
+              goodsList: goodsList
+            });
+          }, 2000);
+        }
+      });
+
+    } else {
+      wx.showToast({
+        title: res.msg,
+        icon: 'none',
+        duration: 2000
+      });
+    }
+  },
+  async artZanClickHandle(e) {
+
+    const dtId = e.detail.id;
+    const index = e.detail.index;
+    const url = 'https://kpy.phanlink.com/v1/setDtZan';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    formData.dtId = dtId;
+    const res = await this.fetchDatas(url, formData);
+    let goodsList = this.data.goodsList;
+    if (res.code == 1) {
+      goodsList[index].zan = res.action
+      this.setData({
+        goodsList: goodsList
+      });
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000
+      });
+
+    }
+  },
   init() {
 
     const res = wx.getMenuButtonBoundingClientRect();
@@ -136,7 +197,7 @@ Page({
     try {
       const res = await this.fetchDatas(url, formData);
       if (res.code == 1) {
-        const nextList = res.result.pros;
+        const nextList = res.result.data;
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
           storeInfo: res.result.storeInfo
@@ -193,6 +254,27 @@ Page({
   onReachBottom() {
     if (this.data.loadStatus === 0) {
       this.fetchHomeDatas();
+    }
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res);
+    }
+    return {
+      title: this.data.storeInfo.shop_name,
+      imageUrl: this.data.storeInfo.shop_logo,
+      path: '/pages/store/list/index?storeId=' + this.data.storeId,
+    }
+  },
+  onShareTimeline: function (res) {
+    return {
+      title: this.data.storeInfo.shop_name,
+      query: 'storeId=' + this.data.storeId,
+      imageUrl: this.data.storeInfo.shop_logo,
     }
   },
 })

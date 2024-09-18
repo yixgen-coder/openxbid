@@ -3,7 +3,7 @@ page {
 }
 .publish-wrap .publish-header {
   width: 100%;
-  height: 360rpx;
+  height: 30vh;
   position: relative;
 }
 .publish-wrap .publish-header .bar-right {
@@ -17,7 +17,7 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 260rpx;
+  top: 20vh;
 }
 .publish-wrap .logo .tit {
   font-weight: 600;
@@ -26,7 +26,7 @@ page {
 }
 .publish-wrap .login {
   margin: 0 30rpx;
-  margin-top: 280rpx;
+  margin-top: 10vh;
 }
 .publish-wrap .login .wxlogin .phonebtn {
   margin: 30rpx 0;

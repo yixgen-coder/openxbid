@@ -27,6 +27,9 @@ page {
   height: 750rpx;
   width: 750rpx;
 }
+.classify-header .t-swiper .t-swiper-nav {
+  bottom: 140rpx;
+}
 .classify-header .count-down {
   position: absolute;
   width: 100%;
@@ -228,9 +231,12 @@ page {
   color: #221F1C;
 }
 .tab-box .t-class-track {
-  width: 50rpx;
-  margin-left: -14rpx;
+  width: 100rpx;
   background-color: #FF5533;
+}
+.tab-box .t-tabs__item-inner {
+  font-size: 32rpx;
+  color: #000000;
 }
 .footer-box {
   position: fixed;
@@ -247,6 +253,7 @@ page {
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  z-index: 9999;
 }
 .footer-box .img-txt {
   text-align: center;

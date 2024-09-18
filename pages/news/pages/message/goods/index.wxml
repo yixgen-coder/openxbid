@@ -1,0 +1,33 @@
+<view class="goods-list">
+  <view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+    <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+  </view>
+  <view class="items" wx:for="{{goodsList}}">
+    <view class="goods-statu">
+      <view class="st">
+        <image src="https://imgs.phanlink.com/program/images/msg2.png"></image>
+        <text>商品状态</text>
+      </view>
+      <view class="zt">
+        <text class="color1" wx:if="{{item.status==1}}">竞价中</text>
+        <text class="color1" wx:if="{{item.status==2}}">竞价成功</text>
+        <text class="color2" wx:if="{{item.status==0}}">竞价失败</text>
+      </view>
+    </view>
+    <view class="stxt" wx:if="{{item.status==2}}">您参与的商品已竞价成功</view>
+    <view class="stxt" wx:if="{{item.status==1}}">您参与的商品竞价中</view>
+    <view class="stxt" wx:if="{{item.status==0}}">您参与的商品已竞价失败</view>
+    <view class="goods" bindtap="handleGoGoods" data-id="{{item.goods_id}}">
+      <view class="img">
+        <image src="{{item.pic}}"></image>
+      </view>
+      <view class="tit">
+        <text>{{item.title}}/{{item.nature}}/{{item.place}}</text>
+      </view>
+    </view>
+    <view class="more">
+      <t-cell url="/pages/tabbar/serve/info/index?ordId={{item.id}}" left-icon="https://imgs.phanlink.com/program/images/msg2.png" title="2024-01-22 18:00" hover note="查看详情" arrow style="color:#999999;" />
+    </view>
+  </view>
+  <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
+</view>

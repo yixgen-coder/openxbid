@@ -1,0 +1,67 @@
+page {
+  background: #F7F8FA;
+}
+.goods-list {
+  margin: 30rpx 20rpx;
+}
+.goods-list .items {
+  margin: 20rpx 0;
+  padding: 20rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+}
+.goods-list .items .goods-statu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid #E6E6E6;
+}
+.goods-list .items .goods-statu .st {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.goods-list .items .goods-statu .st image {
+  width: 60rpx;
+  height: 60rpx;
+}
+.goods-list .items .goods-statu .st text {
+  font-size: 32rpx;
+  color: #221F1C;
+}
+.goods-list .items .goods-statu .zt {
+  font-weight: bold;
+  font-size: 32rpx;
+}
+.goods-list .items .goods-statu .zt .color1 {
+  color: #F22800;
+}
+.goods-list .items .goods-statu .zt .color2 {
+  color: #A8A8A8;
+}
+.goods-list .items .stxt {
+  margin-top: 20rpx;
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #221F1C;
+}
+.goods-list .items .goods {
+  padding: 30rpx 0;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  border-bottom: 1rpx solid #E6E6E6;
+}
+.goods-list .items .goods .img image {
+  width: 120rpx;
+  height: 120rpx;
+}
+.goods-list .items .goods .tit {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 40rpx;
+}
+.goods-list .items .more {
+  margin: 0 -30rpx;
+}

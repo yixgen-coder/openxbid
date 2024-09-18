@@ -1,49 +1,28 @@
 <view class="message-list-wrap wr-class" id="{{independentID}}">
-	<block wx:for="{{4}}" wx:for-item="item" wx:key="index">
-    <t-cell
-  title="多行带图片"
-  description="一段很长很长的内容文字"
-  align="top"
-  image="https://tdesign.gtimg.com/mobile/demos/avatar1.png"
-  hover
-  bordered="{{false}}"
-  t-class="cell-class"
-  t-class-image="cell-image"
-  t-class-description="cell-class-description"
->
-<!-- *********** -->
-    <view class="cell-note" slot="note"  wx:if="{{index%2==0}}">
-      <view class="time">2024-01-18</view>
-      <t-badge count="8" class="wrapper">
-      </t-badge>
-    </view>
-<!-- ************ -->
-    <view class="cell-note" slot="note" wx:else >
-      <t-icon class="time"  name="chevron-right" color="#cccccc" size="42rpx" />
-      <t-badge dot class="wrapper1">
-      </t-badge>
-    </view>
+  <block wx:for="{{gdDatas}}" wx:for-item="item" wx:key="index">
+    <t-cell url="{{item.url}}" title="{{item.title}}" description="{{item.desc}}" align="top" image="{{item.img}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
+      <!-- *********** -->
+      <!-- <view class="cell-note" slot="note" wx:if="{{index%2==0}}">
+        <view class="time">2024-01-18</view>
+        <t-badge count="{{item.note}}" class="wrapper">
+        </t-badge>
+      </view> -->
+      <!-- ************ -->
+      <view class="cell-note" slot="note">
+        <t-icon class="time" name="chevron-right" color="#cccccc" size="42rpx" />
+        <t-badge count="{{item.note}}" class="wrapper1">
+        </t-badge>
+      </view>
     </t-cell>
-	</block>
+  </block>
 
-<view class="border"></view>
+  <view class="border"></view>
   <!-- ******************************************* -->
-  <block wx:for="{{4}}" wx:for-item="item" wx:key="index">
-    <t-cell
-  title="多行带图片"
-  description="一段很长很长的内容文字"
-  align="top"
-  image="https://tdesign.gtimg.com/mobile/demos/avatar1.png"
-  hover
-  bordered="{{false}}"
-  t-class="cell-class"
-  t-class-image="cell-image"
-  t-class-description="cell-class-description"
->
-    <view class="cell-note" slot="note"  >
-      <view class="time">21:45</view>
-    </view>
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <t-cell url="/pages/news/pages/message/chat/index?storeId={{item.storeid}}" title="{{item.shop_name}}" description="{{item.msg}}" align="top" image="https://imgs.phanlink.com/{{item.shop_logo}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
+      <view class="cell-note" slot="note">
+        <view class="time">{{item.addtime}}</view>
+      </view>
     </t-cell>
-	</block>
+  </block>
 </view>
-

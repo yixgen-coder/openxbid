@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "系统通知",
+  "onReachBottomDistance": 10,
+  "component": true,
+  "usingComponents": {
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "load-more": "/components/load-more/index"
+  },
+  "enablePullDownRefresh": true
+}

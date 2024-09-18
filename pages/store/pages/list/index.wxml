@@ -22,9 +22,11 @@
           <navigator url="/pages/store/pages/info/index?storeId={{storeId}}"> {{storeInfo.shop_name}} ></navigator>
         </view>
         <view class="tags">
-          <text>认证商品</text>
+          <text>认证商铺</text>
           <text>|</text>
-          <text>{{storeInfo.fans}}关注</text>
+          <text>{{storeInfo.fans}} 关注</text>
+          <text>|</text>
+          <text>{{storeInfo.orders}} 成交</text>
         </view>
       </view>
       <view class="gzbtn" wx:if="{{storeInfo.gz==0}}" bindtap="storeClickHandle">+关注</view>
@@ -45,7 +47,10 @@
 
 <view class="home-page-container">
   <view class="fish-list">
-    <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" />
+    <goods-list wx:if="{{tabIndex<3}}" wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" />
+    <order-pj-list wx:if="{{tabIndex==3}}" goodsList="{{goodsList}}" bind:click="goodListClickHandle" />
+    <dt-list wx:if="{{tabIndex==4}}" wr-class="goods-list-container" goodsList="{{goodsList}}" visible="{{visible}}" bind:pl="handlePlSubmit" bind:click="artZanClickHandle" />
+
     <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
   </view>
 </view>

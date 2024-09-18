@@ -1,0 +1,46 @@
+<!-- 头部 -->
+<view class="publish-wrap">
+  <view class="publish-header">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#333333" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+<view style="height:180rpx;"></view>
+<view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+</view>
+<view class="news-list">
+  <scroll-view class="chat-scroll">
+    <view class="items" wx:for="{{goodsList}}">
+      <view class="items-{{uId>0?'left':'right'}}" wx:if="{{item.type==1}}">
+        <view class="img">
+          <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
+        </view>
+        <view class="content">
+          <view class="time"><text>{{item.addtime}}</text> </view>
+          <view class="txt">{{item.msg}}</view>
+        </view>
+      </view>
+      <view class="items-{{storeId>0?'left':'right'}}" wx:if="{{item.type==2}}">
+        <view class="img">
+          <image src="https://imgs.phanlink.com/{{item.shop_logo}}"></image>
+        </view>
+        <view class="content">
+          <view class="time">{{item.addtime}}</view>
+          <view class="txt">{{item.msg}}</view>
+        </view>
+
+      </view>
+    </view>
+  </scroll-view>
+  <!-- <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" /> -->
+</view>
+<view style="height:180rpx;"></view>
+<view class="chat-input">
+  <t-input placeholder="在此输入..." t-class-input="tinput" value="{{msg}}" bind:change="handleChatValue">
+    <t-icon slot="suffix" name="add-circle" size="55rpx" wx:if="{{send==0}}" color="#929292" />
+    <t-button slot="suffix" size="extra-small" wx:if="{{send==1}}" bindtap="handleChatSubmit"> 发送 </t-button>
+  </t-input>
+</view>

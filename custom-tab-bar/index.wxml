@@ -1,7 +1,7 @@
 <t-tab-bar value="{{active}}" bindchange="onChange" fixed="{{true}}" bordered="{{false}}" split="{{false}}" style="padding:0;margin:0;">
   <image class="tabbar-bg" src="https://imgs.phanlink.com/program/images/bar-bg.png" mode="aspectFill">
   </image>
-  <t-tab-bar-item wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index" t-icon-class="pp" icon="{{active==index?item.aicon:item.icon}}" badge-props="{{ index==3?{count: 1}:0 }}">
+  <t-tab-bar-item wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index" t-icon-class="pp" icon="{{active==index?item.aicon:item.icon}}" badge-props="{{ index==3?{count: count}:0 }}">
     <view class=" custom-tab-bar-wrapper">
       <view class="{{['text',index==active?'active':'']}}">{{ item.text }}</view>
     </view>

@@ -1,3 +1,4 @@
+<wxs module="filter" src="./index.wxs"></wxs>
 <view class="detail-quote">
   <block wx:for="{{goodsbj.spec}}">
     <view class="title">规格：{{item.a1}}</view>
@@ -24,7 +25,7 @@
       </view>
       <view>
         <text>总价({{goodsbj.currencyType==1?'USD':'CNY'}})</text>
-        <text class="red">{{item.a4*item.a5}}</text>
+        <text class="red">{{filter.numberToFixed(item.a4*item.a5)}}</text>
       </view>
     </view>
   </block>

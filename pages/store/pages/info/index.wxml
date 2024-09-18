@@ -9,16 +9,17 @@
 <view class="store-list">
   <view class="left">
     <view class="tit">{{storeInfo.shop_name}}</view>
-    <view class="tags"><text>{{storeInfo.region}}</text><text>{{storeInfo.type}}</text></view>
+    <view class="tags"><text>{{storeInfo.region}}</text><text>{{storeInfo.type}}</text><text>{{storeInfo.fwtype}}</text></view>
   </view>
   <view class="right">
     <image src="{{storeInfo.shop_logo}}"></image>
   </view>
 </view>
 <view class="store-addr">
-  <view class="tit">商家主营商品</view>
+  <view class="tit">公司地址</view>
   <view class="addr">
-    <text>主营商品：{{storeInfo.stype}}</text>
+    <image src="https://imgs.phanlink.com/program/images/addre.png"></image>
+    <text>{{storeInfo.address}}</text>
   </view>
 </view>
 <view class="store-addr">
@@ -29,3 +30,6 @@
     </text>
   </view>
 </view>
+<navigator class="zxzx" url="/pages/news/pages/message/chat/index?storeId={{storeId}}">
+  <text>立即咨询</text>
+</navigator>

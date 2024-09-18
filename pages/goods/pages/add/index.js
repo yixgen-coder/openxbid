@@ -46,7 +46,8 @@ Page({
     }],
     regionList: [],
     typeList: [],
-    minDate: Date.now() - 1 * 30 * 24 * 60 * 60 * 1000,
+    minDate: Date.now() - 7 * 24 * 60 * 60 * 1000,
+    maxDate: Date.now() + 7 * 24 * 60 * 60 * 1000,
   },
 
 
@@ -74,11 +75,13 @@ Page({
     });
   },
   onTypePicker(e) {
-
+    console.log(e);
     let {
       typeCurrentIndex,
       typeCurrentTitle,
       typeTitle,
+      minDate,
+      maxDate,
       typeValue
     } = this.data;
     const {
@@ -121,14 +124,31 @@ Page({
         typeCurrentValue: [typeValue[index]]
       })
     } else {
+      if (index == 4) {
+        minDate = Date.now() - 30 * 24 * 60 * 60 * 1000;
+        maxDate = Date.now() + 30 * 24 * 60 * 60 * 1000;
+      }
+      if (index > 4 && this.data.goodsId > 0) {
+        return false;
+      }
+      if (index == 5) {
+
+        minDate = Date.now();
+        maxDate = Date.now() + 7 * 24 * 60 * 60 * 1000;
+      }
+      if (index == 6) {
+        minDate = typeValue[5];
+        maxDate = typeValue[5] + 7 * 24 * 60 * 60 * 1000;
+      }
       this.setData({
         dateVisible: true,
+        minDate: minDate,
+        maxDate: maxDate,
         typeCurrentIndex: index,
         typeCurrentTitle: typeTitle[index],
         typeCurrentValue: typeValue[index]
       })
     }
-    console.log(this.data.typeCurrentValue);
   },
   handleCancel(e) {
     const {
@@ -172,6 +192,13 @@ Page({
         const date = new Date(val);
         return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
       };
+      if (index == 5) {
+        let va = value + 7 * 24 * 60 * 60 * 1000;
+        this.setData({
+          [`typeText[${6}]`]: format(va),
+          [`typeValue[${6}]`]: va,
+        });
+      }
       this.setData({
         [`typeText[${index}]`]: format(value),
         [`typeValue[${index}]`]: value,

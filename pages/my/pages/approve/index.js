@@ -49,12 +49,6 @@ Page({
           that.setData({
             items: res.data.data.company_type
           })
-          if (res.data.data.company_type) {
-            wx.navigateTo({
-              url: `/pages/my/pages/approve/auhor/index?items=${res.data.data.company_type}`,
-            });
-          }
-
         }
       }
     });

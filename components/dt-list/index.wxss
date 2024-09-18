@@ -1,0 +1,114 @@
+.community-list-wrap .community-item {
+  background: #FFFFFF;
+  margin: 20rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  display: flex;
+  align-items: top;
+  gap: 10rpx;
+}
+.community-list-wrap .community-item .date {
+  width: 100rpx;
+  font-weight: 600;
+  font-size: 28rpx ;
+}
+.community-list-wrap .community-item .content-txt {
+  font-size: 30rpx;
+  color: #332E2A;
+  line-height: 44rpx;
+  margin-bottom: 20rpx;
+  text-align: justify;
+}
+.community-list-wrap .community-item .img-list {
+  width: 100%;
+}
+.community-list-wrap .community-item .img-list > image {
+  width: 130rpx;
+  height: 130rpx;
+  margin: 5rpx;
+  border-radius: 10rpx;
+}
+.community-list-wrap .community-item .img-list :last-child {
+  margin-right: 0;
+}
+.community-list-wrap .community-item .pj {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 36rpx;
+}
+.community-list-wrap .community-item .pj .zpl {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.community-list-wrap .community-item .pj .zpl > image {
+  width: 36rpx;
+  height: 36rpx;
+  margin-left: 40rpx;
+  margin-right: 10rpx;
+}
+.community-list-wrap .community-item .pj .zpl text {
+  font-size: 28rpx;
+  color: #000000;
+}
+.community-list-wrap .community-item .dz {
+  font-size: 28rpx;
+  color: #221F1C;
+  line-height: 40rpx;
+  padding: 5rpx 0;
+  text-align: justify;
+}
+.community-list-wrap .community-item .replay {
+  border-top: 1rpx solid #E6E6E6;
+  padding-top: 15rpx;
+}
+.community-list-wrap .community-item .replay > view {
+  font-size: 28rpx;
+  color: #221F1C;
+  margin-top: 20rpx;
+}
+.community-list-wrap .community-item .replay > view .name {
+  color: #80766C;
+}
+.community-list-wrap .community-item .replay > view .margin-5 {
+  margin: 0 10rpx;
+  display: inline-block;
+}
+.block {
+  width: 100vw;
+  height: 240px;
+  background: var(--td-bg-color-container);
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+.header {
+  display: flex;
+  align-items: center;
+  height: 116rpx;
+}
+.title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 36rpx;
+  color: var(--td-text-color-primary);
+}
+.btn {
+  font-size: 32rpx;
+  padding: 32rpx;
+}
+.btn--cancel {
+  color: var(--td-text-color-secondary);
+}
+.btn--confirm {
+  color: #0052d9;
+}
+.external-class {
+  height: 324rpx;
+}
+.external-class .t-textarea__wrapper {
+  background: #F4F5F7;
+  padding: 10rpx;
+}

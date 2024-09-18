@@ -1,0 +1,131 @@
+.community-list-wrap {
+  .community-item {
+    background: #FFFFFF;
+    margin: 20rpx;
+    padding: 20rpx;
+    box-sizing: border-box;
+    display: flex;
+    align-items: top;
+    gap:10rpx;
+    .date{
+      width:100rpx;
+      font-weight: 600;
+      font-size:28rpx ;
+    }
+    .content-txt {
+      font-size: 30rpx;
+      color: #332E2A;
+      line-height: 44rpx;
+      margin-bottom: 20rpx;
+      text-align: justify;
+    }
+
+    .img-list {
+      width:100%;
+      >image{
+        width:130rpx;
+        height:130rpx;
+        margin:5rpx;
+        border-radius: 10rpx;
+      }
+
+      :last-child {
+        margin-right: 0;
+      }
+    }
+
+    .pj {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 36rpx;
+      .zpl{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        >image {
+          width: 36rpx;
+          height: 36rpx;
+          margin-left: 40rpx;
+          margin-right: 10rpx;
+        }
+
+        text {
+          font-size: 28rpx;
+          color: #000000;
+        }
+      }
+    }
+
+    .dz {
+      font-size: 28rpx;
+      color: #221F1C;
+      line-height: 40rpx;
+      padding: 5rpx 0;
+      text-align: justify;
+    }
+
+    .replay {
+      border-top: 1rpx solid #E6E6E6;
+      padding-top: 15rpx;
+
+      >view {
+        font-size: 28rpx;
+        color: #221F1C;
+        margin-top: 20rpx;
+
+        .name {
+          color: #80766C;
+        }
+
+        .margin-5 {
+          margin: 0 10rpx;
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+
+.block {
+  width: 100vw;
+  height: 240px;
+  background: var(--td-bg-color-container);
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 116rpx;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 36rpx;
+  color: var(--td-text-color-primary);
+}
+
+.btn {
+  font-size: 32rpx;
+  padding: 32rpx;
+}
+
+.btn--cancel {
+  color: var(--td-text-color-secondary);
+}
+
+.btn--confirm {
+  color: #0052d9;
+}
+.external-class {
+  height: 324rpx;
+  .t-textarea__wrapper{
+    background: #F4F5F7;
+    padding:10rpx;
+  }
+}

@@ -29,21 +29,26 @@ page {
   .goods-list{
     background: #FFFFFF;
     border-radius: 30rpx;
-    padding:30rpx;
-    margin:30rpx 0;
+    padding:20rpx;
     .title{
-      font-weight: bold;
-      font-size: 36rpx;
-      color: #221F1C;
-      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-bottom:1rpx solid #eeebeb;
       padding-bottom: 20rpx;
-      margin-top:30rpx;
-      &::after{
-        position: absolute;
-        content:'*';
-        font-size: 50rpx;
-        color: #F22800;
+      text{
+        font-weight: bold;
+        font-size: 36rpx;
+        color: #221F1C;
+        position: relative;
+        
+        margin-top:30rpx;
+        &::after{
+          position: absolute;
+          content:'*';
+          font-size: 50rpx;
+          color: #F22800;
+        }
       }
     }
     .items{

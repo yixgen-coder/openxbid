@@ -30,19 +30,25 @@ Component({
   },
 
   methods: {
-    onClickGoods(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('click', { ...e.detail, index });
+    handleGoArt(e) {
+      const {
+        id
+      } = e.currentTarget.dataset;
+      wx.navigateTo({
+        url: `/pages/news/pages/art/index?artId=${id}`,
+      });
     },
 
-    onAddCart(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('addcart', { ...e.detail, index });
-    },
+
 
     onClickGoodsThumb(e) {
-      const { index } = e.currentTarget.dataset;
-      this.triggerEvent('thumb', { ...e.detail, index });
+      const {
+        index
+      } = e.currentTarget.dataset;
+      this.triggerEvent('thumb', {
+        ...e.detail,
+        index
+      });
     },
 
     init() {
@@ -51,7 +57,9 @@ Component({
 
     genIndependentID(id) {
       if (id) {
-        this.setData({ independentID: id });
+        this.setData({
+          independentID: id
+        });
       } else {
         this.setData({
           independentID: `goods-list-${~~(Math.random() * 10 ** 8)}`,

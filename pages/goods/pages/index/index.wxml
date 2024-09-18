@@ -1,10 +1,10 @@
 <view class="classify-header">
   <view class="top-bar" style="padding-top:{{statusbar}}px;height: {{jiaonangheight}}px;">
-    <image src="https://imgs.phanlink.com/program/images/left.png" bindtap="goback"></image>
+    <image src="https://imgs.phanlink.com/program/images/left{{currentPage}}.png" bindtap="goback"></image>
     <image bind:tap="handleShareShow" src="https://imgs.phanlink.com/program/images/sher.png"></image>
   </view>
   <!-- <image src="https://imgs.phanlink.com/program/images/topbg.png"></image> -->
-  <t-swiper current="{{current}}" autoplay="{{autoplay}}" duration="{{duration}}" interval="{{interval}}" list="{{goodsInfo.pics}}" navigation="{{ { type: 'dots-bar' } }}" height="750rpx" />
+  <t-swiper current="{{current}}" bindclick="previewImage" autoplay="{{autoplay}}" duration="{{duration}}" interval="{{interval}}" list="{{goodsInfo.pics}}" navigation="{{ { type: 'fraction' } }}" paginationPosition="{{paginationPosition}}" height="750rpx" />
   <view wx:if="{{goodsInfo.statu==2}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm.png') no-repeat bottom;background-size: cover;">
     <view>竞价进行中</view>
     <view class="right"><text class="time-text">距结束</text>
@@ -34,7 +34,7 @@
     <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==1}}" variant="light" theme="warning">出售</t-tag>
     <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==2}}" variant="light" theme="success">求购</t-tag>
     <t-tag class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.nature}}</t-tag>
-    <t-tag class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.spec1}}</t-tag>
+    <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.spec1}}</t-tag>
   </view>
   <view class="price">
     <view>当前竞价 <text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.current_price?goodsInfo.current_price:goodsInfo.pric}}</text></view>
@@ -45,7 +45,7 @@
 
 <view class="classify-box">
   <view class="fixed">
-    <view>竞价列表</view>
+    <view style="font-size: 32rpx;color:#000000;font-weight: 600;">竞价列表</view>
 
     <view class="has-icon" bindtap="handleGoOffer"><text>{{goodsInfo.apply}}条</text>
       <t-icon name="chevron-right" color="#999" size="42rpx" />
@@ -115,14 +115,14 @@
 <view class="tab-box">
   <t-tabs t-class-active="tab-class-active" t-class-track="t-class-track" defaultValue="{{0}}" bind:change="onTabsChange" bind:click="onTabsClick" t-class="custom-tabs">
     <t-tab-panel label="商品详情" value="0" />
-    <t-tab-panel label="规格参数" value="1" />
-    <t-tab-panel label="商品竞价单" value="2" />
+    <t-tab-panel label="商品竞价单" value="1" />
   </t-tabs>
+  <!-- 参数规格 -->
+  <t-detail-parameter wx:if="{{goodslabs==0}}" goodsgg="{{goodsInfo}}" />
   <!-- 商品详情 -->
   <t-detail-image wx:if="{{goodslabs==0}}" goodsimg="{{goodsInfo}}" />
-  <!-- 参数规格 -->
-  <t-detail-parameter wx:if="{{goodslabs==1}}" goodsgg="{{goodsInfo}}" />
-  <t-detail-quote wx:if="{{goodslabs==2}}" goodsbj="{{goodsInfo}}" />
+
+  <t-detail-quote wx:if="{{goodslabs==1}}" goodsbj="{{goodsInfo}}" />
 </view>
 <!-- 底部栏 -->
 <view class="footer-box">
@@ -130,10 +130,10 @@
     <image src="https://imgs.phanlink.com/program/images/dd1.png"></image>
     <view>店铺</view>
   </navigator>
-  <view class="img-txt">
+  <navigator class="img-txt" url="/pages/news/pages/message/chat/index?storeId={{goodsInfo.storeid}}">
     <image src="https://imgs.phanlink.com/program/images/dd2.png"></image>
     <view>客服</view>
-  </view>
+  </navigator>
   <view class="img-txt" wx:if="{{sc==0}}" bindtap="handlesc" id="{{goodsInfo.id}}">
     <image src="https://imgs.phanlink.com/program/images/dd3.png"></image>
     <view>收藏</view>
@@ -149,7 +149,7 @@
 
 <!-- 竞价弹窗 -->
 <t-popup visible="{{isShow}}" bind:visible-change="onVisibleChange" placement="bottom">
-  <t-bidding-popup goodsspec="{{goodsInfo.spec}}" bindsubmitBJ="submitBJ" bindcancel="onVisibleChange" total="{{total}}" bindggainput="ggainput" />
+  <t-bidding-popup goodsspec="{{orderInfos.spec}}" bindsubmitBJ="submitBJ" bindcancel="onVisibleChange" total="{{orderInfos}}" bindggainput="ggainput" />
 </t-popup>
 
 <!-- 分享弹窗 -->

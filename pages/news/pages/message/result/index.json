@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "商家咨询消息",
+  "onReachBottomDistance": 10,
+  "component": true,
+  "usingComponents": {
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "load-more": "/components/load-more/index"
+  },
+  "enablePullDownRefresh": true
+}

@@ -1,0 +1,13 @@
+<view class="message-list-wrap">
+  <view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+    <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+  </view>
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <t-cell url="/pages/news/pages/message/chat/index?uId={{item.uid}}" title="{{item.nickname}}" description="{{item.msg}}" align="top" image="https://imgs.phanlink.com/{{item.avatar}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
+      <view class="cell-note" slot="note">
+        <view class="time">{{item.addtime}}</view>
+      </view>
+    </t-cell>
+  </block>
+  <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
+</view>

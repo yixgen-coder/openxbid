@@ -18,7 +18,7 @@
       </view>
     </view>
     <view class="right" wx:if="{{userInfo.company_status==2}}">
-      <view class="btn">进入店铺</view>
+      <navigator class="btn" url="/pages/store/pages/list/index?storeId={{userInfo.storeid}}">进入店铺</navigator>
     </view>
   </view>
 </view>

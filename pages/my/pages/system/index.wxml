@@ -1,0 +1,8 @@
+<view style="margin:30rpx 0;">
+  <t-cell url="/pages/my/pages/info/index" title="{{userinfo.nickname}}" note="个人信息" align="center" image="{{userinfo.avatar}}" bordered="{{true}}" arrow />
+  <t-cell url="/pages/my/pages/about/index?artId=2" title="服务协议条款" note="" align="center" bordered="{{true}}" arrow />
+  <t-cell url="/pages/my/pages/about/index?artId=3" title="隐私政策" note="" align="center" bordered="{{true}}" arrow />
+  <t-cell title="当前版本" note="{{versionNo}}" align="center" bordered="{{true}}" arrow />
+</view>
+
+<view class="logout" bindtap="handleLogOut"> 退出登录</view>

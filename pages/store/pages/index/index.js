@@ -11,20 +11,21 @@ Page({
     shop_status: '',
     shop_time: '',
     shop_desc: '',
+    address: '',
     typeText: '商家性质',
-    typeValue: ['1'],
+    typeValue: [1],
     typeTitle: '选择主营产品',
     types: [{
         label: '厂家',
-        value: '1'
+        value: 1
       },
       {
         label: '贸易商',
-        value: '2',
+        value: 2,
       },
       {
         label: '服务商',
-        value: '3',
+        value: 3,
       }
     ],
     fileList: [],
@@ -32,12 +33,43 @@ Page({
     btnText: '保存',
     btnStatus: false,
     visible: false,
-    disselect: false
+    disselect: false,
+    fwtypeVisible: false,
+    fwtypeText: '服务分类',
+    fwtypeValue: [1],
+    fwtypes: [{
+        label: '清关服务',
+        value: 1
+      },
+      {
+        label: '融资服务',
+        value: 2,
+      },
+      {
+        label: '代采服务',
+        value: 3,
+      },
+      {
+        label: '冷库及物流',
+        value: 4,
+      }
+    ],
+    regionText: '中国',
+    regionValue: [96],
+    regionTitle: '',
+    regions: {},
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
+
+  onRegionPicker() {
+    this.setData({
+      regionVisible: true,
+      regionTitle: '选择国家'
+    });
+  },
   onSelectChange(e) {
 
     const {
@@ -112,6 +144,7 @@ Page({
       const url = 'https://kpy.phanlink.com/v1/getStore';
       const res = await this.fetchData(url);
       const types = this.data.types;
+      const fwtypes = this.data.fwtypes;
       if (res.code == 1) {
         this.setData({
           storeInfo: res.data.info,
@@ -124,8 +157,14 @@ Page({
           shop_status: res.data.info.status == 1 ? '已开通' : '未开通',
           shop_time: res.data.info.uptime,
           shop_desc: res.data.info.shop_desc,
+          address: res.data.info.address,
           typeText: this.findValue(res.data.info.type, types),
           typeValue: [res.data.info.type],
+          fwtypeText: this.findValue(res.data.info.fwtype, fwtypes),
+          fwtypeValue: [res.data.info.fwtype],
+          regionText: this.findValue(res.data.info.region, res.data.region),
+          regionValue: [res.data.info.region],
+          regions: res.data.region,
         });
       }
     } catch (error) {
@@ -133,7 +172,7 @@ Page({
     }
   },
   findValue(value, data) {
-    const foundItems = data.filter(item => item.value === value);
+    const foundItems = data.filter(item => item.value == value);
     return foundItems[0] ? foundItems[0].label : '';
   },
   handleGrInfos(e) {
@@ -153,7 +192,8 @@ Page({
     } = this.data;
     storeInfo[key] = value;
     this.setData({
-      key: value
+      key: value,
+      storeInfo: storeInfo
     });
 
   },
@@ -186,11 +226,6 @@ Page({
     });
   },
   onXZPicker() {
-    // let updatedItems = this.data.options.map(item => {
-    //   item.disabled = !item.disabled;
-    //   return item;
-    // });
-    // console.log(updatedItems);
     const visible = this.data.visible
     this.setData({
       visible: !visible,
@@ -199,6 +234,11 @@ Page({
   onTitlePicker() {
     this.setData({
       typeVisible: true,
+    });
+  },
+  onfwTitlePicker() {
+    this.setData({
+      fwtypeVisible: true,
     });
   },
   handleAdd(e) {

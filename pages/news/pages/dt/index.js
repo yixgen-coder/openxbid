@@ -4,6 +4,12 @@ Page({
     dtId: '',
     artInfo: {},
     visible: false,
+    keyboardheight: 0
+  },
+  handlekeyboardheight(e) {
+    this.setData({
+      keyboardheight: e.detail.height
+    })
   },
   onLoad: function (options) {
     if (options.dtId > 0) {

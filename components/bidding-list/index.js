@@ -43,7 +43,7 @@ Component({
         key
       } = e.currentTarget.dataset;
       wx.navigateTo({
-        url: '/pages/tabbar/serve/info/index?ordId=' + key,
+        url: '/pages/goods/pages/info/index?ordId=' + key,
       });
     },
 

@@ -23,6 +23,9 @@ Page({
     num: 0,
     tabIndex: 0,
     searchName: '',
+    fwtype: 0,
+    region: 0,
+    regions: []
   },
 
   goodListPagination: {
@@ -52,7 +55,7 @@ Page({
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.goodsId = id;
-    const res = await this.fetchDatas(url, formData);
+    const res = await this.fetchSetOrders(url, formData);
     if (res.code == 1) {
       this.setData({
         goodsList: this.data.goodsList.filter(item => item.id !== id),
@@ -70,10 +73,25 @@ Page({
       });
     }
   },
-  async storeClickHandle(e) {
+  storeClickHandle(e) {
     const {
       id
     } = e.detail;
+    wx.showModal({
+      title: '提示',
+      content: '确定要取消关注吗？',
+      showCancel: true,
+      cancelText: '取消',
+      confirmText: '确定',
+      success: res => {
+        if (res.confirm) {
+          this.deleteGzData(id);
+        }
+      }
+    });
+
+  },
+  deleteGzData: async function (id) {
     const url = 'https://kpy.phanlink.com/v1/setStoreGz';
     const formData = {};
     formData.token = wx.getStorageSync('token');
@@ -98,6 +116,18 @@ Page({
     wx.navigateTo({
       url: '/pages/goods/pages/index/index?spuId=' + e.detail.key,
     });
+  },
+  FwtypeHandle(e) {
+    this.setData({
+      fwtype: e.detail.fwTypeValue
+    });
+    this.loadGoodsList(true);
+  },
+  regionHandle(e) {
+    this.setData({
+      region: e.detail.region
+    });
+    this.loadGoodsList(true);
   },
   handleSearchValue(e) {
     const {
@@ -140,6 +170,12 @@ Page({
 
     this.loadGoodsList(true);
   },
+  handleNavChange(e) {
+    this.setData({
+      current: e.currentTarget.dataset.key
+    })
+    this.loadGoodsList(true);
+  },
   onReachBottom() {
     if (this.data.goodsListLoadStatus === 0) {
       this.loadGoodsList();
@@ -159,20 +195,29 @@ Page({
 
     const pageSize = this.goodListPagination.num;
     var pageIndex = this.goodListPagination.index;
+
     var action = this.data.tabIndex;
+    const fwtype = this.data.fwtype;
+    const region = this.data.region;
+    if (this.data.current == 2) {
+      action = 5;
+    }
     var searchName = this.data.searchName;
     if (fresh) {
       pageIndex = 1;
     }
 
     try {
-      const res = await this.fetchGoodsList(pageIndex, pageSize, action, searchName);
+      const res = await this.fetchGoodsList(pageIndex, pageSize, action, searchName, fwtype, region);
       if (res.code == 1) {
         const nextList = res.result;
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+          regions: res.regions,
         });
-        this.goodListPagination.index = pageIndex + 1;
+        if (nextList.length > 0) {
+          this.goodListPagination.index = pageIndex + 1;
+        }
       }
       this.setData({
         goodsListLoadStatus: 0
@@ -184,7 +229,7 @@ Page({
       });
     }
   },
-  fetchGoodsList(pageIndex, pageSize, action, searchName) {
+  fetchGoodsList(pageIndex, pageSize, action, searchName, fwtype, region) {
     let token = wx.getStorageSync('token');
     const url = 'https://kpy.phanlink.com/v1/getOrderDatas';
     return new Promise((resolve, reject) => {
@@ -196,7 +241,9 @@ Page({
           'page': pageIndex,
           'limit': pageSize,
           'action': action,
-          'searchName': searchName
+          'searchName': searchName,
+          'fwtype': fwtype,
+          'region': region
         },
         header: {
           'content-type': 'application/json'
@@ -222,18 +269,14 @@ Page({
       });
     }
   },
-
-  onChange() {
-    wx.navigateTo({
-      url: '/pages/goods/list/index',
-    });
-  },
   onReTry() {
     this.loadGoodsList();
   },
   onLoad() {
-    this.getTabBar().init();
     this.init(true);
+  },
+  onShow() {
+    this.getTabBar().init();
   },
   fetchSetOrders(url, data) {
     return new Promise((resolve, reject) => {

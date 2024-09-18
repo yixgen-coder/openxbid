@@ -11,7 +11,7 @@ page {
   box-sizing: border-box;
   .bg {
     box-sizing: border-box;
-    height: 176rpx;
+    height: 280rpx;
     width: 100%;
     padding: 0 24rpx;
   }
@@ -36,6 +36,36 @@ page {
     .active {
       color: #ffffff;
       font-size: 40rpx;
+    }
+  }
+  .search {
+    margin-top: 25rpx;
+    position: relative;
+
+    .btn {
+      width: 108rpx;
+      height: 56rpx;
+      background: linear-gradient(90deg, #FF7426 0%, #FF350D 100%);
+      border-radius: 40rpx 40rpx 40rpx 40rpx;
+      font-size: 24rpx;
+      line-height: 56rpx;
+      text-align: center;
+      color: #ffffff;
+      position: absolute;
+      right: 5rpx;
+      bottom: 5rpx;
+      z-index:9999;
+    }
+
+    .t-search__input-container {
+      border-radius: 32rpx !important;
+      height: 64rpx !important;
+      position: relative;
+    }
+
+    .t-search__input {
+      font-size: 28rpx !important;
+      color: #747474 !important;
     }
   }
 }

@@ -18,6 +18,7 @@
     </view>
   </view>
   <view class="goodsType">
+    <view><text>成交数：{{item.orders}}</text></view>
     <text>主营商品：{{item.stype}}</text>
   </view>
 </view>
