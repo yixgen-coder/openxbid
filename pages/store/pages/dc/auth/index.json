@@ -1,12 +1,13 @@
 {
-  "navigationBarTitleText": "商家动态",
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
   "onReachBottomDistance": 10,
   "component": true,
   "usingComponents": {
-    "t-cell": "tdesign-miniprogram/cell/cell",
-    "t-popup": "tdesign-miniprogram/popup/popup",
     "t-icon": "tdesign-miniprogram/icon/icon",
-    "t-textarea": "tdesign-miniprogram/textarea/textarea",
+    "t-upload": "tdesign-miniprogram/upload/upload",
+    "t-input": "tdesign-miniprogram/input/input",
+    "t-cell": "tdesign-miniprogram/cell/cell",
     "t-button": "tdesign-miniprogram/button/button"
   },
   "enablePullDownRefresh": true

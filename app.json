@@ -59,7 +59,9 @@
         "pages/info/index",
         "pages/card/index",
         "pages/lxadd/index",
-        "pages/pj/index"
+        "pages/pj/index",
+        "pages/dc/index",
+        "pages/dc/auth/index"
       ]
     }
   ],

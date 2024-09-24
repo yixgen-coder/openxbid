@@ -1,0 +1,69 @@
+page {
+  background: #F7F8FA;
+}
+.publish-wrap .publish-header {
+  width: 100%;
+  height: 360rpx;
+  position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.publish-wrap .publish-header .bar-right {
+  display: flex;
+  align-items: center;
+  padding-left: 34rpx;
+}
+.publish-wrap .publish-header .title {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 22rpx;
+  text-align: center;
+}
+.publish-wrap .publish-header .title .text {
+  display: inline-block;
+  position: relative;
+  font-weight: bold;
+  font-size: 40rpx;
+  color: #221F1C;
+}
+.publish-wrap .publish-header .title .text::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 20rpx;
+  background: #FFD4CC;
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+}
+.publish-wrap .publish-content {
+  margin-top: 136rpx;
+  padding: 0 32rpx;
+}
+.publish-wrap .publish-content .cell-class:nth-of-type(1) .t-cell {
+  background: url('https://imgs.phanlink.com/program/images/gr.png') no-repeat top;
+  background-size: cover;
+}
+.publish-wrap .publish-content .cell-class:nth-of-type(1) .t-cell .cell-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #F22800;
+}
+.publish-wrap .publish-content .cell-class:nth-of-type(1) .t-cell .cell-description {
+  font-size: 28rpx;
+  color: #D3978B;
+}
+.publish-wrap .publish-content .cell-class {
+  border-radius: 24rpx 24rpx 24rpx 24rpx;
+  margin-bottom: 32rpx;
+}
+.publish-wrap .publish-content .cell-description {
+  font-size: 24rpx;
+  color: #999999;
+}
+.publish-wrap .publish-content .cell-image {
+  border-radius: 50%;
+  width: 96rpx !important;
+  height: 96rpx !important;
+}

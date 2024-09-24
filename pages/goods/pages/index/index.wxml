@@ -29,20 +29,43 @@
 </view>
 <!-- 标题信息 -->
 <view class="classify-box">
-  <view class="title">{{goodsInfo.title}}</view>
-  <view class="tags">
+  <view class="title">
     <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==1}}" variant="light" theme="warning">出售</t-tag>
     <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==2}}" variant="light" theme="success">求购</t-tag>
+    {{goodsInfo.title}}
+  </view>
+  <view class="tags">
+    <t-tag class="margin-right-12" wx:if="{{goodsInfo.dc==1}}" variant="light" theme="warning">代采</t-tag>
     <t-tag class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.nature}}</t-tag>
     <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.spec1}}</t-tag>
+    <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.manufacturer}}</t-tag>
+  </view>
+  <view class="newPra">
+    <view class="item">
+      <view class="txt1">{{goodsInfo.weight}}KG</view>
+      <view class="txt2">重量</view>
+    </view>
+    <view class="item1"></view>
+    <view class="item">
+      <view class="txt1">{{goodsInfo.bourn}}</view>
+      <view class="txt2">地点</view>
+    </view>
+    <view class="item1"></view>
+    <view class="item">
+      <view class="txt1">{{goodsInfo.ptime}}</view>
+      <view class="txt2">生产日期</view>
+    </view>
   </view>
   <view class="price">
     <view>当前竞价 <text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.current_price?goodsInfo.current_price:goodsInfo.pric}}</text></view>
-    <view>出价 <text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.price}}</text></view>
+    <view style="display: flex;align-items: center;" bindtap="handleGoOffer">
+      <text class="red big">竞价详情 </text>
+      <t-icon name="chevron-right" color="#FF5533" size="48rpx" />
+    </view>
   </view>
-  <view class="viewpoit">围观 <text>{{goodsInfo.hits}}人</text>参与 <text>{{goodsInfo.apply}}人</text></view>
+  <view class="viewpoit"> <text>围观 {{goodsInfo.hits}} 人</text> <text>参与 {{goodsInfo.apply}} 人</text> <text>竞价 {{goodsInfo.apply}} 次</text></view>
 </view>
-
+<!-- 
 <view class="classify-box">
   <view class="fixed">
     <view style="font-size: 32rpx;color:#000000;font-weight: 600;">竞价列表</view>
@@ -51,9 +74,9 @@
       <t-icon name="chevron-right" color="#999" size="42rpx" />
     </view>
   </view>
-</view>
+</view> -->
 
-<view class="classify-box">
+<!-- <view class="classify-box">
   <view class="fixed margin-b-35">
     <view class="gray">目的港（所在地）</view>
     <view><text>{{goodsInfo.bourn}}</text></view>
@@ -70,7 +93,7 @@
     <view class="gray">生产厂家</view>
     <view><text>{{goodsInfo.manufacturer}}</text></view>
   </view>
-</view>
+</view> -->
 
 <!-- 评价 -->
 <view class="classify-box">
@@ -114,15 +137,13 @@
 <!-- tab详情 -->
 <view class="tab-box">
   <t-tabs t-class-active="tab-class-active" t-class-track="t-class-track" defaultValue="{{0}}" bind:change="onTabsChange" bind:click="onTabsClick" t-class="custom-tabs">
-    <t-tab-panel label="商品详情" value="0" />
-    <t-tab-panel label="商品竞价单" value="1" />
+    <t-tab-panel label="商品竞价单" value="0" />
+    <t-tab-panel label="竞价列表" value="1" />
   </t-tabs>
   <!-- 参数规格 -->
   <t-detail-parameter wx:if="{{goodslabs==0}}" goodsgg="{{goodsInfo}}" />
-  <!-- 商品详情 -->
-  <t-detail-image wx:if="{{goodslabs==0}}" goodsimg="{{goodsInfo}}" />
-
-  <t-detail-quote wx:if="{{goodslabs==1}}" goodsbj="{{goodsInfo}}" />
+  <t-detail-quote wx:if="{{goodslabs==0}}" goodsbj="{{goodsInfo}}" />
+  <t-detail-offer wx:if="{{goodslabs==1}}" goodsOffer="{{goodsInfo.offer}}" />
 </view>
 <!-- 底部栏 -->
 <view class="footer-box">

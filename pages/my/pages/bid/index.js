@@ -42,6 +42,34 @@ Page({
       url: '/pages/goods/pages/index/index?spuId=' + e.detail.key,
     });
   },
+  handleDelOrder(e) {
+    console.log(e);
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    formData.ordId = e.detail[0].key;
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除吗？',
+      success: function (res) {
+        if (res.confirm) {
+          const url = 'https://kpy.phanlink.com/v1/delOrder';
+          this.fetchDatas(url, formData);
+          wx.showToast({
+            title: '操作成功',
+            icon: 'success',
+            duration: 2000,
+            mask: true
+          });
+          this.removeDataById(formData.ordId);
+        }
+      }.bind(this)
+    });
+  },
+  removeDataById: function (id) {
+    this.setData({
+      goodsList: this.data.goodsList.filter(order => order.id !== id)
+    });
+  },
 
   init() {
     let token = wx.getStorageSync('token');
@@ -82,7 +110,7 @@ Page({
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
         });
-        if(nextList.length>0){
+        if (nextList.length > 0) {
           this.goodListPagination.index = formData.page + 1;
         }
       }

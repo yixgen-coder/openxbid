@@ -126,6 +126,9 @@
 .bidding-list-wrap .bidding-item .item-bottom {
   text-align: right;
   margin-top: 20rpx;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15rpx;
 }
 .bidding-list-wrap .bidding-item .item-bottom .btn {
   display: inline-block;

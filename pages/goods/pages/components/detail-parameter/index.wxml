@@ -11,7 +11,7 @@
     <view class="label">商品性质</view>
     <view>{{goodsgg.nature}}</view>
   </view>
-  <!-- <view>
+  <view>
     <view class="label">原产地</view>
     <view>{{goodsgg.place}}</view>
   </view>
@@ -22,9 +22,13 @@
   <view>
     <view class="label">目的港（所在地）</view>
     <view>{{goodsgg.bourn}}</view>
-  </view> -->
+  </view>
   <view>
     <view class="label">生产时间</view>
     <view>{{goodsgg.ptime}}</view>
+  </view>
+  <view>
+    <view class="label">商品补充信息</view>
+    <view>{{goodsgg.info}}</view>
   </view>
 </view>

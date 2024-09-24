@@ -1,6 +1,6 @@
 <wxs module="filter" src="./index.wxs"></wxs>
 <view class="offer">
-  <view class="items" wx:for="{{offerList}}" wx:key="index">
+  <view class="items" wx:for="{{goodsOffer}}" wx:key="index">
     <view class="user">
       <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
       <view>

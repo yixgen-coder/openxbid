@@ -122,6 +122,16 @@ Page({
     });
   },
   onLoad(options) {
+    if (options.cj == 1) {
+      this.setData({
+        isShow: true,
+      });
+    }
+    if (options.pj == 1) {
+      this.setData({
+        pjvisible: true,
+      });
+    }
     this.setData({
       ordId: options.ordId,
     });

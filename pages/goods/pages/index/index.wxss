@@ -64,6 +64,32 @@ page {
 .classify-header .count-down .right .class-split {
   color: #fff;
 }
+.newPra {
+  margin: 30rpx 0;
+  padding: 20rpx 0;
+  background: #F7F8FA;
+  border-radius: 16rpx ;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  align-items: flex-end;
+}
+.newPra .item .txt1 {
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #221F1C;
+}
+.newPra .item .txt2 {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #8B8A90;
+}
+.newPra .item1 {
+  width: 0rpx;
+  height: 40rpx;
+  border-radius: 0rpx 0rpx 0rpx 0rpx;
+  border: 2rpx solid #E6E6E6;
+}
 .classify-box {
   background-color: #fff;
   padding: 32rpx;
@@ -84,11 +110,13 @@ page {
 }
 .classify-box .price {
   margin-top: 42rpx;
-  margin-bottom: 36rpx;
+  margin-bottom: 42rpx;
+  padding-bottom: 36rpx;
   display: flex;
   justify-content: space-between;
   font-weight: bold;
-  font-size: 24rpx;
+  font-size: 28rpx;
+  border-bottom: 1rpx solid #EDEDED;
 }
 .classify-box .price .red {
   color: #F22800;
@@ -99,6 +127,8 @@ page {
 .classify-box .viewpoit {
   font-size: 26rpx;
   color: #979797;
+  display: flex;
+  justify-content: space-between;
 }
 .classify-box .viewpoit text {
   color: #666666;

@@ -24,6 +24,8 @@
         <view class="tags">
           <text>认证商铺</text>
           <text>|</text>
+          <text wx:if="{{storeInfo.dc==1}}">代采权</text>
+          <text wx:if="{{storeInfo.dc==1}}">|</text>
           <text>{{storeInfo.fans}} 关注</text>
           <text>|</text>
           <text>{{storeInfo.orders}} 成交</text>

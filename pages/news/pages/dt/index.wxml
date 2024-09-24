@@ -1,3 +1,41 @@
+<view class="community-item">
+  <!-- 头像和标题信息板块 -->
+  <view class="shop">
+    <image src="https://imgs.phanlink.com/{{dtInfo.store.shop_logo}}"></image>
+  </view>
+  <view style="width:90%">
+    <view class="title-box">
+      <view class="left">
+
+        <view class="title-info">
+          <view class="title">{{dtInfo.store.shop_name}}</view>
+          <view class="time">{{dtInfo.ctime}} · 发布了动态</view>
+        </view>
+      </view>
+      <view class="right">
+        <navigator url="/pages/my/pages/feedback/index">
+          <t-icon name="more" color="#A8A8A8 " size="38rpx" />
+        </navigator>
+      </view>
+    </view>
+    <!-- 内容本快 -->
+    <view class="content-txt">
+      {{dtInfo.title}}
+    </view>
+    <view class="img-list">
+      <image wx:for="{{dtInfo.pic}}" wx:key="{{img}}"  src="{{item.url}}" data-src="{{item.url}}" bindtap="previewImage"></image>
+    </view>
+    <!-- 评价信息 -->
+    <view class="pj">
+      <t-icon name="thumb-up-2" size="36rpx" wx:if="{{dtInfo.zan==0}}" bindclick="HandleZan" />
+      <t-icon name="thumb-up-2" size="36rpx" color="#FF4A26" wx:if="{{dtInfo.zan==1}}" bindclick="HandleZan" />
+      <text>{{dtInfo.zans}}</text>
+      <image src="https://imgs.phanlink.com/program/images/z2.png" bindtap="handleShowMsg"></image>
+      <text>{{dtInfo.pl}}</text>
+      <t-button icon="https://imgs.phanlink.com/program/images/fx1.png" variant="text" size="60rpx" open-type="share" style="margin:0"></t-button>
+    </view>
+  </view>
+</view>
 <view class="art-container">
   <view class="pl-tit">全部评论({{dtInfo.pl}})</view>
   <view class="pl">

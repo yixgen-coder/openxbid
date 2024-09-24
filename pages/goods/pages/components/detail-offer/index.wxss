@@ -1,0 +1,112 @@
+page {
+  background: #F7F8FA;
+}
+page .offer {
+  background: #FFFFFF;
+  margin: 20rpx 0;
+  min-height: 300rpx;
+}
+page .offer .items {
+  padding: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1rpx solid #E6E6E6;
+}
+page .offer .items .user {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15rpx;
+}
+page .offer .items .user > view > view:first-child {
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #221F1C;
+}
+page .offer .items .user > view > view:last-child {
+  font-size: 24rpx;
+  color: #B3B3B3;
+}
+page .offer .items .user image {
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 50%;
+}
+page .offer .items .price {
+  text-align: right;
+  width: 40%;
+}
+page .offer .items .price .price1 {
+  font-size: 28rpx;
+  color: #F22800;
+}
+page .offer .items .price image {
+  width: 25rpx;
+  height: 15rpx;
+}
+page .detail-quote {
+  padding: 32rpx;
+  box-sizing: border-box;
+  height: 80vh;
+  overflow-y: auto;
+}
+page .detail-quote .toptitle {
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #221F1C;
+  margin-bottom: 50rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+page .detail-quote .toptitle image {
+  width: 50rpx;
+  height: 50rpx;
+}
+page .detail-quote .title {
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #221F1C;
+  margin-bottom: 30rpx;
+}
+page .detail-quote .detail-quote-box {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #E6E6E6;
+  margin-bottom: 40rpx;
+}
+page .detail-quote .detail-quote-box > view {
+  width: 336rpx;
+  height: 72rpx;
+  background: #F7F8FA;
+  border-radius: 8rpx 8rpx 8rpx 8rpx;
+  font-size: 28rpx;
+  color: #999999;
+  line-height: 72rpx;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+}
+page .detail-quote .detail-quote-box > view .black {
+  color: #221F1C;
+}
+page .detail-quote .detail-quote-box > view .red {
+  color: #F22800;
+}
+page .detail-quote .detail-quote-box .redb {
+  width: 686rpx;
+  height: 72rpx;
+  background: #FFF4F2;
+  color: #F22800;
+}
+page .detail-quote .detail-quote-box .margin-right-14 {
+  margin-right: 14rpx;
+}
+page .detail-quote .detail-quote-box:last-child {
+  border-bottom: none;
+}

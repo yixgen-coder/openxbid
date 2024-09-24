@@ -20,6 +20,9 @@
             <text>{{item.zan}}</text>
             <image src="https://imgs.phanlink.com/program/images/z2.png" bindtap="handleShowMsg" data-index="{{index}}" data-id="{{item.id}}"></image>
             <text>{{item.pl}}</text>
+            <navigator url="/pages/news/pages/dt/index?dtId={{item.id}}" style="padding:0 15rpx;">
+              <t-icon name="https://imgs.phanlink.com/program/images/fx1.png" size="40rpx" />
+            </navigator>
           </view>
         </view>
         <!-- 点赞 -->

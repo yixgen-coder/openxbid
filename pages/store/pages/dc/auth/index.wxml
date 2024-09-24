@@ -1,0 +1,36 @@
+<view class="publish-wrap">
+  <view class="publish-header">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#333333" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+<view>
+  <t-cell title="认证状态" arrow note="认证失败" description="{{dcInfo.msg}}" wx:if="{{dcInfo.status==-1}}" />
+  <t-cell title="认证状态" arrow note="待认证" wx:if="{{dcInfo.status==0}}" />
+  <t-cell title="认证状态" arrow note="认证中" wx:if="{{dcInfo.status==1}}" />
+  <t-cell title="认证状态" arrow note="认证成功" description="{{companyTime}}" wx:if="{{dcInfo.status==2}}" />
+</view>
+<view class="items">
+  <text>公司名称</text>
+  <t-input t-class="name" placeholder="请填写公司名称" maxlength="60" value="{{dcInfo.name}}" data-key="name" bindchange="handleGrInfos"></t-input>
+</view>
+<view class="items">
+  <text>公司名称(外文名称)</text>
+  <t-input t-class="name" placeholder="请填写公司外文名称" maxlength="60" value="{{dcInfo.name_en}}" data-key="name_en" bindchange="handleGrInfos"></t-input>
+</view>
+<view class="items">
+  <text>海关备案号</text>
+  <t-input t-class="name" placeholder="请填写海关备案号" maxlength="60" value="{{dcInfo.hgban}}" data-key="hgban" bindchange="handleGrInfos"></t-input>
+</view>
+<view class="items">
+  <text>报关单</text>
+  <t-upload mediaType="{{['image']}}" max="{{12}}" files="{{imgList}}" data-index="0" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
+  <view class="desc">请上传近一年进口该商品的报关单</view>
+</view>
+
+<view class="formBtn" wx:if="{{dcInfo.status<2}}">
+  <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">重置</t-button>
+  <t-button size="large" style="width:450rpx;background: #FF4A26;font-size: 32rpx;" bindtap="handleTJForm">提交</t-button>
+</view>

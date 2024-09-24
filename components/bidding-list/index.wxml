@@ -42,7 +42,10 @@
         </view>
       </view>
       <view class="item-bottom">
-        <view class="btn btn1" bindtap="onClickOrders" data-key="{{item.id}}">查看详情</view>
+        <view class="btn btn1" bindtap="onClickDelOrders" data-key="{{item.id}}">删除竞价</view>
+        <navigator class="btn btn1" wx:if="{{item.status==1}}" url="/pages/goods/pages/info/index?ordId={{item.id}}&cj=1">修改出价</navigator>
+        <view class=" btn btn1" bindtap="onClickOrders" data-key="{{item.id}}">查看详情</view>
+        <navigator class="btn btn1" wx:if="{{item.status==2&&item.pj==0}}" url="/pages/goods/pages/info/index?ordId={{item.id}}&pj=1">立即评价</navigator>
       </view>
     </view>
     <!-- <goods-card

@@ -103,6 +103,12 @@ Page({
     let goodsList = this.data.goodsList;
     if (res.code == 1) {
       goodsList[index].zan = res.action
+      if (res.action == 1) {
+        goodsList[index].zan1 += 1
+      } else {
+        goodsList[index].zan1 -= 1
+      }
+
       this.setData({
         goodsList: goodsList
       });

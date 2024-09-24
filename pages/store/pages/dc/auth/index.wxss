@@ -1,0 +1,54 @@
+page {
+  background: #F7F8FA;
+}
+.publish-wrap .publish-header {
+  background: #FFFFFF;
+  background-size: cover;
+  height: 180rpx;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+.publish-wrap .publish-header .bar-right {
+  display: flex;
+  padding-left: 34rpx;
+  align-items: center;
+}
+.publish-wrap .publish-header .bar-right .avatar-text {
+  display: block;
+  width: 80%;
+  font-size: 36rpx;
+  color: #000000;
+  text-align: center;
+}
+.items {
+  margin: 20rpx 0;
+  border-bottom: 1rpx solid #eeebeb;
+  --td-input-vertical-padding: 10rpx;
+  padding: 20rpx 30rpx;
+}
+.items text {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+}
+.items .name {
+  margin-top: 10rpx;
+  background: #F7F8FA;
+}
+.items .desc {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #999999;
+}
+.formBtn {
+  position: fixed;
+  width: 700rpx;
+  background: #FFFFFF;
+  padding: 30rpx 25rpx;
+  bottom: 0;
+  display: flex;
+  z-index: 115;
+}

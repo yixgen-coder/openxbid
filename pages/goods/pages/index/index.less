@@ -71,7 +71,34 @@ page {
     }
   }
 }
-
+.newPra{
+  margin:30rpx 0;
+  padding:20rpx 0;
+  background: #F7F8FA;
+  border-radius: 16rpx ;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  align-items: flex-end;
+  .item{
+    .txt1{
+      font-weight: bold;
+      font-size: 28rpx;
+      color: #221F1C;
+    }
+    .txt2{
+      margin-top:20rpx;
+      font-size: 24rpx;
+      color: #8B8A90;
+    }
+  }
+  .item1{
+    width: 0rpx;
+    height: 40rpx;
+    border-radius: 0rpx 0rpx 0rpx 0rpx;
+    border: 2rpx solid #E6E6E6;
+  }
+}
 .classify-box {
   background-color: #fff;
   padding: 32rpx;
@@ -97,12 +124,13 @@ page {
 
   .price {
     margin-top: 42rpx;
-    margin-bottom: 36rpx;
+    margin-bottom: 42rpx;
+    padding-bottom: 36rpx;
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    font-size: 24rpx;
-
+    font-size: 28rpx;
+    border-bottom: 1rpx solid #EDEDED;
     .red {
       color: #F22800;
     }
@@ -115,7 +143,8 @@ page {
   .viewpoit {
     font-size: 26rpx;
     color: #979797;
-
+    display: flex;
+    justify-content: space-between;
     text {
       color: #666666;
       margin-right: 32rpx;

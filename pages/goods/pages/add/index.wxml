@@ -7,6 +7,9 @@
   </view>
   <view class="goods-list">
     <view class="title"><text>基础信息</text></view>
+    <view class="items" wx:if="{{dc==1}}">
+      <t-cell title="商品类型" note="代采商品" right-icon="chevron-down" bordered="{{false}}" />
+    </view>
     <view class="items">
       <text>商品名称</text>
       <t-input t-class="name" placeholder="请填写商品名称" maxlength="60" value="{{goodsInfo.title}}" data-key="title" bindchange="handleGrInfos"></t-input>

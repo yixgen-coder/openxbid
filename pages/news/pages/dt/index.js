@@ -2,7 +2,7 @@ Page({
   data: {
     msg: "",
     dtId: '',
-    artInfo: {},
+    dtInfo: {},
     visible: false,
     keyboardheight: 0
   },
@@ -21,6 +21,33 @@ Page({
     }
     this.init();
   },
+  async HandleZan(e) {
+
+    const url = 'https://kpy.phanlink.com/v1/setDtZan';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    formData.dtId = this.data.dtId;
+    const res = await this.fetchDatas(url, formData);
+    let dtInfo = this.data.dtInfo;
+    if (res.code == 1) {
+      dtInfo.zan = res.action
+      if (res.action == 1) {
+        dtInfo.zans += 1
+      } else {
+        dtInfo.zans -= 1
+      }
+
+      this.setData({
+        dtInfo: dtInfo
+      });
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000
+      });
+
+    }
+  },
   goback: function () {
     wx.navigateBack({
       delta: 1
@@ -35,6 +62,13 @@ Page({
   handleMsg(e) {
     this.setData({
       msg: e.detail.value,
+    });
+  },
+  previewImage(e) {
+    const current = e.currentTarget.dataset.src;
+    wx.previewImage({
+      current: current,
+      urls: this.data.dtInfo.pic.map(row => row.url)
     });
   },
   handleSubmit: async function () {
@@ -139,5 +173,29 @@ Page({
         }
       });
     });
-  }
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res);
+    }
+    let imgs = this.data.dtInfo.pic[0].url != '' ? this.data.dtInfo.pic[0].url : ''
+    console.log(imgs);
+    return {
+      title: this.data.dtInfo.title,
+      imageUrl: imgs,
+      path: '/pages/news/pages/dt/index?dtId=' + this.dtId
+    }
+  },
+  onShareTimeline: function (res) {
+    let imgs = this.data.dtInfo.pic[0].url != '' ? this.data.dtInfo.pic[0].url : ''
+    return {
+      title: this.data.dtInfo.title,
+      query: 'dtId=' + this.data.dtId,
+      imageUrl: imgs
+    }
+  },
 })

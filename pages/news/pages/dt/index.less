@@ -1,6 +1,117 @@
 page{
   background: #FFFFFF;
 }
+.community-item {
+  background: #FFFFFF;
+  margin-top: 20rpx;
+  padding: 40rpx 32rpx;
+  box-sizing: border-box;
+  display: flex;
+  align-items: top;
+  gap: 10rpx;
+  .shop{
+    width:100rpx;
+    >image {
+      width: 80rpx;
+      height: 80rpx;
+      border-radius: 50%;
+    }
+  }
+  .title-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .left {
+      display: flex;
+      align-items: center;
+      .title-info {
+        .title {
+          font-size: 30rpx;
+          color: #221F1C;
+          text-align: left;
+        }
+
+        .time {
+          margin-top:10rpx;
+          font-size: 24rpx;
+          color: #A8A8A8;
+        }
+      }
+    }
+  }
+
+  .content-txt {
+    font-size: 30rpx;
+    color: #332E2A;
+    line-height: 44rpx;
+    margin-top: 32rpx;
+    margin-bottom: 20rpx;
+    text-align: justify;
+  }
+
+  .img-list {
+
+    >image{
+      width:135rpx;
+      height:135rpx;
+      margin:5rpx;
+      border-radius: 10rpx;
+    }
+
+    :last-child {
+      margin-right: 0;
+    }
+  }
+
+  .pj {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20rpx;
+
+    >image {
+      width: 36rpx;
+      height: 36rpx;
+      margin-left: 40rpx;
+      margin-right: 10rpx;
+    }
+
+    text {
+      font-size: 28rpx;
+      color: #000000;
+    }
+  }
+
+  .dz {
+    font-size: 28rpx;
+    color: #221F1C;
+    line-height: 40rpx;
+    padding: 5rpx 0;
+    text-align: justify;
+  }
+
+  .replay {
+    border-top: 1rpx solid #E6E6E6;
+    padding-top: 15rpx;
+
+    >view {
+      font-size: 28rpx;
+      color: #221F1C;
+      margin-top: 20rpx;
+
+      .name {
+        color: #80766C;
+      }
+
+      .margin-5 {
+        margin: 0 10rpx;
+        display: inline-block;
+      }
+    }
+  }
+}
 .art-container{
   margin:30rpx;
   >view{

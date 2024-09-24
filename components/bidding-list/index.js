@@ -38,6 +38,14 @@ Component({
         url: '/pages/goods/pages/index/index?spuId=' + key,
       });
     },
+    onClickDelOrders(e) {
+      const {
+        key
+      } = e.currentTarget.dataset;
+      this.triggerEvent('delOrders', [{
+        key
+      }]);
+    },
     onClickOrders(e) {
       const {
         key

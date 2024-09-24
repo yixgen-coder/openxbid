@@ -1,0 +1,18 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/color-bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <!-- <t-icon name="chevron-left" color="#221F1C" size="56rpx" /> -->
+    </view>
+    <view class="title">
+      <view class="text">
+        请选择您代采需求
+      </view>
+    </view>
+  </view>
+  <view class="publish-content">
+    <navigator url="/pages/store/pages/dc/auth/index" class="cell-class">
+      <t-cell t-class-title="cell-title" t-class-description="cell-description" t-class-right-icon="cell-icon" title="代采商家资质认证" description="立即前往认证客" arrow />
+    </navigator>
+    <t-cell url="/pages/goods/pages/add/index?lx=2&dc=1" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-description" title="发布代采求购" description="需求发布，快速响应" align="top" image="https://imgs.phanlink.com/program/images/d2.png" hover bordered="{{false}}" arrow />
+  </view>
+</view>

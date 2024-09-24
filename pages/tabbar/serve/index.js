@@ -200,7 +200,7 @@ Page({
     const fwtype = this.data.fwtype;
     const region = this.data.region;
     if (this.data.current == 2) {
-      action = 5;
+      action = 8;
     }
     var searchName = this.data.searchName;
     if (fresh) {

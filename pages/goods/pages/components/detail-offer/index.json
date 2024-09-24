@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "竞价列表",
+  "component": true,
+  "usingComponents": {
+    "t-popup": "tdesign-miniprogram/popup/popup"
+  }
+}

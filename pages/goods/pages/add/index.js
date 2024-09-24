@@ -48,6 +48,7 @@ Page({
     typeList: [],
     minDate: Date.now() - 7 * 24 * 60 * 60 * 1000,
     maxDate: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    dc: 0
   },
 
 
@@ -55,6 +56,10 @@ Page({
     let itemTitle = this.data.itemTitle;
     let btype = this.data.btype;
     let goodsId = this.data.goodsId;
+    let dc = this.data.dc;
+    if (options.dc == 1) {
+      dc = options.dc;
+    }
     if (options.goodsId) {
       goodsId = options.goodsId;
     }
@@ -66,6 +71,7 @@ Page({
       itemTitle: itemTitle,
       btype: btype,
       goodsId: goodsId,
+      dc: dc,
     })
     this.init();
   },
@@ -244,6 +250,7 @@ Page({
       });
       if (goodsInfo.goodsId > 0) {
         this.setData({
+          dc: goodsInfo.dc,
           btype: goodsInfo.btype,
           goodsId: goodsInfo.goodsId,
           goodsInfo: goodsInfo.goodsInfo,
@@ -483,6 +490,7 @@ Page({
     formData.token = wx.getStorageSync('token');
     formData.typeValue = this.data.typeValue;
     formData.goodsId = this.data.goodsId;
+    formData.dc = this.data.dc;
     formData.imgList = this.data.imgList;
     formData.imgsList = this.data.imgsList;
     formData.goodsSpec = this.data.goodsSpec;
