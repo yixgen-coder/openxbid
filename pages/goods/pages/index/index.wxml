@@ -37,7 +37,7 @@
   <view class="tags">
     <t-tag class="margin-right-12" wx:if="{{goodsInfo.dc==1}}" variant="light" theme="warning">代采</t-tag>
     <t-tag class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.nature}}</t-tag>
-    <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.spec1}}</t-tag>
+    <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.place}}</t-tag>
     <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.manufacturer}}</t-tag>
   </view>
   <view class="newPra">

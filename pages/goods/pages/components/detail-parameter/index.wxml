@@ -7,7 +7,7 @@
     <view class="label">商品分类</view>
     <view>{{goodsgg.typeid}}</view>
   </view>
-  <view>
+  <!-- <view>
     <view class="label">商品性质</view>
     <view>{{goodsgg.nature}}</view>
   </view>
@@ -26,7 +26,7 @@
   <view>
     <view class="label">生产时间</view>
     <view>{{goodsgg.ptime}}</view>
-  </view>
+  </view> -->
   <view>
     <view class="label">商品补充信息</view>
     <view>{{goodsgg.info}}</view>
