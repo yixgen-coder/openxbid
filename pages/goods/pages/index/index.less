@@ -328,14 +328,28 @@ page {
   border-top: 1rpx solid #E6E6E6;
   padding-bottom: 82rpx;
   padding-right: 36rpx;
-  padding-left: 36rpx;
+  padding-left: 10rpx;
   padding-top: 20rpx;
   background-color: #fff;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   z-index:9999;
-
+  .user-txt{
+    width:230rpx;
+    >navigator{
+      display: flex;
+      align-items: center;
+      gap:10rpx;
+      >image {
+        display: block;
+        width: 80rpx;
+        height: 80rpx;
+        border-radius: 40rpx;
+      }
+    }
+    
+  }
   .img-txt {
     text-align: center;
 
@@ -356,7 +370,7 @@ page {
   }
 
   .btn {
-    width: 416rpx;
+    width: 400rpx;
     height: 80rpx;
     border-radius: 40rpx;
     line-height: 80rpx;
@@ -413,7 +427,6 @@ page {
 
 .qx {
   text-align: center;
-  padding-bottom: 68rpx;
   padding-top: 34rpx;
   font-size: 32rpx;
   color: #999999;

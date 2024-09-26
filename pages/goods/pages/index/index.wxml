@@ -147,14 +147,14 @@
 </view>
 <!-- 底部栏 -->
 <view class="footer-box">
-  <navigator class="img-txt" url="/pages/store/pages/list/index?storeId={{goodsInfo.storeid}}">
-    <image src="https://imgs.phanlink.com/program/images/dd1.png"></image>
-    <view>店铺</view>
-  </navigator>
-  <navigator class="img-txt" url="/pages/news/pages/message/chat/index?storeId={{goodsInfo.storeid}}">
-    <image src="https://imgs.phanlink.com/program/images/dd2.png"></image>
-    <view>客服</view>
-  </navigator>
+
+  <view class="user-txt">
+    <navigator url="/pages/news/pages/message/chat/index?storeId={{goodsInfo.finfo.storeid}}">
+      <image src="https://imgs.phanlink.com/{{goodsInfo.finfo.avatar}}"></image>
+      <view>{{goodsInfo.finfo.nickname}}</view>
+    </navigator>
+  </view>
+
   <view class="img-txt" wx:if="{{sc==0}}" bindtap="handlesc" id="{{goodsInfo.id}}">
     <image src="https://imgs.phanlink.com/program/images/dd3.png"></image>
     <view>收藏</view>
@@ -179,6 +179,7 @@
     <button class="share-item" open-type="share">
       <image src="https://imgs.phanlink.com/program/images/wx.png"></image>
       <view>分享给微信好友</view>
+      <view style="color:#F22800;">建议先授权微信名和昵称提高转发成功率</view>
     </button>
   </view>
   <view bind:tap="onShareVisibleChange" class="qx">取消</view>

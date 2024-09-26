@@ -24,7 +24,9 @@ Page({
       weight: 0,
       price: 0
     },
-    currentPage: 0
+    currentPage: 0,
+    fxId: 0,
+    fxuId: 0,
 
   },
   previewImage(e) {
@@ -180,8 +182,13 @@ Page({
         currentPage: 1
       });
     }
+    if (options.fxId > 0) {
+      this.setData({
+        fxId: options.fxId
+      });
+    }
     this.init();
-    const res = await this.fetchGoodsInfo(options.spuId);
+    const res = await this.fetchGoodsInfo(options.spuId, this.data.fxId);
     if (res.code == 1) {
       const total = this.data.total;
       total.stock = res.data.goods.stock;
@@ -193,6 +200,7 @@ Page({
         goodsId: options.spuId,
         sc: res.data.goods.sc,
         total: total,
+        fxuId: res.data.goods.fxId,
       })
     }
   },
@@ -202,7 +210,7 @@ Page({
       goodslabs: index
     })
   },
-  fetchGoodsInfo(spuId) {
+  fetchGoodsInfo(spuId, fxId) {
     let token = wx.getStorageSync('token');
     const url = 'https://kpy.phanlink.com/v1/getGoodsDatas';
     return new Promise((resolve, reject) => {
@@ -212,6 +220,7 @@ Page({
         data: {
           'token': token,
           'spuId': spuId,
+          'fxId': fxId,
         },
         header: {
           'content-type': 'application/json'
@@ -283,7 +292,7 @@ Page({
     return {
       title: title,
       imageUrl: 'https://imgs.phanlink.com/' + this.data.goodsInfo.pic,
-      path: '/pages/goods/pages/index/index?cpage=1&spuId=' + this.data.goodsInfo.id,
+      path: '/pages/goods/pages/index/index?cpage=1&spuId=' + this.data.goodsInfo.id + '&fxId=' + this.data.fxuId,
     }
   },
   onShareTimeline: function (res) {
@@ -293,7 +302,7 @@ Page({
     title += this.data.goodsInfo.btype == 1 ? '出售' : '求购';
     return {
       title: title, //字符串  自定义标题
-      query: 'spuId=' + this.data.goodsInfo.id, //页面携带参数
+      query: 'spuId=' + this.data.goodsInfo.id + '&fxId=' + this.data.fxuId, //页面携带参数
       imageUrl: 'https://imgs.phanlink.com/' + this.data.goodsInfo.pic //图片地址
     }
   },
