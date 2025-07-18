@@ -19,3 +19,7 @@
 .custom-tab-bar-wrapper .active{
   color: #F22800;
 }
+.t-badge__content:not(:empty) + .t-has-count {
+  left: 140%;
+  top: -5rpx;
+}

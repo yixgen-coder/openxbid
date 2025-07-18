@@ -1,7 +1,7 @@
 .pop-box {
   background-color: #F7F8FA;
   border-radius: 32rpx 32rpx 0rpx 0rpx;
-  overflow: hidden;
+  overflow: auto;
   height: 85vh;
 }
 .pop-box .title {
@@ -28,17 +28,17 @@
 }
 .total {
   background-color: #fff;
-  margin-top: 20rpx;
+  margin-top: 30rpx;
   position: relative;
   z-index: 2;
-  padding: 40rpx;
+  padding: 20rpx 20rpx;
   box-sizing: border-box;
 }
 .total .total-title {
   font-weight: bold;
   font-size: 32rpx;
   color: #221F1C;
-  margin-bottom: 32rpx;
+  margin-bottom: 12rpx;
 }
 .total .total-box {
   display: flex;
@@ -46,10 +46,10 @@
 }
 .total .total-box .totle-item {
   width: 320rpx;
-  height: 72rpx;
+  height: 65rpx;
   border-radius: 8rpx 8rpx 8rpx 8rpx;
   border: 1rpx solid #E6E6E6;
-  line-height: 72rpx;
+  line-height: 65rpx;
   display: flex;
   justify-content: space-between;
   padding: 0 20rpx;
@@ -58,21 +58,22 @@
 }
 .total .total-box .totle-item .label {
   color: #666666;
+  font-size: 22rpx;
 }
 .total .total-box .totle-item .num {
   font-weight: bold;
   color: #221F1C;
 }
 .total .totle-long {
-  width: 672rpx;
-  height: 72rpx;
+  width: 100%;
+  height: 65rpx;
   background: #FFF4F2;
   border-radius: 8rpx 8rpx 8rpx 8rpx;
   display: flex;
-  margin-top: 32rpx;
+  margin-top: 30rpx;
   justify-content: space-between;
-  line-height: 72rpx;
-  padding: 0 20rpx;
+  line-height: 65rpx;
+  padding: 0 10rpx;
   box-sizing: border-box;
   color: #F22800;
 }
@@ -80,7 +81,7 @@
   font-weight: bold;
 }
 .total .margin-right-25 {
-  margin-right: 20rpx;
+  margin-right: 15rpx;
 }
 .btn-box {
   margin-top: 1rpx;
@@ -89,8 +90,8 @@
   z-index: 1;
   width: 100%;
   display: flex;
-  height: 188rpx;
-  padding-bottom: 48rpx;
+  height: 120rpx;
+  padding-bottom: 28rpx;
   box-sizing: border-box;
   padding-left: 32rpx;
   padding-right: 32rpx;
@@ -99,19 +100,19 @@
 }
 .btn-box .left {
   width: 220rpx;
-  height: 92rpx;
+  height: 80rpx;
   border-radius: 12rpx;
   background: #F2F3F5;
   color: #999999;
-  line-height: 92rpx;
+  line-height: 80rpx;
   text-align: center;
 }
 .btn-box .right {
   width: 440rpx;
-  height: 92rpx;
+  height: 80rpx;
   border-radius: 12rpx;
   background: linear-gradient(to right, #FF6426, #FF4A26);
   color: #fff;
-  line-height: 92rpx;
+  line-height: 80rpx;
   text-align: center;
 }

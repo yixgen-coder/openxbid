@@ -1,15 +1,17 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '我的收藏',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.mysaved_items,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
     tabList: [{
-      text: "收藏的商品",
+      text: app.globalData.languagePack.saved_items,
       key: 3
     }, {
-      text: "收藏的文章",
+      text: app.globalData.languagePack.saved_news,
       key: 6
     }],
     goodsList: [],
@@ -45,11 +47,11 @@ Page({
     } = e.detail;
     // 显示确认提示框
     wx.showModal({
-      title: '提示',
-      content: '确定要删除吗？',
+      title: app.globalData.languagePack.reminder,
+      content: app.globalData.languagePack.sure_delete,
       showCancel: true,
-      cancelText: '取消',
-      confirmText: '确定',
+      cancelText: app.globalData.languagePack.cancel,
+      confirmText: app.globalData.languagePack.sure,
       success: res => {
         if (res.confirm) {
           this.deleteData(id);
@@ -77,14 +79,14 @@ Page({
         goodsList: this.data.goodsList.filter(item => item.id !== id),
       });
       wx.showToast({
-        title: '删除成功',
-        icon: 'success',
+        title: 'success',
+        icon: 'none',
         duration: 2000
       });
     } else {
       wx.showToast({
-        title: '删除失败',
-        icon: 'loading',
+        title: 'failed',
+        icon: 'none',
         duration: 2000
       });
     }
@@ -94,9 +96,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -129,7 +143,7 @@ Page({
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
         });
-        if(nextList.length>0){
+        if (nextList.length > 0) {
           this.goodListPagination.index = formData.page + 1;
         }
       }
@@ -168,6 +182,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

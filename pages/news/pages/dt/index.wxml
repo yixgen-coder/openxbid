@@ -9,7 +9,7 @@
 
         <view class="title-info">
           <view class="title">{{dtInfo.store.shop_name}}</view>
-          <view class="time">{{dtInfo.ctime}} · 发布了动态</view>
+          <view class="time">{{dtInfo.ctime}} · {{globalLangData.share_post}}</view>
         </view>
       </view>
       <view class="right">
@@ -23,21 +23,22 @@
       {{dtInfo.title}}
     </view>
     <view class="img-list">
-      <image wx:for="{{dtInfo.pic}}" wx:key="{{img}}"  src="{{item.url}}" data-src="{{item.url}}" bindtap="previewImage"></image>
+      <image wx:for="{{dtInfo.pic}}" wx:key="{{img}}" src="{{item.url}}" data-src="{{item.url}}" bindtap="previewImage"></image>
     </view>
     <!-- 评价信息 -->
     <view class="pj">
-      <t-icon name="thumb-up-2" size="36rpx" wx:if="{{dtInfo.zan==0}}" bindclick="HandleZan" />
-      <t-icon name="thumb-up-2" size="36rpx" color="#FF4A26" wx:if="{{dtInfo.zan==1}}" bindclick="HandleZan" />
+      <t-icon name="thumb-up-2" size="40rpx" wx:if="{{dtInfo.zan==0}}" bindclick="HandleZan" />
+      <t-icon name="thumb-up-2" size="40rpx" color="#FF4A26" wx:if="{{dtInfo.zan==1}}" bindclick="HandleZan" />
       <text>{{dtInfo.zans}}</text>
       <image src="https://imgs.phanlink.com/program/images/z2.png" bindtap="handleShowMsg"></image>
       <text>{{dtInfo.pl}}</text>
       <t-button icon="https://imgs.phanlink.com/program/images/fx1.png" variant="text" size="60rpx" open-type="share" style="margin:0"></t-button>
+      <text>{{dtInfo.zf}}</text>
     </view>
   </view>
 </view>
 <view class="art-container">
-  <view class="pl-tit">全部评论({{dtInfo.pl}})</view>
+  <view class="pl-tit">{{globalLangData.all_comment}}({{dtInfo.pl}})</view>
   <view class="pl">
     <view class="circt-box">
       <view class="circt-item" wx:for="{{dtInfo.pls}}">
@@ -54,17 +55,17 @@
   </view>
 </view>
 <view class="msg">
-  <t-cell t-class="wr" title="填写评论" align="center" left-icon="https://imgs.phanlink.com/program/images/wr.png" hover bordered="{{false}}" bindclick="handleShowMsg" />
+  <t-cell t-class="wr" title="{{globalLangData.enter}}" align="center" left-icon="https://imgs.phanlink.com/program/images/wr.png" hover bordered="{{false}}" bindclick="handleShowMsg" />
 </view>
 <t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom" style="bottom:{{keyboardheight}}rpx">
   <view class="block">
     <view class="header">
-      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">取消</view>
-      <view class="title">动态评论</view>
-      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">{{globalLangData.cancel}}</view>
+      <view class="title">{{globalLangData.dynamic_comment}}</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">{{globalLangData.sure}}</view>
     </view>
     <view class="msgtxt">
-      <t-textarea bindchange="handleMsg" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" value="{{msg}}" placeholder="请输入内容" maxlength="100" disableDefaultPadding="{{true}}" show-confirm-bar="{{false}}" indicator />
+      <t-textarea bindchange="handleMsg" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" value="{{msg}}" placeholder="{{globalLangData.enter}}" maxlength="100" disableDefaultPadding="{{true}}" show-confirm-bar="{{false}}" indicator />
     </view>
   </view>
 </t-popup>

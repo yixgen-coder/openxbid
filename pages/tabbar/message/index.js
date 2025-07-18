@@ -1,17 +1,19 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     list: [],
     tabList: [{
-      text: "商家社区",
+      text: app.globalData.languagePack.business_community,
       key: 0
     }, {
-      text: "行业资讯",
+      text: app.globalData.languagePack.supply_board,
       key: 3
     }, {
-      text: "价格走势",
+      text: app.globalData.languagePack.market_intelligence,
       key: 5
     }, {
-      text: "政府法规",
+      text: app.globalData.languagePack.regulatory_updates,
       key: 6
     }],
     pageLoading: false,
@@ -26,6 +28,7 @@ Page({
     visible: false,
     searchName: '',
     messCount: {},
+    messTime: {},
     messageCount: 0,
   },
 
@@ -43,14 +46,6 @@ Page({
   },
   handleSearh() {
     const searchName = this.data.searchName;
-    if (searchName == '') {
-      wx.showToast({
-        title: '请输入关键词',
-        icon: 'none',
-        duration: 2000
-      });
-      return;
-    }
     this.loadGoodsList(true);
   },
   handlePlSubmit: async function (e) {
@@ -69,7 +64,7 @@ Page({
       }
 
       wx.showToast({
-        title: '评论成功',
+        title: 'Success',
         icon: 'success',
         duration: 2000,
         mask: true,
@@ -84,15 +79,59 @@ Page({
       });
 
     } else {
-      wx.showToast({
-        title: res.msg,
-        icon: 'none',
-        duration: 2000
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.switchTab({
+              url: 'pages/tabbar/home/home' // 替换为你的 tabBar 页面路径
+            });
+          }
+        }
+      })
+    }
+  },
+  async artHandleNosee(e) {
+    console.log(e);
+    const storeid = e.detail.storeid;
+    const url = 'https://kpy.phanlink.com/v1/setDtNosee';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    formData.storeid = storeid;
+    const res = await this.fetchDatas(url, formData);
+    let goodsList = this.data.goodsList;
+    if (res.code == 1) {
+      const dtList = goodsList.filter(item => item.storeid !== storeid);
+      this.setData({
+        goodsList: dtList
       });
+
+    } else {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
   },
   async artZanClickHandle(e) {
-
     const dtId = e.detail.id;
     const index = e.detail.index;
     const url = 'https://kpy.phanlink.com/v1/setDtZan';
@@ -102,22 +141,31 @@ Page({
     const res = await this.fetchDatas(url, formData);
     let goodsList = this.data.goodsList;
     if (res.code == 1) {
-      goodsList[index].zan = res.action
+      goodsList[index].zan1 = res.action
       if (res.action == 1) {
-        goodsList[index].zan1 += 1
+        goodsList[index].zan += 1
       } else {
-        goodsList[index].zan1 -= 1
+        goodsList[index].zan -= 1
       }
-
       this.setData({
         goodsList: goodsList
       });
-      wx.showToast({
-        title: res.msg,
-        icon: 'success',
-        duration: 2000
-      });
-
+    } else {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
   },
   async init() {
@@ -177,6 +225,7 @@ Page({
         if (this.data.tabCurrent == 0) {
           this.setData({
             messCount: res.count,
+            messTime: res.time,
             messageCount: res.count.messageCount
           });
 
@@ -184,6 +233,22 @@ Page({
         this.setData({
           goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
         });
+      } else {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder, // 标题
+          content: app.globalData.languagePack.function_registered, // 内容
+          cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+          confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+          success: (res) => {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: '/pages/tabbar/login/login',
+              });
+            } else if (res.cancel) {
+              wx.navigateBack();
+            }
+          }
+        })
       }
       this.setData({
         goodsListLoadStatus: 0
@@ -198,6 +263,7 @@ Page({
 
   onPullDownRefresh() {
     this.init();
+    wx.stopPullDownRefresh();
   },
 
   onShow() {
@@ -218,18 +284,19 @@ Page({
   },
   onLoad() {
 
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
-    }
+    // let token = wx.getStorageSync('token');
+    // if (!token) {
+    //   // 用户未登录，跳转到登录页面
+    //   wx.navigateTo({
+    //     url: '/pages/tabbar/login/login',
+    //   });
+    // }
   },
   // 切换消息和资讯
   changleTabHandle(e) {
     this.setData({
-      tabCurrent: e.currentTarget.dataset.myparam
+      tabCurrent: e.currentTarget.dataset.myparam,
+      newsTabCurrent: 0
     })
     this.loadGoodsList(true);
   },

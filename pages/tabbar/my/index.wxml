@@ -3,14 +3,14 @@
 <view class="content-wrapper">
   <!-- 我的发布等 -->
   <view class="order-group-wrapper">
-    <t-use-group orderTagInfos="{{orderTagInfos}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
+    <t-use-group orderTagInfos="{{orderTagInfos}}" userInfo="{{userinfo}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
   </view>
   <!-- 商家设置 -->
-  <view class="order-group-wrapper" wx:if="{{userinfo.company_status==2}}">
-    <t-store-group orderTagInfos="{{orderTagInfos}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
+  <view class="order-group-wrapper">
+    <t-store-group bind:tt="merchantVerifi" orderTagInfos="{{orderTagInfos}}" userInfo="{{userinfo}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
   </view>
   <!-- 常用功能 -->
   <view class="order-group-wrapper">
-    <t-func-group orderTagInfos="{{orderTagInfos}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
+    <t-func-group orderTagInfos="{{orderTagInfos}}" userInfo="{{userinfo}}" bind:onClickTop="jumpAllOrder" bind:onClickItem="jumpNav" />
   </view>
 </view>

@@ -1,31 +1,35 @@
 <view class="order-group">
   <t-cell-group>
-    <t-cell t-class="order-group__top" t-class-left="order-group__left" t-class-title="order-group__top__title" t-class-note="order-group__top__note" title="商家设置" bordered="{{true}}" bind:tap="onClickTop" />
+    <t-cell t-class="order-group__top" t-class-left="order-group__left" t-class-title="order-group__top__title" t-class-note="order-group__top__note" title="{{globalLangData.merchant_settings}}" bordered="{{true}}" bind:tap="onClickTop" />
   </t-cell-group>
   <view class="order-group__content">
-    <navigator class="order-group__item" url="/pages/store/pages/index/index">
+    <navigator class="order-group__item" bindtap="merchantVerifi">
+      <!-- <navigator class="order-group__item" url="/pages/my/pages/approve/index"> -->
+      <view class="order-group__item__icon icon-class">
+        <t-icon name="https://imgs.phanlink.com/program/images/s2.png" size="52rpx" />
+      </view>
+      <view class="order-group__item__title title-class">{{globalLangData.merchant_verifi}}</view>
+    </navigator>
+    <navigator class="order-group__item" url="/pages/store/pages/index/index" wx:if="{{userInfo.company_status>=2}}">
       <view class="order-group__item__icon icon-class">
         <t-icon name="https://imgs.phanlink.com/program/images/f1.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">商铺设置</view>
+      <view class="order-group__item__title title-class">{{globalLangData.shop_settings}}</view>
     </navigator>
-    <navigator class="order-group__item" url="/pages/goods/pages/manage/index?btype=1">
+
+
+    <navigator class="order-group__item" url="/pages/store/pages/dc/auth/index" wx:if="{{userInfo.company_status>=2 && userInfo.company_type==2}}">
       <view class="order-group__item__icon icon-class">
-        <t-icon name="https://imgs.phanlink.com/program/images/f2.png" size="52rpx" />
+        <t-icon name="https://imgs.phanlink.com/program/images/s3.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">商品管理</view>
+      <view class="order-group__item__title title-class">{{globalLangData.service_certif}}</view>
     </navigator>
-    <navigator class="order-group__item" url="/pages/goods/pages/manage/index?btype=2">
-      <view class="order-group__item__icon icon-class">
-        <t-icon name="https://imgs.phanlink.com/program/images/f3.png" size="52rpx" />
-      </view>
-      <view class="order-group__item__title title-class">求购管理</view>
-    </navigator>
-    <navigator class="order-group__item" url="/pages/store/pages/pj/index">
+
+    <navigator wx:if="{{userInfo.company_status>=2}}" class="order-group__item" url="/pages/store/pages/pj/index">
       <view class="order-group__item__icon icon-class">
         <t-icon name="https://imgs.phanlink.com/program/images/f4.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">评价管理</view>
+      <view class="order-group__item__title title-class">{{globalLangData.comment_dashboard}}</view>
     </navigator>
   </view>
 </view>

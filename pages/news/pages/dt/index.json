@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "商家动态",
+  "navigationBarTitleText": "按键转发商家动态",
   "onReachBottomDistance": 10,
   "component": true,
   "usingComponents": {

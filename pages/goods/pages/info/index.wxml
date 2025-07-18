@@ -3,14 +3,14 @@
   <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/color-bg.png') no-repeat top;background-size: cover;">
     <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
       <t-icon name="chevron-left" color="#000000" size="56rpx" bind:click="goback" />
-      <text class="avatar-text">竞价详情</text>
+      <text class="avatar-text">{{globalLangData.biding_detail}}</text>
     </view>
   </view>
 </view>
 <view class="orderStatu">
-  <text class="color1" wx:if="{{orderInfo.status==1}}">正在竞价</text>
-  <text class="color2" wx:if="{{orderInfo.status==0}}">竞价失败</text>
-  <text class="color3" wx:if="{{orderInfo.status==2}}">竞价成功</text>
+  <text class="color1" wx:if="{{orderInfo.status==1}}">{{globalLangData.bidding2}}</text>
+  <text class="color2" wx:if="{{orderInfo.status==0}}">{{globalLangData.bid_failed}}</text>
+  <text class="color3" wx:if="{{orderInfo.status==2}}">{{globalLangData.bid_successful}}</text>
 </view>
 <view class="orderGoods">
   <view class="comp">
@@ -22,35 +22,36 @@
     <view class="right">
       <view class="title">{{orderInfo.title}}</view>
       <view class="tags">
-        <text class="color1" wx:if="{{orderInfo.btype==1}}">出售</text>
-        <text class="color1" wx:if="{{orderInfo.btype==2}}">求购</text>
-        <text class="color2">{{orderInfo.place}}</text>
-        <text class="color3">{{orderInfo.nature}}</text>
+        <text class="color1" wx:if="{{orderInfo.btype==1}}">{{globalLangData.sell}}</text>
+        <text class="color1" wx:if="{{orderInfo.btype==2}}">{{globalLangData.buy}}</text>
+        <text class="color1">{{orderInfo.place}}</text>
+        <text class="color1">{{orderInfo.nature}}</text>
       </view>
-      <view class="price">${{orderInfo.price}}</view>
+      <view class="price">{{globalLangData.merchant_quotation}}：{{orderInfo.currencyType==1?'$':'￥'}}{{orderInfo.price}}</view>
     </view>
   </view>
-  <t-cell title="参与人数" note="{{orderInfo.apply}}人" url="/pages/goods/pages/offer/index?goodsId={{orderInfo.goods_id}}" arrow />
-  <t-cell title="我的出价" note="${{total.price}}" />
+  <t-cell title="{{globalLangData.number_of_bids}}" note="{{orderInfo.apply}} time" url="/pages/goods/pages/offer/index?goodsId={{orderInfo.goods_id}}" arrow />
+  <t-cell title="{{globalLangData.current_bid}}" t-class-note="priceNote" note="{{orderInfo.currencyType==1?'$':'￥'}}{{orderInfo.current_price}}" />
+  <t-cell title="{{globalLangData.my_bid}}" t-class-note="priceNote" note="{{orderInfo.currencyType==1?'$':'￥'}}{{total.price}}" />
   <view class="more" bindtap="handleShowOfferInfo">
-    <text>查看竞价信息</text>
-    <t-icon name="chevron-down-s" size="48rpx" />
+    <text style="color:red;">{{globalLangData.check_my_bid_info}}</text>
+    <t-icon name="chevron-down-s" color="red" size="48rpx" />
   </view>
 </view>
 <view class="orderInfos">
-  <view class="title">订单详情</view>
-  <t-cell title="订单号" note="{{orderInfo.orderNo}}" />
-  <t-cell title="出价时间" note="{{orderInfo.orderTime}}" />
+  <view class="title">{{globalLangData.order_details}}</view>
+  <t-cell title="{{globalLangData.order_number}}" note="{{orderInfo.orderNo}}" />
+  <t-cell title="{{globalLangData.bidding_time}}" note="{{orderInfo.orderTime}}" />
 </view>
 <view class="kf">
-  <t-button theme="primary" icon="https://imgs.phanlink.com/program/images/zx1.png" block variant="text" bindtap="handleGoChat">联系客服</t-button>
+  <t-button theme="primary" icon="https://imgs.phanlink.com/program/images/zx1.png" block variant="text" bindtap="handleGoChat">{{globalLangData.contact}}</t-button>
 </view>
 <view class="orderBtn">
-  <t-button wx:if="{{orderInfo.status==1}}" size="large" block t-class="btn-class" bind:tap="handleShow">修改出价</t-button>
-  <t-button wx:if="{{orderInfo.status==2 && orderInfo.pj==0}}" size="large" block t-class="btn-class" bind:tap="handleShowPJ">立即评价</t-button>
-  <t-button wx:if="{{orderInfo.status==0}}" size="large" block t-class="btn-class" bind:tap="handleShowDel">删除</t-button>
+  <t-button wx:if="{{orderInfo.status==1}}" size="large" block t-class="btn-class" bind:tap="handleShow">{{globalLangData.revise_bid}}</t-button>
+  <t-button wx:if="{{orderInfo.status==2 && orderInfo.pj==0}}" size="large" block t-class="btn-class" bind:tap="handleShowPJ">{{globalLangData.reviews}}</t-button>
+  <t-button wx:if="{{orderInfo.status==0}}" size="large" block t-class="btn-class" bind:tap="handleShowDel">{{globalLangData.delete}}</t-button>
 </view>
-<!-- 竞价弹窗 -->
+<!-- 报价弹窗 -->
 <t-popup visible="{{isShow}}" placement="bottom">
   <t-bidding-popup goodsspec="{{orderSpec}}" bindsubmitBJ="submitBJ" bindcancel="onVisibleChange" total="{{total}}" bindggainput="ggainput" />
 </t-popup>
@@ -58,68 +59,68 @@
 <t-popup visible="{{pjvisible}}" placement="bottom">
   <view class="block">
     <view class="header">
-      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowPJ">取消</view>
-      <view class="title">评价</view>
-      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowPJ">{{globalLangData.cancel}}</view>
+      <view class="title">{{globalLangData.reviews}}</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">{{globalLangData.sure}}</view>
     </view>
     <view style="display: flex;justify-content: center;margin:15rpx 0;">
       <t-rate value="{{pjvalue}}" color="#FF5959" bind:change="onPJChange" showText="{{true}}" />
     </view>
     <view class="msgtxt">
-      <t-textarea bindchange="handleMsg" t-class="external-class" placeholder="请输入内容" maxlength="100"  show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
+      <t-textarea bindchange="handleMsg" t-class="external-class" placeholder="{{globalLangData.enter}}" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
     </view>
   </view>
 </t-popup>
-<!-- 竞价详情 -->
+<!-- 报价详情 -->
 <t-popup visible="{{visible}}" placement="bottom">
   <view class="detail-quote">
     <view class="toptitle">
-      <text>商品竞价单</text>
+      <text>{{globalLangData.product_bid_list}}</text>
       <image class="close" src="https://imgs.phanlink.com/program/images/close.png" bindtap="cancel"></image>
     </view>
     <scroll-view scroll-y="true" style="height: 72%;">
       <block wx:for="{{orderSpec}}">
-        <view class="title">规格：{{item.a1}}</view>
+        <view class="title">{{globalLangData.grade}}：{{item.a1}}</view>
         <view class="detail-quote-box">
           <view class="margin-right-14">
-            <text>型号</text>
+            <text>{{globalLangData.size}}</text>
             <text class="black">{{item.a2}}</text>
           </view>
           <view>
-            <text>数量</text>
+            <text>{{globalLangData.quantity}}</text>
             <text class="black">{{item.a3}}</text>
           </view>
           <view class="margin-right-14">
-            <text>包装</text>
+            <text>{{globalLangData.package}}</text>
             <text class="black">{{item.a8}}</text>
           </view>
           <view>
-            <text>净重(KG)</text>
+            <text>{{globalLangData.net_weight}}(KG)</text>
             <text class="black">{{item.a4}}</text>
           </view>
           <view class="margin-right-14">
-            <text>单价</text>
+            <text>{{globalLangData.unit_price}}</text>
             <text class="black">{{item.a6}}</text>
           </view>
           <view>
-            <text>总价</text>
+            <text>{{globalLangData.amount}}</text>
             <text class="red">{{filter.numberToFixed(item.a4*item.a6)}}</text>
           </view>
         </view>
       </block>
     </scroll-view>
-    <view class="title">总计</view>
+    <view class="title">{{globalLangData.total}}</view>
     <view class="detail-quote-box">
       <view class="margin-right-14">
-        <text>数量</text>
+        <text>{{globalLangData.quantity}}</text>
         <text>{{total.stock}}</text>
       </view>
       <view>
-        <text>净重(KG)</text>
+        <text>{{globalLangData.net_weight}}(KG)</text>
         <text class="red">{{total.weight}}</text>
       </view>
       <view class="redb">
-        <text>总价(USD)</text>
+        <text>{{globalLangData.amount}}(USD)</text>
         <text class="red">{{total.price}}</text>
       </view>
     </view>

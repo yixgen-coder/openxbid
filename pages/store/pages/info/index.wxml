@@ -2,34 +2,43 @@
   <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/store_bg.png') no-repeat top;background-size: cover;">
     <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
       <image src="https://imgs.phanlink.com/program/images/store_left.png" bindtap="goback"></image>
-      <text class="avatar-text">商家介绍</text>
+      <text class="avatar-text">{{globalLangData.merchant_info}}</text>
     </view>
   </view>
 </view>
 <view class="store-list">
   <view class="left">
     <view class="tit">{{storeInfo.shop_name}}</view>
-    <view class="tags"><text>{{storeInfo.region}}</text><text>{{storeInfo.type}}</text><text>{{storeInfo.fwtype}}</text></view>
+    <view class="tags"><text>{{storeInfo.region}}</text><text>{{storeInfo.type}}</text></view>
   </view>
   <view class="right">
     <image src="{{storeInfo.shop_logo}}"></image>
   </view>
 </view>
 <view class="store-addr">
-  <view class="tit">公司地址</view>
+  <view class="tit">{{globalLangData.company_address}}</view>
   <view class="addr">
     <image src="https://imgs.phanlink.com/program/images/addre.png"></image>
     <text>{{storeInfo.address}}</text>
   </view>
+  <view class="addr">
+    <image src="https://imgs.phanlink.com/program/images/tel1.png"></image>
+    <text>{{storeInfo.tel}}</text>
+  </view>
 </view>
-<view class="store-addr">
-  <view class="tit">商家介绍</view>
+<view class="store-addr store-info">
+  <view class="tit">{{globalLangData.merchant_info}}</view>
   <view class="addr">
     <text>
       {{storeInfo.shop_desc}}
     </text>
   </view>
 </view>
-<navigator class="zxzx" url="/pages/news/pages/message/chat/index?storeId={{storeId}}">
-  <text>立即咨询</text>
-</navigator>
+<view class="btnss">
+  <navigator class="zxzx" url="/pages/store/pages/list/index?storeId={{storeId}}">
+    <text>{{globalLangData.view_shop}}</text>
+  </navigator>
+  <navigator class="zxzx" url="/pages/news/pages/message/chat/index?storeId={{storeId}}">
+    <text>{{globalLangData.consult_immediately}}</text>
+  </navigator>
+</view>

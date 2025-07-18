@@ -9,39 +9,69 @@
     <form bindsubmit="onFormSubmit">
       <view>
         <view class="logo">
-          <t-cell title="商家LOGO" required />
+          <t-cell title="{{globalLangData.shop_logo}}" required />
           <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleAdd" bind:remove="handleRemove" style="margin-top:40rpx;margin-left:20rpx;" />
         </view>
-        <t-input t-class-label="tlabel" label="商家名称" value="{{shop_name}}" data-key="shop_name" bindchange="handleGrInfos" placeholder="请输入商家名称" align="right" />
-        <t-cell title="商家状态" arrow t-class-note="tnote" note="{{shop_status}}" />
-        <t-cell title="开通时间" note="{{shop_time}}" />
-        <t-cell title="商家性质" arrow note="{{typeText}}" bind:click="onTitlePicker" required />
-        <t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="商家性质" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
+        <t-input t-class-label="tlabel" label="{{globalLangData.shop_name}}" value="{{shop_name}}" data-key="shop_name" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-cell title="{{globalLangData.shop_status}}" arrow t-class-note="tnote" note="{{shop_status}}" />
+        <t-cell title="{{globalLangData.opening_date}}" note="{{shop_time}}" />
+        <t-cell wx:if="{{userinfo.company_type==2}}" title="{{globalLangData.business_type}}" arrow note="{{typeText}}" bind:click="onTitlePicker" required />
+        <t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="{{globalLangData.business_type}}" cancelBtn="{{globalLangData.cancel}}" confirmBtn="{{globalLangData.sure}}" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
           <t-picker-item options="{{types}}"></t-picker-item>
         </t-picker>
-        <t-cell title="服务分类" wx:if="{{fwtypeVisible1}}" arrow note="{{fwtypeText}}" bind:click="onfwTitlePicker" required />
-        <t-picker visible="{{fwtypeVisible}}" value="{{fwtypeValue}}" data-key="fwtype" title="服务分类" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="onPickerCancel">
-          <t-picker-item options="{{fwtypes}}"></t-picker-item>
-        </t-picker>
-        <t-cell title="请选择国家" arrow note="{{regionText}}" bind:click="onRegionPicker" required />
-        <t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="{{regionTitle}}" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindpick="onColumnChange" bindcancel="onPickerCancel">
+        <t-cell wx:if="{{userinfo.company_type==2}}" title="{{globalLangData.value_added_services}}" arrow note="{{fwtypeText}}" bind:click="onfwTitlePicker" />
+        <t-popup visible="{{fwtypeVisible}}" placement="bottom">
+          <view class="block">
+            <view class="header">
+              <view class="btn btn--cancel" aria-role="button" data-key="fwtype" bindtap="onPickerCancel">{{globalLangData.cancel}}</view>
+              <view class="title">{{globalLangData.value_added_services}}</view>
+              <view class="btn btn--confirm" aria-role="button" data-key="fwtype" bindtap="onPickerConfirm">{{globalLangData.sure}}</view>
+            </view>
+            <t-checkbox-group t-class="box" data-key="fwtype" borderless bind:change="onPickerChange1" value="{{fwtypeValue}}">
+              <block wx:for="{{ fwtypes }}" wx:for-item="item" wx:for-index="index" wx:key="unique">
+                <t-checkbox block="{{true}}" value="{{item.value}}" label="{{item.label}}" checked="{{item.check}}" />
+              </block>
+            </t-checkbox-group>
+          </view>
+        </t-popup>
+
+        <t-cell title="{{globalLangData.select_country}}" arrow note="{{regionText}}" bind:click="onRegionPicker" required />
+        <t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="{{regionTitle}}" cancelBtn="{{globalLangData.cancel}}" confirmBtn="{{globalLangData.sure}}" usingCustomNavbar bindchange="onPickerChange" bindpick="onColumnChange" bindcancel="onPickerCancel">
           <t-picker-item options="{{regions}}"></t-picker-item>
         </t-picker>
-        <t-input label="经营地址" value="{{address}}" data-key="address" bindchange="handleGrInfos" placeholder="请输入经营地址" align="right" />
-        <t-cell title="主营产品" arrow note="{{typeTitle}}" bind:click="onXZPicker" required />
+        <t-input label="{{globalLangData.phone}}" value="{{tel}}" data-key="tel" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-input label="{{globalLangData.operating_address}}" value="{{address}}" data-key="address" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-cell title="{{globalLangData.main_products}}" arrow note="{{typeTitle}}" bind:click="onXZPicker" required />
+        <t-cell title="{{globalLangData.major_trading_countries}}" arrow note="{{countryText}}" bind:click="onCountryTitlePicker" required />
+        <t-popup visible="{{countryVisible}}" placement="bottom">
+          <view class="block">
+            <view class="header">
+              <view class="btn btn--cancel" aria-role="button" data-key="country" bindtap="onPickerCancel">{{globalLangData.cancel}}</view>
+              <view class="title">{{globalLangData.value_added_services}}</view>
+              <view class="btn btn--confirm" aria-role="button" data-key="country" bindtap="onPickerConfirm">{{globalLangData.sure}}</view>
+            </view>
+            <scroll-view style="height: 80%;" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+              <t-checkbox-group t-class="box" data-key="country" borderless bind:change="onPickerChange1" value="{{countryValue}}">
+                <block wx:for="{{ regions }}" wx:for-item="item" wx:for-index="index" wx:key="unique">
+                  <t-checkbox block="{{false}}" value="{{item.value}}" label="{{item.label}}" readonly="{{item.value==96?true:false}}" style="margin:10rpx;" />
+                </block>
+              </t-checkbox-group>
+            </scroll-view>
+          </view>
+        </t-popup>
         <t-popup visible="{{visible}}" placement="bottom">
           <view class="block">
             <view class="header">
-              <view class="btn btn--cancel" aria-role="button" bindtap="onXZPicker">取消</view>
-              <view class="title">选择主营产品</view>
-              <view class="btn btn--confirm" aria-role="button" bindtap="onXZPicker">确定</view>
+              <view class="btn btn--cancel" aria-role="button" bindtap="onXZPicker">{{globalLangData.cancel}}</view>
+              <view class="title">{{globalLangData.enter}}</view>
+              <view class="btn btn--confirm" aria-role="button" bindtap="onXZPicker">{{globalLangData.sure}}</view>
             </view>
             <t-tabs defaultValue="{{0}}" show-bottom-line="{{false}}">
-              <t-checkbox-group t-class="box" bind:change="onSelectChange" defaultValue="{{demoCheckboxMax}}" disabled="{{disselect}}">
+              <t-checkbox-group t-class="box" bind:change="onSelectChange" value="{{demoCheckboxMax}}">
                 <block wx:for="{{ options }}" wx:for-item="item" wx:for-index="index" wx:key="unique">
                   <t-tab-panel t-class="tabpanel" label="{{item.label}}" value="{{index}}">
                     <block wx:for="{{ item.children }}" wx:for-item="myItem" wx:for-index="myIndex" wx:key="unique">
-                      <t-checkbox block="{{false}}" value="{{myItem.value}}" label="{{myItem.label}}" icon="rectangle" checked="{{myItem.check}}" disabled="{{myItem.dis}}" />
+                      <t-checkbox block="{{false}}" value="{{myItem.value}}" label="{{myItem.label}}" icon="rectangle" />
                     </block>
                   </t-tab-panel>
                 </block>
@@ -51,8 +81,8 @@
           </view>
         </t-popup>
         <view class="intro">
-          <text>店铺介绍</text>
-          <t-textarea t-class="external-class" placeholder="请从这里输入简介" value="{{shop_desc}}" data-key="shop_desc" bindchange="handleGrInfos" disableDefaultPadding="{{true}}" />
+          <text>{{globalLangData.merchant_info}}</text>
+          <t-textarea t-class="external-class" placeholder="{{globalLangData.enter}}" value="{{shop_desc}}" data-key="shop_desc" bindchange="handleGrInfos" disableDefaultPadding="{{true}}" />
         </view>
 
       </view>

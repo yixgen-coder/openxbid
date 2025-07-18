@@ -3,14 +3,27 @@
   box-sizing: border-box;
   padding-top: 20rpx;
 
+  .tit {
+    padding: 15rpx 30rpx;
+    font-size: 34rpx;
+    font-weight: 600;
+  }
+
   .cell-class {
     position: relative;
-    padding:15rpx 20rpx;
+    padding: 15rpx 20rpx;
   }
 
   .cell-class-description {
     font-size: 26rpx;
     color: #A8A8A8;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    flex: 1;
+    padding-right: 20rpx;
+    max-width: 500rpx;
   }
 
   .cell-image {
@@ -34,15 +47,14 @@
       margin-top: 22rpx;
     }
 
-    .wrapper1 {
-      margin-right: 15rpx;
-    }
+    .wrapper1 {}
   }
 
   .border {
     background: #FFFFFF;
     height: 20rpx;
     position: relative;
+
     &::before {
       content: '';
       display: block;

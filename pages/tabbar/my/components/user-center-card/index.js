@@ -3,7 +3,7 @@ const AuthStepType = {
   TWO: 2,
   THREE: 3,
 };
-
+const app = getApp()
 Component({
   options: {
     multipleSlots: true,
@@ -23,10 +23,11 @@ Component({
     },
   },
   data: {
+    globalLangData: app.globalData.languagePack,
     defaultAvatarUrl: 'https://cdn-we-retail.ym.tencent.com/miniapp/usercenter/icon-user-center-avatar@2x.png',
     AuthStepType,
     statusbar: '',
-    jiaonangheight: '',
+    jiaonangheight: ''
   },
   attached() {
     const res = wx.getMenuButtonBoundingClientRect()
@@ -40,6 +41,4 @@ Component({
       this.triggerEvent('gotoUserEditPage');
     },
   },
-
-
 });

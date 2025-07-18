@@ -31,6 +31,15 @@ page {
   box-sizing: border-box;
   margin: 30rpx 20rpx;
 }
+.news-list .time {
+  text-align: center;
+  margin-bottom: 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999999;
+  font-size: 28rpx;
+}
 .news-list .chat-scroll {
   flex: 1;
   overflow-y: auto;
@@ -48,29 +57,42 @@ page {
   gap: 20rpx;
 }
 .news-list .items .items-left .content {
+  max-width: 70%;
   padding: 15rpx;
   background: #FFFFFF;
   border-radius: 0rpx 20rpx 20rpx 20rpx;
   font-size: 30rpx;
   color: #221F1C;
 }
-.news-list .items .items-left .content .time {
-  text-align: left;
-  margin-bottom: 15rpx;
+.news-list .items .items-left .content .txt {
+  flex: 1;
+  min-width: 0;
+  /* 关键！允许内容压缩 */
+  text-align: justify;
+  word-break: break-all;
+  /* 强制换行 */
+  overflow-wrap: break-word;
 }
 .news-list .items .items-right {
   flex-direction: row-reverse;
+  width: 100%;
 }
 .news-list .items .items-right .content {
+  max-width: 70%;
   padding: 15rpx;
   background: #FF4A26;
   border-radius: 20rpx 0rpx 20rpx 20rpx;
   font-size: 30rpx;
   color: #FFFFFF;
 }
-.news-list .items .items-right .content .time {
-  text-align: right;
-  margin-bottom: 15rpx;
+.news-list .items .items-right .content .txt {
+  flex: 1;
+  min-width: 0;
+  /* 关键！允许内容压缩 */
+  text-align: justify;
+  word-break: break-all;
+  /* 强制换行 */
+  overflow-wrap: break-word;
 }
 .chat-input {
   background: #FFFFFF;

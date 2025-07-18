@@ -1,69 +1,109 @@
-<view class="gs">
-  <view class="info">
-    <view class="img">
-      <image src="{{storeInfo.shop_logo}}"></image>
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="{{isFirstPage?'home':'chevron-left'}}" color="#FFFFFF" size="40rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
     </view>
-    <view class="cont">
-      <view class="txt">{{storeInfo.shop_name}}</view>
-      <view class="rate">
-        <view>信誉</view>
-        <t-rate value="{{storeInfo.pf}}" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
-      </view>
-      <view class="tags">
-        <text>进出口权</text>
-        <text>{{storeInfo.type}}</text>
-        <text>{{storeInfo.fwtype}}</text>
-      </view>
-    </view>
-  </view>
-  <view class="addr">
-    <image src="https://imgs.phanlink.com/program/images/addre.png"></image>
-    <text>{{storeInfo.address}}</text>
-  </view>
-  <view class="addr">
-    <text>主营产品：</text>
-    <text>{{storeInfo.stype}}</text>
-  </view>
-  <view class="btn">
-    <button bindtap="handleGoStore">进入店铺</button>
-    <button bindtap="handleGoZx" wx:if="{{!crrentPage}}">在线留言</button>
-    <button class="fx" open-type="share">分享给好友</button>
   </view>
 </view>
-<view class="lx">
-  <view class="tit">商家联系人</view>
-  <view class="items" wx:for="{{storeInfo.lx}}" wx:key="qq">
-    <image src="{{item.avatar}}"></image>
-    <view class="man">
-      <view class="name">
-        <text>{{item.name}}</text>
-        <text>{{item.post}}</text>
-      </view>
-      <view class="fs" wx:if="{{item.tel!=''}}">
-        <text>电话：</text>
-        <text>{{item.tel}}</text>
-      </view>
-      <view class="fs" wx:if="{{item.email!=''}}">
-        <text>邮箱：</text>
-        <text>{{item.email}}</text>
-      </view>
-      <view class="fs" wx:if="{{item.wx!=''}}">
-        <text>微信：</text>
-        <text>{{item.wx}}</text>
-      </view>
-      <view class="fs" wx:if="{{item.whatsapp!=''}}">
-        <text>whatsapp：</text>
-        <text>{{item.whatsapp}}</text>
-      </view>
-      <view class="fs" wx:if="{{item.other!=''}}">
-        <text>其他：</text>
-        <text>{{item.other}}</text>
-      </view>
-    </view>
-    <view wx:if="{{crrentPage}}" class="del" bindtap="handleDelLx" data-id="{{item.id}}"><text>移除</text></view>
-  </view>
+<!-- tab区域 -->
+<view class="tab-box" wx:if="{{crrentPage}}">
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{tabIndex}}" bind:change="tabChangeHandle">
+    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
+  </t-tabs>
 </view>
-<navigator class="addlx" url="/pages/store/pages/lxadd/index" wx:if="{{crrentPage}}">
-  <image src="https://imgs.phanlink.com/program/images/add99.png"></image>
-  <text>添加联系人</text>
-</navigator>
+<view class="fish-list" wx:if="{{crrentPage&&tabIndex==2}}">
+  <!-- 关注商家 -->
+  <attention-list wr-class="goods-list-container" goodsList="{{goodsList}}" ly="{{1}}" bind:click="storeClickHandle" />
+  <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
+</view>
+<view wx:if="{{tabIndex==1}}">
+  <view class="gs">
+    <view class="info">
+      <view class="img">
+        <image src="{{storeInfo.shop_logo}}"></image>
+      </view>
+      <view class="cont">
+        <view class="txt">
+          <text>{{storeInfo.shop_name}}</text>
+          <view wx:if="{{!crrentPage}}">
+            <view class="gzbtn" wx:if="{{storeInfo.gz==0}}" bindtap="storeClickHandle">+{{globalLangData.follow}}</view>
+            <view class="gzbtn" wx:if="{{storeInfo.gz==1}}" bindtap="storeClickHandle">{{globalLangData.following}}</view>
+          </view>
+        </view>
+        <view class="rate">
+          <view style="font-size: 22rpx;">{{globalLangData.credit}}</view>
+          <t-rate value="{{storeInfo.pf}}" color="#F22800" size="22rpx" gap="2" allow-half="{{true}}" showText="{{false}}" />
+        </view>
+        <view class="tags">
+          <text>{{storeInfo.region}}</text>
+          <text>{{storeInfo.type}}</text>
+          <text>{{globalLangData.import_and_export}}</text>
+        </view>
+      </view>
+
+    </view>
+    <view class="addr">
+      <image src="https://imgs.phanlink.com/program/images/addr1.png"></image>
+      <text>{{storeInfo.address}}</text>
+    </view>
+    <view class="addr">
+      <image src="https://imgs.phanlink.com/program/images/tel2.png"></image>
+      <text>{{storeInfo.tel==null?'':storeInfo.tel}}</text>
+    </view>
+    <view class="addr">
+      <text style="width:140rpx;">{{globalLangData.main_products}}：</text>
+      <text>{{storeInfo.stype}}</text>
+    </view>
+    <view class="btn">
+      <button bindtap="handleGoStore">{{globalLangData.view_shop}}</button>
+      <button bindtap="handleGoZx" wx:if="{{!crrentPage}}">{{globalLangData.live_chat}}</button>
+      <button class="fx" open-type="share">{{globalLangData.share_friends}}</button>
+    </view>
+  </view>
+  <view class="lx">
+    <view class="tit">{{globalLangData.merchant_contact}}</view>
+    <view class="items" wx:for="{{storeInfo.lx}}" wx:key="qq">
+      <image src="{{item.avatar}}"></image>
+      <view class="man">
+        <view class="name">
+          <text>{{item.name}}</text>
+          <text>{{item.post}}</text>
+        </view>
+        <view class="fs" wx:if="{{item.tel!=''}}">
+          <text>{{globalLangData.phone}}：</text>
+          <text>{{item.tel}}</text>
+        </view>
+        <view class="fs" wx:if="{{item.email!=''}}">
+          <text>{{globalLangData.email}}：</text>
+          <text>{{item.email}}</text>
+        </view>
+        <view class="fs" wx:if="{{item.wx!=''}}">
+          <text>{{globalLangData.wechat}}：</text>
+          <text>{{item.wx}}</text>
+        </view>
+        <view class="fs" wx:if="{{item.whatsapp!=''}}">
+          <text>whatsapp：</text>
+          <text>{{item.whatsapp}}</text>
+        </view>
+        <view class="fs" wx:if="{{item.other!=''}}">
+          <text>{{globalLangData.others1}}：</text>
+          <text>{{item.other}}</text>
+        </view>
+      </view>
+      <view wx:if="{{crrentPage}}">
+        <view class="edit">
+          <navigator url="/pages/store/pages/lxadd/index?id={{item.id}}">
+            <text>{{globalLangData.editor}}</text>
+          </navigator>
+        </view>
+        <view wx:if="{{crrentPage}}" class="del" bindtap="handleDelLx" data-id="{{item.id}}"><text>{{globalLangData.delete}}</text></view>
+      </view>
+
+    </view>
+  </view>
+  <navigator class="addlx" url="/pages/store/pages/lxadd/index" wx:if="{{crrentPage}}">
+    <image src="https://imgs.phanlink.com/program/images/add99.png"></image>
+    <text>{{globalLangData.add_contact}}</text>
+  </navigator>
+</view>

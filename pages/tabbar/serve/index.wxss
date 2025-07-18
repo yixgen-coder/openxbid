@@ -54,20 +54,21 @@ page {
   color: #747474 !important;
 }
 .serve-tab {
-  width: 500px;
-  padding-left: 10rpx;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 .serve-tab > view {
-  color: #FFC6A6;
+  color: #ffffff;
   font-size: 32rpx;
-  margin-right: 56rpx;
+  margin-right: 100rpx;
+  font-weight: 800;
 }
 .serve-tab .active {
-  color: #ffffff;
   font-size: 40rpx;
+  border-bottom: 6rpx solid #FFFFFF;
+  padding-bottom: 60rpx;
+  transition-duration: 0.3s;
 }
 .home-page-container {
   background: #f5f5f5;

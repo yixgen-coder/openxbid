@@ -1,16 +1,17 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '商品发布',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.post_product,
     statusbar: '',
     jiaonangheight: '',
-    imgList: [],
     imgsList: [],
-    typeText: ['请选择', '请选择', '请选择', '请选择', new Date().toISOString().substring(0, 10), new Date().toISOString().substring(0, 10), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10)],
-    typeTitle: ['商品种类', '商品分类', '商品性质', '原产地', '生产时间', '开始时间', '结束时间'],
+    typeText: [app.globalData.languagePack.please_select, app.globalData.languagePack.please_select, app.globalData.languagePack.please_select, app.globalData.languagePack.please_select, new Date().toISOString().substring(0, 10), new Date().toISOString().substring(0, 10), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10)],
+    typeTitle: [app.globalData.languagePack.type, app.globalData.languagePack.classification, app.globalData.languagePack.product_type, app.globalData.languagePack.country_of_origin, app.globalData.languagePack.production_date, app.globalData.languagePack.start_date, app.globalData.languagePack.end_date],
     typeValue: [0, 0, 0, 0, Date.now(), Date.now(), Date.now() + 7 * 24 * 60 * 60 * 1000],
     typeCurrentValue: 0,
     typeCurrentIndex: 0,
-    typeCurrentTitle: '商品种类',
+    typeCurrentTitle: app.globalData.languagePack.type,
     typesCurrentList: [],
     typeVisible: false,
     dateVisible: false,
@@ -33,45 +34,59 @@ Page({
     goodsInfo: {},
     xzList: [{
       value: 1,
-      label: "活"
+      label: app.globalData.languagePack.live
     }, {
       value: 2,
-      label: "冰鲜"
+      label: app.globalData.languagePack.fresh
     }, {
       value: 3,
-      label: "冻品"
+      label: app.globalData.languagePack.frozen
     }, {
       value: 4,
-      label: "干(盐)品"
+      label: app.globalData.languagePack.dry_salt
     }],
     regionList: [],
     typeList: [],
     minDate: Date.now() - 7 * 24 * 60 * 60 * 1000,
     maxDate: Date.now() + 7 * 24 * 60 * 60 * 1000,
-    dc: 0
+    dc: 0,
+    disabled: false,
+    newg: 0,
+    orderStatus: 1,
   },
-
-
   onLoad(options) {
     let itemTitle = this.data.itemTitle;
     let btype = this.data.btype;
+    let newg = this.data.newg;
     let goodsId = this.data.goodsId;
-    let dc = this.data.dc;
-    if (options.dc == 1) {
-      dc = options.dc;
+    if (options.lx == 2) {
+      itemTitle = app.globalData.languagePack.post_buying_request;
+      btype = 2;
+    }
+    if (options.newg == 1) {
+      newg = 1;
     }
     if (options.goodsId) {
       goodsId = options.goodsId;
-    }
-    if (options.lx == 2) {
-      itemTitle = '求购发布';
-      btype = 2;
+    } else {
+      if (btype == 2) {
+        this.setData({
+          goodsSpec: [{
+            a1: '',
+            a2: '',
+            a3: '',
+            a4: '',
+            a5: '',
+            a8: 1
+          }],
+        })
+      }
     }
     this.setData({
       itemTitle: itemTitle,
       btype: btype,
+      newg: newg,
       goodsId: goodsId,
-      dc: dc,
     })
     this.init();
   },
@@ -81,7 +96,7 @@ Page({
     });
   },
   onTypePicker(e) {
-    console.log(e);
+    //console.log(e);
     let {
       typeCurrentIndex,
       typeCurrentTitle,
@@ -99,15 +114,15 @@ Page({
       if (index == 0) {
         typesCurrentList = this.data.typeList.filter(item => item.pid === 0);
         this.setData({
-          [`typeText[1]`]: '请选择',
+          [`typeText[1]`]: app.globalData.languagePack.please_select,
           [`typeValue[1]`]: 0,
         });
       }
       if (index == 1) {
         if (this.data.typeValue[0] == 0) {
           wx.showToast({
-            title: '请先选择商品种类',
-            icon: 'loading',
+            title: app.globalData.languagePack.please_select_the_product_type,
+            icon: 'none',
             duration: 500
           });
           return false;
@@ -134,7 +149,7 @@ Page({
         minDate = Date.now() - 30 * 24 * 60 * 60 * 1000;
         maxDate = Date.now() + 30 * 24 * 60 * 60 * 1000;
       }
-      if (index > 4 && this.data.goodsId > 0) {
+      if (index > 4 && this.data.goodsId > 0 && this.data.newg == 0) {
         return false;
       }
       if (index == 5) {
@@ -156,6 +171,14 @@ Page({
       })
     }
   },
+  goodsSetDc(e) {
+    const {
+      checked
+    } = e.detail;
+    this.setData({
+      dc: checked ? 1 : 0
+    })
+  },
   handleCancel(e) {
     const {
       index
@@ -169,6 +192,12 @@ Page({
         dateVisible: false,
       })
     }
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
   },
   handleConfirm(e) {
 
@@ -189,7 +218,7 @@ Page({
       });
       if (index == 0) {
         this.setData({
-          [`typeText[1]`]: '请选择',
+          [`typeText[1]`]: app.globalData.languagePack.please_select,
           [`typeValue[1]`]: 0,
         });
       }
@@ -215,9 +244,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -240,6 +281,8 @@ Page({
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.goodsId = this.data.goodsId;
+    formData.lang = app.globalData.languagePack.lang;
+    formData.newg = this.data.newg;
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       const nextList = res.result;
@@ -250,32 +293,32 @@ Page({
       });
       if (goodsInfo.goodsId > 0) {
         this.setData({
+          orderStatus: goodsInfo.order_status,
           dc: goodsInfo.dc,
           btype: goodsInfo.btype,
           goodsId: goodsInfo.goodsId,
           goodsInfo: goodsInfo.goodsInfo,
           goodsSpec: goodsInfo.goodsSpec,
-          imgList: goodsInfo.pic,
           imgsList: goodsInfo.pics,
           hbType: goodsInfo.hbType,
           typeText: goodsInfo.typeText,
           typeValue: goodsInfo.typeValue,
-          itemTitle: goodsInfo.btype == 1 ? '商品编辑' : '求购编辑',
+          itemTitle: goodsInfo.btype == 1 ? app.globalData.languagePack.product_editor : app.globalData.languagePack.buying_editor,
         });
         this.jjZJ();
       }
 
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
-      });
+      // wx.showToast({
+      //   title: res.msg,
+      //   icon: 'none',
+      //   duration: 500
+      // });
     } else {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
             wx.navigateBack({
@@ -341,15 +384,11 @@ Page({
               }])
             });
           } else {
-            that.setData({
-              imgList: [{
-                'url': res.data.filepath
-              }]
-            });
+
           }
 
           wx.showToast({
-            title: res.data.msg,
+            title: app.globalData.languagePack.lang == 1 ? 'Upload successfully' : '上传成功',
             icon: 'success',
             duration: 2000
           });
@@ -364,18 +403,12 @@ Page({
       index
     } = e.detail;
     const {
-      imgList,
       imgsList
     } = this.data;
     if (index1 == 1) {
       imgsList.splice(index, 1);
       this.setData({
         imgsList
-      });
-    } else {
-      imgList.splice(index, 1);
-      this.setData({
-        imgList
       });
     }
   },
@@ -424,9 +457,9 @@ Page({
     }
 
     this.setData({
-      zaMount: parseFloat(zaMount).toFixed(2),
-      zWeight: parseFloat(zWeight).toFixed(2),
-      zTotal: parseFloat(zTotal).toFixed(2),
+      zaMount: !isNaN(parseFloat(zaMount).toFixed(2)) ? parseFloat(zaMount).toFixed(2) : 0,
+      zWeight: !isNaN(parseFloat(zWeight).toFixed(2)) ? parseFloat(zWeight).toFixed(2) : 0,
+      zTotal: !isNaN(parseFloat(zTotal).toFixed(2)) ? parseFloat(zTotal).toFixed(2) : 0,
     });
   },
   handleGrInfos(e) {
@@ -456,6 +489,11 @@ Page({
     this.setData({
       [`goodsSpec[${index}].${key}`]: value,
     });
+    if (key == 'a3' || key == 'a8') {
+      this.setData({
+        [`goodsSpec[${index}].a4`]: !isNaN(goodsSpec[index].a3 * goodsSpec[index].a8) ? goodsSpec[index].a3 * goodsSpec[index].a8 : 0,
+      });
+    }
     this.jjZJ();
   },
   addInfo: function (key, value) {
@@ -469,7 +507,7 @@ Page({
   },
   handleReset() {
     this.setData({
-      typeText: ['请选择', '请选择', '请选择', '请选择', new Date().toISOString().substring(0, 10), new Date().toISOString().substring(0, 10), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10)],
+      typeText: [app.globalData.languagePack.please_select, app.globalData.languagePack.please_select, app.globalData.languagePack.please_select, app.globalData.languagePack.please_select, new Date().toISOString().substring(0, 10), new Date().toISOString().substring(0, 10), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10)],
       typeValue: [0, 0, 0, 0, Date.now(), Date.now(), Date.now() + 7 * 24 * 60 * 60 * 1000],
       goodsSpec: [{
         a1: '',
@@ -479,32 +517,56 @@ Page({
         a5: '',
         a8: ''
       }],
-      imgList: [],
       imgsList: [],
       goodsInfo: {}
     });
 
   },
   async handleTJForm() {
+
+
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.typeValue = this.data.typeValue;
     formData.goodsId = this.data.goodsId;
     formData.dc = this.data.dc;
-    formData.imgList = this.data.imgList;
     formData.imgsList = this.data.imgsList;
     formData.goodsSpec = this.data.goodsSpec;
     formData.goodsInfo = this.data.goodsInfo;
     formData.btype = this.data.btype;
+    formData.newg = this.data.newg;
     formData.hbType = this.data.hbType;
+    formData.lang = app.globalData.languagePack.lang;
+    if (formData.goodsId > 0 && this.data.orderStatus == 0) {
+      const {
+        confirm
+      } = await new Promise(resolve =>
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: formData.lang == 1 ? 'You have a quotation currently being posted. Do you need to repost it?' : '您有一个报价正在发布，需要重新发布吗？',
+          confirmText: app.globalData.languagePack.sure, // 默认"确定
+          cancelText: app.globalData.languagePack.cancel, // 默认"取消"
+          success: resolve,
+          fail: () => resolve({
+            confirm: false
+          })
+        })
+      )
+      if (!confirm) {
+        return false;
+      }
+    }
+    this.setData({
+      disabled: true
+    });
     const url = 'https://kpy.phanlink.com/v1/setGoodsAddDatas';
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: res => {
           if (res.confirm) {
 
@@ -515,13 +577,42 @@ Page({
           }
         }
       });
+    } else if (res.code == -1) {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: res.msg,
+        confirmText: app.globalData.languagePack.sure, // 默认"确定"
+        cancelText: app.globalData.languagePack.back, // 默认"取消"
+        success: (res) => {
+          if (res.confirm) {
+
+          } else if (res.cancel) {
+            wx.navigateBack()
+          }
+        }
+      })
+    } else if (res.code == -2) {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: res.msg,
+        confirmText: app.globalData.languagePack.sure, // 默认"确定"
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/my/pages/approve/index',
+            });
+          }
+        }
+      })
     } else {
       wx.showToast({
         title: res.msg,
-        icon: 'loading',
+        icon: 'none',
         duration: 500
       });
     }
-
+    this.setData({
+      disabled: false
+    });
   },
 })

@@ -1,3 +1,6 @@
+.collection-list-wrap {
+  margin-top: 16rpx;
+}
 .collection-list-wrap .collection-item {
   background: #FFFFFF;
   border-radius: 16rpx 16rpx 16rpx 16rpx;
@@ -60,12 +63,12 @@
   margin-right: 10rpx;
 }
 .collection-list-wrap .collection-item .item-box .right .tags .color1 {
-  background: #E1FAE8;
-  color: #26BF63;
+  background: #fc0101;
+  color: #FFFFFF;
 }
 .collection-list-wrap .collection-item .item-box .right .tags .color2 {
-  background: #FFF4F2;
-  color: #FF5533;
+  background: #00CC81;
+  color: #FFFFFF;
 }
 .collection-list-wrap .collection-item .item-box .right .tags .color3 {
   background: #F7F8FA;

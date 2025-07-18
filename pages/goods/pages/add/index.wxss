@@ -31,6 +31,16 @@ page {
   border-radius: 30rpx;
   padding: 20rpx;
 }
+.publish-wrap .goods-list .t-radio {
+  padding-left: 0;
+}
+.publish-wrap .goods-list .t-radio__icon--checked {
+  color: #F22800 !important;
+}
+.publish-wrap .goods-list .t-radio__title {
+  font-weight: 600;
+  font-size: 34rpx;
+}
 .publish-wrap .goods-list .title {
   display: flex;
   justify-content: space-between;
@@ -56,10 +66,25 @@ page {
   border-bottom: 1rpx solid #eeebeb;
   --td-input-vertical-padding: 10rpx;
 }
+.publish-wrap .goods-list .items .t-icon-swap {
+  width: 190rpx;
+  position: relative;
+  text-align: left;
+}
+.publish-wrap .goods-list .items .t-icon-swap::after {
+  position: absolute;
+  content: '';
+  font-size: 24rpx;
+  color: #333333;
+  font-weight: 800;
+  top: 10rpx;
+  right: 0rpx;
+}
 .publish-wrap .goods-list .items text {
   font-weight: bold;
-  font-size: 30rpx;
+  font-size: 28rpx;
   color: #221F1C;
+  position: relative;
 }
 .publish-wrap .goods-list .items .name {
   margin-top: 10rpx;
@@ -74,20 +99,30 @@ page {
   padding: 25rpx 0;
 }
 .publish-wrap .goods-list .items .t-cell__title {
-  width: 250rpx;
+  width: 400rpx;
+}
+.publish-wrap .goods-list .items .t-input__label:not(:empty) {
+  min-width: auto;
+  max-width: auto;
+  width: 11em;
 }
 .publish-wrap .goods-list .items .t-cell__title-text {
   font-weight: bold;
-  font-size: 30rpx;
+  font-size: 24rpx;
   color: #221F1C;
 }
+.publish-wrap .goods-list .items .tlabel::after {
+  content: '*';
+  font-size: 50rpx;
+  color: #f80101;
+}
 .publish-wrap .goods-list .items .t-cell__note text {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #999999;
 }
 .publish-wrap .goods-list .items .t-textarea__label {
   font-weight: bold;
-  font-size: 30rpx;
+  font-size: 24rpx;
   color: #221F1C;
 }
 .publish-wrap .goods-list .items .t-textarea__wrapper-inner {

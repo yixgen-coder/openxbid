@@ -14,12 +14,13 @@
 <view class="news-list">
   <scroll-view class="chat-scroll">
     <view class="items" wx:for="{{goodsList}}">
+      <text class="time" wx:if="{{item.addtime!=null}}">{{item.addtime}}</text>
       <view class="items-{{uId>0?'left':'right'}}" wx:if="{{item.type==1}}">
         <view class="img">
           <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
         </view>
         <view class="content">
-          <view class="time"><text>{{item.addtime}}</text> </view>
+          <!-- <view class="time"><text>{{item.addtime}}</text> </view> -->
           <view class="txt">{{item.msg}}</view>
         </view>
       </view>
@@ -28,7 +29,7 @@
           <image src="https://imgs.phanlink.com/{{item.shop_logo}}"></image>
         </view>
         <view class="content">
-          <view class="time">{{item.addtime}}</view>
+          <!-- <view class="time">{{item.addtime}}</view> -->
           <view class="txt">{{item.msg}}</view>
         </view>
 
@@ -39,8 +40,8 @@
 </view>
 <view style="height:180rpx;"></view>
 <view class="chat-input">
-  <t-input placeholder="在此输入..." t-class-input="tinput" value="{{msg}}" bind:change="handleChatValue">
+  <t-input placeholder="{{globalLangData.enter_here}}..." t-class-input="tinput" value="{{msg}}" bind:change="handleChatValue">
     <t-icon slot="suffix" name="add-circle" size="55rpx" wx:if="{{send==0}}" color="#929292" />
-    <t-button slot="suffix" size="extra-small" wx:if="{{send==1}}" bindtap="handleChatSubmit"> 发送 </t-button>
+    <t-button slot="suffix" size="extra-small" wx:if="{{send==1}}" bindtap="handleChatSubmit"> {{globalLangData.send}} </t-button>
   </t-input>
 </view>

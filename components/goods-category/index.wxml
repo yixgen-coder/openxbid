@@ -1,34 +1,35 @@
 <wxs module="filter" src="./index.wxs"></wxs>
 <view class="goods-category custom-class">
   <c-sidebar custom-class="custom-sidebar" bindchange="onParentChange" activeKey="{{activeKey}}">
+    <view style="width:100%;padding:20rpx 0;text-align:center;font-weight: 600;font-size: 32rpx;">{{globalLangData.grade}}</view>
     <c-sidebar-item wx:for="{{ category }}" wx:key="index" title="{{ item.a1 }}" />
   </c-sidebar>
   <view class="goods-category__right">
     <view class="sidebar-right" wx:for="{{ category }}" wx:key="index" wx:if="{{index==activeKey}}">
       <view class="right-item">
-        <view class="label">型号</view>
+        <view class="label">{{globalLangData.size}}</view>
         <view class="number">{{item.a2}}</view>
       </view>
       <view class="right-item">
-        <view class="label">数量</view>
+        <view class="label">{{globalLangData.quantity}}</view>
         <view class="number">{{item.a3}}</view>
       </view>
       <view class="right-item">
-        <view class="label">包装</view>
+        <view class="label">{{globalLangData.package}}</view>
         <view class="number">{{item.a8}}</view>
       </view>
       <view class="right-item">
-        <view class="label">净重(KG)</view>
+        <view class="label">{{globalLangData.net_weight}}(KG)</view>
         <view class="number">{{item.a4}}</view>
       </view>
       <view class="item-long">
-        <view class="label">单价(USD/KG)</view>
+        <view class="label">{{globalLangData.unit_price}}(USD/KG)</view>
         <view class="number">
-          <input placeholder="请出价" value="{{stype==1?item.a6:item.a5}}" bindinput="handleGrInfos" data-key="{{index}}" style="text-align:right;margin-top:15rpx;padding:10rpx;width:200rpx;background-color: #f3ec09;" />
+          <input type="digit" placeholder="{{globalLangData.please_make_bid}}" value="{{stype==1?item.a6:item.a5}}" bindinput="handleGrInfos" data-key="{{index}}" style="text-align:right;margin-top:5rpx;padding:10rpx 15rpx;width:200rpx;background-color: #f3ec09;padding-right: 30rpx;" />
         </view>
       </view>
       <view class="item-long">
-        <view class="label">总价(USD)</view>
+        <view class="label">{{globalLangData.amount}}(USD)</view>
         <view class="red">{{stype==1?filter.numberToFixed(item.a4*item.a6):filter.numberToFixed(item.a4*item.a5)}}</view>
       </view>
     </view>

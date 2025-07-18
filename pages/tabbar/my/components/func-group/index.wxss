@@ -35,6 +35,7 @@
   padding:20rpx 0;
   background-color: #fff; 
   border: none;  
+  text-align: center;
   /* flex: 1; */
 }
 button::after { border: none !important; }

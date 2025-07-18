@@ -1,0 +1,44 @@
+<view class="bidding-list-wrap wr-class" id="{{independentID}}">
+  <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
+    <view class="bidding-item">
+      <view class="item-top">
+        <view class="left">
+          <text>{{globalLangData.bid_status}}</text>
+        </view>
+        <view class="right">
+          <span class="cc2">{{globalLangData.bidding}}</span>
+        </view>
+      </view>
+      <view class="item-box" bindtap="onClickGoods" data-key="{{item.id}}">
+        <image class="left" src="{{item.pic}}"></image>
+        <view class="right">
+          <view class="top">
+            <view class="title">{{item.title}}</view>
+            <view class="tags">
+              <view wx:if="{{item.btype==2}}" class="color2">
+                {{globalLangData.buy}}
+              </view>
+              <view wx:if="{{item.btype==1}}" class="color1">
+                {{globalLangData.sell}}
+              </view>
+              <view class="color1">{{item.place}}</view>
+              <view class="color1">{{item.nature}}</view>
+            </view>
+          </view>
+          <view class="bottom" style="margin-top:10rpx;">
+            <text class="dw">{{globalLangData.my_quotation}}：</text>
+            <text class="num">{{item.currencyType==1?'$':'￥'}} {{item.price}}</text>
+          </view>
+          <view class="bottom">
+            <text class="dw">{{globalLangData.current}}：</text>
+            <text class="num">{{item.currencyType==1?'$':'￥'}}{{item.current_price}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="item-bottom">
+        <view class="btn btn2" bindtap="onClickDelOrders" data-key="{{item.id}}">{{globalLangData.close_quote}}</view>
+        <view class=" btn btn1" bindtap="handleGoOffer" data-key="{{item.id}}">{{globalLangData.bid_records}}</view>
+      </view>
+    </view>
+  </block>
+</view>

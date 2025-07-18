@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
   externalClasses: ['wr-class'],
 
@@ -17,6 +18,7 @@ Component({
   },
 
   data: {
+    globalLangData: app.globalData.languagePack,
     independentID: '',
     msg: '',
     dtId: '',

@@ -1,5 +1,7 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     artId: '',
     artInfo: {},
   },
@@ -25,6 +27,7 @@ Page({
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.artId = this.data.artId;
+    formData.lang = app.globalData.languagePack.lang;
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       const nextList = res.result;
@@ -34,17 +37,12 @@ Page({
           artInfo: nextList
         });
       }
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
-      });
     } else {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
             wx.navigateBack({
@@ -75,7 +73,12 @@ Page({
       });
     });
   },
-
+   /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
+  },
   /**
    * 用户点击右上角分享
    */

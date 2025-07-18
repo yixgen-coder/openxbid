@@ -17,7 +17,7 @@ Component({
   },
 
   methods: {
-    handleGoGoods(e) {
+    handleGoArt(e) {
       const {
         id
       } = e.currentTarget.dataset;

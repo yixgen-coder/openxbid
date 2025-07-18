@@ -43,6 +43,9 @@ page {
 .publish-wrap .rz .t-icon--image .t-icon__image {
   max-width: 25%;
 }
+.publish-wrap .rz .t-input__label:not(:empty) {
+  min-width: var(--td-input-label-min-width, 11em);
+}
 .publish-wrap .tjbtn {
   margin: 50rpx 20rpx;
 }

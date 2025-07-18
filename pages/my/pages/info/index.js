@@ -1,13 +1,28 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     userinfo: {},
     avatarUrl: '',
     mobile: '',
     mail: '',
-    nickname: ''
+    password: '',
+    nickname: '',
+    visible: false,
   },
   onLoad() {
     this.init();
+  },
+  popCancel() {
+    this.setData({
+      visible: false
+    });
+  },
+  onShow() {
+    this.fetchData1();
+  },
+  checkUserInfo(userInfo) {
+    return userInfo.nickname.startsWith('KPY_') || !userInfo.avatar.includes('uploads/');
   },
   init() {
     this.fetchData();
@@ -17,26 +32,12 @@ Page({
     this.setData({
       nickname: newValue
     });
-    //console.log('输入框的值：', newValue);
-  },
-  handlemobile: function (e) {
-    const newValue = e.detail.value;
-    this.setData({
-      mobile: newValue
-    });
-    //console.log('输入框的值：', newValue);
-  },
-  handlemail: function (e) {
-    const newValue = e.detail.value;
-    this.setData({
-      mail: newValue
-    });
-    //console.log('输入框的值：', newValue);
   },
   onFormSubmit: function (e) {
     const formData = e.detail.value;
     const token = wx.getStorageSync('token');
     formData.token = token;
+    formData.lang = app.globalData.languagePack.lang;
     // 发送数据到服务器
     this.sendFormData(formData);
   },
@@ -54,7 +55,15 @@ Page({
           wx.showToast({
             title: res.data.msg,
             icon: 'success',
-            duration: 2000
+            duration: 2000,
+            mask: true,
+            complete: () => {
+              setTimeout(() => {
+                wx.navigateBack({
+                  delta: 1
+                });
+              }, 2000);
+            }
           });
         } else {
           wx.showToast({
@@ -89,6 +98,7 @@ Page({
       success: function (res) {
         if (res.data.code == 1) {
           that.setData({
+            visible: that.checkUserInfo(res.data.data) ? true : false,
             userinfo: res.data.data,
             avatarUrl: res.data.data.avatar,
             mobile: res.data.data.mobile,
@@ -98,6 +108,34 @@ Page({
         }
       }
     });
+  },
+  fetchData1() {
+    const token = wx.getStorageSync('token');
+    const that = this;
+    wx.request({
+      url: 'https://kpy.phanlink.com/v1/getmyInfo',
+      method: 'POST',
+      data: {
+        token: token
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        if (res.data.code == 1) {
+          that.setData({
+            mobile: res.data.data.mobile,
+            mail: res.data.data.mail,
+          })
+        }
+      }
+    });
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
   },
   onChooseAvatar(e) {
     this.setData({

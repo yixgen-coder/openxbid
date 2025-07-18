@@ -1,5 +1,7 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     statusbar: "",
     jiaonangheight: "",
     pageLoading: false,
@@ -101,6 +103,9 @@ Page({
 
 
   onLoad() {
+    wx.setNavigationBarTitle({
+      title: app.globalData.languagePack.new_follower
+    });
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面

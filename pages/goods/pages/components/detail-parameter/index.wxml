@@ -1,10 +1,10 @@
 <view class="detail-parameter">
   <view>
-    <view class="label">商品种类</view>
+    <view class="label">{{globalLangData.type}}</view>
     <view>{{goodsgg.topid}}</view>
   </view>
   <view>
-    <view class="label">商品分类</view>
+    <view class="label">{{globalLangData.classification}}</view>
     <view>{{goodsgg.typeid}}</view>
   </view>
   <!-- <view>
@@ -28,7 +28,7 @@
     <view>{{goodsgg.ptime}}</view>
   </view> -->
   <view>
-    <view class="label">商品补充信息</view>
+    <view class="label">{{globalLangData.details_info}}</view>
     <view>{{goodsgg.info}}</view>
   </view>
 </view>

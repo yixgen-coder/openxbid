@@ -10,29 +10,19 @@
   </view>
 </view>
 <!-- tab区域 -->
-<view class="tab-box">
+<view class="tab-box" wx:if="{{jd==0}}">
   <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{tabIndex}}" bind:change="tabChangeHandle">
     <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
   </t-tabs>
 </view>
 <view class="home-page-container">
   <view class="gl">
-    <text>共{{scount}}条</text>
-    <text>管理</text>
+    <text>{{globalLangData.lang==1?'Total':'共'}}{{scount}}{{globalLangData.lang==1?'items':'条'}}</text>
+    <text>{{globalLangData.dashboard}}</text>
   </view>
   <view class="pj-list">
     <view class="items" wx:for="{{goodsList}}">
-      <view class="usr">
-        <view class="dat">
-          <image src="{{item.avatar}}"></image>
-          <view class="tit">
-            <text>{{item.nickname}}</text>
-            <t-rate value="{{item.score}}" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
-          </view>
-        </view>
-        <view class="date">{{item.addtime}}</view>
-      </view>
-      <view class="cont">{{item.msg}}</view>
+
       <navigator class="goods" url="/pages/goods/pages/index/index?spuId={{item.goods_id}}">
         <image src="{{item.pic}}"></image>
         <view class="tit">
@@ -44,13 +34,25 @@
           </view>
         </view>
       </navigator>
+      <view class="usr">
+        <view class="dat">
+          <image src="{{item.avatar}}"></image>
+          <view class="tit">
+            <text>{{item.nickname}}</text>
+            <t-rate value="{{item.score}}" color="#FF5959" gap="0" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
+          </view>
+        </view>
+        <view class="date">{{item.addtime}}</view>
+      </view>
+      <view class="cont">{{item.msg}}</view>
+
       <view class="reply" wx:if="{{tabIndex==2}}">
-        <text>我的回复：</text>
+        <text>{{globalLangData.my_reply}}：</text>
         <text>{{item.reply}}</text>
       </view>
       <view class="btn">
-        <button data-id="{{item.id}}" wx:if="{{tabIndex==2}}" bindtap="pjClickHandle">删除评价</button>
-        <button bindtap="handleShowPj" data-id="{{item.id}}" data-index="{{index}}">{{item.status?'修改回复':'回复'}}</button>
+        <button data-id="{{item.id}}" wx:if="{{tabIndex==2}}" bindtap="pjClickHandle">{{globalLangData.delete}} {{globalLangData.reviews}}</button>
+        <button bindtap="handleShowPj" data-id="{{item.id}}" data-index="{{index}}">{{item.status?globalLangData.modify_reply:globalLangData.reply}}</button>
       </view>
     </view>
   </view>
@@ -60,12 +62,12 @@
 <t-popup visible="{{pjvisible}}" placement="bottom" style="bottom:{{keyboardheight}}rpx">
   <view class="block">
     <view class="header">
-      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowPj">取消</view>
-      <view class="title">评价回复</view>
-      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowPj">{{globalLangData.cancel}}</view>
+      <view class="title">{{globalLangData.comment_reply}}</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">{{globalLangData.sure}}</view>
     </view>
     <view class="msgtxt">
-      <t-textarea bindchange="handleReply" value="{{pjReply}}" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" placeholder="请输入回复内容" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
+      <t-textarea bindchange="handleReply" value="{{pjReply}}" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" placeholder="{{globalLangData.enter}}" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
     </view>
   </view>
 </t-popup>

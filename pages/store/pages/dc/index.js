@@ -1,4 +1,5 @@
 // pages/publish/index.js
+const app = getApp()
 Page({
 
   /**
@@ -34,26 +35,29 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
-    this.getMessageCount();
-  },
-  async getMessageCount() {
-    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    const res = await this.fetchSetOrders(url, formData);
-    if (res.code == 1) {
-      this.getTabBar().init(res.result.messageCount);
-    }
-  },
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
 
+  },
+
+  goback: function () {
+    wx.navigateBack({
+      delta: 1
+    });
   },
 
   /**
@@ -67,38 +71,12 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    wx.stopPullDownRefresh();
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
 
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  },
-  fetchSetOrders(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
 })

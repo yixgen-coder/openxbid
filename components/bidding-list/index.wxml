@@ -2,14 +2,14 @@
   <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
     <view class="bidding-item">
       <view class="item-top">
-        <view class="left">
+        <view class="left" bindtap="onClickStoreInfos" data-key="{{item.storeid}}">
           <image src="{{item.shop_logo}}"></image>
           <text>{{item.shop_name}}</text>
         </view>
         <view class="right">
-          <span wx:if="{{item.status==2}}" class="cc1">竞价成功</span>
-          <span wx:if="{{item.status==1}}" class="cc2">竞价中</span>
-          <span wx:if="{{item.status==0}}" class="cc3">竞价失败</span>
+          <span wx:if="{{item.status==2}}" class="cc1">{{globalLangData.bid_successful}}</span>
+          <span wx:if="{{item.status==1}}" class="cc2">{{globalLangData.bidding2}}</span>
+          <span wx:if="{{item.status==0}}" class="cc3">{{globalLangData.bid_failed}}</span>
         </view>
       </view>
       <view class="item-box" bindtap="onClickGoods" data-key="{{item.goods_id}}">
@@ -18,34 +18,40 @@
           <view class="top">
             <view class="title">{{item.title}}</view>
             <view class="time">
+              <view wx:if="{{item.statu != 3}}"><text>{{globalLangData.closes_in}}</text></view>
               <view wx:if="{{item.statu != 3}}">
-                <t-count-down t-class="external-count" t-class-split="external-split" format="DD:HH:mm:ss" content="default" time="{{ item.time }}" splitWithUnit />
+                <t-count-down t-class="external-count" t-class-split="external-split" format="DD:HH:mm:ss" content="default" time="{{ item.time }}" />
               </view>
-              <view wx:if="{{item.statu != 3}}"><text>后结束</text></view>
+
             </view>
             <view class="tags">
-              <view wx:if="{{item.btype==2}}" class="color1">
-                求购
+              <view wx:if="{{item.btype==2}}" class="color2">
+                {{globalLangData.buy}}
               </view>
-              <view wx:if="{{item.btype==1}}" class="color2">
-                出售
+              <view wx:if="{{item.btype==1}}" class="color1">
+                {{globalLangData.sell}}
               </view>
-              <view class="color3">{{item.place}}</view>
-              <view class="color4">{{item.nature}}</view>
+              <view class="color1">{{item.place}}</view>
+              <view class="color1">{{item.nature}}</view>
             </view>
           </view>
+          <view class="bottom" wx:if="{{tabIndex==0||tabIndex==4}}" style="margin-top:15rpx;">
+            <text class="dw">{{globalLangData.current}}：</text>
+            <text class="num">{{item.currencyType==1?'$':'￥'}}{{item.current_price}}</text>
+          </view>
           <view class="bottom">
-            我的出价：
-            <text class="dw">$</text>
-            <text class="num">{{item.orderTotal}}</text>
+            <text class="dw">{{globalLangData.my_bid}}：</text>
+            <text class="num">{{item.currencyType==1?'$':'￥'}}{{item.orderTotal}}</text>
           </view>
         </view>
       </view>
       <view class="item-bottom">
-        <view class="btn btn1" bindtap="onClickDelOrders" data-key="{{item.id}}">删除竞价</view>
-        <navigator class="btn btn1" wx:if="{{item.status==1}}" url="/pages/goods/pages/info/index?ordId={{item.id}}&cj=1">修改出价</navigator>
-        <view class=" btn btn1" bindtap="onClickOrders" data-key="{{item.id}}">查看详情</view>
-        <navigator class="btn btn1" wx:if="{{item.status==2&&item.pj==0}}" url="/pages/goods/pages/info/index?ordId={{item.id}}&pj=1">立即评价</navigator>
+        <view class="btn btn1" wx:if="{{tabIndex!=0}}" bindtap="onClickDelOrders" data-key="{{item.id}}">{{globalLangData.delete_order}}</view>
+        <navigator wx:if="{{tabIndex==0}}" class="btn btn1" url="/pages/goods/pages/offer/index?goodsId={{item.goods_id}}">{{globalLangData.bid_records}}</navigator>
+        <navigator class="btn btn1 btn2" wx:if="{{item.status==1}}" url="/pages/goods/pages/info/index?ordId={{item.id}}&cj=1">{{globalLangData.revise_bid}}</navigator>
+        <view class=" btn btn1 {{item.pj==1?'btn2':''}}" bindtap="onClickOrders" data-key="{{item.id}}">{{globalLangData.view_details}}</view>
+        <navigator class="btn btn1 btn2" wx:if="{{item.status==2&&item.pj==0}}" url="/pages/goods/pages/info/index?ordId={{item.id}}&pj=1">{{globalLangData.reviews}}</navigator>
+        <navigator class="btn btn1 btn2" wx:if="{{item.status==2}}" url="/pages/news/pages/message/chat/index?storeId={{item.storeid}}">{{globalLangData.lang==1?'Contact':'联系商家'}}</navigator>
       </view>
     </view>
     <!-- <goods-card

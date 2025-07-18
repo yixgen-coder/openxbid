@@ -35,6 +35,21 @@
   font-size: 24rpx;
   color: #A8A8A8;
 }
+.community-list-wrap .community-item .title-box .right {
+  position: relative;
+}
+.community-list-wrap .community-item .title-box .right .hitab {
+  position: absolute;
+  right: 10rpx;
+  top: 50rpx;
+  padding: 10px 20rpx;
+  background-color: white;
+  border-radius: 10px 0 10px 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 30rpx;
+  background-color: #292828;
+}
 .community-list-wrap .community-item .content-txt {
   font-size: 30rpx;
   color: #332E2A;
@@ -61,7 +76,7 @@
 .community-list-wrap .community-item .pj > image {
   width: 36rpx;
   height: 36rpx;
-  margin-left: 40rpx;
+  margin-left: 20rpx;
   margin-right: 10rpx;
 }
 .community-list-wrap .community-item .pj text {
@@ -85,7 +100,7 @@
   margin-top: 20rpx;
 }
 .community-list-wrap .community-item .replay > view .name {
-  color: #80766C;
+  color: #FF7426;
 }
 .community-list-wrap .community-item .replay > view .margin-5 {
   margin: 0 10rpx;

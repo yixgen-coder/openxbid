@@ -72,6 +72,6 @@ page {
 }
 .publish-wrap .publish-content .cell-icon {
   position: absolute;
-  left: 220rpx;
+  left: 325rpx;
   top: 90rpx;
 }

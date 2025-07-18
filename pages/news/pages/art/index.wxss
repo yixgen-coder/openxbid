@@ -74,7 +74,7 @@ page {
 .art-container .pl {
   margin: 20rpx;
   background: #FFFFFF;
-  margin-bottom: 180rpx;
+  padding-bottom: 180rpx;
 }
 .art-container .pl .circt-box {
   margin: 12rpx;

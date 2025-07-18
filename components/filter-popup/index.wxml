@@ -1,6 +1,6 @@
 <view class="pop-box">
   <view class="title">
-    全部筛选
+    {{globalLangData.filters}}
     <image class="close" src="https://imgs.phanlink.com/program/images/close.png" data-index="{{1}}" bindtap="submitBJ"></image>
   </view>
   <view class="side-bar-wrapper">
@@ -10,10 +10,10 @@
     <view class="content">
       <scroll-view class="section" scroll-y>
         <view class="baritem" wx:if="{{sideBarIndex==0}}">
-          <view class="tit">商品类型</view>
+          <view class="tit">{{globalLangData.commodity_type}}</view>
           <view class="type">
-            <text data-value="{{1}}" class="{{1==filterValue[0]?'active':''}}" data-index="{{0}}" bindtap="handleFilterValue">出售</text>
-            <text data-value="{{2}}" class="{{2==filterValue[0]?'active':''}}" data-index="{{0}}" bindtap="handleFilterValue">求购</text>
+            <text data-value="{{1}}" class="{{1==filterValue[0]?'active':''}}" data-index="{{0}}" bindtap="handleFilterValue">{{globalLangData.sell}}</text>
+            <text data-value="{{2}}" class="{{2==filterValue[0]?'active':''}}" data-index="{{0}}" bindtap="handleFilterValue">{{globalLangData.buy}}</text>
           </view>
         </view>
         <view class="baritem" wx:if="{{sideBarIndex==1}}">
@@ -25,16 +25,16 @@
           </block>
         </view>
         <view class="baritem" wx:if="{{sideBarIndex==2}}">
-          <view class="tit">商品性质</view>
+          <view class="tit">{{globalLangData.product_type}}</view>
           <view class="type">
-            <text class="{{1==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{1}}" bindtap="handleFilterValue">活</text>
-            <text class="{{2==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{2}}" bindtap="handleFilterValue">冰鲜</text>
-            <text class="{{3==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{3}}" bindtap="handleFilterValue">冻品</text>
-            <text class="{{4==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{4}}" bindtap="handleFilterValue">干(盐)品</text>
+            <text class="{{1==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{1}}" bindtap="handleFilterValue">{{globalLangData.live}}</text>
+            <text class="{{2==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{2}}" bindtap="handleFilterValue">{{globalLangData.fresh}}</text>
+            <text class="{{3==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{3}}" bindtap="handleFilterValue">{{globalLangData.frozen}}</text>
+            <text class="{{4==filterValue[2]?'active':''}}" data-index="{{2}}" data-value="{{4}}" bindtap="handleFilterValue">{{globalLangData.dry_salt}}</text>
           </view>
         </view>
         <view class="baritem" wx:if="{{sideBarIndex==3}}">
-          <view class="tit">国家地区</view>
+          <view class="tit">{{globalLangData.region_filter}}</view>
           <view class="type">
             <text wx:for="regions" wx:for="{{regions}}" wx:key="region" class="{{item.id==filterValue[3]?'active':''}}" data-index="{{3}}" data-value="{{item.id}}" bindtap="handleFilterValue">{{item.title}}</text>
           </view>
@@ -44,7 +44,7 @@
   </view>
   <!-- 按钮曲艺 -->
   <view class="btn-box">
-    <view class="left" bindtap="cancel">重置</view>
-    <view class="right" data-index="{{2}}" bindtap="submitBJ">确定</view>
+    <view class="left" bindtap="cancel">{{globalLangData.reset}}</view>
+    <view class="right" data-index="{{2}}" bindtap="submitBJ">{{globalLangData.sure}}</view>
   </view>
 </view>

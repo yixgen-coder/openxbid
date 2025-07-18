@@ -1,16 +1,5 @@
 <view class="pj-list">
   <view class="items" wx:for="{{goodsList}}">
-    <view class="usr">
-      <view class="dat">
-        <image src="{{item.avatar}}"></image>
-        <view class="tit">
-          <text>{{item.nickname}}</text>
-          <t-rate value="{{item.score}}" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
-        </view>
-      </view>
-      <view class="date">{{item.addtime}}</view>
-    </view>
-    <view class="cont">{{item.msg}}</view>
     <navigator class="goods" url="/pages/goods/pages/index/index?spuId={{item.goods_id}}">
       <image src="{{item.pic}}"></image>
       <view class="tit">
@@ -22,8 +11,20 @@
         </view>
       </view>
     </navigator>
+    <view class="usr">
+      <view class="dat">
+        <image src="{{item.avatar}}"></image>
+        <view class="tit">
+          <text>{{item.nickname}}</text>
+          <t-rate value="{{item.score}}" gap="0" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
+        </view>
+      </view>
+      <view class="date">{{item.addtime}}</view>
+    </view>
+    <view class="cont">{{item.msg}}</view>
+
     <view class="reply" wx:if="{{item.reply!=''}}">
-      <text>商家回复：</text>
+      <text>{{globalLangData.merchant_reply}}：</text>
       <text>{{item.reply}}</text>
     </view>
   </view>

@@ -1,23 +1,46 @@
 // pages/publish/index.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    globalLangData: app.globalData.languagePack,
     statusbar: '',
     jiaonangheight: '',
-    image: 'https://imgs.phanlink.com/program/images/logo.png',
+    image: 'https://imgs.phanlink.com/program/images/logo.jpg',
     tabCurrent: 0,
     checked: false,
     phoneNumber: '',
+    mailNumber: '',
+    password: '',
     verificationCode: '',
-    getCodeButtonText: '获取验证码',
+    getCodeButtonText: app.globalData.languagePack.get_code,
     countdown: 0, // 倒计时
     sendcodestatus: false,
     isDisabled: true,
+    tabList: [{
+      text: app.globalData.languagePack.mobile_number,
+      key: 1
+    }, {
+      text: app.globalData.languagePack.email,
+      key: 2
+    }],
+    tabIndex: 1,
+    product: {},
   },
-
+  tabChangeHandle(e) {
+    this.setData({
+      tabIndex: e.detail.value
+    })
+  },
+  onChange(e) {
+    this.setData({
+      'product.label': e.detail.value,
+      'product.value': e.detail.value,
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -27,17 +50,44 @@ Page({
       statusbar: res.top, // 胶囊顶部高度
       jiaonangheight: res.height // 胶囊高度
     })
+    var openid = wx.getStorageSync('openid');
+    if (!openid) {
+      this.loginAgain();
+    }
+    this.getRegionCodes();
   },
   onReady() {
-    const checked = this.data.checked;
-    if (!checked) {
-      wx.showToast({
-        title: '请先勾选服务协议和隐私协议！',
-        icon: 'none'
-      });
-    }
-  },
 
+  },
+  loginAgain: function () {
+    wx.login({
+      success: function (res) {
+        if (res.code) {
+          // 发起网络请求
+          wx.request({
+            url: 'https://kpy.phanlink.com/v1/getToken',
+            method: 'POST',
+            data: {
+              code: res.code
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+              wx.setStorageSync('openid', res.data.openid);
+            }
+          });
+        } else {
+          console.log('登录失败！' + res.errMsg);
+        }
+      }
+    });
+  },
+  goback: function () {
+    wx.navigateBack({
+      delta: 1
+    });
+  },
   getPhoneNumber(e) {
     if (e.detail.errMsg === 'getPhoneNumber:ok') {
       // 用户同意授权
@@ -70,10 +120,29 @@ Page({
               }
             });
 
+          } else if (res.data.code == 2) {
+            wx.setStorageSync('token', res.data.token);
+            wx.showModal({
+              title: app.globalData.languagePack.reminder,
+              content: app.globalData.languagePack.lang == 1 ? 'Please set your avatar and nickname' : '请设置头像和昵称',
+              confirmText: app.globalData.languagePack.sure, // 默认"确定"
+              cancelText: app.globalData.languagePack.back, // 默认"取消"
+              success: (res) => {
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '/pages/my/pages/info/index',
+                  });
+                } else if (res.cancel) {
+                  wx.navigateBack({
+                    delta: 1
+                  });
+                }
+              }
+            })
           } else {
             wx.showToast({
               title: res.data.msg,
-              icon: 'loading'
+              icon: 'none'
             });
           }
 
@@ -81,9 +150,24 @@ Page({
       });
     } else {
       // 用户拒绝授权
-      wx.showToast({
-        title: '您拒绝了手机号授权',
-        icon: 'none'
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'You refuse the authorization of the mobile phone number' : '您拒绝了手机号授权',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
+      });
+    }
+  },
+  getPhoneNumber1() {
+    const checked = this.data.checked;
+    if (!checked) {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.please_check_the_service,
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
     }
   },
@@ -96,17 +180,35 @@ Page({
   },
   tabcheck() {
     this.setData({
-      tabCurrent: 1
+      tabCurrent: 1,
+      tabIndex: 1
     });
   },
   tabcheck1() {
     this.setData({
-      tabCurrent: 0
+      tabCurrent: 0,
+      tabIndex: 1
+    });
+  },
+  tabcheck2() {
+    this.setData({
+      tabCurrent: 2,
+      tabIndex: 1
     });
   },
   handlephoneNumber(e) {
     this.setData({
       phoneNumber: e.detail.value
+    });
+  },
+  handleMailNumber(e) {
+    this.setData({
+      mailNumber: e.detail.value
+    });
+  },
+  handlePassword(e) {
+    this.setData({
+      password: e.detail.value
     });
   },
   handleverificationCode(e) {
@@ -115,19 +217,45 @@ Page({
     });
   },
   getVerificationCode: function () {
-    const phoneNumber = this.data.phoneNumber;
-    if (!phoneNumber || !/^1[3-9]\d{9}$/.test(phoneNumber)) {
-      wx.showToast({
-        title: '请输入有效的手机号',
-        icon: 'none'
-      });
-      return;
+    const tabIndex = this.data.tabIndex;
+    let phoneNumber = '';
+    if (tabIndex == 2) {
+      phoneNumber = this.data.mailNumber;
+      if (!phoneNumber || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(phoneNumber)) {
+
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid email number!' : '请输入有效的邮箱号码！',
+          showCancel: false, // 隐藏取消按钮
+          confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+          confirmColor: "#007AFF", // 自定义确认按钮颜色
+        });
+        return;
+      }
+    }
+
+    if (tabIndex == 1) {
+      phoneNumber = this.data.phoneNumber;
+      if (!phoneNumber || !/^1[3-9]\d{9}$/.test(phoneNumber)) {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid mobile phone number' : '请输入有效的手机号',
+          showCancel: false, // 隐藏取消按钮
+          confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+          confirmColor: "#007AFF", // 自定义确认按钮颜色
+        });
+        return;
+      }
     }
     const checked = this.data.checked;
     if (!checked) {
-      wx.showToast({
-        title: '请先勾选服务协议和隐私协议！',
-        icon: 'none'
+
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'Please check the service agreement and Privacy agreement first!' : '请先勾选服务协议和隐私协议！',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
       return;
     }
@@ -142,12 +270,12 @@ Page({
     const interval = setInterval(() => {
       if (countdown > 0) {
         this.setData({
-          getCodeButtonText: `${countdown--} s 后重新发送`,
+          getCodeButtonText: `${countdown--} s ` + (app.globalData.languagePack.lang == 1 ? 'Re-send' : '后重新发送'),
         });
       } else {
         clearInterval(interval);
         this.setData({
-          getCodeButtonText: '重新发送',
+          getCodeButtonText: app.globalData.languagePack.lang == 1 ? 'Re-send' : '重新发送',
           countdown: 0,
           sendcodestatus: false
         });
@@ -162,23 +290,31 @@ Page({
       url: 'https://kpy.phanlink.com/v1/getVcode',
       method: 'POST',
       data: {
-        phone: phoneNumber
+        phone: phoneNumber,
+        lang: app.globalData.languagePack.lang
       },
       header: {
         'content-type': 'application/json'
       },
       success: function (res) {
         //手机号授权登录
-        console.log(res.data.code);
+        //console.log(res.data.code);
         if (res.data.code == 1) {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'success'
+
+          wx.showModal({
+            title: app.globalData.languagePack.reminder,
+            content: res.data.msg,
+            showCancel: false, // 隐藏取消按钮
+            confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+            confirmColor: "#007AFF", // 自定义确认按钮颜色
           });
         } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'loading'
+          wx.showModal({
+            title: app.globalData.languagePack.reminder,
+            content: res.data.msg,
+            showCancel: false, // 隐藏取消按钮
+            confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+            confirmColor: "#007AFF", // 自定义确认按钮颜色
           });
         }
 
@@ -188,21 +324,96 @@ Page({
   },
 
   submitForm: function () {
-    const phoneNumber = this.data.phoneNumber;
+    const checked = this.data.checked;
+    const tabIndex = this.data.tabIndex;
+    //console.log(tabIndex);
+    if (!checked) {
+
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'Please check the service agreement and Privacy agreement first!' : '请先勾选服务协议和隐私协议！',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
+      });
+      return;
+    }
+    let phoneNumber = '';
+    if (tabIndex == 2) {
+      phoneNumber = this.data.mailNumber;
+      if (!phoneNumber || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(phoneNumber)) {
+
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid email number!' : '请输入有效的邮箱号码！',
+          showCancel: false, // 隐藏取消按钮
+          confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+          confirmColor: "#007AFF", // 自定义确认按钮颜色
+        });
+        return;
+      }
+    }
+
+    if (tabIndex == 1) {
+      phoneNumber = this.data.phoneNumber;
+      if (!phoneNumber || !/^1[3-9]\d{9}$/.test(phoneNumber)) {
+
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid mobile phone number' : '请输入有效的手机号',
+          showCancel: false, // 隐藏取消按钮
+          confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+          confirmColor: "#007AFF", // 自定义确认按钮颜色
+        });
+        return;
+      }
+    }
+    //console.log(phoneNumber);
+    const password = this.data.password;
+    const tabCurrent = this.data.tabCurrent;
     const verificationCode = this.data.verificationCode;
+    if (tabCurrent == 2) {
+      if (password == '') {
+
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter the password.' : '请输入密码',
+          showCancel: false, // 隐藏取消按钮
+          confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+          confirmColor: "#007AFF", // 自定义确认按钮颜色
+        });
+        return;
+      }
+    } else {
+      if (verificationCode == '') {
+
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter the verification code' : '请输入验证码',
+          showCancel: false, // 隐藏取消按钮
+          confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+          confirmColor: "#007AFF", // 自定义确认按钮颜色
+        });
+        return;
+      }
+    }
+
     // 验证验证码的逻辑
-    this.verifyCode(phoneNumber, verificationCode);
+    this.verifyCode(phoneNumber, verificationCode, password, tabCurrent, app.globalData.languagePack.lang);
   },
 
-  verifyCode: function (phoneNumber, verificationCode) {
+  verifyCode: function (phoneNumber, verificationCode, password, tabCurrent, lang) {
     const openid = wx.getStorageSync('openid');
     wx.request({
       url: 'https://kpy.phanlink.com/v1/getLogin',
       method: 'POST',
       data: {
         phone: phoneNumber,
+        password: password,
+        tabCurrent: tabCurrent,
         verify_code: verificationCode,
-        openid: openid
+        openid: openid,
+        lang: lang
       },
       header: {
         'content-type': 'application/json'
@@ -223,15 +434,64 @@ Page({
             }
           });
 
+        } else if (res.data.code == 2) {
+          wx.setStorageSync('token', res.data.token);
+          wx.showModal({
+            title: app.globalData.languagePack.reminder,
+            content: app.globalData.languagePack.lang == 1 ? 'Please set your avatar and nickname' : '请设置头像和昵称',
+            confirmText: app.globalData.languagePack.sure, // 默认"确定"
+            cancelText: app.globalData.languagePack.back, // 默认"取消"
+            success: (res) => {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '/pages/my/pages/info/index',
+                });
+              } else if (res.cancel) {
+                wx.navigateBack({
+                  delta: 1
+                });
+              }
+            }
+          })
         } else {
           wx.showToast({
             title: res.data.msg,
-            icon: 'loading'
+            icon: 'none'
           });
         }
 
       }
     });
-  }
-
+  },
+  async getRegionCodes() {
+    const url = 'https://kpy.phanlink.com/v1/getRegionCodes';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    formData.lang = app.globalData.languagePack.lang;
+    const res = await this.fetchDatas(url, formData);
+    if (res.code == 1) {
+      //console.log(res.data);
+      this.setData({
+        product: res.data.regions
+      });
+    }
+  },
+  fetchDatas(url, data) {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: url,
+        method: 'POST',
+        data: data,
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          resolve(res.data);
+        },
+        fail: function (err) {
+          reject(err);
+        }
+      });
+    });
+  },
 })

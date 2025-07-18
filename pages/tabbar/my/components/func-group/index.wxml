@@ -1,60 +1,57 @@
 <view class="order-group">
   <t-cell-group>
-    <t-cell t-class="order-group__top" t-class-left="order-group__left" t-class-title="order-group__top__title" t-class-note="order-group__top__note" title="常用功能" bordered="{{true}}" bind:tap="onClickTop" />
+    <t-cell t-class="order-group__top" t-class-left="order-group__left" t-class-title="order-group__top__title" t-class-note="order-group__top__note" title="{{globalLangData.common_functions}}" bordered="{{true}}" bind:tap="onClickTop" />
   </t-cell-group>
   <view class="order-group__content">
-    <navigator class="order-group__item" url="/pages/store/pages/card/index">
+    <navigator class="order-group__item" url="/pages/my/pages/follow/index">
       <view class="order-group__item__icon icon-class">
-        <t-icon name="https://imgs.phanlink.com/program/images/s1.png" size="52rpx" />
+        <t-icon name="https://imgs.phanlink.com/program/images/gr33.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">商家名片</view>
+      <view class="order-group__item__title title-class">{{globalLangData.myfollowing}}</view>
     </navigator>
-    <navigator class="order-group__item" url="/pages/my/pages/approve/index">
+    <navigator class="order-group__item" url="/pages/my/pages/collect/index">
       <view class="order-group__item__icon icon-class">
-        <t-icon name="https://imgs.phanlink.com/program/images/s2.png" size="52rpx" />
+        <t-icon name="https://imgs.phanlink.com/program/images/gr44.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">商家认证</view>
+      <view class="order-group__item__title title-class">{{globalLangData.mysaved_items}}</view>
     </navigator>
-
-    <navigator class="order-group__item" url="/pages/store/pages/dc/index">
-      <view class="order-group__item__icon icon-class">
-
-        <t-icon name="https://imgs.phanlink.com/program/images/s3.png" size="52rpx" />
-
-      </view>
-      <view class="order-group__item__title title-class">申请代采</view>
-    </navigator>
-
     <navigator class="order-group__item" url="/pages/my/pages/fans/index">
       <view class="order-group__item__icon icon-class">
         <t-icon name="https://imgs.phanlink.com/program/images/s8.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">我的粉丝</view>
+      <view class="order-group__item__title title-class">{{globalLangData.followers}}</view>
+    </navigator>
+    
+    <navigator class="order-group__item" url="/pages/store/pages/card/index" wx:if="{{userInfo.company_status>=2}}">
+      <view class="order-group__item__icon icon-class">
+        <t-icon name="https://imgs.phanlink.com/program/images/s1.png" size="52rpx" />
+      </view>
+      <view class="order-group__item__title title-class">{{globalLangData.business_card}}</view>
     </navigator>
     <button class="order-group__item" open-type="contact">
       <view class="order-group__item__icon icon-class">
         <t-icon name="https://imgs.phanlink.com/program/images/s4.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">平台客服</view>
+      <view class="order-group__item__title title-class">{{globalLangData.live_chat}}</view>
     </button>
 
     <navigator class="order-group__item" url="/pages/my/pages/about/index?artId=1">
       <view class="order-group__item__icon icon-class">
         <t-icon name="https://imgs.phanlink.com/program/images/s5.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">关于平台</view>
+      <view class="order-group__item__title title-class">{{globalLangData.about_us}}</view>
     </navigator>
     <navigator class="order-group__item" url="/pages/my/pages/feedback/index">
       <view class="order-group__item__icon icon-class">
         <t-icon name="https://imgs.phanlink.com/program/images/s6.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">意见反馈</view>
+      <view class="order-group__item__title title-class">{{globalLangData.feedback}}</view>
     </navigator>
     <navigator class="order-group__item" url="/pages/my/pages/system/index">
       <view class="order-group__item__icon icon-class">
         <t-icon name="https://imgs.phanlink.com/program/images/s7.png" size="52rpx" />
       </view>
-      <view class="order-group__item__title title-class">系统设置</view>
+      <view class="order-group__item__title title-class">{{globalLangData.account_settings}}</view>
     </navigator>
   </view>
 </view>

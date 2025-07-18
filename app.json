@@ -33,7 +33,12 @@
         "pages/publish/index",
         "pages/feedback/index",
         "pages/system/index",
-        "pages/about/index"
+        "pages/about/index",
+        "pages/mobile/index",
+        "pages/service/rate/index",
+        "pages/service/tariff/index",
+        "pages/service/import/index",
+        "pages/service/synergy/index"
       ]
     },
     {
@@ -48,7 +53,6 @@
         "pages/message/goods/index",
         "pages/message/gz/index",
         "pages/message/chat/index"
-
       ]
     },
     {
@@ -65,8 +69,6 @@
       ]
     }
   ],
-
-
   "tabBar": {
     "custom": true,
     "color": "#666666",
@@ -92,11 +94,10 @@
       },
       {
         "pagePath": "pages/tabbar/my/index",
-        "text": "我的"
+        "text": "我"
       }
     ]
   },
-
   "lazyCodeLoading": "requiredComponents",
   "usingComponents": {},
   "window": {

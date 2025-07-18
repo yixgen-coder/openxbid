@@ -1,21 +1,23 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '商品中心',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.products_center,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
     tabList: [{
-      text: "商品",
+      text: app.globalData.languagePack.products,
       key: 1
     }, {
-      text: "求购",
+      text: app.globalData.languagePack.buy,
       key: 2
     }, {
-      text: "评价",
+      text: app.globalData.languagePack.reviews,
       key: 3
     }, {
-      text: "动态",
+      text: app.globalData.languagePack.share,
       key: 4
     }],
 
@@ -57,14 +59,6 @@ Page({
   },
   handleSearh() {
     const searchName = this.data.searchName;
-    if (searchName == '') {
-      wx.showToast({
-        title: '请输入关键词',
-        icon: 'none',
-        duration: 2000
-      });
-      return;
-    }
     this.fetchHomeDatas(true);
   },
   goback: function () {
@@ -97,11 +91,11 @@ Page({
       this.setData({
         storeInfo: storeInfo
       });
-      wx.showToast({
-        title: res.msg,
-        icon: 'success',
-        duration: 2000
-      });
+      // wx.showToast({
+      //   title: res.msg,
+      //   icon: 'success',
+      //   duration: 2000
+      // });
 
     }
   },
@@ -121,7 +115,7 @@ Page({
       }
 
       wx.showToast({
-        title: '评论成功',
+        title: 'Success',
         icon: 'success',
         duration: 2000,
         mask: true,
@@ -136,11 +130,21 @@ Page({
       });
 
     } else {
-      wx.showToast({
-        title: res.msg,
-        icon: 'none',
-        duration: 2000
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
   },
   async artZanClickHandle(e) {
@@ -154,16 +158,33 @@ Page({
     const res = await this.fetchDatas(url, formData);
     let goodsList = this.data.goodsList;
     if (res.code == 1) {
-      goodsList[index].zan = res.action
+      goodsList[index].zan = res.action == 1 ? goodsList[index].zan + 1 : goodsList[index].zan - 1;
+      goodsList[index].zans = res.action == 1 ? 1 : 0
       this.setData({
         goodsList: goodsList
       });
-      wx.showToast({
-        title: res.msg,
-        icon: 'success',
-        duration: 2000
-      });
+      // wx.showToast({
+      //   title: res.msg,
+      //   icon: 'success',
+      //   duration: 2000
+      // });
 
+    } else {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
   },
   init() {
@@ -193,6 +214,7 @@ Page({
     formData.page = fresh ? 1 : this.goodListPagination.index;
     formData.action = this.data.tabIndex;
     formData.storeId = this.data.storeId;
+    formData.lang = app.globalData.languagePack.lang;
 
     try {
       const res = await this.fetchDatas(url, formData);
@@ -204,11 +226,7 @@ Page({
         });
         if (nextList.length > 0) {
           this.goodListPagination.index = formData.page + 1;
-          wx.showToast({
-            title: res.msg,
-            icon: 'loading',
-            duration: 500
-          });
+
         }
 
       }
@@ -243,6 +261,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

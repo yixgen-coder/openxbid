@@ -12,14 +12,14 @@
 <!-- tab区域 -->
 <view class="tab-box">
   <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{1}}" bind:change="tabChangeHandle">
-    <t-tab-panel label="我的资讯" value="{{1}}" />
-    <t-tab-panel label="我的动态" value="{{2}}" />
+    <t-tab-panel label="{{globalLangData.lang==1?'My News':'我的资讯'}}" value="{{1}}" />
+    <t-tab-panel label="{{globalLangData.lang==1?'My Moments':'我的动态'}}" value="{{2}}" />
   </t-tabs>
 </view>
 <view class="home-page-container">
   <view class="tj">
-    <view class="mount">已发布<text>{{aCount}}</text>条</view>
-    <view class="gl">管理</view>
+    <view class="mount">{{globalLangData.lang==1?'Published ':'已发布 '}}<text>{{aCount}}</text>{{globalLangData.lang==1?' Items':' 条'}}</view>
+    <view class="gl">{{globalLangData.dashboard}}</view>
   </view>
   <view class="fish-list">
     <view wx:if="{{tabIndex == 1}}" class="artlist" wx:for="{{goodsList}}" wx:key="goods">
@@ -27,9 +27,9 @@
         <view class="info">
           <text>{{item.title}}</text>
           <view class="type">
-            <text wx:if="{{item.cid==3}}">行业资讯</text>
-            <text wx:if="{{item.cid==5}}">价格走势</text>
-            <text wx:if="{{item.cid==6}}">政策法规</text>
+            <text wx:if="{{item.cid==3}}">{{globalLangData.supply_board}}</text>
+            <text wx:if="{{item.cid==5}}">{{globalLangData.market_intelligence}}</text>
+            <text wx:if="{{item.cid==6}}">{{globalLangData.regulatory_updates}}</text>
           </view>
         </view>
         <image src="https://imgs.phanlink.com/{{item.pic}}"></image>
@@ -37,8 +37,8 @@
       <view class="cz">
         <text>{{item.ctime}}</text>
         <view class="btn">
-          <span bindtap="handleGoArtDel" data-key="{{item.id}}">删除</span>
-          <span bindtap="handleGoArtAdd" data-key="{{item.id}}">编辑</span>
+          <span bindtap="handleGoArtDel" data-key="{{item.id}}">{{globalLangData.delete}}</span>
+          <span bindtap="handleGoArtAdd" data-key="{{item.id}}">{{globalLangData.editor}}</span>
         </view>
       </view>
     </view>
@@ -62,8 +62,8 @@
             <text>{{item.pl}}</text>
           </view>
           <view class="btn">
-            <span bindtap="handleGoArtDel" data-key="{{item.id}}">删除</span>
-            <span bindtap="handleGoArtAdd" data-key="{{item.id}}">编辑</span>
+            <span bindtap="handleGoArtDel" data-key="{{item.id}}">{{globalLangData.delete}}</span>
+            <span bindtap="handleGoArtAdd" data-key="{{item.id}}">{{globalLangData.editor}}</span>
           </view>
         </view>
       </view>

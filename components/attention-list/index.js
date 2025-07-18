@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
   externalClasses: ['wr-class'],
 
@@ -5,6 +6,10 @@ Component({
     goodsList: {
       type: Array,
       value: [],
+    },
+    ly: {
+      type: Number,
+      value: 0,
     },
     id: {
       type: String,
@@ -17,6 +22,7 @@ Component({
   },
 
   data: {
+    globalLangData: app.globalData.languagePack,
     independentID: '',
   },
 

@@ -10,6 +10,13 @@
 .message-list-wrap .cell-class-description {
   font-size: 26rpx;
   color: #A8A8A8;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  flex: 1;
+  padding-right: 20rpx;
+  max-width: 500rpx;
 }
 .message-list-wrap .cell-image {
   border-radius: 50%;

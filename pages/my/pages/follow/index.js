@@ -1,6 +1,7 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '我的关注',
+    itemTitle: app.globalData.languagePack.myfollowing,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
@@ -27,11 +28,11 @@ Page({
       id
     } = e.detail;
     wx.showModal({
-      title: '提示',
-      content: '确定要取消关注吗？',
+      title: app.globalData.languagePack.reminder,
+      content: app.globalData.languagePack.lang == 1 ? 'Are you sure you want to unfollow?' : '确定要取消关注吗？',
       showCancel: true,
-      cancelText: '取消',
-      confirmText: '确定',
+      cancelText: app.globalData.languagePack.cancel,
+      confirmText: app.globalData.languagePack.sure,
       success: res => {
         if (res.confirm) {
           this.deleteGzData(id);
@@ -48,11 +49,11 @@ Page({
     const res = await this.fetchDatas(url, formData);
 
     if (res.code == 1) {
-      wx.showToast({
-        title: res.msg,
-        icon: 'success',
-        duration: 2000
-      });
+      //   wx.showToast({
+      //     title: res.msg,
+      //     icon: 'success',
+      //     duration: 2000
+      //   });
       this.removeDataById(id);
     }
   },
@@ -66,9 +67,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -109,7 +122,7 @@ Page({
         loadStatus: 0
       });
       wx.showToast({
-        title: res.msg,
+        // title: res.msg,
         icon: 'loading',
         duration: 500
       });
@@ -140,6 +153,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

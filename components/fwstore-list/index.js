@@ -1,3 +1,5 @@
+
+const app = getApp()
 Component({
   externalClasses: ['wr-class'],
 
@@ -10,13 +12,18 @@ Component({
       type: Array,
       value: [],
     },
+    storenavs: {
+      type: Array,
+      value: [],
+    },
   },
 
   data: {
+    globalLangData: app.globalData.languagePack,
     tabCurrent: 0,
     regionVisible: false,
     regionValue: [0],
-    regionTitle: '地区筛选'
+    regionTitle: app.globalData.languagePack.region_filter
   },
 
   lifetimes: {
@@ -61,7 +68,7 @@ Component({
       this.setData({
         [`${key}Visible`]: false,
         [`${key}Value`]: value,
-        [`${key}Title`]: value[0] == 0 ? '地区筛选' : label.join(' '),
+        [`${key}Title`]: value[0] == 0 ? app.globalData.languagePack.region_filter : label.join(' '),
       });
       this.triggerEvent('region', {
         region: value[0]

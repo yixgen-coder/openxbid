@@ -1,15 +1,22 @@
 import updateManager from './common/updateManager';
-
+const {
+  getLanguage
+} = require('./common/lang')
 App({
   onLaunch: function () {
+    // 设置全局语言
+    this.globalData.languagePack = getLanguage()
     // 小程序客户端示例代码
     var token = wx.getStorageSync('token');
-    var open = wx.getStorageSync('open');
+    var openid = wx.getStorageSync('openid');
     var that = this;
-
-    if (!token) {
-      this.loginAgain();
-    }
+    //console.log(token);
+    // if (!token) {
+    //   this.loginAgain();
+    // }
+  },
+  globalData: {
+    languagePack: null,
   },
   onShow: function () {
     updateManager();
@@ -29,12 +36,8 @@ App({
               'content-type': 'application/json'
             },
             success: function (res) {
-              if (res.data.token) {
-                wx.setStorageSync('token', res.data.token);
-              } else {
-                wx.setStorageSync('openid', res.data.openid);
-              }
-
+              wx.setStorageSync('token', res.data.token);
+              wx.setStorageSync('openid', res.data.openid);
             }
           });
         } else {

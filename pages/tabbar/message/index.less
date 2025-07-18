@@ -6,9 +6,10 @@ page {
 
 
 .news-page-header {
-  width:100%;
+  width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
+
   .bg {
     box-sizing: border-box;
     height: 280rpx;
@@ -21,23 +22,25 @@ page {
   }
 
   .news-tab {
-    width: 500px;
-    padding-left: 10rpx;
     box-sizing: border-box;
     display: flex;
-    align-items: center;
+    justify-content: center;
 
     >view {
-      color: #FFC6A6;
+      color: #ffffff;
       font-size: 32rpx;
-      margin-right: 56rpx;
+      margin-right: 80rpx;
+      font-weight: 800;
     }
 
     .active {
-      color: #ffffff;
       font-size: 40rpx;
+      border-bottom: 6rpx solid #FFFFFF;
+      padding-bottom: 60rpx;
+      transition-duration: 0.3s;
     }
   }
+
   .search {
     margin-top: 25rpx;
     position: relative;
@@ -54,7 +57,7 @@ page {
       position: absolute;
       right: 5rpx;
       bottom: 5rpx;
-      z-index:9999;
+      z-index: 9999;
     }
 
     .t-search__input-container {

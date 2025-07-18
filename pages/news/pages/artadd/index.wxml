@@ -7,13 +7,13 @@
   </view>
 </view>
 <view class="art-title">
-  <t-input placeholder="来个醒目的标题" maxlength="{{40}}" value="{{artTitle}}" bindchange="handleGrInfos" />
+  <t-input placeholder="{{globalLangData.input_title_keywords}}" maxlength="{{40}}" value="{{artTitle}}" bindchange="handleGrInfos" />
 </view>
 <view class="art-type">
-  <t-cell title="选择要发布的栏目" left-icon="https://imgs.phanlink.com/program/images/arttype.png" note="{{typeText}}" bind:click="onTypePicker" bordered="{{true}}" arrow />
+  <t-cell title="{{globalLangData.select_category}}" left-icon="https://imgs.phanlink.com/program/images/arttype.png" note="{{typeText}}" bind:click="onTypePicker" bordered="{{true}}" arrow />
 </view>
 <view class="art-img">
-  <text>资讯封面图</text>
+  <text>{{globalLangData.cover_image}}</text>
   <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{imgList}}" data-index="0" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
 </view>
 <view class="editor-container">
@@ -30,14 +30,14 @@
     <t-icon name="rectangle" size="32rpx" class="{{formats.list=='unchecked' ? 'active' : ''}}" data-name="list" data-value="check" />
   </view>
   <view class="editor">
-    <editor id="editor" show-img-toolbar show-img-resize value="{{content}}" placeholder="发表您的观点和看法" bindready="readyEditor" bindstatuschange="changeEditor" bindinput="inputEditor">
+    <editor id="editor" show-img-toolbar show-img-resize value="{{content}}" placeholder="{{globalLangData.share_your_thoughts}}" bindready="readyEditor" bindstatuschange="changeEditor" bindinput="inputEditor">
     </editor>
   </view>
 </view>
 <view class="formBtn">
-  <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">重置</t-button>
-  <t-button size="large" style="width:450rpx;background: #FF4A26;font-size: 32rpx;" bindtap="handleTJForm">提交</t-button>
+  <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">{{globalLangData.reset}}</t-button>
+  <t-button size="large" style="width:450rpx;background: #FF4A26;font-size: 32rpx;" bindtap="handleTJForm" disabled="{{disabled}}">{{globalLangData.submit}}</t-button>
 </view>
-<t-picker visible="{{typeVisible}}" value="{{typeValue}}" title="请选择资讯栏目" cancelBtn="取消" confirmBtn="确认" bindconfirm="handleConfirm" bindclose="handleCancel" bindcancel="handleCancel">
+<t-picker visible="{{typeVisible}}" value="{{typeValue}}" title="{{globalLangData.select_category}}" cancelBtn="{{globalLangData.cancel}}" confirmBtn="{{globalLangData.sure}}" bindconfirm="handleConfirm" bindclose="handleCancel" bindcancel="handleCancel">
   <t-picker-item options="{{typesList}}"></t-picker-item>
 </t-picker>

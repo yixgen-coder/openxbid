@@ -8,7 +8,10 @@
     "t-upload": "tdesign-miniprogram/upload/upload",
     "t-input": "tdesign-miniprogram/input/input",
     "t-cell": "tdesign-miniprogram/cell/cell",
-    "t-button": "tdesign-miniprogram/button/button"
+    "t-textarea": "tdesign-miniprogram/textarea/textarea",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel"
   },
   "enablePullDownRefresh": true
 }

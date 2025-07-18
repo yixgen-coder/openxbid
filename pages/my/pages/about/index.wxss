@@ -18,6 +18,8 @@ page {
   font-size: 28rpx;
   letter-spacing: 2rpx;
   line-height: 40rpx;
+  width: 100%;
+  overflow: hidden;
 }
 .art-container .content img {
   max-width: 100%;

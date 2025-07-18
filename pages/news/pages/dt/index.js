@@ -1,5 +1,7 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     msg: "",
     dtId: '',
     dtInfo: {},
@@ -12,6 +14,7 @@ Page({
     })
   },
   onLoad: function (options) {
+
     if (options.dtId > 0) {
       this.setData({
         dtId: options.dtId
@@ -61,7 +64,7 @@ Page({
   },
   handleMsg(e) {
     this.setData({
-      msg: e.detail.value,
+      msg: this.filterEmojis(e.detail.value),
     });
   },
   previewImage(e) {
@@ -71,6 +74,10 @@ Page({
       urls: this.data.dtInfo.pic.map(row => row.url)
     });
   },
+  filterEmojis(input) {
+    // 使用正则表达式匹配表情符号
+    return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
+  },
   handleSubmit: async function () {
     const formData = {};
     formData.msg = this.data.msg;
@@ -79,7 +86,7 @@ Page({
 
     if (formData.msg == '') {
       wx.showToast({
-        title: '评论内容不能为空！',
+        title: app.globalData.languagePack.lang==1?'The comment content cannot be empty!':'评论内容不能为空！',
         icon: 'none',
         duration: 2000
       });
@@ -90,7 +97,7 @@ Page({
     if (res.code == 1) {
 
       wx.showToast({
-        title: '评论成功',
+        title: 'Sucess',
         icon: 'success',
         duration: 2000,
         mask: true,
@@ -134,17 +141,13 @@ Page({
           dtInfo: nextList
         });
       }
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
-      });
+
     } else {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
             wx.navigateBack({
@@ -155,7 +158,12 @@ Page({
       });
     }
   },
-
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
+  },
   fetchDatas(url, data) {
     return new Promise((resolve, reject) => {
       wx.request({
@@ -177,17 +185,27 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (res) {
+  onShareAppMessage: async function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res);
+      const url = 'https://kpy.phanlink.com/v1/setDtZf';
+      const formData = {};
+      formData.token = wx.getStorageSync('token');
+      formData.dtId = this.data.dtId;
+      const res = await this.fetchDatas(url, formData);
+      if (res.code == 1) {
+        let dtInfo = this.data.dtInfo;
+        dtInfo.zf += 1;
+        this.setData({
+          dtInfo: dtInfo
+        });
+      }
     }
     let imgs = this.data.dtInfo.pic[0].url != '' ? this.data.dtInfo.pic[0].url : ''
-    console.log(imgs);
     return {
       title: this.data.dtInfo.title,
       imageUrl: imgs,
-      path: '/pages/news/pages/dt/index?dtId=' + this.dtId
+      path: '/pages/news/pages/dt/index?dtId=' + this.data.dtId
     }
   },
   onShareTimeline: function (res) {

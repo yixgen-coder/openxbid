@@ -6,15 +6,15 @@
   <view class="baibg">
     <view class="bg" style="background: url('https://imgs.phanlink.com/program/images/topbg.png')no-repeat top; background-size: cover; padding-top:{{statusbar}}px;">
       <view class="home-tab" style="height: {{jiaonangheight}}px;">
-        <view class="{{currentPage==1?'active':''}}" bindtap="handleShowPage" data-index="1">商品展示</view>
-        <view class="{{currentPage==2?'active':''}}" bindtap="handleShowPage" data-index="2">商家展示</view>
+        <view class="{{currentPage==1?'active':''}}" bindtap="handleShowPage" data-index="1">{{globalLangData.products}}</view>
+        <view class="{{currentPage==2?'active':''}}" bindtap="handleShowPage" data-index="2">{{globalLangData.merchants}}</view>
       </view>
       <!-- 搜索 -->
       <view class="search" bind:tap="navToSearchPage">
-        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="输入关键词" leftIcon="">
+        <t-search value="{{searchName}}" t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="{{placeholder}}" leftIcon="">
           <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
         </t-search>
-        <view class="btn" bindtap="handleSearh">搜索</view>
+        <view class="btn" bind:tap="handleSearh">{{globalLangData.search}}</view>
       </view>
       <!-- 轮播 -->
       <view class="swiper-wrap">
@@ -28,24 +28,20 @@
   <!-- 金刚区 -->
   <view class="home-grid">
     <t-grid class="block" column="{{4}}">
-      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=1" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="鱼品类" image="https://imgs.phanlink.com/program/images/g1.png" />
-      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=2" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="甲壳类" image="https://imgs.phanlink.com/program/images/g2.png" />
-      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=3" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="软体类" image="https://imgs.phanlink.com/program/images/g3.png" />
-      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?fl=4" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="其他类" image="https://imgs.phanlink.com/program/images/g4.png" />
-      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?lx=2" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="求购信息" image="https://imgs.phanlink.com/program/images/g5.png" />
-      <t-grid-item jump-type="navigate-to" url="/pages/my/pages/approve/index" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="商家入驻" image="https://imgs.phanlink.com/program/images/g6.png" />
-      <t-grid-item t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="官方客服" image="slot">
-        <button slot="image" open-type="contact" class="contatBtn">
-          <image src="https://imgs.phanlink.com/program/images/g7.png"></image>
-        </button>
-      </t-grid-item>
-      <t-grid-item jump-type="navigate-to" url="/pages/goods/pages/list/index?dq=5" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="爱尔兰" image="https://imgs.phanlink.com/program/images/g8.png" />
+      <block wx:for="{{nav}}" wx:for-item="item" wx:key="index">
+        <t-grid-item wx:if="{{index!=6}}" jump-type="navigate-to" url="{{item.url}}" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="{{globalLangData.lang==2?item.title:item.title_en}}" image="https://imgs.phanlink.com/{{item.pic}}" />
+        <t-grid-item wx:if="{{index==6}}" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="{{globalLangData.lang==2?item.title:item.title_en}}" image="slot">
+          <button slot="image" open-type="contact" class="contatBtn">
+            <image src="https://imgs.phanlink.com/{{item.pic}}"></image>
+          </button>
+        </t-grid-item>
+      </block>
     </t-grid>
   </view>
   <!-- 跑马灯 -->
   <view class="home-notic">
     <view class="i"></view>
-    <t-notice-bar visible="{{true}}" prefixIcon="https://imgs.phanlink.com/program/images/zx.png" suffixIcon="chevron-right" content="提示文字描述提示文字描述提示文字描述" marquee="{{true}}" t-class="external-class" t-class-prefix-icon="external-class-prefix-icon" t-class-suffix-icon="external-class-suffix-icon" t-class-content="external-class-content"></t-notice-bar>
+    <t-notice-bar visible="{{true}}" prefixIcon="https://imgs.phanlink.com/program/images/zx.png" suffixIcon="chevron-right" content="{{artTitle}}" marquee="{{true}}" t-class="external-class" t-class-prefix-icon="external-class-prefix-icon" t-class-suffix-icon="external-class-suffix-icon" t-class-content="external-class-content" bind:click="handleGoArt"></t-notice-bar>
   </view>
   <!-- tab选项 -->
   <view class="home-page-tabs">
@@ -55,7 +51,7 @@
 
     <view>
       <navigator url="/pages/goods/pages/list/index" class="more">
-        查看全部
+        {{globalLangData.see_all}}
         <t-icon name="chevron-right" size="40rpx" color="#bbb" />
       </navigator>
     </view>
@@ -66,12 +62,16 @@
     <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" />
     <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
     <t-toast id="t-toast" />
+    <navigator url="/pages/goods/pages/list/index" style="color: #A8A8A8;font-size: 28rpx;display: flex;align-items: center;justify-content: center;">
+      {{globalLangData.see_more}}
+      <t-icon name="chevron-right" size="40rpx" color="#bbb" />
+    </navigator>
   </view>
 </view>
 <view class="store-page-container" wx:if="{{currentPage==2}}">
   <view class="storetabs">
     <view class="region">
-      <view class="btn {{storeBtn==1?'active':''}}" bindtap="handleShowTJStore">推荐</view>
+      <view class="btn {{storeBtn==1?'active':''}}" bindtap="handleShowTJStore">{{globalLangData.recommended}}</view>
       <view class="btn slt {{storeBtn==2?'active':''}}" bindtap="handleShowRegions">{{regionTitle}}</view>
     </view>
     <view class="btn slt {{storeBtn==3?'active':''}}" bindtap="handleShowType">{{typeTitle}}</view>
@@ -83,10 +83,10 @@
   </view>
 </view>
 
-<t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="国家或地区" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onRegionChange" bindcancel="handleShowRegions">
+<t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="{{globalLangData.country}}" cancelBtn="{{globalLangData.cancel}}" confirmBtn="{{globalLangData.sure}}" usingCustomNavbar bindchange="onRegionChange" bindcancel="handleShowRegions">
   <t-picker-item options="{{regionTypes}}"></t-picker-item>
 </t-picker>
-<t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="选择商品分类" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onTypeChange" bindpick="onPickerTypeChange" bindcancel="handleShowType">
+<t-picker visible="{{typeVisible}}" value="{{typeValue}}" data-key="type" title="{{globalLangData.main_products}}" cancelBtn="{{globalLangData.cancel}}" confirmBtn="{{globalLangData.sure}}" usingCustomNavbar bindchange="onTypeChange" bindpick="onPickerTypeChange" bindcancel="handleShowType">
   <t-picker-item options="{{topids}}"></t-picker-item>
   <t-picker-item options="{{typeids}}"></t-picker-item>
 </t-picker>

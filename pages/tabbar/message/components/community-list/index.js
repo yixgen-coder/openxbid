@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
   externalClasses: ['wr-class'],
 
@@ -17,10 +18,11 @@ Component({
   },
 
   data: {
+    globalLangData: app.globalData.languagePack,
     independentID: '',
     msg: '',
     dtId: '',
-    keyboardheight: 0
+    keyboardheight: 0,
   },
 
   lifetimes: {
@@ -31,10 +33,39 @@ Component({
 
   methods: {
     handlekeyboardheight(e) {
-    this.setData({
-      keyboardheight: e.detail.height
-    })
-  },
+      this.setData({
+        keyboardheight: e.detail.height
+      })
+    },
+    hitab(e) {
+
+      const id = e.currentTarget.dataset.id;
+      const goodsList = this.data.goodsList;
+      const index = this.data.goodsList.findIndex(item => item.id === id);
+      goodsList[index].active = goodsList[index].active ? 0 : 1;
+      this.setData({
+        goodsList: goodsList
+      });
+    },
+    // 隐藏所有弹出框
+    hideAllPopups() {
+      let goodsList = this.data.goodsList.map(item => ({
+        ...item,
+        active: 0
+      }));
+      this.setData({
+        goodsList
+      });
+    },
+    noSee(e) {
+      console.log(e);
+      const {
+        storeid,
+      } = e.currentTarget.dataset;
+      this.triggerEvent('nosee', {
+        storeid,
+      });
+    },
     HandleZan(e) {
       const {
         id,
@@ -45,9 +76,13 @@ Component({
         index
       });
     },
+    filterEmojis(input) {
+      // 使用正则表达式匹配表情符号
+      return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
+    },
     handleMsg(e) {
       this.setData({
-        msg: e.detail.value,
+        msg: this.filterEmojis(e.detail.value),
       });
     },
     handleShowMsg(e) {

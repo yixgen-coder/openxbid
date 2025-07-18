@@ -1,5 +1,7 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     msg: "",
     artId: '',
     artInfo: {},
@@ -32,9 +34,13 @@ Page({
       msg: '',
     });
   },
+  filterEmojis(input) {
+    // 使用正则表达式匹配表情符号
+    return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
+  },
   handleMsg(e) {
     this.setData({
-      msg: e.detail.value,
+      msg: this.filterEmojis(e.detail.value),
     });
   },
   handleSubmit: async function () {
@@ -42,10 +48,11 @@ Page({
     formData.msg = this.data.msg;
     formData.artId = this.data.artId;
     formData.token = wx.getStorageSync('token');
+    formData.lang = app.globalData.languagePack.lang;
 
     if (formData.msg == '') {
       wx.showToast({
-        title: '评论内容不能为空！',
+        title: app.globalData.languagePack.lang==1?'The comment content cannot be empty!':'评论内容不能为空！',
         icon: 'none',
         duration: 2000
       });
@@ -56,7 +63,7 @@ Page({
     if (res.code == 1) {
 
       wx.showToast({
-        title: '评论成功',
+        title: 'Success',
         icon: 'success',
         duration: 2000,
         mask: true,
@@ -100,17 +107,13 @@ Page({
           artInfo: nextList
         });
       }
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
-      });
+
     } else {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText:  app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
             wx.navigateBack({
@@ -136,11 +139,11 @@ Page({
       this.setData({
         artInfo: artInfo
       });
-      wx.showToast({
-        title: res.msg,
-        icon: 'success',
-        duration: 2000
-      });
+      // wx.showToast({
+      //   title: res.msg,
+      //   icon: 'success',
+      //   duration: 2000
+      // });
 
     }
   },
@@ -157,11 +160,11 @@ Page({
       this.setData({
         artInfo: artInfo
       });
-      wx.showToast({
-        title: res.msg,
-        icon: 'success',
-        duration: 2000
-      });
+      // wx.showToast({
+      //   title: res.msg,
+      //   icon: 'success',
+      //   duration: 2000
+      // });
 
     }
   },
@@ -178,11 +181,11 @@ Page({
       this.setData({
         artInfo: artInfo
       });
-      wx.showToast({
-        title: res.msg,
-        icon: 'success',
-        duration: 2000
-      });
+      // wx.showToast({
+      //   title: res.msg,
+      //   icon: 'success',
+      //   duration: 2000
+      // });
 
     }
   },
@@ -204,7 +207,12 @@ Page({
       });
     });
   },
-
+   /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
+  },
   /**
    * 用户点击右上角分享
    */

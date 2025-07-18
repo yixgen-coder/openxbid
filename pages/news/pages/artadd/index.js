@@ -1,26 +1,29 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     formats: {},
     content: "",
     statusbar: "",
     jiaonangheight: "",
-    itemTitle: "资讯发布",
+    itemTitle: app.globalData.languagePack.publish_news,
     typesList: [{
       value: 3,
-      label: '行业资讯'
+      label: app.globalData.languagePack.supply_board
     }, {
       value: 5,
-      label: '价格走势'
+      label: app.globalData.languagePack.market_intelligence
     }, {
       value: 6,
-      label: '政策法规'
+      label: app.globalData.languagePack.regulatory_updates
     }],
     typeVisible: false,
     typeText: '',
     typeValue: [0],
     artId: 0,
     imgList: [],
-    artTitle: ''
+    artTitle: '',
+    disabled: false
   },
   onLoad: function (options) {
     const res = wx.getMenuButtonBoundingClientRect()
@@ -65,9 +68,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const artId = this.data.artId;
     if (artId > 0) {
@@ -91,21 +106,21 @@ Page({
           typeValue: nextList.typeValue,
           content: nextList.content,
           typeText: nextList.typeText,
-          itemTitle: '资讯编辑',
+          itemTitle: app.globalData.languagePack.lang == 1 ? 'News Edit' : '资讯编辑',
         });
         this.readyEditor();
       }
       wx.showToast({
         title: res.msg,
-        icon: 'loading',
+        icon: 'none',
         duration: 500
       });
     } else {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
             wx.navigateBack({
@@ -142,9 +157,14 @@ Page({
     } = e.detail;
 
     this.setData({
-      artTitle: value
+      artTitle: this.filterEmojis(value)
     });
 
+  },
+  filterEmojis(text) {
+    // 匹配常见表情符号（包括Emoji、颜文字等）
+    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|[\uD83C][\uDF00-\uDFFF]|[\uD83D][\uDC00-\uDE4F]/g;
+    return text.replace(emojiRegex, '');
   },
   handleFmAdd(e) {
     const {
@@ -175,7 +195,7 @@ Page({
             }]
           });
           wx.showToast({
-            title: res.data.msg,
+            title: app.globalData.languagePack.lang == 1 ? 'Upload successfully' : '上传成功',
             icon: 'success',
             duration: 2000
           });
@@ -206,6 +226,7 @@ Page({
     this.readyEditor();
   },
   async handleTJForm() {
+
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.artId = this.data.artId;
@@ -213,46 +234,60 @@ Page({
     formData.imgList = this.data.imgList;
     formData.typeValue = this.data.typeValue[0];
     formData.content = this.data.content;
+    formData.lang = app.globalData.languagePack.lang;
     if (formData.artTitle == '') {
-      wx.showToast({
-        title: '请填写资讯标题！',
-        icon: 'loading',
-        duration: 500
+
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'Please fill in the title of the information!' : '请填写资讯标题！',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
       return false;
     }
     if (formData.typeValue == 0) {
-      wx.showToast({
-        title: '请选择资讯栏目！',
-        icon: 'loading',
-        duration: 500
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'Please select the information column!' : '请选择资讯栏目！',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
       return false;
     }
     if (formData.imgList.length == 0) {
-      wx.showToast({
-        title: '请上传一张资讯封面图！',
-        icon: 'loading',
-        duration: 500
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'Please upload a cover image of the news!' : '请上传一张资讯封面图！',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
       return false;
     }
     if (formData.content == '') {
-      wx.showToast({
-        title: '不能发布空资讯！',
-        icon: 'loading',
-        duration: 500
+
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'No empty information can be posted!' : '不能发布空资讯！',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
       return false;
     }
+    this.setData({
+      disabled: true
+    });
     const url = 'https://kpy.phanlink.com/v1/setArtAddDatas';
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: res => {
           if (res.confirm) {
             wx.navigateBack({
@@ -261,14 +296,46 @@ Page({
           }
         }
       });
+    } else if (res.code == -1) {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: res.msg,
+        confirmText: app.globalData.languagePack.sure, // 默认"确定"
+        cancelText: app.globalData.languagePack.back, // 默认"取消"
+        success: (res) => {
+          if (res.confirm) {
+
+          } else if (res.cancel) {
+            wx.navigateBack()
+          }
+        }
+      })
+    } else if (res.code == -2) {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: res.msg,
+        confirmText: app.globalData.languagePack.sure, // 默认"确定"
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/my/pages/approve/index',
+            });
+          }
+        }
+      })
     } else {
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
+
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: res.msg,
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
     }
-
+    this.setData({
+      disabled: false
+    });
   },
   // editor初始化
   readyEditor() {
@@ -291,7 +358,7 @@ Page({
 
   // 上传图片
   insertImage(e) {
-    console.log(e);
+    //console.log(e);
     wx.chooseImage({
       count: 1,
       success: (re) => {
@@ -326,12 +393,17 @@ Page({
     })
     //console.log(this.data.formats)
   },
-
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
+  },
   // 监听输入内容
   inputEditor(e) {
     this.setData({
-      content: e.detail.html
+      content: this.filterEmojis(e.detail.html)
     })
-    //console.log(e.detail.html)
+    //console.log(this.data.content);
   }
 })

@@ -1,15 +1,14 @@
+const app = getApp()
 Page({
   data: {
-    imgSrcs: [
-      'https://imgs.phanlink.com/program/images/ava/ban1.jpg',
-      'https://imgs.phanlink.com/program/images/ava/ban2.jpg',
-      'https://imgs.phanlink.com/program/images/ava/ban3.jpg'
-    ],
+    globalLangData: app.globalData.languagePack,
+    imgSrcs: [],
+    nav: [],
     tabList: [{
-      text: "推荐",
+      text: app.globalData.languagePack.recommended,
       key: 0
     }, {
-      text: "最新",
+      text: app.globalData.languagePack.new,
       key: 1
     }],
     goodsList: [],
@@ -29,27 +28,30 @@ Page({
     jiaonangheight: '',
     currentPage: 1, //当前页面
     searchName: '', //搜索条件
+    placeholder: app.globalData.languagePack.keywords,
     region: '', //国家
     regionValue: [0],
-    regionTitle: '国家或地区',
+    regionTitle: app.globalData.languagePack.country,
     regionVisible: false,
     regionTypes: [{
-      label: '全部',
+      label: app.globalData.languagePack.all,
       value: 0
     }],
     type: '', //行业分类
-    typeTitle: '商品分类', //行业分类
+    typeTitle: app.globalData.languagePack.main_products, //行业分类
     typeVisible: false,
     typeValue: [0, 0],
     typeList: [],
     topids: [{
-      label: '全部',
+      label: app.globalData.languagePack.all,
       value: 0
     }],
     typeids: [{
-      label: '全部',
+      label: app.globalData.languagePack.all,
       value: 0
     }],
+    artTitle: '',
+    artUrl: '',
     storeBtn: 1
   },
 
@@ -64,6 +66,16 @@ Page({
 
   onShow() {
     this.getMessageCount();
+    this.init();
+  },
+  navToActivityDetail(e) {
+    const index = e.detail.index;
+    const imgSrcs = this.data.imgSrcs;
+    if (imgSrcs[index].ariaLabel != null) {
+      wx.navigateTo({
+        url: imgSrcs[index].ariaLabel,
+      });
+    }
   },
   async getMessageCount() {
     const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
@@ -75,6 +87,7 @@ Page({
     }
   },
   onLoad() {
+    console.log(this.data.globalLangData);
     this.init();
   },
   onReachBottom() {
@@ -85,6 +98,7 @@ Page({
 
   onPullDownRefresh() {
     this.init();
+    wx.stopPullDownRefresh();
   },
   init() {
 
@@ -112,28 +126,27 @@ Page({
   },
   handleSearh() {
     const searchName = this.data.searchName;
-    if (searchName == '') {
-      wx.showToast({
-        title: '请输入关键词',
-        icon: 'none',
-        duration: 2000
-      });
-      return;
-    }
     this.loadGoodsList(true);
   },
-
+  handleGoArt(e) {
+    const artUrl = this.data.artUrl;
+    wx.navigateTo({
+      url: artUrl,
+    });
+  },
   handleShowPage(e) {
     const {
       index
     } = e.currentTarget.dataset;
     this.setData({
       currentPage: index,
+      searchName: '',
+      placeholder: index == 2 ? app.globalData.languagePack.enter_shop_name : app.globalData.languagePack.keywords
     });
     this.loadGoodsList(true);
   },
   tabChangeHandle(e) {
-    console.log(e)
+    //console.log(e)
     this.privateData.tabIndex = e.detail.value;
     this.setData({
       goodsList: [],
@@ -147,8 +160,8 @@ Page({
   handleShowTJStore() {
     this.setData({
       type: '',
-      typeTitle: '商品分类',
-      regionTitle: '国家或地区',
+      typeTitle: app.globalData.languagePack.main_products,
+      regionTitle: app.globalData.languagePack.country,
       region: '',
       storeBtn: 1
     });
@@ -172,7 +185,7 @@ Page({
       [`${key}Visible`]: false,
       [`${key}`]: value[0],
       [`${key}Value`]: value,
-      [`${key}Title`]: value[0] == 0 ? '国家或地区' : label.join(' '),
+      [`${key}Title`]: value[0] == 0 ? app.globalData.languagePack.country : label.join(' '),
       storeBtn: value[0] == 0 ? 1 : 2,
     });
     this.loadGoodsList(true);
@@ -201,7 +214,7 @@ Page({
       [`${key}Visible`]: false,
       [`${key}`]: value[1],
       [`${key}Value`]: value,
-      [`${key}Title`]: value[0] == 0 ? '商品分类' : label.join(' '),
+      [`${key}Title`]: value[0] == 0 ? app.globalData.languagePack.main_products : label.join(' '),
       storeBtn: value[0] == 0 ? 1 : 3,
     });
     this.loadGoodsList(true);
@@ -211,7 +224,7 @@ Page({
     if (e.detail.column === 0) {
       this.setData({
         typeids: value == 0 ? [{
-          label: '全部',
+          label: app.globalData.languagePack.all,
           value: 0
         }] : this.data.typeList.filter(item => item.pid === value),
       });
@@ -231,20 +244,31 @@ Page({
     const pageSize = this.goodListPagination.num;
     var pageIndex = this.goodListPagination.index;
     var action = this.privateData.tabIndex;
-    var searchname = this.data.searchname;
+    var searchname = this.data.searchName;
     var currentPage = this.data.currentPage;
     var region = this.data.region;
     var type = this.data.type;
+    var lang = this.data.globalLangData.lang;
     if (fresh) {
       pageIndex = 1;
     }
 
     try {
-      const res = await this.fetchGoodsList(pageIndex, pageSize, action, currentPage, searchname, region, type);
+      const res = await this.fetchGoodsList(pageIndex, pageSize, action, currentPage, searchname, region, type, lang);
+      let nav = res.data.nav;
+      let art_title = res.data.program_art_title;
+      let art_url = res.data.program_art_url;
+      let imgSrcs = res.data.imgs;
+      this.setData({
+        nav: nav,
+        artTitle: art_title,
+        artUrl: art_url,
+        imgSrcs: imgSrcs,
+      });
       if (currentPage == 1) {
         if (res.code == 1) {
           let nextList = [];
-          if (res.data.pros.length > 0) {
+          if (res.data.pros && res.data.pros.length > 0) {
             nextList = res.data.pros;
             this.goodListPagination.index = pageIndex + 1;
           }
@@ -265,12 +289,12 @@ Page({
           this.setData({
             goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
             regionTypes: [{
-              label: '全部',
+              label: app.globalData.languagePack.all,
               value: 0
             }].concat(res.data.regions),
             typeList: ptys,
             topids: [{
-              label: '全部',
+              label: app.globalData.languagePack.all,
               value: 0
             }].concat(topids),
           });
@@ -286,7 +310,7 @@ Page({
       });
     }
   },
-  fetchGoodsList(pageIndex, pageSize, action, currentPage, searchname, region = '', type = '') {
+  fetchGoodsList(pageIndex, pageSize, action, currentPage, searchname, region = '', type = '', lang = 2) {
     let token = wx.getStorageSync('token');
     const url = 'https://kpy.phanlink.com/v1/getHomeDatas';
     return new Promise((resolve, reject) => {
@@ -301,7 +325,8 @@ Page({
           'currentPage': currentPage,
           'searchname': searchname,
           'region': region,
-          'type': type
+          'type': type,
+          'lang': lang
         },
         header: {
           'content-type': 'application/json'
@@ -333,14 +358,14 @@ Page({
       console.log(res);
     }
     return {
-      title: '开拍鱼',
+      title: app.globalData.languagePack.lang==1?'Global Seafood Real-time Quotation System':'全球海鲜实时报价系统',
       imageUrl: 'https://imgs.phanlink.com/program/images/ava/1.jpg',
       path: '/pages/tabbar/home/home',
     }
   },
   onShareTimeline: function (res) {
     return {
-      title: '开拍鱼',
+      title: app.globalData.languagePack.lang==1?'Global Seafood Real-time Quotation System':'全球海鲜实时报价系统',
       query: '',
       imageUrl: 'https://imgs.phanlink.com/program/images/ava/1.jpg'
     }

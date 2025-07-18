@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "添加联系人",
+  "navigationBarTitleText": "",
   "component": true,
   "usingComponents": {
     "t-icon": "tdesign-miniprogram/icon/icon",

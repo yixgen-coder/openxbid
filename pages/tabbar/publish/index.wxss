@@ -1,5 +1,6 @@
 page {
   background: #F7F8FA;
+  padding-bottom: 190rpx;
 }
 .publish-wrap .publish-header {
   width: 100%;

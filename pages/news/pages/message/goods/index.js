@@ -1,14 +1,30 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     statusbar: "",
     jiaonangheight: "",
     pageLoading: false,
     goodsList: [],
     goodsListLoadStatus: 0,
+    tabList: [{
+      text: app.globalData.languagePack.my_biding,
+      key: 1
+    }, {
+      text: app.globalData.languagePack.my_quotation,
+      key: 2
+    }],
+    tabIndex: 2,
   },
   goodListPagination: {
     index: 0,
     num: 20,
+  },
+  tabChangeHandle(e) {
+    this.setData({
+      tabIndex: e.detail.value
+    })
+    this.loadGoodsList(true);
   },
   async init() {
     const res = wx.getMenuButtonBoundingClientRect()
@@ -51,8 +67,9 @@ Page({
 
     const formData = {};
     formData.token = wx.getStorageSync('token');
-    formData.action = this.data.newsTabCurrent;
+    formData.action = this.data.tabIndex;
     formData.limit = this.goodListPagination.num;
+    formData.lang = app.globalData.languagePack.lang;
     formData.page = fresh ? 1 : this.goodListPagination.index;
 
     try {
@@ -83,6 +100,9 @@ Page({
 
 
   onLoad() {
+    wx.setNavigationBarTitle({
+      title: app.globalData.languagePack.bid_updates
+    });
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
@@ -90,6 +110,8 @@ Page({
         url: '/pages/tabbar/login/login',
       });
     }
+  },
+  onShow() {
     this.init(true);
   },
   fetchDatas(url, data) {

@@ -1,31 +1,33 @@
 <view class="pop-box">
   <view class="title">
-    商品报价
+    {{globalLangData.to_bid}}
     <image class="close" src="https://imgs.phanlink.com/program/images/close.png" bindtap="cancel"></image>
   </view>
-  <goods-category level="{{1}}" custom-class="goods-category-class" category="{{goodsspec}}" bindgginput="gginput" />
-  <!-- 总计 -->
-  <view class="total">
-    <view class="total-title">总计</view>
+  <scroll-view style="height: 80vh;" scroll-y>
+    <goods-category level="{{1}}" custom-class="goods-category-class" category="{{goodsspec}}" bindgginput="gginput" />
+    <!-- 总计 -->
+    <view class="total">
+      <view class="total-title">{{globalLangData.total}}</view>
 
-    <view class="total-box">
-      <view class="totle-item">
-        <view class="label">数量</view>
-        <view class="num">{{total.stock}}</view>
+      <view class="total-box">
+        <view class="totle-item">
+          <view class="label">{{globalLangData.quantity}}</view>
+          <view class="num">{{total.stock}}</view>
+        </view>
+        <view class="totle-item">
+          <view class="label">{{globalLangData.net_weight}}(KG)</view>
+          <view class="num">{{total.weight}}</view>
+        </view>
       </view>
-      <view class="totle-item">
-        <view class="label">净重(公斤)</view>
-        <view class="num">{{total.weight}}</view>
+      <view class="totle-long">
+        <view class="label">{{globalLangData.amount}}</view>
+        <view class="num">{{total.price}}</view>
       </view>
     </view>
-    <view class="totle-long">
-      <view class="label">净重(公斤)</view>
-      <view class="num">{{total.price}}</view>
+    <!-- 按钮曲艺 -->
+    <view class="btn-box">
+      <view class="left" bindtap="cancel">{{globalLangData.cancel}}</view>
+      <view class="right" bindtap="submitBJ">{{globalLangData.confirm_bid}}</view>
     </view>
-  </view>
-  <!-- 按钮曲艺 -->
-  <view class="btn-box">
-    <view class="left" bindtap="cancel">取消</view>
-    <view class="right" bindtap="submitBJ">确定出价</view>
-  </view>
+  </scroll-view>
 </view>

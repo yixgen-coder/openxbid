@@ -9,6 +9,6 @@
 
 <view class="user" wx:for="{{fansList}}" wx:key="index">
   <t-cell title="{{item.nickname}}" description="开始关注你了 {{item.addtime}}" align="top" image="https://imgs.phanlink.com/{{item.avatar}}" hover bordered="{{true}}">
-    <t-button slot="right-icon" shape="round" size="small" bindtap="handleDel" data-uid="{{item.uid}}">移除</t-button>
+    <t-button slot="right-icon" shape="round" size="small" bindtap="handleJl" data-uid="{{item.uid}}">{{globalLangData.lets_chat}}</t-button>
   </t-cell>
 </view>

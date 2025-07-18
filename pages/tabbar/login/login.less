@@ -7,68 +7,79 @@ page {
     width: 100%;
     height: 30vh;
     position: relative;
+
     .bar-right {
       display: flex;
       align-items: center;
       padding-left: 34rpx;
     }
   }
-  .logo{
-    width:100%;
+
+  .logo {
+    width: 100%;
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    top:20vh;
-    .tit{
+    top: 18vh;
+
+    .tit {
       font-weight: 600;
       font-size: 36rpx;
       color: #262626;
     }
   }
-  .login{
-    margin:0 30rpx;
-    margin-top:10vh;
-    .wxlogin{
-      .phonebtn{
-        margin:30rpx 0;
-        background: linear-gradient( 90deg, #FF6426 0%, #FF4A26 100%);
+
+  .login {
+    margin: 0 30rpx;
+    margin-top: 12vh;
+
+    .wxlogin {
+      .phonebtn {
+        margin: 30rpx 0;
+        background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
         border-radius: 12rpx;
         font-size: 32rpx;
         color: #FFFFFF;
         height: 88rpx;
       }
-      
+
     }
   }
-  .loginxy{
-    margin-top:60rpx;
-    text-align:center;
-    span{
+
+  .loginxy {
+    margin-top: 60rpx;
+    text-align: center;
+
+    span {
       font-weight: 500;
       font-size: 26rpx;
       color: #82818B;
-      text{
+
+      text {
         color: #FF5040;
       }
     }
   }
-  .otherlogin{
-    padding:30rpx;
+
+  .otherlogin {
+    padding: 30rpx;
     position: fixed;
-    bottom:50rpx;
-    color:#979797;
+    bottom: 50rpx;
+    color: #979797;
     font-size: 30rpx;
     display: flex;
     flex-direction: column;
-    text-align:center;
-    gap:40rpx;
-    .tit{
+    text-align: center;
+    gap: 40rpx;
+
+    .tit {
       display: flex;
       align-items: center;
-      gap:20rpx;
+      gap: 20rpx;
       justify-content: center;
-      span{
+
+      span {
         display: block;
         width: 230rpx;
         height: 0rpx;
@@ -76,24 +87,43 @@ page {
         border: 1rpx solid #E6E6E6;
       }
     }
-    image{
+
+    image {
       width: 80rpx;
       height: 80rpx;
     }
   }
+
   .login-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 20rpx;
-    
-    text{
+    padding-top: 0rpx;
+
+    .tab-box {
+      margin-bottom: 60rpx;
+      --td-tab-nav-bg-color: #fff;
+      --td-tab-item-color: #A8A8A8;
+      --td-tab-track-color: #FF5533;
+      --td-tab-track-width: 60rpx;
+
+      .t-tabs__item-inner {
+        font-size: 36rpx;
+      }
+
+      .tabs-external__active {
+        color: #333;
+      }
+    }
+
+    text {
       font-weight: 500;
       font-size: 32rpx;
       color: #262626;
-      padding:0 30rpx;
+      padding: 0 30rpx;
       position: relative;
-      margin-right:20rpx;
+      margin-right: 20rpx;
+
       &::after {
         content: '';
         position: absolute;
@@ -110,48 +140,51 @@ page {
       }
     }
   }
-  
+
   .form-group {
-    width:100%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20rpx;
-    padding-bottom:10rpx;
+    padding-bottom: 10rpx;
     border-bottom: 1rpx solid #D9D9D9;
   }
-  
-  .phone-input, .code-input {
+
+  .phone-input,
+  .code-input {
     border: none;
     padding: 10rpx;
     flex: 1;
     margin-right: 10rpx;
   }
-  
+
   .get-code-button {
     color: #FF5040;
     background-color: #FFFFFF;
+
     &::after {
       border: none;
     }
   }
-  
+
   .submit-button {
-    background: linear-gradient( 90deg, #FF6426 0%, #FF4A26 100%);
+    background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
     border-radius: 12rpx 12rpx 12rpx 12rpx;
     color: #fff;
     width: 100%;
     margin-top: 20rpx;
   }
-  .goback{
+
+  .goback {
     background: #F4F5F7;
     border-radius: 12rpx;
     font-weight: 500;
     font-size: 32rpx;
     color: #82818B;
     height: 88rpx;
-    width:100%;
-    margin-top:30rpx;
-    border:1rpx solid F4F5F7;
+    width: 100%;
+    margin-top: 30rpx;
+    border: 1rpx solid F4F5F7;
   }
 }

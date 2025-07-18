@@ -18,20 +18,21 @@ page {
   background-color: #ffffff;
 }
 .news-page-header .news-tab {
-  width: 500px;
-  padding-left: 10rpx;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 .news-page-header .news-tab > view {
-  color: #FFC6A6;
+  color: #ffffff;
   font-size: 32rpx;
-  margin-right: 56rpx;
+  margin-right: 80rpx;
+  font-weight: 800;
 }
 .news-page-header .news-tab .active {
-  color: #ffffff;
   font-size: 40rpx;
+  border-bottom: 6rpx solid #FFFFFF;
+  padding-bottom: 60rpx;
+  transition-duration: 0.3s;
 }
 .news-page-header .search {
   margin-top: 25rpx;

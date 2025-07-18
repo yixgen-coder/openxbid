@@ -17,8 +17,8 @@
 </view>
 <view class="home-page-container">
   <view class="fish-list">
-    <!-- 参与竞价&&成功竞价 -->
-    <bidding-list wr-class="goods-list-container" goodsList="{{goodsList}}" bindgoodsClick="goodListClickHandle" binddelOrders="handleDelOrder"/>
+    <!-- 参与报价&&成功报价 -->
+    <bidding-list wr-class="goods-list-container" tabIndex="{{tabIndex}}" goodsList="{{goodsList}}" bindgoodsClick="goodListClickHandle" binddelOrders="handleDelOrder" />
     <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
   </view>
 </view>

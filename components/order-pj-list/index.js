@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
   properties: {
     goodsList: {
@@ -7,7 +8,7 @@ Component({
   },
 
   data: {
-
+    globalLangData: app.globalData.languagePack,
   },
 
   lifetimes: {

@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
   externalClasses: ['custom-class'],
 
@@ -31,6 +32,7 @@ Component({
     activeKey: 0,
     subActiveKey: 0,
     gg: [],
+    globalLangData: app.globalData.languagePack,
   },
   attached() {
     if (this.properties.initActive && this.properties.initActive.length > 0) {
@@ -43,7 +45,7 @@ Component({
   methods: {
     handleGrInfos(e) {
       const index = e.currentTarget.dataset.key;
-      const value = e.detail.value;
+      const value = this.filterEmojis(e.detail.value);
       let category = this.data.category;
       let gg = this.data.gg;
 
@@ -69,6 +71,10 @@ Component({
       this.triggerEvent('gginput', [{
         gg: this.data.gg
       }]);
+    },
+    filterEmojis(input) {
+      // 使用正则表达式匹配表情符号
+      return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
     },
     onParentChange(event) {
 

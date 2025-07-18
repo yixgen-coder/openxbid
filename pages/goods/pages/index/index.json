@@ -24,7 +24,6 @@
     "t-rate": "tdesign-miniprogram/rate/rate",
     "t-detail-parameter": "../components/detail-parameter/index",
     "t-detail-quote": "../components/detail-quote/index",
-    "t-detail-offer": "../components/detail-offer/index",
     "t-popup": "tdesign-miniprogram/popup/popup",
     "t-bidding-popup": "../components/bidding-popup/index"
   }

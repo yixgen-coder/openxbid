@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
   /**
    * 组件的属性列表
@@ -19,16 +20,17 @@ Component({
    */
   data: {
     sideBarIndex: 0,
+    globalLangData: app.globalData.languagePack,
     categories: [{
-        label: '商品类型'
+        label: app.globalData.languagePack.commodity_type
       }, {
-        label: '商品分类',
+        label: app.globalData.languagePack.type
       },
       {
-        label: '商品性质'
+        label: app.globalData.languagePack.product_type
       },
       {
-        label: '国家地区'
+        label: app.globalData.languagePack.region
       },
     ],
   },

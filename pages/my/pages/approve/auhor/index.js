@@ -1,46 +1,43 @@
 // pages/my/approve/auhor/index.js
+const app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-
   data: {
+    globalLangData: app.globalData.languagePack,
     items: 1,
-    itemTitle: '个人认证',
+    itemTitle: app.globalData.languagePack.personal,
     statusbar: '',
     jiaonangheight: '',
     grInfos: {},
     qyInfos: {},
-    regionText: '中国',
-    regionValue: [96],
+    regionText: '',
+    regionValue: [],
     regionTitle: '',
     regions: {},
 
-    typeText: '身份证',
+    typeText: app.globalData.languagePack.id_card,
     typeValue: [1, 2],
     typeTitle: '',
     types: [{
-        label: '身份证',
+        label: app.globalData.languagePack.id_card,
         value: 1
       },
       {
-        label: '个体工商户',
+        label: app.globalData.languagePack.individual_business,
         value: 2,
       },
       {
-        label: '护照',
+        label: app.globalData.languagePack.passport,
         value: 3,
       }
     ],
-    fileList: [],
-    imgTmp: '',
-    btnText: '立即认证',
+    imgsList: [],
+    btnText: app.globalData.languagePack.immediate_certification,
     btnStatus: false,
     companyStatus: 0,
     companyMsg: '',
     companyTime: '',
     companyType: 0,
+    userinfo: {},
   },
 
   /**
@@ -48,11 +45,24 @@ Page({
    */
   onLoad(options) {
     let token = wx.getStorageSync('token');
+    const lang = app.globalData.languagePack.lang;
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -63,7 +73,7 @@ Page({
     if (options.items) {
       this.setData({
         items: options.items,
-        itemTitle: options.items == 2 ? '企业认证' : '个人认证'
+        itemTitle: options.items == 2 ? app.globalData.languagePack.company : app.globalData.languagePack.personal
       });
     }
     this.addInfo('region', 96);
@@ -73,17 +83,25 @@ Page({
       url: 'https://kpy.phanlink.com/v1/getRegion', // 服务器地址
       method: 'POST',
       data: {
-        'token': token
+        'token': token,
+        'lang': lang,
       },
 
       success: function (res) {
         //console.log(res);
         if (res.data.code === 1) {
           let gr_infos = JSON.parse(res.data.data.info.gr_infos)
+          gr_infos.mobile = gr_infos.mobile ? gr_infos.mobile : res.data.data.info.mobile;
+          gr_infos.mail = gr_infos.mail ? gr_infos.mail : res.data.data.info.mail;
           let qy_infos = JSON.parse(res.data.data.info.qy_infos)
+          qy_infos.mobile = qy_infos.mobile ? qy_infos.mobile : res.data.data.info.mobile;
+          qy_infos.mail = qy_infos.mail ? qy_infos.mail : res.data.data.info.mail;
+          let _fileList = options.items == 1 ? gr_infos : qy_infos
+          console.log(_fileList);
           that.setData({
             //items: res.data.data.info.company_type,
             //itemTitle: res.data.data.info.company_type == 2 ? '企业认证' : '个人认证',
+            userinfo: res.data.data.info,
             regions: res.data.data.region,
             grInfos: gr_infos,
             qyInfos: qy_infos,
@@ -91,22 +109,17 @@ Page({
             companyMsg: res.data.data.info.company_msg,
             companyTime: res.data.data.info.company_time,
             companyType: res.data.data.info.company_type,
-            fileList: [{
-              'url': options.items == 1 ? gr_infos.imgs : qy_infos.imgs
-            }],
-            imgTmp: options.items == 1 ? gr_infos.imgs : qy_infos.imgs,
+            imgsList: _fileList.imgsList,
             regionText: that.findValue(options.items == 1 ? parseInt(gr_infos.region) : parseInt(qy_infos.region), res.data.data.region),
             regionValue: [options.items == 1 ? parseInt(gr_infos.region) : parseInt(qy_infos.region)],
             typeText: that.findValue(gr_infos.type, types),
             typeValue: [gr_infos.type],
           });
         }
-        console.log(that.data)
       },
       fail: function (error) {
-        console.error('提交失败', error);
         wx.showToast({
-          title: '网络错误',
+          title: 'Network error',
           icon: 'none',
           duration: 2000
         });
@@ -122,20 +135,22 @@ Page({
     const {
       key
     } = e.currentTarget.dataset;
-    const {
+    let {
       value
     } = e.detail;
+    value = this.filterEmojis(value);
     this.addInfo(key, value);
-
+  },
+  filterEmojis(input) {
+    // 使用正则表达式匹配表情符号
+    return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
   },
   addInfo: function (key, value) {
     const items = this.data.items;
-
     const {
       grInfos,
       qyInfos
     } = this.data;
-
     if (items == 1) {
       grInfos[key] = value;
       this.setData({
@@ -179,43 +194,25 @@ Page({
   onRegionPicker() {
     this.setData({
       regionVisible: true,
-      regionTitle: '选择国家'
+      regionTitle: app.globalData.languagePack.select_country
     });
   },
   onTitlePicker() {
     this.setData({
       typeVisible: true,
-      typeTitle: '选择证件类型'
+      typeTitle: app.globalData.languagePack.select_id_type
     });
   },
-  handleAdd(e) {
-    const {
-      fileList
-    } = this.data;
+  handleFmAdd(e) {
     const {
       files
     } = e.detail;
-
-    // 方法1：选择完所有图片之后，统一上传，因此选择完就直接展示
-    this.setData({
-      fileList: [...fileList, ...files], // 此时设置了 fileList 之后才会展示选择的图片
-      imgTmp: files[0].url
-    });
-    this.onUpload(files[0].url);
-    //console.log(files[0].url);
-
+    for (let i = 0; i < files.length; i++) {
+      this.onUpload(files[i].url);
+    }
   },
   onUpload(file) {
-    const {
-      fileList
-    } = this.data;
 
-    this.setData({
-      fileList: [...fileList, {
-        ...file,
-        status: 'loading'
-      }],
-    });
     let that = this;
     const task = wx.uploadFile({
       url: 'https://kpy.phanlink.com/v1/uploadImgs', // 仅为示例，非真实的接口地址
@@ -225,35 +222,29 @@ Page({
       success: (res) => {
         res.data = JSON.parse(res.data);
         if (res.data.code == 1) {
-          that.addInfo('imgs', res.data.filepath);
+          const {
+            imgsList
+          } = this.data;
           that.setData({
-            fileList: [{
+            imgsList: imgsList.concat([{
               'url': res.data.filepath
-            }],
-            imgTmp: res.data.filepath
+            }])
           });
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'success',
-            duration: 2000
-          });
+
         }
       },
     });
-
   },
-  handleRemove(e) {
+  handleFmRemove(e) {
     const {
       index
     } = e.detail;
     const {
-      fileList
+      imgsList
     } = this.data;
-
-    fileList.splice(index, 1);
+    imgsList.splice(index, 1);
     this.setData({
-      fileList,
-      imgTmp: ''
+      imgsList
     });
   },
   goback: function () {
@@ -264,12 +255,13 @@ Page({
   onFormSubmit: function (e) {
     const items = this.data.items;
     const formData = items == 1 ? this.data.grInfos : this.data.qyInfos;
-
-    const imgTmp = this.data.imgTmp;
     const token = wx.getStorageSync('token');
     formData.token = token;
     formData.items = items;
-    formData.imgs = imgTmp;
+    formData.lang = app.globalData.languagePack.lang;
+    formData.imgsList = this.data.imgsList;
+    formData.mobile = formData.mobile ? formData.mobile : this.data.userinfo.mobile;
+    formData.mail = formData.mail ? formData.mail : this.data.userinfo.mail;
     //console.log(formData);
     // 发送数据到服务器
     this.sendFormData(formData);
@@ -282,7 +274,7 @@ Page({
       method: 'POST',
       data: data,
       success: function (res) {
-        console.log(res);
+        // console.log(res);
         if (res.data.code == 1) {
           wx.showToast({
             title: res.data.msg,
@@ -290,9 +282,11 @@ Page({
             duration: 2000,
             mask: true,
             complete: () => {
-              wx.navigateBack({
-                delta: 2
-              });
+              setTimeout(() => {
+                wx.navigateBack({
+                  delta: 2
+                });
+              }, 2000);
             }
           });
         } else {
@@ -304,13 +298,18 @@ Page({
         }
       },
       fail: function (error) {
-        console.error('提交失败', error);
         wx.showToast({
-          title: '网络错误',
+          title: 'Network error',
           icon: 'none',
           duration: 2000
         });
       }
     });
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
   },
 })

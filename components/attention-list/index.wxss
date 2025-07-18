@@ -1,3 +1,6 @@
+.attention-list-wrap {
+  margin-top: 16rpx;
+}
 .attention-list-wrap .attention-item {
   background: #FFFFFF;
   border-radius: 16rpx 16rpx 16rpx 16rpx;
@@ -10,15 +13,15 @@
   display: flex;
 }
 .attention-list-wrap .attention-item .item-box .left {
-  width: 120rpx;
-  height: 120rpx;
+  width: 110rpx;
+  height: 110rpx;
   margin-right: 28rpx;
   background: #FFFFFF;
-  border-radius: 8rpx 8rpx 8rpx 8rpx;
+  border-radius: 50%;
   border: 1rpx solid #E6E6E6;
 }
 .attention-list-wrap .attention-item .item-box .right {
-  width: 498rpx;
+  min-width: 520rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -50,14 +53,14 @@
   height: 32rpx;
   line-height: 32rpx;
   background: #F7F8FA;
-  border-radius: 4rpx 4rpx 4rpx 4rpx;
-  font-size: 22rpx;
-  padding: 0 10rpx;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+  padding: 0 12rpx;
   margin-right: 10rpx;
 }
 .attention-list-wrap .attention-item .item-box .right .tags .color1 {
-  background: #FFF4F2;
-  color: #FF5533;
+  background: #F7F8FA;
+  color: #ebaa1f;
 }
 .attention-list-wrap .attention-item .item-box .right .tags .color2 {
   background: #F7F8FA;
@@ -66,6 +69,10 @@
 .attention-list-wrap .attention-item .item-box .right .tags .color3 {
   background: #EBF7FF;
   color: #33AAFF;
+}
+.attention-list-wrap .attention-item .item-box .right .tags .color4 {
+  background: #EBF7FF;
+  color: #fd0404;
 }
 .attention-list-wrap .attention-item .item-bottom {
   text-align: right;

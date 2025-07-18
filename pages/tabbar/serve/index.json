@@ -15,6 +15,7 @@
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
     "bidding-list": "/components/bidding-list/index",
+    "good-list": "/components/good-list/index",
     "attention-list": "/components/attention-list/index",
     "collection-list": "/components/collection-list/index",
     "fwstore-list": "/components/fwstore-list/index",

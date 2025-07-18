@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "竞价详情",
+  "navigationBarTitleText": "议价详情",
   "navigationStyle": "custom",
   "usingComponents": {
     "t-icon": "tdesign-miniprogram/icon/icon",

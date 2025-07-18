@@ -9,11 +9,12 @@ page {
     position: relative;
     overflow-x: hidden;
     box-sizing: border-box;
+
     .bar-right {
       display: flex;
       padding-left: 34rpx;
       align-items: center;
-    
+
 
       .search {
         position: relative;
@@ -30,7 +31,7 @@ page {
           position: absolute;
           right: 5rpx;
           bottom: 5rpx;
-          z-index:9999;
+          z-index: 9999;
         }
 
         .t-search__input-container {
@@ -46,45 +47,56 @@ page {
       }
     }
   }
-  .store-info{
-    margin-top:40rpx;
+
+  .store-info {
+    margin-top: 40rpx;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:30rpx 20rpx;
-    .logo{
-      width:100rpx;
-      image{
-        width:90rpx;
-        height:90rpx;
+    padding: 30rpx 20rpx;
+
+    .logo {
+      width: 100rpx;
+
+      image {
+        width: 90rpx;
+        height: 90rpx;
+        border-radius: 50%;
       }
     }
-    .info{
-      width:480rpx;
-      .tit{
+
+    .info {
+      width: 480rpx;
+
+      .tit {
         font-weight: bold;
         font-size: 32rpx;
         color: #221F1C;
         margin-bottom: 20rpx;
       }
-      .tags{
+
+      .tags {
         font-size: 24rpx;
         color: #666666;
-        text{
-          margin-right:15rpx;
-          &:first-child{
+
+        text {
+          margin-right: 15rpx;
+
+          &:first-child {
             color: #F22800;
           }
-          &:last-child{
+
+          &:last-child {
             color: #33AAFF;
           }
         }
       }
     }
-    .gzbtn{
-      width:100rpx;
-      padding:10rpx 20rpx;
-      background: linear-gradient( 90deg, #FF6426 0%, #FF4A26 100%);
+
+    .gzbtn {
+      width: 100rpx;
+      padding: 10rpx 20rpx;
+      background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
       border-radius: 32rpx;
       font-weight: bold;
       font-size: 28rpx;
@@ -93,17 +105,21 @@ page {
     }
   }
 }
+
 .tab-box {
-  background:#FFFFFF;
-  
+  background: #FFFFFF;
+
   --td-tab-nav-bg-color: #ffffff;
   --td-tab-item-color: #666666;
   --td-tab-track-color: #FF5533;
+
   .tabs-external__active {
     color: #333;
   }
 }
+
 .fish-list {
-  padding: 24rpx 10rpx;;
+  padding: 24rpx 10rpx;
+  ;
   box-sizing: border-box;
 }

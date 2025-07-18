@@ -1,4 +1,5 @@
 // pages/home/classify/components/detail-image/index.js
+const app = getApp()
 Component({
   /**
    * 组件的属性列表
@@ -19,6 +20,7 @@ Component({
     orderQuantity: '',
     orderWeight: '',
     orderTotal: '',
+    globalLangData: app.globalData.languagePack,
   },
 
   /**

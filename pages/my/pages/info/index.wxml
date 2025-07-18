@@ -1,30 +1,54 @@
-<button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+<button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" form-type="button">
   <image class="avatar" src="{{avatarUrl?avatarUrl:userinfo.avatar}}"></image>
-  <text class="avatar-text">更换头像</text>
+  <text class="avatar-text">{{globalLangData.lang==1?'Change profile picture':'更换头像'}}</text>
 </button>
 <form bindsubmit="onFormSubmit">
   <view>
-    <t-input name="nickname" type="nickname" label="昵称" placeholder="请输入昵称" value="{{nickname}}" bindchange="handlenickname" align="right" />
+    <t-input name="nickname" type="nickname" label="{{globalLangData.lang==1?'Nickname':'昵称'}}" placeholder="{{globalLangData.enter}}" value="{{nickname}}" bindchange="handlenickname" align="right" />
   </view>
-  <t-cell title="会员编号" note="{{userinfo.code}}" arrow />
+  <t-cell title="{{globalLangData.lang==1?'Member Code':'会员编号'}}" note="{{userinfo.code}}" />
   <view hidden="{{userinfo.company_status !== 2}}">
-    <t-cell title="状态" note="已认证" t-class-note="renzh" arrow />
-    <t-cell title="认证时间" note="{{userinfo.company_time}}" arrow />
+    <t-cell title="{{globalLangData.status}}" note="{{globalLangData.lang==1?'Certified':'已认证'}}" t-class-note="renzh" arrow />
+    <t-cell title="{{globalLangData.lang==1?'Certifi tim':'认证时间'}}" note="{{userinfo.company_time}}" arrow />
   </view>
   <view hidden="{{userinfo.company_status !== 1}}">
-    <t-cell title="状态" note="认证审核中" t-class-note="renzh" arrow />
+    <t-cell title="{{globalLangData.status}}" note="{{globalLangData.lang==1?'Certifi progress':'认证审核中'}}" t-class-note="renzh" />
   </view>
   <view hidden="{{userinfo.company_status !==0}}">
-    <t-cell title="状态" note="未认证" t-class-note="renzh" arrow />
+    <t-cell title="{{globalLangData.status}}" note="{{globalLangData.lang==1?'Uncertified':'未认证'}}" t-class-note="renzh" />
   </view>
   <view>
-    <t-input name="mobile" label="手机号码" placeholder="请输入手机号码" value="{{mobile}}" bindchange="handlemobile" align="right" />
+    <t-cell url="/pages/my/pages/mobile/index" title="{{globalLangData.mobile_number}}" note="{{mobile?mobile:globalLangData.enter}}" t-class-note="renzh" arrow />
   </view>
   <view>
-    <t-input name="mail" label="邮箱" placeholder="请输入邮箱" value="{{mail}}" bindchange="handlemail" align="right" />
+    <t-cell url="/pages/my/pages/mail/index" title="{{globalLangData.email}}" note="{{mail?mail:globalLangData.enter}}" t-class-note="renzh" arrow />
   </view>
-  <t-cell title="注册时间" note="{{userinfo.reg_time}}" arrow />
+  <view>
+    <t-input name="password" type="password" label="{{globalLangData.password}}" placeholder="{{userinfo.pass?'******':globalLangData.enter}}" value="{{password}}" bindchange="handlepassword" align="right" />
+  </view>
+  <t-cell title="{{globalLangData.lang==1?'Registration time':'注册时间'}}" note="{{userinfo.reg_time}}" />
+  <view>
+    <t-cell url="/pages/my/pages/approve/auhor/index?items={{userinfo.company_type == 1?1:2}}" title="{{globalLangData.lang==1?'My business':'我的商家'}}" note="{{globalLangData.merchant_verifi}}" t-class-note="renzh" arrow />
+  </view>
+  <view hidden="{{userinfo.company_status < 2}}" style="padding-bottom: 190rpx;">
+    <t-cell url="/pages/store/pages/index/index" title="{{globalLangData.lang==1?'My shop':'我的商铺'}}" note="{{globalLangData.merchant_settings}}" t-class-note="renzh" arrow />
+  </view>
   <view class="tjbtn">
-    <t-button theme="danger" size="large" type="submit" block>确定</t-button>
+    <t-button theme="danger" size="large" type="submit" block>{{globalLangData.sure}}</t-button>
   </view>
+  <t-popup visible="{{visible}}" usingCustomNavbar bind:visible-change="onVisibleChange" placement="bottom" class="popbox">
+    <image class="close" src="https://imgs.phanlink.com/program/images/close.png" bindtap="popCancel"></image>
+    <view class="title">{{globalLangData.lang==2?'获取你的昵称、头像':'Get your nickname and profile picture'}}</view>
+    <view class="desc">{{globalLangData.lang==2?'获取用户头像、呢称，主要用于向用户提供有辨识度的用户中心界面':'Obtaining user avatars and nicknames is mainly used to provide users with a recognizable user-centered interface'}}</view>
+    <view>
+      <t-input name="nickname" type="nickname" label="{{globalLangData.lang==1?'Nickname':'昵称'}}" placeholder="{{globalLangData.enter}}" value="{{nickname}}" bindchange="handlenickname" align="right" />
+    </view>
+    <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" form-type="button">
+      <text class="avatar-text">{{globalLangData.lang==1?'Avatar':'头像'}}</text>
+      <image class="avatar" src="{{avatarUrl?avatarUrl:userinfo.avatar}}"></image>
+    </button>
+    <view class="tjbtn">
+      <t-button theme="danger" size="large" type="submit" block>{{globalLangData.sure}}</t-button>
+    </view>
+  </t-popup>
 </form>

@@ -1,4 +1,4 @@
-<view class="community-list-wrap wr-class" id="{{independentID}}">
+<view class="community-list-wrap wr-class" id="{{independentID}}" bindtap="hideAllPopups">
   <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index" wx:for-index="index">
     <view class="community-item">
       <!-- 头像和标题信息板块 -->
@@ -11,13 +11,22 @@
 
             <view class="title-info">
               <view class="title">{{item.shop_name}}</view>
-              <view class="time">{{item.ctime}} · 发布了动态</view>
+              <view class="time">{{item.ctime}} · {{globalLangData.share_post}}</view>
             </view>
           </view>
           <view class="right">
-            <navigator url="/pages/my/pages/feedback/index">
-              <t-icon name="more" color="#A8A8A8 " size="38rpx" />
-            </navigator>
+            <view class="hitab" wx:if="{{item.active}}">
+              <navigator url="/pages/my/pages/feedback/index?type=2" style="display: flex;">
+                <t-icon name="https://imgs.phanlink.com/program/images/ts1.png" size="40rpx" />
+                <view style="color:#FFFFFF;white-space: nowrap;">{{globalLangData.lang==1?'Report':'举报'}}</view>
+              </navigator>
+              <view style="color:#FFFFFF;">|</view>
+              <view style="display: flex;" data-storeid="{{item.storeid}}" bindclick="noSee">
+                <t-icon name="browse-off" size="40rpx" color="#FFFFFF" />
+                <view style="color:#FFFFFF;white-space: nowrap;">{{globalLangData.lang==1?'Block him':'屏蔽他'}}</view>
+              </view>
+            </view>
+            <t-icon name="more" color="#A8A8A8 " size="38rpx" catchtap="hitab" data-id="{{item.id}}" />
           </view>
         </view>
         <!-- 内容本快 -->
@@ -30,14 +39,15 @@
 
         <!-- 评价信息 -->
         <view class="pj">
-          <t-icon name="thumb-up-2" size="36rpx" wx:if="{{item.zan==0}}" data-id="{{item.id}}" data-index="{{index}}" bindclick="HandleZan" />
-          <t-icon name="thumb-up-2" size="36rpx" color="#FF4A26" data-id="{{item.id}}" data-index="{{index}}" wx:if="{{item.zan==1}}" bindclick="HandleZan" />
-          <text>{{item.zan1}}</text>
+          <t-icon name="thumb-up-2" size="40rpx" wx:if="{{item.zan1==0}}" data-id="{{item.id}}" data-index="{{index}}" bindclick="HandleZan" />
+          <t-icon name="thumb-up-2" size="40rpx" color="#FF4A26" data-id="{{item.id}}" data-index="{{index}}" wx:if="{{item.zan1==1}}" bindclick="HandleZan" />
+          <text style="margin-left:10rpx;">{{item.zan}}</text>
           <image src="https://imgs.phanlink.com/program/images/z2.png" bindtap="handleShowMsg" data-index="{{index}}" data-id="{{item.id}}"></image>
           <text>{{item.pl}}</text>
           <navigator url="/pages/news/pages/dt/index?dtId={{item.id}}" style="padding:0 15rpx;">
-            <t-icon name="https://imgs.phanlink.com/program/images/fx1.png" size="40rpx" />
+            <t-icon name="https://imgs.phanlink.com/program/images/fx1.png" size="36rpx" />
           </navigator>
+          <text>{{item.zf}}</text>
         </view>
         <!-- 点赞 -->
         <view class="dz"></view>
@@ -53,12 +63,12 @@
 <t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom" style="bottom:{{keyboardheight}}rpx">
   <view class="block">
     <view class="header">
-      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">取消</view>
-      <view class="title">动态评论</view>
-      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">{{globalLangData.cancel}}</view>
+      <view class="title">{{globalLangData.dynamic_comment}}</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">{{globalLangData.sure}}</view>
     </view>
     <view class="msgtxt">
-      <t-textarea bindchange="handleMsg" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" value="{{msg}}" placeholder="请输入内容" maxlength="100" disableDefaultPadding="{{true}}" show-confirm-bar="{{false}}" indicator />
+      <t-textarea bindchange="handleMsg" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" value="{{msg}}" placeholder="{{globalLangData.enter}}" maxlength="100" disableDefaultPadding="{{true}}" show-confirm-bar="{{false}}" indicator />
     </view>
   </view>
 </t-popup>

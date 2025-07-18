@@ -1,12 +1,19 @@
-.collection-list-wrap {
-  .collection-item {
-    width: 702rpx;
-    background: #FFFFFF;
-    border-radius: 16rpx 16rpx 16rpx 16rpx;
-    margin-bottom: 20rpx;
-    padding: 0 28rpx;
+.news-list-wrap {
+  padding: 0 32rpx;
+  background: #FFFFFF;
+  margin-top: 24rpx;
+  box-sizing: border-box;
+
+  .news-item {
     box-sizing: border-box;
+    border-bottom: 1rpx solid #E6E6E6;
+    width: 686rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32rpx 0;
     position: relative;
+    padding-right: 60rpx;
 
     .action {
       position: absolute;
@@ -14,35 +21,68 @@
       bottom: 30rpx
     }
 
-    .item-box {
-      padding: 28rpx 0;
+    .left {
       display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 148rpx;
 
-      .left {
-        width: 120rpx;
-        height: 120rpx;
-        border-radius: 12rpx 12rpx 12rpx 12rpx;
-        margin-right: 28rpx;
+      .title {
+        font-size: 30rpx;
+        color: #221F1C;
       }
 
-      .right {
-        width: 398rpx;
+      .time {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         justify-content: space-between;
+        gap: 10rpx;
 
-        .title {
-          font-weight: bold;
-          font-size: 30rpx;
-          color: #221F1C;
-        }
-        .bottom {
-          .num {
-            color: #858483;
-            font-size: 32rpx;
+        .left-num {
+          font-size: 22rpx;
+          color: #80766C;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          >image {
+            width: 32rpx;
+            height: 32rpx;
+            border-radius: 50%;
+            margin-right: 12rpx;
+          }
+
+          .desc {
+            width: 106rpx;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-right: 15rpx;
+          }
+
+          .min {
+            font-size: 22rpx;
+            color: #A8A8A8;
+            margin-left: 15rpx;
           }
         }
+
+        .right-num {
+          font-size: 22rpx;
+          color: #A8A8A8;
+          display: flex;
+          align-items: center;
+        }
+
+
       }
+    }
+
+    .right {
+      width: 216rpx;
+      height: 148rpx;
+      font-size: 12rpx;
     }
   }
 }

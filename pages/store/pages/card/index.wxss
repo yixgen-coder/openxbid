@@ -1,6 +1,37 @@
 page {
   background: #F7F8FA;
 }
+.publish-wrap .publish-header {
+  background: #FFFFFF;
+  background-size: cover;
+  height: 180rpx;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+.publish-wrap .publish-header .bar-right {
+  display: flex;
+  padding-left: 34rpx;
+  align-items: center;
+}
+.publish-wrap .publish-header .bar-right .avatar-text {
+  display: block;
+  width: 80%;
+  font-size: 36rpx;
+  color: #FFFFFF;
+  text-align: center;
+}
+.tab-box {
+  --td-tab-nav-bg-color: #ffffff;
+  --td-tab-item-color: #181717;
+  --td-tab-track-color: #FF5533;
+  --td-tab-track-width: 40rpx;
+}
+.tab-box .tabs-external__active {
+  color: #333;
+}
 .gs {
   margin: 30rpx 20rpx;
   background: #FFFFFF;
@@ -17,10 +48,15 @@ page {
   height: 160rpx;
   border-radius: 80rpx;
 }
+.gs .info .cont {
+  width: 100%;
+}
 .gs .info .cont .txt {
   font-weight: bold;
   font-size: 32rpx;
   color: #221F1C;
+  display: flex;
+  justify-content: space-between;
 }
 .gs .info .cont .rate {
   display: flex;
@@ -33,6 +69,10 @@ page {
   padding: 10rpx 20rpx;
   margin-right: 10rpx;
   border-radius: 5rpx;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .gs .info .cont .tags text:first-child {
   background: #EBF7FF;
@@ -46,8 +86,18 @@ page {
   color: #FF5533;
   background: #FFF4F2;
 }
+.gs .info .gzbtn {
+  width: 100rpx;
+  padding: 10rpx 20rpx;
+  background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
+  border-radius: 32rpx;
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #FFFFFF;
+  text-align: center;
+}
 .gs .addr {
-  margin-top: 20rpx;
+  margin-top: 30rpx;
   padding-bottom: 20rpx;
   display: flex;
   align-items: center;
@@ -55,15 +105,15 @@ page {
   border-bottom: 1rpx solid #E6E6E6;
 }
 .gs .addr image {
-  width: 24rpx;
-  height: 24rpx;
+  width: 45rpx;
+  height: 45rpx;
 }
 .gs .addr text {
   font-size: 28rpx;
   color: #666666;
 }
 .gs .btn {
-  padding: 30rpx 0;
+  padding: 40rpx 0;
   display: flex;
   justify-content: space-around;
 }
@@ -73,7 +123,7 @@ page {
   font-weight: 500;
   font-size: 28rpx;
   color: #F22800;
-  background: none ;
+  background: none;
   border: 2rpx solid #FF5533;
 }
 .gs .btn .fx {
@@ -139,15 +189,30 @@ page {
 }
 .lx .items .del {
   text-align: right;
+  margin-top: 10rpx;
 }
 .lx .items .del text {
   width: 100rpx;
   display: inline-block;
-  padding: 15rpx 20rpx;
+  padding: 10rpx;
   background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
   color: #FFFFFF;
   text-align: center;
   border-radius: 30rpx;
+  font-size: 24rpx;
+}
+.lx .items .edit {
+  text-align: right;
+}
+.lx .items .edit text {
+  width: 100rpx;
+  display: inline-block;
+  padding: 10rpx;
+  border: 1px solid #FF6426;
+  color: #FF6426;
+  text-align: center;
+  border-radius: 30rpx;
+  font-size: 24rpx;
 }
 .addlx {
   margin-top: 30rpx;
@@ -166,4 +231,8 @@ page {
   font-weight: 500;
   font-size: 36rpx;
   color: #F22800;
+}
+.fish-list {
+  padding: 24rpx;
+  box-sizing: border-box;
 }

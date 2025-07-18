@@ -1,5 +1,7 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     pageLoading: false,
     goodsList: [],
     goodsListLoadStatus: 0,
@@ -21,12 +23,16 @@ Page({
   privateData: {
     tabIndex: 0,
   },
+  filterEmojis(input) {
+    // 使用正则表达式匹配表情符号
+    return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
+  },
   handleChatValue(e) {
     let {
       value
     } = e.detail;
     this.setData({
-      msg: value
+      msg: this.filterEmojis(value)
     });
     if (value != '') {
       this.setData({
@@ -38,7 +44,32 @@ Page({
       });
     }
   },
+  checkToken() {
+    let token = wx.getStorageSync('token');
+    if (!token) {
+      // 用户未登录，跳转到登录页面
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          }
+        }
+      })
+      return false;
+    } else {
+      return true;
+    }
+  },
   handleChatSubmit: async function (e) {
+    if (!this.checkToken()) {
+      return false;
+    }
     const formData = {};
     formData.msg = this.data.msg;
     formData.uId = this.data.uId;

@@ -1,5 +1,6 @@
 page {
   background-color: #F7F8FA;
+  width: 100%;
 }
 .avatar-wrapper {
   padding-top: 30rpx;
@@ -23,8 +24,65 @@ page {
   color: #F22800 !important;
 }
 .tjbtn {
-  margin: 30rpx 20rpx;
+  margin: 40rpx 0rpx;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 .tjbtn button {
+  width: 90%;
   background-color: #FF6426;
+}
+.popbox {
+  height: 50vh;
+  background-color: #FFFFFF;
+  border-radius: 32rpx 32rpx 0rpx 0rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.2);
+  z-index: 100000;
+}
+.popbox .close {
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+.popbox .title {
+  color: #333333;
+  font-size: 40rpx;
+  font-weight: 600;
+  padding: 40rpx;
+}
+.popbox .desc {
+  color: #666666;
+  font-size: 30rpx;
+  padding: 20rpx 40rpx;
+}
+.popbox .t-input__label {
+  color: #333333;
+  font-size: 36rpx;
+  font-weight: 600;
+}
+.popbox .avatar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 80rpx;
+  border-bottom: 1px solid #d1cfcf;
+  padding-bottom: 30rpx;
+  padding-top: 0rpx;
+}
+.popbox .avatar-wrapper .avatar-text {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333333;
+}
+.popbox .avatar-wrapper .avatar {
+  border-radius: 80rpx;
+  width: 120rpx;
+  height: 120rpx;
+}
+.popbox .tjbtn {
+  margin: 40rpx auto;
+  position: relative;
+  width: 80%;
 }

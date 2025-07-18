@@ -79,6 +79,9 @@ page {
   height: 100rpx;
   border-radius: 50rpx;
 }
+.store-info {
+  margin-bottom: 120rpx;
+}
 .store-addr {
   background: #FFFFFF;
   padding: 20rpx;
@@ -104,11 +107,20 @@ page {
   color: #221F1C;
   text-align: justify;
 }
+.btnss {
+  width: 100%;
+  position: fixed;
+  bottom: 40rpx;
+  display: flex;
+  justify-content: center;
+  gap: 30rpx;
+}
 .zxzx {
   margin-top: 30rpx;
   background-color: #FF5533;
   color: #FFFFFF;
   font-size: 32rpx;
   text-align: center;
-  padding: 15rpx 0;
+  padding: 20rpx 50rpx;
+  border-radius: 20rpx;
 }

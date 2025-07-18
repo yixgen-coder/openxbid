@@ -9,11 +9,13 @@ page {
     position: relative;
     overflow-x: hidden;
     box-sizing: border-box;
+
     .bar-right {
       display: flex;
       padding-left: 34rpx;
       align-items: center;
-      .avatar-text{
+
+      .avatar-text {
         display: block;
         width: 80%;
         font-size: 36rpx;
@@ -22,33 +24,45 @@ page {
       }
     }
   }
-  .rz{
-    background:#FFFFFF;
-    margin-top:30rpx;
-    .tlabel{
+
+  .rz {
+    background: #FFFFFF;
+    margin-top: 30rpx;
+
+    .tlabel {
       font-size: 32rpx;
       color: #221F1C;
       position: relative;
-      padding-right: 20rpx;;
-      &::after{
+      padding-right: 20rpx;
+      ;
+
+      &::after {
         content: '*';
-        position:absolute;
-        right:0rpx;
+        position: absolute;
+        right: 0rpx;
         font-size: 32rpx;
-        color:#F22800;
+        color: #F22800;
       }
     }
-    .t-icon--image{
+
+    .t-icon--image {
       text-align: center;
-      .t-icon__image{
-        max-width:25%;
+
+      .t-icon__image {
+        max-width: 25%;
       }
     }
-    
+
+    .t-input__label:not(:empty) {
+      min-width: var(--td-input-label-min-width, 11em);
+    }
+
   }
-  .tjbtn{
-    margin:50rpx 20rpx;
-    button{
+
+  .tjbtn {
+    margin: 50rpx 20rpx;
+
+    button {
       background-color: #FF6426;
     }
   }

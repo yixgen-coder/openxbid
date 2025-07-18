@@ -1,10 +1,12 @@
 // pages/goods/pages/offer/index.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    globalLangData: app.globalData.languagePack,
     offerList: [],
     goodsId: '',
     visible: false,
@@ -51,6 +53,7 @@ Page({
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.goodsId = this.data.goodsId;
+    formData.lang = app.globalData.languagePack.lang;
     const res = await this.fetchSetGoods(url, formData);
     if (res.code == 1) {
       this.setData({
@@ -81,5 +84,11 @@ Page({
         }
       });
     });
+  },
+     /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
   },
 })

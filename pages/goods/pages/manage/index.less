@@ -9,11 +9,13 @@ page {
     position: relative;
     overflow-x: hidden;
     box-sizing: border-box;
+
     .bar-right {
       display: flex;
       padding-left: 34rpx;
       align-items: center;
-      .avatar-text{
+
+      .avatar-text {
         display: block;
         width: 80%;
         font-size: 36rpx;
@@ -24,12 +26,14 @@ page {
   }
 
 }
+
 .home-page-container {
   background: #f5f5f5;
   display: block;
   padding: 0 0 30rpx 0;
   overflow: hidden;
 }
+
 .tab-box {
   --td-tab-nav-bg-color: #ffffff;
   --td-tab-item-color: #A8A8A8;
@@ -38,115 +42,169 @@ page {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width:750rpx;
-  
-  .t-tabs{
-    width:500rpx;
+  width: 750rpx;
+
+  .t-tabs {
+    width: 500rpx;
     font-size: 30rpx;
   }
-  .gl{
-    margin-right:30rpx;
+
+  .gl {
+    margin-right: 30rpx;
     font-weight: bold;
     font-size: 32rpx;
     color: #221F1C;
     letter-spacing: 2rpx;
   }
+
   .tabs-external__active {
     color: #FF5533;
   }
 }
-.goodslist{
+
+.goodslist {
   background: #FFFFFF;
-  padding:30rpx 20rpx;
+  padding: 30rpx 20rpx;
   border-radius: 24rpx;
   margin-bottom: 30rpx;
-  .tit{
+
+  .tit {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 30rpx;
     padding-bottom: 30rpx;
     border-bottom: 1rpx solid #E6E6E6;
-    .color1{
+
+    .color1 {
       color: #141311;
     }
-    .color2{
+
+    .color2 {
       font-weight: bold;
       color: #F22800;
     }
-    .color3{
+
+    .color3 {
       font-weight: bold;
       color: #A8A8A8;
     }
   }
-  .goodsInfo{
+
+  .goodsInfo {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:30rpx 0;
+    padding: 30rpx 0;
     border-bottom: 1rpx solid #E6E6E6;
-    image{
-      width:140rpx;
-      height:140rpx;
+
+    image {
+      width: 140rpx;
+      height: 140rpx;
     }
-    .info{
-      width:500rpx;
-      >text{
+
+    .info {
+      width: 500rpx;
+
+      >text {
         font-weight: bold;
         font-size: 30rpx;
         color: #221F1C;
       }
-      .tags{
-        margin:15rpx 0;
-        text{
-          padding:10rpx 20rpx;
-          margin-right:15rpx;
-          background: #F7F8FA;
+
+      .tags {
+        margin: 5rpx 0;
+
+        text {
+          padding: 5rpx 10rpx;
+          margin-right: 15rpx;
+          color: #F7F8FA;
           border-radius: 4rpx;
           font-size: 24rpx;
-          color: #979797;
+          background: #FF5533;
         }
       }
-      .price{
+
+      .price {
         font-weight: 600;
         font-size: 26rpx;
         color: #221F1C;
+
+        .dw {
+          font-size: 26rpx;
+          font-weight: 800;
+        }
+
+        .num {
+          color: #F22800;
+          font-size: 32rpx;
+        }
       }
     }
   }
-  .cz{
+
+  .cz {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top:30rpx;
-    text{
+    padding-top: 30rpx;
+
+    text {
       font-size: 24rpx;
       color: #999999;
     }
-    .btn{
+
+    .btn {
       font-size: 24rpx;
-      span{
-        padding:15rpx 20rpx;
+      display: flex;
+      gap: 5rpx;
+
+      span {
+        padding: 10rpx 15rpx;
         border-radius: 32rpx;
-        margin:0 5rpx;
       }
-      span:nth-child(1){
+
+      span:nth-child(1) {
         background: #F4F5F7;
         color: #666666;
       }
-      span:nth-child(2){
+
+      span:nth-child(2) {
         background: #FFF4F2;
         color: #FF5533;
       }
-      span:nth-child(3){
+
+      span:nth-child(3) {
         background: #f7eae7;
         color: #eb0808;
       }
+
+      .btn {
+        padding: 10rpx 15rpx;
+        border-radius: 32rpx 32rpx 32rpx 32rpx;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 24rpx;
+      }
+
+      .btn1 {
+        border: 1rpx solid #B5B5B5;
+        color: #666666;
+      }
+
+      .btn2 {
+        border: 1rpx solid #F22800;
+        background: linear-gradient(90deg, #FF6426 0%, #FF2A00 100%);
+        color: #ffffff;
+      }
+
+
     }
   }
 }
+
 .fish-list {
   padding: 24rpx;
   box-sizing: border-box;
-  
+
 }

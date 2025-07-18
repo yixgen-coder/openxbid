@@ -60,11 +60,12 @@ page {
   justify-content: flex-end;
   align-items: center;
   margin-top: 20rpx;
+  padding-bottom: 180rpx;
 }
 .community-item .pj > image {
   width: 36rpx;
   height: 36rpx;
-  margin-left: 40rpx;
+  margin-left: 28rpx;
   margin-right: 10rpx;
 }
 .community-item .pj text {
@@ -96,6 +97,7 @@ page {
 }
 .art-container {
   margin: 30rpx;
+  padding-bottom: 150rpx;
 }
 .art-container > view {
   margin-bottom: 30rpx;

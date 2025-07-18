@@ -7,14 +7,17 @@
     display: flex;
     align-items: top;
     gap: 10rpx;
-    .shop{
-      width:100rpx;
+
+    .shop {
+      width: 100rpx;
+
       >image {
         width: 80rpx;
         height: 80rpx;
         border-radius: 50%;
       }
     }
+
     .title-box {
       display: flex;
       align-items: center;
@@ -24,6 +27,7 @@
       .left {
         display: flex;
         align-items: center;
+
         .title-info {
           .title {
             font-size: 30rpx;
@@ -32,10 +36,27 @@
           }
 
           .time {
-            margin-top:10rpx;
+            margin-top: 10rpx;
             font-size: 24rpx;
             color: #A8A8A8;
           }
+        }
+      }
+
+      .right {
+        position: relative;
+
+        .hitab {
+          position: absolute;
+          right: 10rpx;
+          top: 50rpx;
+          padding: 10px 20rpx;
+          background-color: white;
+          border-radius: 10px 0 10px 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          display: flex;
+          gap: 30rpx;
+          background-color: #292828;
         }
       }
     }
@@ -51,10 +72,10 @@
 
     .img-list {
 
-      >image{
-        width:135rpx;
-        height:135rpx;
-        margin:5rpx;
+      >image {
+        width: 135rpx;
+        height: 135rpx;
+        margin: 5rpx;
         border-radius: 10rpx;
       }
 
@@ -72,7 +93,7 @@
       >image {
         width: 36rpx;
         height: 36rpx;
-        margin-left: 40rpx;
+        margin-left: 20rpx;
         margin-right: 10rpx;
       }
 
@@ -100,7 +121,7 @@
         margin-top: 20rpx;
 
         .name {
-          color: #80766C;
+          color: #FF7426;
         }
 
         .margin-5 {
@@ -146,10 +167,12 @@
 .btn--confirm {
   color: #0052d9;
 }
+
 .external-class {
   height: 324rpx;
-  .t-textarea__wrapper{
+
+  .t-textarea__wrapper {
     background: #F4F5F7;
-    padding:10rpx;
+    padding: 10rpx;
   }
 }

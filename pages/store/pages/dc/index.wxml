@@ -1,7 +1,7 @@
 <view class="publish-wrap">
   <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/color-bg.png') no-repeat top;background-size: cover;">
     <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
-      <!-- <t-icon name="chevron-left" color="#221F1C" size="56rpx" /> -->
+      <t-icon name="chevron-left" color="#221F1C" size="56rpx" bindtap="goback"/>
     </view>
     <view class="title">
       <view class="text">

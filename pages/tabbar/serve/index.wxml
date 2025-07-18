@@ -6,15 +6,15 @@
   <view class="baibg">
     <view class="bg" style="background: url('https://imgs.phanlink.com/program/images/topbg.png')no-repeat top; background-size: cover; padding-top:{{statusbar}}px;">
       <view class="serve-tab" style="height: {{jiaonangheight}}px;">
-        <view class="{{current==1?'active':''}}" data-key="1" bindtap="handleNavChange">竞价辅助</view>
-        <view class="{{current==2?'active':''}}" data-key="2" bindtap="handleNavChange">商家服务</view>
+        <view class="{{current==1?'active':''}}" data-key="1" bindtap="handleNavChange">{{globalLangData.support}}</view>
+        <view class="{{current==2?'active':''}}" data-key="2" bindtap="handleNavChange">{{globalLangData.service}}</view>
       </view>
       <!-- 搜索 -->
       <view class="search">
-        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="输入关键词" leftIcon="">
+        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="{{globalLangData.keywords}}" leftIcon="">
           <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
         </t-search>
-        <view class="btn" bindtap="handleSearh">搜索</view>
+        <view class="btn" bindtap="handleSearh">{{globalLangData.search}}</view>
       </view>
     </view>
   </view>
@@ -29,8 +29,9 @@
 <view class="home-page-container">
   <view class="fish-list">
     <view wx:if="{{current==1}}">
-      <!-- 参与竞价&&成功竞价 -->
-      <bidding-list wx:if="{{tabIndex==0||tabIndex==1}}" wr-class="goods-list-container" goodsList="{{goodsList}}" bindgoodsClick="goodListClickHandle" />
+      <!-- 参与报价&&成功报价 -->
+      <bidding-list wx:if="{{tabIndex==0}}" wr-class="goods-list-container" tabIndex="{{tabIndex}}" goodsList="{{goodsList}}" bindgoodsClick="goodListClickHandle" bind:delOrders="delOrders" />
+      <good-list wx:if="{{tabIndex==9}}" wr-class="goods-list-container" goodsList="{{goodsList}}" bindgoodsClick="goodListClickHandle" bind:delOrders="delGoodsOrders" />
       <!-- 关注商家 -->
       <attention-list wx:if="{{tabIndex==2}}" wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="storeClickHandle" />
       <!-- 收藏商品 -->
@@ -38,7 +39,7 @@
     </view>
     <view wx:if="{{current==2}}">
       <!-- 收藏商品 -->
-      <fwstore-list goodsList="{{goodsList}}" regions="{{regions}}" bind:click="FwtypeHandle" bind:region="regionHandle"/>
+      <fwstore-list goodsList="{{goodsList}}" regions="{{regions}}" storenavs="{{storenavs}}" bind:click="FwtypeHandle" bind:region="regionHandle" />
     </view>
     <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
   </view>

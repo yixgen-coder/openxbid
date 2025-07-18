@@ -1,3 +1,4 @@
+const app = getApp()
 Page({
   data: {
     statusbar: "",
@@ -49,6 +50,7 @@ Page({
     formData.token = wx.getStorageSync('token');
     formData.action = this.data.newsTabCurrent;
     formData.limit = this.goodListPagination.num;
+    formData.lang = app.globalData.languagePack.lang;
     formData.page = fresh ? 1 : this.goodListPagination.index;
 
     try {
@@ -77,7 +79,7 @@ Page({
     this.init();
   },
 
- 
+
 
   onLoad() {
     let token = wx.getStorageSync('token');

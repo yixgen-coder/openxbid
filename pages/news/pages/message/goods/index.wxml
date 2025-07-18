@@ -2,31 +2,59 @@
   <view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
     <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
   </view>
+  <view class="tab-box">
+    <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{tabIndex}}" bind:change="tabChangeHandle">
+      <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
+    </t-tabs>
+  </view>
   <view class="items" wx:for="{{goodsList}}">
     <view class="goods-statu">
       <view class="st">
         <image src="https://imgs.phanlink.com/program/images/msg2.png"></image>
-        <text>商品状态</text>
+        <text wx:if="{{tabIndex==1}}">{{globalLangData.my_biding}}</text>
+        <text wx:if="{{tabIndex==2}}">{{globalLangData.my_quotation}}</text>
       </view>
       <view class="zt">
-        <text class="color1" wx:if="{{item.status==1}}">竞价中</text>
-        <text class="color1" wx:if="{{item.status==2}}">竞价成功</text>
-        <text class="color2" wx:if="{{item.status==0}}">竞价失败</text>
+        <text class="color1" wx:if="{{item.status==1}}">{{globalLangData.bidding2}}</text>
+        <text class="color1" wx:if="{{item.status==2}}">{{globalLangData.bid_successful}}</text>
+        <text class="color2" wx:if="{{item.status==0}}">{{globalLangData.bid_failed}}</text>
       </view>
     </view>
-    <view class="stxt" wx:if="{{item.status==2}}">您参与的商品已竞价成功</view>
-    <view class="stxt" wx:if="{{item.status==1}}">您参与的商品竞价中</view>
-    <view class="stxt" wx:if="{{item.status==0}}">您参与的商品已竞价失败</view>
+    <view class="stxt" wx:if="{{item.status==2}}">您发布的商品已议价成功</view>
+    <view class="stxt" wx:if="{{item.status==1}}">{{globalLangData.lang==1?'Your product is currently in bidding.':'您发布的商品议价中'}}</view>
+    <view class="stxt" wx:if="{{item.status==0}}">您发布的商品已议价失败</view>
     <view class="goods" bindtap="handleGoGoods" data-id="{{item.goods_id}}">
       <view class="img">
         <image src="{{item.pic}}"></image>
       </view>
       <view class="tit">
-        <text>{{item.title}}/{{item.nature}}/{{item.place}}</text>
+        <view class="top">
+          <view class="title">{{item.title}}</view>
+          <view class="tags">
+            <view wx:if="{{item.btype==2}}" class="color2">
+              {{globalLangData.buy}}
+            </view>
+            <view wx:if="{{item.btype==1}}" class="color1">
+              {{globalLangData.sell}}
+            </view>
+            <view class="color1">{{item.place}}</view>
+            <view class="color1">{{item.nature}}</view>
+          </view>
+        </view>
+        <view class="bottom">
+          <text class="dw">{{globalLangData.current}}：</text>
+          <text class="num">{{item.currencyType==1?'$':'￥'}}{{item.current_price}}</text>
+        </view>
       </view>
     </view>
     <view class="more">
-      <t-cell url="/pages/goods/pages/info/index?ordId={{item.id}}" left-icon="https://imgs.phanlink.com/program/images/msg2.png" title="2024-01-22 18:00" hover note="查看详情" arrow style="color:#999999;" />
+      <t-cell wx:if="{{tabIndex==1}}" url="/pages/goods/pages/info/index?ordId={{item.id}}" left-icon="" title="{{item.orderTime}}" hover note="{{globalLangData.view_details}}" arrow style="color:#999999;" />
+      <t-cell wx:if="{{tabIndex==2}}" url="/pages/goods/pages/offer/index?goodsId={{item.goods_id}}" left-icon="" title="{{item.orderTime}}" hover arrow style="color:#999999;" t-class="cell-class">
+        <view class="cell-note" slot="note">
+          <text>{{globalLangData.view_details}}</text>
+          <t-badge count="{{item.bj}}" style="margin-left:10rpx;margin-top:10rpx;" />
+        </view>
+      </t-cell>
     </view>
   </view>
   <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />

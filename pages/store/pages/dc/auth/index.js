@@ -1,16 +1,17 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     formats: {},
     content: "",
     statusbar: "",
     jiaonangheight: "",
-    itemTitle: "代采认证",
-    dcId: 0,
+    itemTitle: app.globalData.languagePack.service_certif,
+    type: 0,
+    fwtypes: [],
     imgList: [],
     dcInfo: {
       name: '',
-      name_en: '',
-      hgban: ''
     }
   },
   onLoad: function (options) {
@@ -19,11 +20,6 @@ Page({
       statusbar: res.top,
       jiaonangheight: res.height
     })
-    if (options.dcId > 0) {
-      this.setData({
-        dcId: options.dcId,
-      })
-    }
     this.init();
   },
   goback: function () {
@@ -35,26 +31,45 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
-    const dcId = this.data.dcId;
+    this.fetchHomeDatas();
+  },
+  onTabsChange(e) {
+    this.setData({
+      type: e.detail.value
+    })
     this.fetchHomeDatas();
   },
   fetchHomeDatas: async function () {
     const url = 'https://kpy.phanlink.com/v1/getStoreDcDatas';
     const formData = {};
     formData.token = wx.getStorageSync('token');
-    formData.dcId = this.data.dcId;
+    formData.type = this.data.type;
+    formData.lang = app.globalData.languagePack.lang;
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       const nextList = res.result;
-      if (nextList.dcId > 0) {
+      if (nextList.id > 0) {
         this.setData({
-          dcId: nextList.dcId,
+          type: nextList.type,
+          fwtypes: nextList.fwtype,
           dcInfo: nextList,
-          imgList: nextList.ziliao
+          imgList: nextList.zl
         });
       } else {
         this.setData({
@@ -63,15 +78,15 @@ Page({
       }
       wx.showToast({
         title: res.msg,
-        icon: 'loading',
+        icon: 'none',
         duration: 500
       });
     } else {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
             wx.navigateBack({
@@ -179,36 +194,27 @@ Page({
   },
   handleReset(e) {
     this.setData({
-      imgList: [],
-      dtTitle: ''
+      imgList: []
     });
   },
   async handleTJForm() {
     const formData = {};
     formData.token = wx.getStorageSync('token');
-    formData.dcId = this.data.dcId;
     formData.dcInfo = this.data.dcInfo;
     formData.imgList = this.data.imgList;
-    console.log(this.data.dcInfo);
+    formData.lang = app.globalData.languagePack.lang;
+    let type = this.data.type;
     if (formData.dcInfo.name == '') {
       wx.showToast({
-        title: '请填写公司名称！',
+        title: app.globalData.languagePack.lang==1?'Please fill in the company name!':'请填写公司名称！',
         icon: 'none',
         duration: 500
       });
       return false;
     }
-    if (formData.dcInfo.name_en == '') {
+    if (type == 3 && formData.dcInfo.hgcode == '') {
       wx.showToast({
-        title: '请填写公司外文名称！',
-        icon: 'none',
-        duration: 500
-      });
-      return false;
-    }
-    if (formData.dcInfo.hgban == '') {
-      wx.showToast({
-        title: '请填写海关备案号！',
+        title: app.globalData.languagePack.lang==1?'Please fill in the customs filing number!':'请填写海关备案号！',
         icon: 'none',
         duration: 500
       });
@@ -216,7 +222,7 @@ Page({
     }
     if (formData.imgList.length == 0) {
       wx.showToast({
-        title: '请上传近一年进口该商品的报关单！',
+        title: app.globalData.languagePack.lang==1?'Please upload the relevant certification qualifications':'请上传相关认证资质',
         icon: 'none',
         duration: 500
       });
@@ -226,10 +232,10 @@ Page({
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: res => {
           if (res.confirm) {
             wx.navigateBack({
@@ -241,7 +247,7 @@ Page({
     } else {
       wx.showToast({
         title: res.msg,
-        icon: 'loading',
+        icon: 'none',
         duration: 500
       });
     }

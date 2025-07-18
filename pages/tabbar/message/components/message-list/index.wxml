@@ -1,4 +1,6 @@
 <view class="message-list-wrap wr-class" id="{{independentID}}">
+  <view class="tit">{{globalLangData.merchant_news}}</view>
+  <view class="border"></view>
   <block wx:for="{{gdDatas}}" wx:for-item="item" wx:for-index="index" wx:key="index">
     <t-cell url="{{item.url}}" title="{{item.title}}" description="{{item.desc}}" align="top" image="{{item.img}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
       <!-- *********** -->
@@ -9,16 +11,21 @@
       </view> -->
       <!-- ************ -->
       <view class="cell-note" slot="note">
-        <t-icon class="time" name="chevron-right" color="#cccccc" size="42rpx" />
+        <view class="time" wx:if="{{index==0}}">{{messTime.t1==null?'':messTime.t1}}</view>
+        <view class="time" wx:if="{{index==1}}">{{messTime.t2==null?'':messTime.t5}}</view>
+        <view class="time" wx:if="{{index==2}}">{{messTime.t4==null?'':messTime.t4}}</view>
+        <view class="time" wx:if="{{index==3}}">{{messTime.t5==null?'':messTime.t2}}</view>
+        <view class="time" wx:if="{{index==4}}">{{messTime.t6==null?'':messTime.t6}}</view>
+        <!-- <t-icon class="time" name="chevron-right" color="#cccccc" size="42rpx" /> -->
         <t-badge wx:if="{{index==0}}" count="{{messCount.count1}}" class="wrapper1"></t-badge>
         <t-badge wx:if="{{index==1}}" count="{{messCount.count5}}" class="wrapper1"></t-badge>
         <t-badge wx:if="{{index==2}}" count="{{messCount.count4}}" class="wrapper1"></t-badge>
-        <t-badge wx:if="{{index==3}}" count="{{messCount.count2}}" class="wrapper1">
-        </t-badge>
+        <t-badge wx:if="{{index==3}}" count="{{messCount.count2}}" class="wrapper1"></t-badge>
+        <t-badge wx:if="{{index==4}}" count="{{messCount.count6}}" class="wrapper1"></t-badge>
       </view>
     </t-cell>
   </block>
-
+  <view class="tit">{{globalLangData.client_consultation}}</view>
   <view class="border"></view>
   <!-- ******************************************* -->
   <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">

@@ -19,52 +19,52 @@
 <t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom">
   <view class="detail-quote">
     <view class="toptitle">
-      <text>商品竞价单</text>
+      <text>{{globalLangData.product_quotation_sheet}}</text>
       <image class="close" src="https://imgs.phanlink.com/program/images/close.png" bindtap="cancel"></image>
     </view>
     <scroll-view scroll-y="true" style="height: 72%;">
       <block wx:for="{{orderSpec}}">
-        <view class="title">规格：{{item.a1}}</view>
+        <view class="title">{{globalLangData.grade}}：{{item.a1}}</view>
         <view class="detail-quote-box">
           <view class="margin-right-14">
-            <text>型号</text>
+            <text>{{globalLangData.size}}</text>
             <text class="black">{{item.a2}}</text>
           </view>
           <view>
-            <text>数量</text>
+            <text>{{globalLangData.quantity}}</text>
             <text class="black">{{item.a3}}</text>
           </view>
           <view class="margin-right-14">
-            <text>包装</text>
+            <text>{{globalLangData.package}}</text>
             <text class="black">{{item.a8}}</text>
           </view>
           <view>
-            <text>净重(KG)</text>
+            <text>{{globalLangData.net_weight}}(KG)</text>
             <text class="black">{{item.a4}}</text>
           </view>
           <view class="margin-right-14">
-            <text>单价</text>
+            <text>{{globalLangData.unit_price}}</text>
             <text class="black">{{item.a6}}</text>
           </view>
           <view>
-            <text>总价</text>
+            <text>{{globalLangData.amount}}</text>
             <text class="red">{{filter.numberToFixed(item.a4*item.a6)}}</text>
           </view>
         </view>
       </block>
     </scroll-view>
-    <view class="title">总计</view>
+    <view class="title">{{globalLangData.total}}</view>
     <view class="detail-quote-box">
       <view class="margin-right-14">
-        <text>数量</text>
+        <text>{{globalLangData.quantity}}</text>
         <text>{{orderQuantity}}</text>
       </view>
       <view>
-        <text>净重(KG)</text>
+        <text>{{globalLangData.net_weight}}(KG)</text>
         <text class="red">{{orderWeight}}</text>
       </view>
       <view class="redb">
-        <text>总价(USD)</text>
+        <text>{{globalLangData.amount}}(USD)</text>
         <text class="red">{{orderTotal}}</text>
       </view>
     </view>

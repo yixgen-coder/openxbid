@@ -1,6 +1,8 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '我的发布',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.info_dashboard,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
@@ -45,11 +47,11 @@ Page({
     } = e.currentTarget.dataset;
     // 显示确认提示框
     wx.showModal({
-      title: '提示',
-      content: '确定要删除吗？',
+      title: app.globalData.languagePack.reminder,
+      content: app.globalData.languagePack.sure_delete,
       showCancel: true,
-      cancelText: '取消',
-      confirmText: '确定',
+      cancelText: app.globalData.languagePack.cancel,
+      confirmText: app.globalData.languagePack.sure,
       success: res => {
         if (res.confirm) {
           this.deleteData(key);
@@ -73,14 +75,14 @@ Page({
         aCount: this.data.aCount > 0 ? (this.data.aCount - 1) : 0
       });
       wx.showToast({
-        title: '删除成功',
+        title: 'Success',
         icon: 'success',
         duration: 2000
       });
     } else {
       wx.showToast({
-        title: '删除失败',
-        icon: 'loading',
+        title: 'Failed',
+        icon: 'none',
         duration: 2000
       });
     }
@@ -117,9 +119,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -159,11 +173,7 @@ Page({
         });
         if (nextList.length > 0) {
           this.goodListPagination.index = formData.page + 1;
-          wx.showToast({
-            title: res.msg,
-            icon: 'loading',
-            duration: 500
-          });
+
         }
 
       }
@@ -197,6 +207,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

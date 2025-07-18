@@ -17,9 +17,10 @@
 .items .store > view:nth-child(1) image {
   width: 130rpx;
   height: 130rpx;
+  border-radius: 50%;
 }
 .items .store > view:nth-child(2) {
-  width: 52%;
+  width: 78%;
 }
 .items .store > view:nth-child(2) .title {
   font-weight: bold;
@@ -37,6 +38,8 @@
   margin-right: 10rpx;
   padding: 10rpx;
   border-radius: 4rpx 4rpx 4rpx 4rpx;
+  display: inline-block;
+  margin: 5rpx;
 }
 .items .store > view:nth-child(2) .tags .color1 {
   background: #EBF7FF;
@@ -46,8 +49,12 @@
   background: #F7F8FA;
   color: #999999;
 }
+.items .store > view:nth-child(2) .tags .color3 {
+  background: #F7F8FA;
+  color: #ebaa1f;
+}
 .items .store > view:nth-child(3) {
-  width: 25%;
+  width: 26%;
   margin-right: -20rpx;
 }
 .items .store > view:nth-child(3) .stbtn {

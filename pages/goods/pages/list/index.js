@@ -1,21 +1,23 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '商品中心',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.products_center,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
     tabList: [{
-      text: "综合",
+      text: app.globalData.languagePack.synthesize,
       key: 1
     }, {
-      text: "最新",
+      text: app.globalData.languagePack.new,
       key: 2
     }, {
-      text: "热度",
+      text: app.globalData.languagePack.hot,
       key: 3
     }, {
-      text: "价格",
+      text: app.globalData.languagePack.price,
       key: 4
     }],
     goodsList: [],
@@ -46,7 +48,7 @@ Page({
     if (index == 2) {
       this.setData({
         filterValue: filterValue,
-        itemTitle: '商品中心',
+        itemTitle: app.globalData.languagePack.products_center,
       });
       this.fetchHomeDatas(true);
     }
@@ -84,19 +86,19 @@ Page({
       let itemTitle = this.data.itemTitle;
       if (options.fl) {
         const fl = options.fl;
-        const flLValue = ['鱼品类', '甲壳类', '软体类', '其他类'];
+        const flLValue = [app.globalData.languagePack.fish, app.globalData.languagePack.crustacean, app.globalData.languagePack.cephalopod, app.globalData.languagePack.others];
         filterValue[4] = fl;
         itemTitle = flLValue[fl - 1];
       }
       if (options.lx) {
         const lx = options.lx;
-        const lxValue = '求购信息';
+        const lxValue = app.globalData.languagePack.requests;
         filterValue[0] = lx;
         itemTitle = lxValue;
       }
       if (options.dq) {
         const dq = options.dq;
-        const dqValue = '爱尔兰';
+        const dqValue = app.globalData.languagePack.products_center;
         filterValue[3] = dq;
         itemTitle = dqValue;
       }
@@ -119,7 +121,7 @@ Page({
     const searchName = this.data.searchName;
     if (searchName == '') {
       wx.showToast({
-        title: '请输入关键词',
+        title: app.globalData.languagePack.keywords,
         icon: 'none',
         duration: 2000
       });
@@ -150,6 +152,9 @@ Page({
     })
     this.loadHomePage();
   },
+  onshow() {
+    this.fetchHomeDatas(true)
+  },
   fetchHomeDatas: async function (fresh = false) {
     if (fresh) {
       wx.pageScrollTo({
@@ -172,7 +177,7 @@ Page({
     formData.xz = this.data.filterValue[2];
     formData.dq = this.data.filterValue[3];
     formData.top = this.data.filterValue[4];
-
+    formData.lang = this.data.globalLangData.lang;
     if (formData.action == 4) {
       formData.action = this.data.tabIndex;
     }
@@ -188,7 +193,7 @@ Page({
         if (nextList.length > 0) {
           this.goodListPagination.index = formData.page + 1;
           wx.showToast({
-            title: res.msg,
+            // title: res.msg,
             icon: 'loading',
             duration: 500
           });
@@ -226,6 +231,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

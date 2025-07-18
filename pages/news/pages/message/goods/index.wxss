@@ -1,6 +1,15 @@
 page {
   background: #F7F8FA;
 }
+.tab-box {
+  --td-tab-nav-bg-color: #ffffff;
+  --td-tab-item-color: #181717;
+  --td-tab-track-color: #FF5533;
+  --td-tab-track-width: 60rpx;
+}
+.tab-box .tabs-external__active {
+  color: #333;
+}
 .goods-list {
   margin: 30rpx 20rpx;
 }
@@ -57,10 +66,45 @@ page {
   width: 120rpx;
   height: 120rpx;
 }
-.goods-list .items .goods .tit {
-  font-size: 28rpx;
-  color: #666666;
-  line-height: 40rpx;
+.goods-list .items .goods .tit .title {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #221F1C;
+  margin: 5rpx 0;
+}
+.goods-list .items .goods .tit .tags {
+  display: flex;
+}
+.goods-list .items .goods .tit .tags > view {
+  height: 32rpx;
+  line-height: 32rpx;
+  background: #F7F8FA;
+  border-radius: 4rpx 4rpx 4rpx 4rpx;
+  font-size: 24rpx;
+  padding: 0 15rpx;
+  margin-right: 10rpx;
+}
+.goods-list .items .goods .tit .tags .color1 {
+  background: #F22800;
+  color: #FFFFFF;
+}
+.goods-list .items .goods .tit .tags .color2 {
+  background: #00CC81;
+  color: #FFFFFF;
+}
+.goods-list .items .goods .tit .bottom {
+  font-size: 24rpx;
+  color: #000000;
+  margin-top: 10rpx;
+}
+.goods-list .items .goods .tit .bottom .dw {
+  color: #080808;
+  font-size: 26rpx;
+  font-weight: 800;
+}
+.goods-list .items .goods .tit .bottom .num {
+  color: #F22800;
+  font-size: 32rpx;
 }
 .goods-list .items .more {
   margin: 0 -30rpx;

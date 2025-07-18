@@ -1,15 +1,15 @@
 .goods-card {
   box-sizing: border-box;
   font-size: 24rpx;
-  border-radius: 12rpx 12rpx 0rpx 0rpx;
+  border-radius: 12rpx;
   border-bottom: none;
   overflow: hidden;
   position: relative;
 }
 .pro_statu{
   position: absolute;
-  top:-1rpx;
-  left:10rpx;
+  top:0rpx;
+  left:0rpx;
   z-index: 999;
 }
 .pro_statu>span{
@@ -35,11 +35,11 @@
   line-height: 1;
   padding: 0;
   background: transparent;
-  width: 365rpx;
-  border-radius: 0 0 16rpx 16rpx;
+  width: 360rpx;
+  border-radius: 0 0 30rpx 30rpx;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16rpx;
+  margin-bottom: 20rpx;
   flex-direction: column;
 
 }
@@ -47,7 +47,7 @@
 .goods-card__thumb {
   flex-shrink: 0;
   position: relative;
-  width: 350rpx;
+  width: 360rpx;
   height: 300rpx;
   border-radius: 0 0 16rpx 16rpx;
 }
@@ -69,12 +69,12 @@
   display: flex;
   flex: 1 1 auto;
   background: #fff;
-  border-radius: 0 0 16rpx 16rpx;
+  border-radius: 0 0 30rpx 30rpx;
   padding: 20rpx 0;
   padding-left: 15rpx;
   padding-right: 15rpx;
   flex-direction: column;
-  width:320rpx;
+  width:350rpx;
 }
 
 .goods-card__upper {
@@ -93,10 +93,44 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-  word-break: break-word;
   line-height: 36rpx;
 }
-
+.goods-card__title1_1::before{
+  content:'Buy';
+  background: #00CC81;
+  color:#FFFFFF;
+  font-size: 20rpx;
+  padding:8rpx;
+  margin-right:10rpx;
+  border-radius: 5rpx;
+}
+.goods-card__title1_2::before{
+  content:'求购';
+  background: #00CC81;
+  color:#FFFFFF;
+  font-size: 20rpx;
+  padding:8rpx;
+  margin-right:10rpx;
+  border-radius: 5rpx;
+}
+.goods-card__title2_1::before{
+  content:'Sell';
+  background: #f80505;
+  color:#FFFFFF;
+  font-size: 20rpx;
+  padding:8rpx;
+  border-radius: 5rpx;
+  margin-right:10rpx;
+}
+.goods-card__title2_2::before{
+  content:'出售';
+  background: #f80505;
+  color:#FFFFFF;
+  font-size: 20rpx;
+  padding:8rpx;
+  border-radius: 5rpx;
+  margin-right:10rpx;
+}
 .goods-card__tags {
   display: flex;
   flex-direction: row;
@@ -117,8 +151,8 @@
   text-overflow: ellipsis;
 }
 .color1{
-  background: #E1FAE8;
-  color: #26BF63;
+  background: #f70707;
+  color: #FFFFFF;
 }
 .color2{
   background: #FFF4F2;

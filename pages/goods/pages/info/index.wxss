@@ -29,7 +29,8 @@ page {
 .orderStatu .color1 {
   font-weight: 600;
   font-size: 36rpx;
-  color: #F22800;
+  color: #FFFFFF;
+  background: #F22800;
 }
 .orderStatu .color2 {
   font-weight: 600;
@@ -46,6 +47,9 @@ page {
   padding: 20rpx;
   background: #FFFFFF;
   border-radius: 20rpx;
+}
+.orderGoods .priceNote {
+  color: red;
 }
 .orderGoods .comp {
   display: flex;

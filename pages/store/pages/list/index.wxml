@@ -7,10 +7,10 @@
       <t-icon name="chevron-left" color="#333333" size="56rpx" bindtap="goback" />
       <!-- 搜索 -->
       <view class="search">
-        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="输入关键词" leftIcon="">
+        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" maxlength="30" bind:change="handleSearchValue" placeholder="{{globalLangData.keywords}}" leftIcon="">
           <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
         </t-search>
-        <view class="btn" bindtap="handleSearh">搜索</view>
+        <view class="btn" bindtap="handleSearh">{{globalLangData.search}}</view>
       </view>
     </view>
     <view class="store-info">
@@ -22,17 +22,17 @@
           <navigator url="/pages/store/pages/info/index?storeId={{storeId}}"> {{storeInfo.shop_name}} ></navigator>
         </view>
         <view class="tags">
-          <text>认证商铺</text>
+          <text>{{globalLangData.certified_shop}}</text>
           <text>|</text>
-          <text wx:if="{{storeInfo.dc==1}}">代采权</text>
+          <text wx:if="{{storeInfo.dc==1}}">{{globalLangData.procurement}}</text>
           <text wx:if="{{storeInfo.dc==1}}">|</text>
-          <text>{{storeInfo.fans}} 关注</text>
+          <text>{{storeInfo.fans}} {{globalLangData.follow}}</text>
           <text>|</text>
-          <text>{{storeInfo.orders}} 成交</text>
+          <text>{{storeInfo.orders}} {{globalLangData.transaction}}</text>
         </view>
       </view>
-      <view class="gzbtn" wx:if="{{storeInfo.gz==0}}" bindtap="storeClickHandle">+关注</view>
-      <view class="gzbtn" wx:if="{{storeInfo.gz==1}}" bindtap="storeClickHandle">已关注</view>
+      <view class="gzbtn" wx:if="{{storeInfo.gz==0}}" bindtap="storeClickHandle">+{{globalLangData.follow}}</view>
+      <view class="gzbtn" wx:if="{{storeInfo.gz==1}}" bindtap="storeClickHandle">{{globalLangData.following}}</view>
     </view>
 
   </view>

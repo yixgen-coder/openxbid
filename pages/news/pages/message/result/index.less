@@ -5,12 +5,19 @@
 
   .cell-class {
     position: relative;
-    padding:15rpx 20rpx;
+    padding: 15rpx 20rpx;
   }
 
   .cell-class-description {
     font-size: 26rpx;
     color: #A8A8A8;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    flex: 1;
+    padding-right: 20rpx;
+    max-width: 500rpx;
   }
 
   .cell-image {
@@ -43,6 +50,7 @@
     background: #FFFFFF;
     height: 31rpx;
     position: relative;
+
     &::before {
       content: '';
       display: block;

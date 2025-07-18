@@ -8,27 +8,28 @@
           <view class="top">
             <view class="title">{{item.title}}</view>
             <view class="tags">
-              <view wx:if="{{item.btype==2}}" class="color1">
-                求购
+              <view wx:if="{{item.btype==2}}" class="color2">
+                {{globalLangData.buy}}
               </view>
-              <view wx:if="{{item.btype==1}}" class="color2">
-                出售
+              <view wx:if="{{item.btype==1}}" class="color1">
+                {{globalLangData.sell}}
               </view>
-              <view class="color3">{{item.place}}</view>
-              <view class="color4">{{item.nature}}</view>
+              <view class="color1">{{item.place}}</view>
+              <view class="color1">{{item.nature}}</view>
             </view>
             <view class="time">
+              <view wx:if="{{item.statu == 2}}"><text>{{globalLangData.closes_in}}</text></view>
+              <view wx:if="{{item.statu == 1}}"><text style="color: #26BF63;">{{globalLangData.notstarted}}</text></view>
+              <view wx:if="{{item.statu == 3}}"><text style="color: #979797;">{{globalLangData.ended}}</text></view>
               <view wx:if="{{item.statu == 2}}">
-                <t-count-down t-class="external-count" t-class-split="external-split" format="DD:HH:mm:ss" content="default" time="{{ item.time }}" splitWithUnit />
+                <t-count-down t-class="external-count" t-class-split="external-split" format="DD:HH:mm:ss" content="default" time="{{ item.time }}" />
               </view>
-              <view wx:if="{{item.statu == 2}}"><text>后结束</text></view>
-              <view wx:if="{{item.statu == 1}}"><text style="color: #26BF63;">未开始</text></view>
-              <view wx:if="{{item.statu == 3}}"><text style="color: #979797;">已结束</text></view>
+
             </view>
 
           </view>
           <view class="bottom">
-            当前价：
+            {{globalLangData.current}}：
             <text class="dw">$</text>
             <text class="num">{{item.current_price}}</text>
           </view>

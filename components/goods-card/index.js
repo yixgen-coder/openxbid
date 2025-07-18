@@ -1,3 +1,4 @@
+const app = getApp()
 Component({
   options: {
     addGlobalClass: true,
@@ -44,6 +45,7 @@ Component({
   },
 
   data: {
+    globalLangData: app.globalData.languagePack,
     independentID: '',
     goods: {
       id: ''

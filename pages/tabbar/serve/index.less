@@ -17,6 +17,7 @@ page {
   display: block;
   overflow-x: hidden;
   box-sizing: border-box;
+
   .bg {
     background-image: url('https://imgs.phanlink.com/program/images/topbg.png') no-repeat top;
     background-size: cover;
@@ -46,7 +47,7 @@ page {
       position: absolute;
       right: 5rpx;
       bottom: 5rpx;
-      z-index:9999;
+      z-index: 9999;
     }
 
     .t-search__input-container {
@@ -65,21 +66,22 @@ page {
 
 
 .serve-tab {
-  width: 500px;
-  padding-left: 10rpx;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
+  justify-content: center;
 
   >view {
-    color: #FFC6A6;
+    color: #ffffff;
     font-size: 32rpx;
-    margin-right: 56rpx;
+    margin-right: 100rpx;
+    font-weight: 800;
   }
 
   .active {
-    color: #ffffff;
     font-size: 40rpx;
+    border-bottom: 6rpx solid #FFFFFF;
+    padding-bottom: 60rpx;
+    transition-duration: 0.3s;
   }
 }
 

@@ -9,15 +9,15 @@
       </view>
     </view>
     <view class="gz" bindtap="storeClickHandle">
-      <text wx:if="{{artInfo.gz==1}}" class="gz clolor2">已关注</text>
-      <text wx:if="{{artInfo.gz==0}}" class="gz clolor1">关注</text>
+      <text wx:if="{{artInfo.gz==1}}" class="gz clolor1">{{globalLangData.following}}</text>
+      <text wx:if="{{artInfo.gz==0}}" class="gz clolor2">{{globalLangData.follow}}</text>
     </view>
   </view>
   <view class="content">
     <rich-text nodes="{{artInfo.content}}"></rich-text>
   </view>
   <view class="shengming">该文观点仅代表作者本人，开拍鱼平台仅提供信息储存空间服务。</view>
-  <view class="pl-tit">全部评论({{artInfo.pl}})</view>
+  <view class="pl-tit">{{globalLangData.all_comment}}({{artInfo.pl}})</view>
   <view class="pl">
     <view class="circt-box">
       <view class="circt-item" wx:for="{{artInfo.pls}}">
@@ -34,22 +34,25 @@
   </view>
 </view>
 <view class="msg">
-  <t-cell t-class="wr" title="填写资讯评论" align="center" left-icon="https://imgs.phanlink.com/program/images/wr.png" hover bordered="{{false}}" bindclick="handleShowMsg" />
-  <t-icon name="thumb-up-2" size="48rpx" wx:if="{{artInfo.zan==0}}" bindclick="artZanClickHandle" />
-  <t-icon name="thumb-up-2" size="48rpx" color="#FF4A26" wx:if="{{artInfo.zan==1}}" bindclick="artZanClickHandle" />
-  <t-icon name="star" size="48rpx" wx:if="{{artInfo.sc==0}}" bindclick="artScClickHandle" />
-  <t-icon name="star" size="48rpx" color="#FF4A26" wx:if="{{artInfo.sc==1}}" bindclick="artScClickHandle" />
-  <t-button icon="https://imgs.phanlink.com/program/images/fx1.png" variant="text" size="large" open-type="share"></t-button>
+  <t-cell t-class="wr" title="{{globalLangData.enter}}" align="center" left-icon="https://imgs.phanlink.com/program/images/wr.png" hover bordered="{{false}}" bindclick="handleShowMsg" />
+  <t-icon name="thumb-up-2" size="40rpx" wx:if="{{artInfo.zan==0}}" bindclick="artZanClickHandle" />
+  <t-icon name="thumb-up-2" size="40rpx" color="#FF4A26" wx:if="{{artInfo.zan==1}}" bindclick="artZanClickHandle" />
+  <t-icon name="star" size="40rpx" wx:if="{{artInfo.sc==0}}" bindclick="artScClickHandle" />
+  <t-icon name="star" size="40rpx" color="#FF4A26" wx:if="{{artInfo.sc==1}}" bindclick="artScClickHandle" />
+  <t-button icon="https://imgs.phanlink.com/program/images/fx1.png" variant="text" size="100rpx" open-type="share" style="padding:0;margin:0"></t-button>
+  <navigator url="/pages/my/pages/feedback/index?type=2">
+    <t-icon name="https://imgs.phanlink.com/program/images/ts.png" size="40rpx" />
+  </navigator>
 </view>
 <t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom" style="bottom:{{keyboardheight}}rpx">
   <view class="block">
     <view class="header">
-      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">取消</view>
-      <view class="title">资讯评论</view>
-      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">确定</view>
+      <view class="btn btn--cancel" aria-role="button" bindtap="handleShowMsg">{{globalLangData.cancel}}</view>
+      <view class="title">{{globalLangData.news_comment}}</view>
+      <view class="btn btn--confirm" aria-role="button" bindtap="handleSubmit">{{globalLangData.sure}}</view>
     </view>
     <view class="msgtxt">
-      <t-textarea bindchange="handleMsg" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" adjust-position="{{true}}" value="{{msg}}" placeholder="请输入内容" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
+      <t-textarea bindchange="handleMsg" bindkeyboardheightchange="handlekeyboardheight" t-class="external-class" adjust-position="{{true}}" value="{{msg}}" placeholder="{{globalLangData.enter}}" maxlength="100" show-confirm-bar="{{false}}" disableDefaultPadding="{{true}}" indicator />
     </view>
   </view>
 </t-popup>

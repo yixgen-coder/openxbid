@@ -1,24 +1,25 @@
 <view class="items" wx:for="{{storesList}}">
-  <view class="store">
-    <view>
+  <view class="store" style="position: relative;">
+    <view bindtap="handleGoStores" data-id="{{item.id}}">
       <image src="{{item.shop_logo}}"></image>
     </view>
     <view>
-      <view class="title">{{item.shop_name}}</view>
+      <view class="title" bindtap="handleGoStoresInfo" data-id="{{item.id}}" style="user-select: text">{{item.shop_name}}></view>
       <view class="pj">
-        <t-rate value="{{item.pf}}" color="#FF5959" size="30rpx" allow-half="{{true}}" showText="{{false}}" />
+        <t-rate value="{{item.pf}}" color="#FF5959" size="24rpx" gap="0" allow-half="{{true}}" showText="{{false}}" />
       </view>
       <view class="tags">
         <text class="color1">{{item.region}}</text>
         <text class="color2">{{item.type}}</text>
+        <text class="color3">{{globalLangData.transactions}}：{{item.orders}}</text>
       </view>
     </view>
-    <view>
-      <view class="stbtn" bindtap="handleGoStores" data-id="{{item.id}}">进入店铺></view>
+    <view style="position: absolute;top:0;right:0;">
+      <view class="stbtn" bindtap="handleGoStores" data-id="{{item.id}}">{{globalLangData.view_shop}}></view>
     </view>
   </view>
   <view class="goodsType">
-    <view><text>成交数：{{item.orders}}</text></view>
-    <text>主营商品：{{item.stype}}</text>
+    <text style="font-size: 30rpx;font-weight: 600;color:#333333;">{{globalLangData.main_products}}：</text>
+    <text>{{item.stype}}</text>
   </view>
 </view>

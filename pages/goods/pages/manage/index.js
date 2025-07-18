@@ -1,11 +1,13 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '商品',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.quote,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
-    typeText: "出售中",
+    typeText: app.globalData.languagePack.selling,
     goodsList: [],
     tabIndex: 1,
     num: 0,
@@ -46,11 +48,11 @@ Page({
     } = e.currentTarget.dataset;
     // 显示确认提示框
     wx.showModal({
-      title: '提示',
-      content: '确定要删除吗？',
+      title: app.globalData.languagePack.reminder,
+      content: app.globalData.languagePack.sure_delete,
       showCancel: true,
-      cancelText: '取消',
-      confirmText: '确定',
+      cancelText: app.globalData.languagePack.cancel,
+      confirmText: app.globalData.languagePack.sure,
       success: res => {
         if (res.confirm) {
           this.deleteData(key);
@@ -69,14 +71,14 @@ Page({
         goodsList: this.data.goodsList.filter(item => item.id !== id)
       });
       wx.showToast({
-        title: '删除成功',
-        icon: 'success',
+        title: 'sucess',
+        icon: 'none',
         duration: 2000
       });
     } else {
       wx.showToast({
-        title: '删除失败',
-        icon: 'loading',
+        title: 'failed',
+        icon: 'none',
         duration: 2000
       });
     }
@@ -87,9 +89,9 @@ Page({
       const btype = options.btype;
       if (btype == 2) {
         this.setData({
-          typeText: "求购中",
+          typeText: app.globalData.languagePack.buying,
           btype: 2,
-          itemTitle: '求购'
+          itemTitle: app.globalData.languagePack.buy
         })
       }
     }
@@ -106,14 +108,66 @@ Page({
       url: '/pages/goods/pages/index/index?spuId=' + e.currentTarget.dataset.key,
     });
   },
-
+  delGoodsOrder(e) {
+    const {
+      key
+    } = e.currentTarget.dataset;
+    wx.showModal({
+      title: app.globalData.languagePack.reminder,
+      content: app.globalData.languagePack.lang == 1 ? 'Are you sure you want to end the quotation?' : '确定要结束报价吗？',
+      showCancel: true,
+      cancelText: app.globalData.languagePack.cancel,
+      confirmText: app.globalData.languagePack.sure,
+      success: res => {
+        if (res.confirm) {
+          this.deleteGoodsOrderData(key);
+        }
+      }
+    });
+  },
+  deleteGoodsOrderData: async function (id) {
+    let url = 'https://kpy.phanlink.com/v1/delGoodsOrder';
+    const formData = {};
+    formData.token = wx.getStorageSync('token');
+    formData.goodsId = id;
+    const res = await this.fetchDatas(url, formData);
+    if (res.code == 1) {
+      this.setData({
+        scount: this.data.scount - 1,
+        goodsList: this.data.goodsList.filter(item => item.id !== id),
+      });
+      wx.showToast({
+        title: app.globalData.languagePack.lang == 1 ? 'Operation successful' : '操作成功',
+        icon: 'none',
+        duration: 2000
+      });
+    } else {
+      wx.showToast({
+        title: app.globalData.languagePack.lang == 1 ? 'Operation failed' : '操作失败',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+  },
   init() {
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -138,6 +192,7 @@ Page({
     formData.limit = this.goodListPagination.num;
     formData.btype = this.data.btype;
     formData.action = this.data.tabIndex;
+    formData.lang = app.globalData.languagePack.lang;
     formData.page = fresh ? 1 : this.goodListPagination.index;
 
     formData.action = this.data.tabIndex;
@@ -152,11 +207,6 @@ Page({
         });
         if (nextList.length > 0) {
           this.goodListPagination.index = formData.page + 1;
-          wx.showToast({
-            title: res.msg,
-            icon: 'loading',
-            duration: 500
-          });
         }
 
       }
@@ -190,6 +240,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

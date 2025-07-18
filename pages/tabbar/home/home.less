@@ -2,7 +2,7 @@ page {
   box-sizing: border-box;
   padding-bottom: calc(env(safe-area-inset-bottom) + 96rpx);
   background: #F7F8FA;
-  
+
 }
 
 .t-tabs.t-tabs--top .t-tabs__scroll {
@@ -13,7 +13,7 @@ page {
   height: 330px;
   width: 100%;
   display: block;
-  width:100%;
+  width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
 
@@ -45,7 +45,7 @@ page {
       position: absolute;
       right: 5rpx;
       bottom: 5rpx;
-      z-index:9999;
+      z-index: 9999;
     }
 
     .t-search__input-container {
@@ -63,6 +63,10 @@ page {
   .swiper-wrap {
     margin-top: 20rpx;
 
+    .t-swiper-nav--bottom {
+      bottom: 50rpx;
+    }
+
     .t-image__swiper {
       width: 100%;
       border-radius: 10rpx;
@@ -77,15 +81,21 @@ page {
   padding: 0 0 30rpx 0;
   overflow: hidden;
   display: block;
-  .contatBtn{
-    background-color: #fff; 
-    padding:0;
-    &::after { border: none; }
-    image{
-      width:95rpx;
-      height:95rpx;
+
+  .contatBtn {
+    background-color: #fff;
+    padding: 0;
+
+    &::after {
+      border: none;
+    }
+
+    image {
+      width: 95rpx;
+      height: 95rpx;
     }
   }
+
   .t-tabs {
     background: #f5f5f5 !important;
   }
@@ -126,7 +136,7 @@ page {
 
   .tabs-external__item {
     padding: 10rpx 0 10rpx 0 !important;
-    font-size: 34rpx !important;
+    font-size: 28rpx !important;
     margin-right: 56rpx;
   }
 
@@ -158,20 +168,22 @@ page {
 
 
 .home-tab {
-  width: 500px;
-  padding-left: 10rpx;
   box-sizing: border-box;
   display: flex;
+  justify-content: center;
 
   >view {
-    color: #FFC6A6;
+    color: #ffffff;
     font-size: 32rpx;
-    margin-right: 56rpx;
+    margin-right: 80rpx;
+    font-weight: 800;
   }
 
   .active {
-    color: #ffffff;
     font-size: 40rpx;
+    border-bottom: 6rpx solid #FFFFFF;
+    padding-bottom: 60rpx;
+    transition-duration: 0.3s;
   }
 }
 
@@ -225,43 +237,50 @@ page {
 }
 
 .fish-list {
-  padding: 20rpx 10rpx;
+  padding: 0rpx 10rpx;
   box-sizing: border-box;
+  padding-bottom: 60rpx;
 }
-.store-page-container{
-  margin:60rpx 20rpx 30rpx 20rpx;
-  .storetabs{
+
+.store-page-container {
+  margin: 30rpx 20rpx 30rpx 20rpx;
+
+  .storetabs {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .region{
+
+    .region {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap:20rpx;
+      gap: 20rpx;
     }
-    .btn{
+
+    .btn {
       background: #FFFFFF;
       border-radius: 10rpx;
-      padding:15rpx 30rpx;
-      font-size: 30rpx;
+      padding: 15rpx 30rpx;
+      font-size: 26rpx;
     }
-    .active{
+
+    .active {
       font-weight: bold;
       color: #F22800;
     }
-    .slt{
+
+    .slt {
       position: relative;
-      &::after{
+
+      &::after {
         position: absolute;
-        content:' ';
-        right:0;
+        content: ' ';
+        right: 0;
         bottom: 0rpx;
         background: url(https://imgs.phanlink.com/program/images/rgtb.png) no-repeat;
-        width:17rpx;
-        height:15rpx;
+        width: 17rpx;
+        height: 15rpx;
       }
     }
   }
-  
 }

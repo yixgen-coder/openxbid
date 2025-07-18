@@ -1,8 +1,8 @@
 <view id="{{independentID}}" class="goods-card" bind:tap="clickHandle" data-goods="{{ goods }}">
   <view class="pro_statu">
-    <span wx:if="{{goods.statu==1}}" class="cc1">未开始</span>
-    <span wx:if="{{goods.statu==2}}" class="cc2">竞价中</span>
-    <span wx:if="{{goods.statu==3}}" class="cc3">已结束</span>
+    <span wx:if="{{goods.statu==1}}" class="cc1">{{globalLangData.notstarted}}</span>
+    <span wx:if="{{goods.statu==2}}" class="cc2">{{globalLangData.bidding}}</span>
+    <span wx:if="{{goods.statu==3}}" class="cc3">{{globalLangData.ended}}</span>
   </view>
   <view class="goods-card__main">
     <view class="goods-card__thumb" bind:tap="clickThumbHandle">
@@ -10,31 +10,31 @@
     </view>
     <view class="goods-card__body">
       <view class="goods-card__upper">
-        <view class="goods-card__title">
+        <view wx:if="{{goods.btype!='' && goods.btype==2}}" class="goods-card__title goods-card__title1_{{globalLangData.lang}}">
+          {{ goods.title }}
+        </view>
+        <view wx:if="{{goods.btype!='' && goods.btype==1}}" class="goods-card__title goods-card__title2_{{globalLangData.lang}}">
           {{ goods.title }}
         </view>
         <view class="goods-card__tags">
-          <view wx:if="{{goods.btype==2}}" class="goods-card__tag color1">
-            求购
-          </view>
-          <view wx:if="{{goods.btype==1}}" class="goods-card__tag color2">
-            出售
-          </view>
 
-          <view class="goods-card__tag color3">
+          <view wx:if="{{goods.nature!=null}}" class="goods-card__tag color1">
             {{goods.nature}}
           </view>
-          <view class="goods-card__tag color4">
+          <view wx:if="{{goods.place!=null}}" class="goods-card__tag color1">
             {{goods.place}}
+          </view>
+          <view wx:if="{{goods.manufacturer}}" class="goods-card__tag color1">
+            {{goods.manufacturer}}
           </view>
         </view>
       </view>
       <view class="goods-card__down">
-        <view class="price-now"> 当前价<text>{{goods.currencyType==1?'$':'￥'}}{{goods.current_price}}</text></view>
+        <view class="price-now"> {{globalLangData.current}}<text>{{goods.currencyType==1?'$':'￥'}}{{goods.current_price}}</text></view>
       </view>
       <view class="goods-card__bottom">
-        <view class="left">{{goods.hits}}人围观</view>
-        <view class="right">{{goods.apply}}人参与</view>
+        <view class="left">{{goods.hits}} {{globalLangData.watching}}</view>
+        <view class="right">{{goods.apply}} {{globalLangData.bid}}</view>
       </view>
     </view>
   </view>

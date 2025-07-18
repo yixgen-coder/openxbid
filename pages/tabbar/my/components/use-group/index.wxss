@@ -21,7 +21,6 @@
   display: flex;
   background-color: #fff;
   border-radius:16rpx;
-  padding-top:20rpx;
   padding-bottom: 20rpx;
 }
 .order-group__item {
@@ -32,6 +31,7 @@
   justify-content: center;
   flex: 1;
   padding:20rpx 0;
+  text-align: center;
 }
 .order-group__item:first-child {
   border-radius: 0 0 0 16rpx;

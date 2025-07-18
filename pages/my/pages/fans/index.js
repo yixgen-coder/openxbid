@@ -1,6 +1,8 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '我的粉丝',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.followers,
     statusbar: '',
     jiaonangheight: '',
     fansList: [],
@@ -34,13 +36,33 @@ Page({
       duration: 2000
     });
   },
+  handleJl(e) {
+    const {
+      uid
+    } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: '/pages/news/pages/message/chat/index?uId=' + uid,
+    });
+  },
   init() {
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -52,6 +74,7 @@ Page({
   fetchHomeDatas: async function () {
     const formData = {};
     formData.token = wx.getStorageSync('token');
+    formData.lang = app.globalData.languagePack.lang;
     const url = 'https://kpy.phanlink.com/v1/getmyFans';
 
     const res = await this.fetchDatas(url, formData);
@@ -60,11 +83,6 @@ Page({
         fansList: res.result,
       });
     }
-    wx.showToast({
-      title: res.msg,
-      icon: 'loading',
-      duration: 500
-    });
   },
   fetchDatas(url, data) {
     return new Promise((resolve, reject) => {
@@ -83,5 +101,11 @@ Page({
         }
       });
     });
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
   },
 })

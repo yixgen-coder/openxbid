@@ -1,5 +1,5 @@
 .fwtit {
-  margin: 50rpx 20px;
+  margin: 30rpx 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,9 +33,10 @@
   background: #FFFFFF;
   --td-tab-nav-bg-color: transparent;
   --td-tab-border-color: transparent;
-  --td-tab-item-color: #999999;
+  --td-tab-item-color: #333333;
   --td-tab-item-active-color: #F22800;
-  --td-tab-track-width: 0rpx;
+  --td-tab-track-width: 40rpx;
+  --td-tab-track-color: #F22800;
   --td-tab-font-size: 30rpx;
 }
 .fwstorelist {
@@ -65,14 +66,44 @@
   color: #221F1C;
 }
 .fwstorelist .fw-items .txt .tags {
-  margin: 15rpx 0;
+  margin: 10rpx 0;
+  display: flex;
+}
+.fwstorelist .fw-items .txt .tags .card {
+  margin-right: 8rpx;
+  position: relative;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 2rpx solid #FF5533;
+  text-align: center;
+  padding: 5rpx 5rpx;
+  white-space: nowrap;
+}
+.fwstorelist .fw-items .txt .tags .card--active {
+  padding-right: 22rpx;
+}
+.fwstorelist .fw-items .txt .tags .card--active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-bottom: 30rpx solid #FF5533;
+  border-left: 40rpx solid transparent;
+  z-index: 10;
+}
+.fwstorelist .fw-items .txt .tags .card__icon {
+  color: #FFFFFF;
+  position: absolute;
+  right: -3rpx;
+  bottom: -5rpx;
+  z-index: 30;
 }
 .fwstorelist .fw-items .txt .tags text {
-  padding: 5rpx;
-  background: #FFF2F0;
-  border-radius: 4rpx;
   font-size: 24rpx;
-  color: #FF5533;
+  color: #333333;
 }
 .fwstorelist .fw-items .txt .address {
   font-size: 24rpx;

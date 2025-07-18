@@ -1,8 +1,15 @@
 {
-  "navigationBarTitleText": "商家名片",
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
   "component": true,
   "usingComponents": {
-    "t-rate": "tdesign-miniprogram/rate/rate"
+    "t-rate": "tdesign-miniprogram/rate/rate",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "attention-list": "/components/attention-list/index",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "load-more": "/components/load-more/index",
+    "t-icon": "tdesign-miniprogram/icon/icon"
   },
   "enablePullDownRefresh": true
 }

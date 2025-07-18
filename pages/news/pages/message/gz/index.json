@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "关注消息",
+  "navigationBarTitleText": "",
   "onReachBottomDistance": 10,
   "component": true,
   "usingComponents": {

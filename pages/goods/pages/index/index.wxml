@@ -5,70 +5,72 @@
   </view>
   <!-- <image src="https://imgs.phanlink.com/program/images/topbg.png"></image> -->
   <t-swiper current="{{current}}" bindclick="previewImage" autoplay="{{autoplay}}" duration="{{duration}}" interval="{{interval}}" list="{{goodsInfo.pics}}" navigation="{{ { type: 'fraction' } }}" paginationPosition="{{paginationPosition}}" height="750rpx" />
-  <view wx:if="{{goodsInfo.statu==2}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm.png') no-repeat bottom;background-size: cover;">
-    <view>竞价进行中</view>
-    <view class="right"><text class="time-text">距结束</text>
+  <view wx:if="{{hideMydata && goodsInfo.statu==2}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm.png') no-repeat bottom;background-size: cover;">
+    <view>{{globalLangData.bidding1}}</view>
+    <view class="right"><text class="time-text">{{globalLangData.closes_in}}</text>
       <view class="demo-count-down-content">
-        <t-count-down bindfinish="handleFinish" t-class="count-down-class" t-class-split="class-split" content="default" time="{{goodsInfo.time}}" format="DD:HH:mm:ss" splitWithUnit theme="square"> </t-count-down>
+        <t-count-down bindfinish="handleFinish" t-class="count-down-class" t-class-split="class-split" content="default" time="{{goodsInfo.time}}" format="DD:HH:mm:ss" splitWithUnit="{{globalLangData.lang==2?true:false}}" theme="square"> </t-count-down>
       </view>
     </view>
   </view>
-  <view wx:if="{{goodsInfo.statu==1}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm1.png') no-repeat bottom;background-size: cover;">
-    <view>竞价未开始</view>
-    <view class="right"><text class="time-text">距开始</text>
+  <view wx:if="{{hideMydata && goodsInfo.statu==1}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm1.png') no-repeat bottom;background-size: cover;">
+    <view>{{globalLangData.notstarted}}</view>
+    <view class="right"><text class="time-text">{{globalLangData.start_in}}</text>
       <view class="demo-count-down-content">
-        <t-count-down t-class="count-down-class1" t-class-split="class-split" content="default" time="{{goodsInfo.time}}" format="DD:HH:mm:ss" splitWithUnit theme="square"> </t-count-down>
+        <t-count-down t-class="count-down-class1" t-class-split="class-split" content="default" time="{{goodsInfo.time}}" format="DD-HH:mm:ss" splitWithUnit="{{globalLangData.lang==2?true:false}}" theme="square"> </t-count-down>
       </view>
     </view>
   </view>
-  <view wx:if="{{goodsInfo.statu==3}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm2.png') no-repeat bottom;background-size: cover;">
-    <view>竞价已结束</view>
-    <view class="right"><text class="time-text">结束时间：{{goodsInfo.etime}}</text>
+  <view wx:if="{{hideMydata &&  goodsInfo.statu==3}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm2.png') no-repeat bottom;background-size: cover;">
+    <view>{{globalLangData.bidding_closed}}</view>
+    <view class="right"><text class="time-text">{{globalLangData.ends}}：{{goodsInfo.etime}}</text>
     </view>
   </view>
 </view>
 <!-- 标题信息 -->
 <view class="classify-box">
   <view class="title">
-    <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==1}}" variant="light" theme="warning">出售</t-tag>
-    <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==2}}" variant="light" theme="success">求购</t-tag>
+    <t-tag wx:if="{{goodsInfo.btype==1}}" variant="light" theme="warning" style="margin-right:10rpx;">{{globalLangData.sell}}</t-tag>
+    <t-tag wx:if="{{goodsInfo.btype==2}}" variant="light" theme="success" style="margin-right:10rpx;">{{globalLangData.buy}}</t-tag>
     {{goodsInfo.title}}
   </view>
   <view class="tags">
-    <t-tag class="margin-right-12" wx:if="{{goodsInfo.dc==1}}" variant="light" theme="warning">代采</t-tag>
-    <t-tag class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.nature}}</t-tag>
-    <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.place}}</t-tag>
-    <t-tag class="margin-right-12" t-class="tag-class" variant="light" theme="primary">{{goodsInfo.manufacturer}}</t-tag>
+    <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==2&&goodsInfo.dc==1}}" variant="light">{{goodsInfo.accept_proxy_procurement}}</t-tag>
+    <t-tag wx:if="{{goodsInfo.nature !== null}}" class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.nature}}</t-tag>
+    <t-tag wx:if="{{goodsInfo.place !== null}}" class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.place}}</t-tag>
+    <t-tag wx:if="{{goodsInfo.manufacturer !== null}}" class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.manufacturer}}</t-tag>
   </view>
   <view class="newPra">
     <view class="item">
       <view class="txt1">{{goodsInfo.weight}}KG</view>
-      <view class="txt2">重量</view>
+      <view class="txt2">{{globalLangData.weight}}</view>
     </view>
     <view class="item1"></view>
     <view class="item">
       <view class="txt1">{{goodsInfo.bourn}}</view>
-      <view class="txt2">地点</view>
+      <view class="txt2">{{globalLangData.location}}</view>
     </view>
     <view class="item1"></view>
     <view class="item">
       <view class="txt1">{{goodsInfo.ptime}}</view>
-      <view class="txt2">生产日期</view>
+      <view class="txt2">{{globalLangData.production_date}}</view>
     </view>
   </view>
   <view class="price">
-    <view>当前竞价 <text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.current_price?goodsInfo.current_price:goodsInfo.pric}}</text></view>
+    <view>{{globalLangData.current}}:<text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.current_price?goodsInfo.current_price:goodsInfo.pric}}</text></view>
     <view style="display: flex;align-items: center;" bindtap="handleGoOffer">
-      <text class="red big">竞价详情 </text>
+      <text class="red big">{{globalLangData.biding_detail}} </text>
       <t-icon name="chevron-right" color="#FF5533" size="48rpx" />
     </view>
   </view>
-  <view class="viewpoit"> <text>围观 {{goodsInfo.hits}} 人</text> <text>参与 {{goodsInfo.apply}} 人</text> <text>竞价 {{goodsInfo.apply}} 次</text></view>
+  <view class="viewpoit" wx:if="{{hideMydata}}"> <text>{{globalLangData.watching}} {{goodsInfo.hits}} 人</text>
+    <text>{{globalLangData.bid}} {{goodsInfo.apply}} 次</text>
+  </view>
 </view>
 <!-- 
 <view class="classify-box">
   <view class="fixed">
-    <view style="font-size: 32rpx;color:#000000;font-weight: 600;">竞价列表</view>
+    <view style="font-size: 32rpx;color:#000000;font-weight: 600;">报价列表</view>
 
     <view class="has-icon" bindtap="handleGoOffer"><text>{{goodsInfo.apply}}条</text>
       <t-icon name="chevron-right" color="#999" size="42rpx" />
@@ -96,7 +98,7 @@
 </view> -->
 
 <!-- 评价 -->
-<view class="classify-box">
+<!-- <view class="classify-box">
   <view class="circt-title">
     <view class="left">商品评论<text> ({{goodsInfo.pldats_counts?goodsInfo.pldats_counts:0}})</text></view>
     <view class="right" bindtap="handleGoReview"><text>查看全部</text>
@@ -115,21 +117,21 @@
       <view class="bottom">{{item.msg}}</view>
     </view>
   </view>
-</view>
+</view> -->
 
 <!-- 公司信息 -->
 <view class="classify-box box-fixed">
   <image class="compiny-image" src="{{goodsInfo.store.shop_logo}}"></image>
   <view class="compiny-right">
     <view class="compiny-title">
-      <view class="title-text">{{goodsInfo.store.shop_name}}</view>
-      <navigator class="title-btn" url="/pages/store/pages/list/index?storeId={{goodsInfo.storeid}}">进入店铺</navigator>
+      <navigator url="/pages/store/pages/info/index?storeId={{goodsInfo.storeid}}" class="title-text">{{goodsInfo.store.shop_name}} ></navigator>
+      <navigator bindtap="storeClickHandle" class="title-btn">{{goodsInfo.gz==1?globalLangData.following:'+'+globalLangData.follow}}</navigator>
     </view>
     <view class="rate">
-      <text>评分 </text>
-      <t-rate size="15" gap="3" value="{{goodsInfo.store.pf}}" />
-      <text style="margin-left: 28rpx;">综合评价 </text>
-      <text class="red">{{goodsInfo.store.pf}}分</text>
+      <text>{{globalLangData.rating}} </text>
+      <t-rate size="13" gap="0" color="#F22800" value="{{goodsInfo.store.pf}}" />
+      <text style="margin-left: 28rpx;">{{globalLangData.reviews}} </text>
+      <text class="red">{{goodsInfo.store.pf}}</text>
     </view>
   </view>
 </view>
@@ -137,13 +139,35 @@
 <!-- tab详情 -->
 <view class="tab-box">
   <t-tabs t-class-active="tab-class-active" t-class-track="t-class-track" defaultValue="{{0}}" bind:change="onTabsChange" bind:click="onTabsClick" t-class="custom-tabs">
-    <t-tab-panel label="商品竞价单" value="0" />
-    <t-tab-panel label="竞价列表" value="1" />
+    <t-tab-panel label="{{globalLangData.specifications}}" value="0" />
+    <t-tab-panel label="{{globalLangData.comment}}" value="1" />
   </t-tabs>
   <!-- 参数规格 -->
   <t-detail-parameter wx:if="{{goodslabs==0}}" goodsgg="{{goodsInfo}}" />
   <t-detail-quote wx:if="{{goodslabs==0}}" goodsbj="{{goodsInfo}}" />
-  <t-detail-offer wx:if="{{goodslabs==1}}" goodsOffer="{{goodsInfo.offer}}" />
+  <!-- <t-detail-offer wx:if="{{goodslabs==1}}" goodsOffer="{{goodsInfo.offer}}" /> -->
+  <view class="classify-box" wx:if="{{goodslabs==1}}">
+    <view class="circt-title">
+      <view class="left">{{globalLangData.comment}}<text> ({{goodsInfo.pldats_counts?goodsInfo.pldats_counts:0}})</text></view>
+      <view class="right" bindtap="handleGoReview"><text>{{globalLangData.all}}</text>
+        <t-icon name="chevron-right" color="#999" size="32rpx" />
+      </view>
+    </view>
+    <view class="circt-box">
+      <view class="circt-item" wx:for="{{goodsInfo.pldats}}">
+        <view class="top">
+          <view class="left">
+            <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
+            <text>{{item.nickname}}</text>
+          </view>
+          <view class="right">{{item.addtime}}</view>
+        </view>
+        <view class="bottom">{{item.msg}}</view>
+      </view>
+      <!-- <view class="right" bindtap="handleGoReview" style="text-align: center;padding:20rpx;" wx:if="{{goodsInfo.pldats_counts>6}}"><text>查看全部</text></view> -->
+      <!-- <view class="right" bindtap="handleGoReview" style="text-align: center;padding:20rpx;" wx:if="{{goodsInfo.pldats_counts==0}}"><text>去评论</text></view> -->
+    </view>
+  </view>
 </view>
 <!-- 底部栏 -->
 <view class="footer-box">
@@ -151,24 +175,37 @@
   <view class="user-txt">
     <navigator url="/pages/news/pages/message/chat/index?storeId={{goodsInfo.finfo.storeid}}">
       <image src="https://imgs.phanlink.com/{{goodsInfo.finfo.avatar}}"></image>
-      <view>{{goodsInfo.finfo.nickname}}</view>
+      <view class="rate" style="display: flex;flex-direction: column;">
+        <view style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;"><text>{{goodsInfo.finfo.nickname}}</text></view>
+        <view style="display: flex;">
+          <t-rate size="16" count="{{1}}" color="#F22800" value="{{5}}" />
+          <text style="color:red;margin-left:5rpx;margin-top:5rpx;font-size: 24rpx;">{{goodsInfo.finfo.pf}}分</text>
+        </view>
+      </view>
     </navigator>
   </view>
 
   <view class="img-txt" wx:if="{{sc==0}}" bindtap="handlesc" id="{{goodsInfo.id}}">
     <image src="https://imgs.phanlink.com/program/images/dd3.png"></image>
-    <view>收藏</view>
+    <view>{{globalLangData.save}}</view>
   </view>
   <view class="img-txt" wx:if="{{sc==1}}" bindtap="handlesc" id="{{goodsInfo.id}}">
     <image src="https://imgs.phanlink.com/program/images/dd33.png"></image>
-    <view>已收藏</view>
+    <view>{{globalLangData.saved}}</view>
   </view>
-  <view class="btn1" wx:if="{{goodsInfo.statu==1}}">竞价未开始</view>
-  <view bind:tap="handleShow" class="btn" wx:if="{{goodsInfo.statu==2}}">参与竞价</view>
-  <view class="btn2" wx:if="{{goodsInfo.statu==3}}">竞价已结束</view>
+  <navigator url="/pages/store/pages/list/index?storeId={{goodsInfo.storeid}}">
+    <view class="img-txt">
+      <image src="https://imgs.phanlink.com/program/images/store.png"></image>
+      <view>{{globalLangData.shop}}</view>
+    </view>
+  </navigator>
+  <view class="btn1" wx:if="{{goodsInfo.statu==1 && goodsInfo.brid==0}}">{{globalLangData.notstarted}}</view>
+  <view bind:tap="handleShow" class="btn" wx:if="{{goodsInfo.statu==2 && goodsInfo.brid==0}}">{{globalLangData.to_bid}}</view>
+  <view class="btn2" wx:if="{{goodsInfo.statu==3 && goodsInfo.brid==0}}">{{globalLangData.bidding_closed}}</view>
+  <navigator url="/pages/goods/pages/add/index?goodsId={{goodsInfo.id}}&newg=1" class="btn" wx:if="{{goodsInfo.brid==1}}">{{globalLangData.rerelease}}</navigator>
 </view>
 
-<!-- 竞价弹窗 -->
+<!-- 报价弹窗 -->
 <t-popup visible="{{isShow}}" bind:visible-change="onVisibleChange" placement="bottom">
   <t-bidding-popup goodsspec="{{orderInfos.spec}}" bindsubmitBJ="submitBJ" bindcancel="onVisibleChange" total="{{orderInfos}}" bindggainput="ggainput" />
 </t-popup>
@@ -178,9 +215,9 @@
   <view class="share">
     <button class="share-item" open-type="share">
       <image src="https://imgs.phanlink.com/program/images/wx.png"></image>
-      <view>分享给微信好友</view>
-      <view style="color:#F22800;">建议先授权微信名和昵称提高转发成功率</view>
+      <view>{{globalLangData.lang==1?'Share it with your wechat friends':'分享给微信好友'}}</view>
+      <!-- <view style="color:#F22800;">建议先授权微信名和昵称提高转发成功率</view> -->
     </button>
   </view>
-  <view bind:tap="onShareVisibleChange" class="qx">取消</view>
+  <view bind:tap="onShareVisibleChange" class="qx">{{globalLangData.cancel}}</view>
 </t-popup>

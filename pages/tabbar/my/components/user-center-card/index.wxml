@@ -1,24 +1,27 @@
 <view class="user-center-card" style="background: url('https://imgs.phanlink.com/program/images/user-bg.png') no-repeat top;background-size: cover;">
-  <view style="padding-top:{{statusbar}}px;height:{{jiaonangheight}}px;line-height:{{jiaonangheight}}px;text-align:center">我的</view>
+  <view style="padding-top:{{statusbar}}px;height:{{jiaonangheight}}px;line-height:{{jiaonangheight}}px;text-align:center">{{globalLangData.me}}</view>
   <view class="user-center-card__header">
-    <navigator class="left" url="/pages/my/pages/info/index">
+    <navigator class="left" url="/pages/tabbar/login/login" wx:if="{{userInfo.company_status==null}}" style="margin-left: 60rpx;font-size: 34rpx;font-weight: 600;">{{globalLangData.click_login}}</navigator>
+    <navigator class="left" url="/pages/my/pages/info/index" wx:if="{{userInfo.company_status!=null}}">
       <view class="avatar">
         <image src="{{userInfo.avatar}}"></image>
-        <view class="rz" wx:if="{{userInfo.company_status==2}}">{{userInfo.company_type==2?'企业':'个人'}}认证</view>
-        <view class="wrz" wx:if="{{userInfo.company_status!=2}}">未认证</view>
+        <view class="rz" wx:if="{{userInfo.company_status>=2}}">{{userInfo.company_type==2?globalLangData.company:globalLangData.personal}}</view>
+        <view class="wrz" wx:if="{{userInfo.company_status<2}}">未认证</view>
       </view>
       <view class="info">
         <view class="name"><text>{{userInfo.nickname}}</text>
           <span>
             <image src="https://imgs.phanlink.com/program/images/edit.png"></image>
           </span>
-
         </view>
-        <view class="id">ID：{{userInfo.code}}</view>
+        <view class="id" wx:if="{{userInfo.type==0}}">ID：{{userInfo.code}}</view>
+        <view class="id" wx:if="{{userInfo.type==1}}">{{globalLangData.factory}}</view>
+        <view class="id" wx:if="{{userInfo.type==2}}">{{globalLangData.trader}}</view>
+        <view class="id" wx:if="{{userInfo.type==3}}">{{globalLangData.service_provider}}</view>
       </view>
     </navigator>
-    <view class="right" wx:if="{{userInfo.company_status==2}}">
-      <navigator class="btn" url="/pages/store/pages/list/index?storeId={{userInfo.storeid}}">进入店铺</navigator>
+    <view class="right" wx:if="{{userInfo.company_status>=2}}">
+      <navigator class="btn" url="/pages/store/pages/list/index?storeId={{userInfo.storeid}}">{{globalLangData.view_shop}}</navigator>
     </view>
   </view>
 </view>

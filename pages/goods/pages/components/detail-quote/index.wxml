@@ -1,46 +1,46 @@
 <wxs module="filter" src="./index.wxs"></wxs>
 <view class="detail-quote">
   <block wx:for="{{goodsbj.spec}}">
-    <view class="title">规格：{{item.a1}}</view>
+    <view class="title">{{globalLangData.grade}}：{{item.a1}}</view>
     <view class="detail-quote-box">
       <view class="margin-right-14">
-        <text>型号</text>
+        <text>{{globalLangData.size}}</text>
         <text class="black">{{item.a2}}</text>
       </view>
       <view>
-        <text>数量</text>
+        <text>{{globalLangData.quantity}}</text>
         <text class="black">{{item.a3}}</text>
       </view>
       <view class="margin-right-14">
-        <text>包装</text>
+        <text>{{globalLangData.package}}</text>
         <text class="black">{{item.a8}}</text>
       </view>
       <view>
-        <text>净重(KG)</text>
-        <text class="black">{{item.a4}}</text>
+        <text>{{globalLangData.net_weight}}(KG)</text>
+        <text class="black">{{filter.numberToFixed(item.a4)}}</text>
       </view>
       <view class="margin-right-14">
-        <text>单价({{goodsbj.currencyType==1?'USD':'CNY'}}/KG)</text>
-        <text class="black">{{item.a5}}</text>
+        <text>{{globalLangData.unit_price}}({{goodsbj.currencyType==1?'USD':'CNY'}}/KG)</text>
+        <text class=" red">{{item.a5}}</text>
       </view>
       <view>
-        <text>总价({{goodsbj.currencyType==1?'USD':'CNY'}})</text>
+        <text>{{globalLangData.amount}}({{goodsbj.currencyType==1?'USD':'CNY'}})</text>
         <text class="red">{{filter.numberToFixed(item.a4*item.a5)}}</text>
       </view>
     </view>
   </block>
-  <view class="title">总计</view>
+  <view class="title">{{globalLangData.total}}</view>
   <view class="detail-quote-box">
     <view class="margin-right-14">
-      <text>数量</text>
+      <text>{{globalLangData.quantity}}</text>
       <text>{{goodsbj.stock}}</text>
     </view>
     <view>
-      <text>净重(KG)</text>
+      <text>{{globalLangData.net_weight}}(KG)</text>
       <text class="red">{{goodsbj.weight}}</text>
     </view>
     <view class="redb">
-      <text>总价(USD)</text>
+      <text>{{globalLangData.amount}}({{goodsbj.currencyType==1?'USD':'CNY'}})</text>
       <text class="red">{{goodsbj.price}}</text>
     </view>
   </view>

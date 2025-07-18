@@ -1,18 +1,20 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '我的竞价',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.bid_dashboard,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
     tabList: [{
-      text: "竞价中",
+      text: app.globalData.languagePack.bidding2,
       key: 4
     }, {
-      text: "竞价成功",
+      text: app.globalData.languagePack.bid_successful,
       key: 1
     }, {
-      text: "竞价失败",
+      text: app.globalData.languagePack.bid_failed,
       key: 5
     }],
     goodsList: [],
@@ -29,7 +31,14 @@ Page({
     })
     this.fetchHomeDatas(true);
   },
-  onLoad(options) {
+  onLoad() {
+    const res = wx.getMenuButtonBoundingClientRect();
+    this.setData({
+      statusbar: res.top, // 胶囊顶部高度
+      jiaonangheight: res.height // 胶囊高度
+    })
+  },
+  onShow() {
     this.init();
   },
   goback: function () {
@@ -46,16 +55,16 @@ Page({
     console.log(e);
     const formData = {};
     formData.token = wx.getStorageSync('token');
-    formData.ordId = e.detail[0].key;
+    formData.ordId = e.detail.key;
     wx.showModal({
-      title: '提示',
-      content: '确定要删除吗？',
+      title: app.globalData.languagePack.reminder,
+      content: app.globalData.languagePack.sure_delete,
       success: function (res) {
         if (res.confirm) {
           const url = 'https://kpy.phanlink.com/v1/delOrder';
           this.fetchDatas(url, formData);
           wx.showToast({
-            title: '操作成功',
+            title: app.globalData.languagePack.lang == 1 ? 'Deleted successfully' : '删除成功',
             icon: 'success',
             duration: 2000,
             mask: true
@@ -75,15 +84,23 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
-    const res = wx.getMenuButtonBoundingClientRect();
-    this.setData({
-      statusbar: res.top, // 胶囊顶部高度
-      jiaonangheight: res.height // 胶囊高度
-    })
+
     this.loadHomePage();
   },
   fetchHomeDatas: async function (fresh = false) {
@@ -103,6 +120,7 @@ Page({
     formData.page = fresh ? 1 : this.goodListPagination.index;
 
     formData.action = this.data.tabIndex;
+    formData.lang = app.globalData.languagePack.lang;
     try {
       const res = await this.fetchDatas(url, formData);
       if (res.code == 1) {
@@ -117,11 +135,7 @@ Page({
       this.setData({
         loadStatus: 0
       });
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
-      });
+
     } catch (error) {
       this.setData({
         loadStatus: 3
@@ -149,6 +163,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

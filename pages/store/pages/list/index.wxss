@@ -52,6 +52,7 @@ page {
 .publish-wrap .store-info .logo image {
   width: 90rpx;
   height: 90rpx;
+  border-radius: 50%;
 }
 .publish-wrap .store-info .info {
   width: 480rpx;

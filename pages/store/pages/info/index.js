@@ -1,5 +1,7 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     statusbar: '',
     jiaonangheight: '',
     storeInfo: {},
@@ -30,6 +32,7 @@ Page({
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.storeId = this.data.storeId;
+    formData.lang = app.globalData.languagePack.lang;
     const oinfo = await this.fetchSetOrders(url, formData);
     if (oinfo.result != null) {
       this.setData({
@@ -54,5 +57,11 @@ Page({
         }
       });
     });
+  },
+   /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
   },
 });

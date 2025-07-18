@@ -1,7 +1,12 @@
+const app = getApp()
 Component({
   externalClasses: ['wr-class'],
 
   properties: {
+    tabIndex: {
+      type: Number,
+      value: 0,
+    },
     goodsList: {
       type: Array,
       value: [],
@@ -20,6 +25,7 @@ Component({
   },
 
   data: {
+    globalLangData: app.globalData.languagePack,
     independentID: '',
   },
 
@@ -38,13 +44,21 @@ Component({
         url: '/pages/goods/pages/index/index?spuId=' + key,
       });
     },
+    onClickStoreInfos(e) {
+      const {
+        key
+      } = e.currentTarget.dataset;
+      wx.navigateTo({
+        url: '/pages/store/pages/info/index?storeId=' + key,
+      });
+    },
     onClickDelOrders(e) {
       const {
         key
       } = e.currentTarget.dataset;
-      this.triggerEvent('delOrders', [{
+      this.triggerEvent('delOrders', {
         key
-      }]);
+      });
     },
     onClickOrders(e) {
       const {

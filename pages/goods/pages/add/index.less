@@ -4,8 +4,9 @@ page {
 
 .publish-wrap {
   padding-bottom: 200rpx;
+
   .publish-header {
-    background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;
+    background: url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;
     background-size: cover;
     height: 180rpx;
     overflow-x: hidden;
@@ -13,11 +14,13 @@ page {
     width: 100%;
     position: relative;
     z-index: 10;
+
     .bar-right {
       display: flex;
       padding-left: 34rpx;
       align-items: center;
-      .avatar-text{
+
+      .avatar-text {
         display: block;
         width: 80%;
         font-size: 36rpx;
@@ -26,76 +29,136 @@ page {
       }
     }
   }
-  .goods-list{
+
+  .goods-list {
     background: #FFFFFF;
     border-radius: 30rpx;
-    padding:20rpx;
-    .title{
+    padding: 20rpx;
+
+    .t-radio {
+      padding-left: 0;
+    }
+
+    .t-radio__icon--checked {
+      color: #F22800 !important;
+    }
+
+    .t-radio__title {
+      font-weight: 600;
+      font-size: 34rpx;
+    }
+
+    .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom:1rpx solid #eeebeb;
+      border-bottom: 1rpx solid #eeebeb;
       padding-bottom: 20rpx;
-      text{
+
+      text {
         font-weight: bold;
         font-size: 36rpx;
         color: #221F1C;
         position: relative;
-        
-        margin-top:30rpx;
-        &::after{
+        margin-top: 30rpx;
+
+        &::after {
           position: absolute;
-          content:'*';
+          content: '*';
           font-size: 50rpx;
           color: #F22800;
         }
       }
     }
-    .items{
-      margin:20rpx 0;
-      border-bottom:1rpx solid #eeebeb;
-      --td-input-vertical-padding:10rpx;
-      text{
-        font-weight: bold;
-        font-size: 30rpx;
-        color: #221F1C;
+
+    .items {
+      margin: 20rpx 0;
+      border-bottom: 1rpx solid #eeebeb;
+      --td-input-vertical-padding: 10rpx;
+
+      .t-icon-swap {
+        width: 190rpx;
+        position: relative;
+        text-align: left;
       }
-      .name{
-        margin-top:10rpx;
+
+      .t-icon-swap::after {
+        position: absolute;
+        content: '';
+        font-size: 24rpx;
+        color: #333333;
+        font-weight: 800;
+        top: 10rpx;
+        right: 0rpx;
+      }
+
+      text {
+        font-weight: bold;
+        font-size: 28rpx;
+        color: #221F1C;
+        position: relative;
+
+
+      }
+
+      .name {
+        margin-top: 10rpx;
         background: #F7F8FA;
       }
-      .desc{
-        margin-top:10rpx;
+
+      .desc {
+        margin-top: 10rpx;
         font-size: 26rpx;
         color: #999999;
       }
-      .t-cell{
-        padding:25rpx 0;
+
+      .t-cell {
+        padding: 25rpx 0;
       }
-      .t-cell__title{
-        width:250rpx;
+
+      .t-cell__title {
+        width: 400rpx;
       }
-      .t-cell__title-text{
+
+      .t-input__label:not(:empty) {
+        min-width: auto;
+        max-width: auto;
+        width: 11em;
+      }
+
+      .t-cell__title-text {
         font-weight: bold;
-        font-size: 30rpx;
+        font-size: 24rpx;
         color: #221F1C;
       }
-      .t-cell__note text{
-        font-size: 28rpx;
+
+      .tlabel::after {
+        content: '*';
+        font-size: 50rpx;
+        color: rgb(248, 1, 1);
+      }
+
+      .t-cell__note text {
+        font-size: 24rpx;
         color: #999999;
       }
-      .t-textarea__label{
+
+      .t-input__label {}
+
+      .t-textarea__label {
         font-weight: bold;
-        font-size: 30rpx;
+        font-size: 24rpx;
         color: #221F1C;
       }
-      .t-textarea__wrapper-inner{
+
+      .t-textarea__wrapper-inner {
         background: #F7F8FA;
-        padding:10rpx;
+        padding: 10rpx;
         line-height: 35rpx;
         border-radius: 12rpx;
       }
-      .adbjd{
+
+      .adbjd {
         font-weight: bold;
         font-size: 32rpx;
         color: #F22800;
@@ -103,11 +166,12 @@ page {
     }
   }
 }
-.formBtn{
+
+.formBtn {
   position: fixed;
-  width:700rpx;
+  width: 700rpx;
   background: #FFFFFF;
-  padding:30rpx 25rpx;
+  padding: 30rpx 25rpx;
   bottom: 0;
   display: flex;
   z-index: 115;

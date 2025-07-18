@@ -1,15 +1,17 @@
+const app = getApp()
 Page({
   data: {
-    itemTitle: '评价管理',
+    globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.comment_dashboard,
     statusbar: '',
     jiaonangheight: '',
     loadStatus: 0,
     pageLoading: false,
     tabList: [{
-      text: "待回复",
+      text: app.globalData.languagePack.not_reply,
       key: 1
     }, {
-      text: "全部评价",
+      text: app.globalData.languagePack.all_comment,
       key: 2
     }],
     goodsList: [],
@@ -19,6 +21,7 @@ Page({
     pjvisible: false,
     pjReply: '',
     pjId: 0,
+    jd: 0,
     keyboardheight: 0
   },
   goodListPagination: {
@@ -49,8 +52,12 @@ Page({
   },
   handleReply(e) {
     this.setData({
-      pjReply: e.detail.value,
+      pjReply: this.filterEmojis(e.detail.value),
     })
+  },
+  filterEmojis(input) {
+    // 使用正则表达式匹配表情符号
+    return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
   },
   handleSubmit: async function (e) {
     console.log(e);
@@ -60,7 +67,7 @@ Page({
     formData.token = wx.getStorageSync('token');
     if (formData.pjReply == '') {
       wx.showToast({
-        title: '请输入回复内容！',
+        title: app.globalData.languagePack.lang == 1 ? 'Please enter the reply content!' : '请输入回复内容！',
         icon: 'none',
         duration: 2000
       });
@@ -70,7 +77,7 @@ Page({
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       wx.showToast({
-        title: '回复成功',
+        title: app.globalData.languagePack.lang == 1 ? 'Reply successful' : '回复成功',
         icon: 'success',
         duration: 2000,
         mask: true,
@@ -95,6 +102,12 @@ Page({
     }
   },
   onLoad(options) {
+    if (options.jd == 1) {
+      this.setData({
+        jd: 1,
+        itemTitle: app.globalData.languagePack.comment_reply,
+      });
+    }
     this.init();
   },
   goback: function () {
@@ -108,11 +121,11 @@ Page({
     } = e.currentTarget.dataset;
     // 显示确认提示框
     wx.showModal({
-      title: '提示',
-      content: '确定要删除吗？',
+      title: app.globalData.languagePack.reminder,
+      content: app.globalData.languagePack.sure_delete,
       showCancel: true,
-      cancelText: '取消',
-      confirmText: '确定',
+      cancelText: app.globalData.languagePack.cancel,
+      confirmText: app.globalData.languagePack.sure,
       success: res => {
         if (res.confirm) {
           this.deleteData(id);
@@ -137,13 +150,13 @@ Page({
         scount: scount,
       });
       wx.showToast({
-        title: '删除成功',
+        title: app.globalData.languagePack.lang == 1 ? 'Deleted successfully' : '删除成功',
         icon: 'success',
         duration: 2000
       });
     } else {
       wx.showToast({
-        title: '删除失败',
+        title: app.globalData.languagePack.lang == 1 ? 'Deletion failed' : '删除失败',
         icon: 'loading',
         duration: 2000
       });
@@ -154,9 +167,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -182,6 +207,7 @@ Page({
     formData.page = fresh ? 1 : this.goodListPagination.index;
 
     formData.action = this.data.tabIndex;
+    formData.lang = app.globalData.languagePack.lang;
     try {
       const res = await this.fetchDatas(url, formData);
       if (res.code == 1) {
@@ -229,6 +255,7 @@ Page({
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
+    wx.stopPullDownRefresh();
   },
   onReTry() {
     this.fetchHomeDatas();

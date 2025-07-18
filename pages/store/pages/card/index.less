@@ -1,176 +1,283 @@
-page{
-  background:#F7F8FA ;
+page {
+  background: #F7F8FA;
 }
-.gs{
+
+.publish-wrap {
+  .publish-header {
+    background: #FFFFFF;
+    background-size: cover;
+    height: 180rpx;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+
+    .bar-right {
+      display: flex;
+      padding-left: 34rpx;
+      align-items: center;
+
+      .avatar-text {
+        display: block;
+        width: 80%;
+        font-size: 36rpx;
+        color: #FFFFFF;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.tab-box {
+  --td-tab-nav-bg-color: #ffffff;
+  --td-tab-item-color: #181717;
+  --td-tab-track-color: #FF5533;
+  --td-tab-track-width: 40rpx;
+
+  .tabs-external__active {
+    color: #333;
+  }
+}
+
+.gs {
   margin: 30rpx 20rpx;
   background: #FFFFFF;
   border-radius: 16rpx;
-  padding:20rpx;
-  .info{
+  padding: 20rpx;
+
+  .info {
     display: flex;
     align-items: center;
-    gap:20rpx;
-    image{
-      width:160rpx;
-      height:160rpx;
+    gap: 20rpx;
+
+    image {
+      width: 160rpx;
+      height: 160rpx;
       border-radius: 80rpx;
     }
-    .cont{
-      .txt{
+
+    .cont {
+      width: 100%;
+
+      .txt {
+
         font-weight: bold;
         font-size: 32rpx;
         color: #221F1C;
-        
+        display: flex;
+        justify-content: space-between;
       }
-      .rate{
+
+      .rate {
         display: flex;
         align-items: center;
-        gap:20rpx;
+        gap: 20rpx;
         margin: 15rpx 0;
       }
-      .tags{
-        text{
+
+      .tags {
+        text {
           font-size: 24rpx;
-          padding:10rpx 20rpx;
-          margin-right:10rpx;
+          padding: 10rpx 20rpx;
+          margin-right: 10rpx;
           border-radius: 5rpx;
-        
-          &:first-child{
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:first-child {
             background: #EBF7FF;
             color: #33AAFF;
           }
-          &:nth-child(2){
+
+          &:nth-child(2) {
             background: #edeeee;
             color: #5b5b5c;
           }
-          &:last-child{
+
+          &:last-child {
             color: #FF5533;
             background: #FFF4F2;
           }
         }
       }
     }
+
+    .gzbtn {
+      width: 100rpx;
+      padding: 10rpx 20rpx;
+      background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
+      border-radius: 32rpx;
+      font-weight: bold;
+      font-size: 28rpx;
+      color: #FFFFFF;
+      text-align: center;
+    }
   }
-  .addr{
-    margin-top:20rpx;
-    padding-bottom:20rpx;
+
+  .addr {
+    margin-top: 30rpx;
+    padding-bottom: 20rpx;
     display: flex;
     align-items: center;
-    gap:20rpx;
-    border-bottom:1rpx solid #E6E6E6;
-    image{
-      width:24rpx;
-      height:24rpx;
+    gap: 20rpx;
+    border-bottom: 1rpx solid #E6E6E6;
+
+    image {
+      width: 45rpx;
+      height: 45rpx;
     }
-    text{
+
+    text {
       font-size: 28rpx;
       color: #666666;
     }
   }
-  .btn{
-    padding:30rpx 0;
+
+  .btn {
+    padding: 40rpx 0;
     display: flex;
     justify-content: space-around;
-    button{
+
+    button {
       border-radius: 14rpx;
-      padding:0rpx 30rpx;
+      padding: 0rpx 30rpx;
       font-weight: 500;
       font-size: 28rpx;
       color: #F22800;
-      background: none ;
+      background: none;
       border: 2rpx solid #FF5533;
     }
-    
-    .fx{
-      background: linear-gradient( 90deg, #FF6426 0%, #FF4A26 100%);
+
+    .fx {
+      background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
       color: #FFFFFF;
     }
   }
 }
-.lx{
+
+.lx {
   margin: 30rpx 20rpx;
   background: #FFFFFF;
   border-radius: 16rpx;
-  padding:20rpx;
-  .tit{
+  padding: 20rpx;
+
+  .tit {
     position: relative;
     font-weight: bold;
     font-size: 32rpx;
     color: #1B1F26;
-    padding:10rpx 20rpx;
-    &::before{
+    padding: 10rpx 20rpx;
+
+    &::before {
       position: absolute;
-      content:'';
-      top:18rpx;
-      left:0;
-      width:10rpx;
-      height:32rpx;
+      content: '';
+      top: 18rpx;
+      left: 0;
+      width: 10rpx;
+      height: 32rpx;
       background: #FF5533;
     }
   }
-  .items{
+
+  .items {
     display: flex;
     align-items: top;
-    gap:20rpx;
-    padding:30rpx 0;
-    border-bottom:1rpx solid #E6E6E6;
-    image{
-      width:120rpx;
-      height:120rpx;
+    gap: 20rpx;
+    padding: 30rpx 0;
+    border-bottom: 1rpx solid #E6E6E6;
+
+    image {
+      width: 120rpx;
+      height: 120rpx;
       border-radius: 60rpx;
     }
-    .man{
-      width:55%;
-      .name{
+
+    .man {
+      width: 55%;
+
+      .name {
         font-weight: bold;
         font-size: 36rpx;
         color: #000000;
-        text:last-child{
-          margin-left:20rpx;
+
+        text:last-child {
+          margin-left: 20rpx;
           font-weight: 500;
           font-size: 28rpx;
           color: #666666;
         }
       }
     }
-    &:last-child{
-      border-bottom:none;
+
+    &:last-child {
+      border-bottom: none;
     }
-    .fs{
+
+    .fs {
       font-weight: 500;
       font-size: 28rpx;
       color: #666666;
-      margin:10rpx 0;
+      margin: 10rpx 0;
     }
-    .del{
+
+    .del {
       text-align: right;
-      text{
-        width:100rpx;
+      margin-top: 10rpx;
+
+      text {
+        width: 100rpx;
         display: inline-block;
-        padding:15rpx 20rpx;
-        background: linear-gradient( 90deg, #FF6426 0%, #FF4A26 100%);
+        padding: 10rpx;
+        background: linear-gradient(90deg, #FF6426 0%, #FF4A26 100%);
         color: #FFFFFF;
         text-align: center;
         border-radius: 30rpx;
+        font-size: 24rpx;
+      }
+    }
+
+    .edit {
+      text-align: right;
+
+      text {
+        width: 100rpx;
+        display: inline-block;
+        padding: 10rpx;
+        border: 1px solid #FF6426;
+        color: #FF6426;
+        text-align: center;
+        border-radius: 30rpx;
+        font-size: 24rpx;
       }
     }
   }
 }
-.addlx{
-  margin-top:30rpx;
-  padding:20rpx;
+
+.addlx {
+  margin-top: 30rpx;
+  padding: 20rpx;
   background: #FFFFFF;
   display: flex;
   justify-content: center;
-  gap:10rpx;
-  image{
-    margin-top:5rpx;
-    width:35rpx;
-    height:35rpx;
+  gap: 10rpx;
+
+  image {
+    margin-top: 5rpx;
+    width: 35rpx;
+    height: 35rpx;
   }
-  text{
+
+  text {
     font-weight: 500;
     font-size: 36rpx;
     color: #F22800;
   }
+}
+
+.fish-list {
+  padding: 24rpx;
+  box-sizing: border-box;
 }

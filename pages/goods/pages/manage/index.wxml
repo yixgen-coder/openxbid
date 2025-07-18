@@ -5,7 +5,7 @@
   <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
     <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
       <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
-      <text class="avatar-text">{{itemTitle}}管理</text>
+      <text class="avatar-text">{{itemTitle}} {{globalLangData.dashboard}}</text>
     </view>
   </view>
 </view>
@@ -13,36 +13,45 @@
 <view class="tab-box">
   <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{1}}" bind:change="tabChangeHandle">
     <t-tab-panel label="{{typeText}}({{scount}})" value="{{1}}" />
-    <t-tab-panel label="已结束({{ecount}})" value="{{2}}" />
+    <t-tab-panel label="{{globalLangData.ended}}({{ecount}})" value="{{2}}" />
   </t-tabs>
-  <view class="gl">管理</view>
+  <view class="gl">{{globalLangData.dashboard}}</view>
 </view>
 <view class="home-page-container">
   <view class="fish-list">
     <view class="goodslist" wx:for="{{goodsList}}" wx:key="goods">
       <view class="tit">
-        <text class="color1">{{itemTitle}}状态</text>
-        <text class="color2" wx:if="{{tabIndex==1}}">竞价中</text>
-        <text class="color3" wx:if="{{tabIndex==2}}">已结束</text>
+        <text class="color1">{{itemTitle}} {{globalLangData.status}}</text>
+        <text class="color2" wx:if="{{tabIndex==1}}">{{globalLangData.bidding}}</text>
+        <text class="color3" wx:if="{{tabIndex==2}}">{{globalLangData.ended}}</text>
       </view>
       <view class="goodsInfo" data-key="{{item.id}}" bindtap="goodListClickHandle">
         <image src="{{item.pic}}"></image>
         <view class="info">
           <text>{{item.title}}</text>
           <view class="tags">
-            <text>{{item.btype==1?'出售':'求购'}}</text>
+            <text>{{item.btype==1?globalLangData.sell:globalLangData.buy}}</text>
             <text>{{item.place}}</text>
             <text>{{item.nature}}</text>
           </view>
-          <view class="price">{{item.currencyType==1?'$':'￥'}}{{item.price}}</view>
+          <view class="price">
+            <text class="dw">{{globalLangData.my_quotation}}：</text>
+            <text class="num">{{item.currencyType==1?'$':'￥'}} {{item.price}}</text>
+          </view>
+          <view class="price">
+            <text class="dw">{{globalLangData.current}}：</text>
+            <text class="num">{{item.currencyType==1?'$':'￥'}}{{item.current_price}}</text>
+          </view>
         </view>
       </view>
       <view class="cz">
         <text>{{item.addtime}}</text>
         <view class="btn">
-          <span bindtap="handleGoOffer" data-key="{{item.id}}">竞价列表</span>
-          <span bindtap="handleGoGoodsAdd" data-key="{{item.id}}">编辑</span>
-          <span bindtap="handleGoGoodsDel" data-key="{{item.id}}">删除</span>
+          <span bindtap="handleGoOffer" data-key="{{item.id}}">{{globalLangData.bid_records}}</span>
+          <span bindtap="handleGoGoodsAdd" data-key="{{item.id}}">{{globalLangData.editor}}</span>
+          <span bindtap="delGoodsOrder" wx:if="{{tabIndex==1}}" data-key="{{item.id}}">{{globalLangData.close_quote}}</span>
+          <span bindtap="handleGoGoodsDel" wx:if="{{tabIndex==2}}" data-key="{{item.id}}">{{globalLangData.delete}}</span>
+          <navigator class="btn btn1 btn2" wx:if="{{tabIndex==2 && item.suid!=0}}" url="/pages/news/pages/message/chat/index?uId={{item.suid}}">{{globalLangData.lang==1?'Contact':'联系买家'}}</navigator>
         </view>
       </view>
     </view>

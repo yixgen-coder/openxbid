@@ -1,13 +1,16 @@
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     formats: {},
     content: "",
     statusbar: "",
     jiaonangheight: "",
-    itemTitle: "动态发布",
+    itemTitle: app.globalData.languagePack.share_moments,
     dtId: 0,
     imgList: [],
-    dtTitle: ''
+    dtTitle: '',
+    disabled: false
   },
   onLoad: function (options) {
     const res = wx.getMenuButtonBoundingClientRect()
@@ -18,7 +21,7 @@ Page({
     if (options.dtId > 0) {
       this.setData({
         dtId: options.dtId,
-        itemTitle: '动态编辑'
+        itemTitle: app.globalData.languagePack.lang == 1 ? 'Dynamic editing' : '动态编辑'
       })
     }
     this.init();
@@ -32,9 +35,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const dtId = this.data.dtId;
     if (dtId > 0) {
@@ -60,15 +75,15 @@ Page({
       }
       wx.showToast({
         title: res.msg,
-        icon: 'loading',
+        icon: 'none',
         duration: 500
       });
     } else {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
             wx.navigateBack({
@@ -105,9 +120,13 @@ Page({
     } = e.detail;
 
     this.setData({
-      dtTitle: value
+      dtTitle: this.filterEmojis(value)
     });
 
+  },
+  filterEmojis(input) {
+    // 使用正则表达式匹配表情符号
+    return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
   },
   handleFmAdd(e) {
     const {
@@ -141,7 +160,7 @@ Page({
             }])
           });
           wx.showToast({
-            title: res.data.msg,
+            title: app.globalData.languagePack.lang == 1 ? 'Upload successfully' : '上传成功',
             icon: 'success',
             duration: 2000
           });
@@ -168,17 +187,30 @@ Page({
       dtTitle: ''
     });
   },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
+  },
   async handleTJForm() {
+    this.setData({
+      disabled: true
+    });
     const formData = {};
     formData.token = wx.getStorageSync('token');
     formData.dtId = this.data.dtId;
     formData.imgList = this.data.imgList;
     formData.dtTitle = this.data.dtTitle;
+    formData.lang = app.globalData.languagePack.lang;
     if (formData.dtTitle == '') {
-      wx.showToast({
-        title: '请填写动态内容！',
-        icon: 'loading',
-        duration: 500
+
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.lang == 1 ? 'Please fill in the dynamic content!' : '请填写动态内容！',
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
       return false;
     }
@@ -187,10 +219,10 @@ Page({
     const res = await this.fetchDatas(url, formData);
     if (res.code == 1) {
       wx.showModal({
-        title: '提示',
+        title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText: '知道了',
+        confirmText: app.globalData.languagePack.sure,
         success: res => {
           if (res.confirm) {
             wx.navigateBack({
@@ -199,13 +231,30 @@ Page({
           }
         }
       });
+    } else if (res.code == -2) {
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: res.msg,
+        confirmText: app.globalData.languagePack.sure, // 默认"确定"
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/my/pages/approve/index',
+            });
+          }
+        }
+      })
     } else {
-      wx.showToast({
-        title: res.msg,
-        icon: 'loading',
-        duration: 500
+      wx.showModal({
+        title: app.globalData.languagePack.reminder,
+        content: res.msg,
+        showCancel: false, // 隐藏取消按钮
+        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
+        confirmColor: "#007AFF", // 自定义确认按钮颜色
       });
     }
-
+    this.setData({
+      disabled: false
+    });
   }
 })

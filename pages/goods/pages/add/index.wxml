@@ -6,101 +6,102 @@
     </view>
   </view>
   <view class="goods-list">
-    <view class="title"><text>基础信息</text></view>
-    <view class="items" wx:if="{{dc==1}}">
-      <t-cell title="商品类型" note="代采商品" right-icon="chevron-down" bordered="{{false}}" />
+    <view class="title"><text>{{globalLangData.basic_information}}</text></view>
+    <view class="items" wx:if="{{btype==2}}">
+      <t-radio label="{{globalLangData.accept_proxy_procurement}}" placement="right" bind:change="goodsSetDc" />
     </view>
     <view class="items">
-      <text>商品名称</text>
-      <t-input t-class="name" placeholder="请填写商品名称" maxlength="60" value="{{goodsInfo.title}}" data-key="title" bindchange="handleGrInfos"></t-input>
+      <text>{{globalLangData.product_name}}</text>
+      <t-input t-class="name" placeholder="{{globalLangData.please_enter_product_name}}" maxlength="60" value="{{goodsInfo.title}}" data-key="title" bindchange="handleGrInfos"></t-input>
     </view>
-    <view class="items">
+    <!-- <view class="items">
       <text>商品封面图</text>
       <view class="desc">选择商品照片，上传一张商品封面图片</view>
       <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{imgList}}" data-index="0" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
-    </view>
+    </view> -->
     <view class="items">
-      <text>商品详情图</text>
+      <text>{{globalLangData.product_images}}</text>
       <t-upload mediaType="{{['image']}}" max="{{12}}" files="{{imgsList}}" data-index="1" bind:add="handleFmAdd" bind:remove="handleFmRemove" style="margin-top:40rpx;margin-left:20rpx;" />
     </view>
   </view>
   <view class="goods-list">
-    <view class="title"><text>商品信息</text></view>
+    <view class="title"><text>{{globalLangData.product_details}}</text></view>
     <view class="items">
-      <t-cell title="商品种类" right-icon="chevron-down" note="{{typeText[0]}}" bind:click="onTypePicker" data-index="0" bordered="{{false}}" />
-      <t-cell title="商品分类" right-icon="chevron-down" note="{{typeText[1]}}" bind:click="onTypePicker" data-index="1" bordered="{{false}}" />
-      <t-cell title="商品性质" right-icon="chevron-down" note="{{typeText[2]}}" bind:click="onTypePicker" data-index="2" bordered="{{false}}" />
-      <t-cell title="原产地" right-icon="chevron-down" note="{{typeText[3]}}" bind:click="onTypePicker" data-index="3" bordered="{{false}}" />
-      <t-cell title="生产厂家" bordered="{{false}}">
-        <t-input placeholder="请填写生产厂家" align="right" value="{{goodsInfo.manufacturer}}" data-key="manufacturer" bindchange="handleGrInfos" slot="note"></t-input>
+      <t-cell title="{{globalLangData.type}}" t-class-title="tlabel" right-icon="chevron-down" note="{{typeText[0]}}" bind:click="onTypePicker" data-index="0" bordered="{{false}}" />
+      <t-cell title="{{globalLangData.classification}}" t-class-title="tlabel" right-icon="chevron-down" note="{{typeText[1]}}" bind:click="onTypePicker" data-index="1" bordered="{{false}}" />
+      <t-cell title="{{globalLangData.product_type}}" t-class-title="tlabel" right-icon="chevron-down" note="{{typeText[2]}}" bind:click="onTypePicker" data-index="2" bordered="{{false}}" />
+      <t-cell title="{{globalLangData.country_of_origin}}" right-icon="chevron-down" note="{{typeText[3]}}" bind:click="onTypePicker" data-index="3" bordered="{{false}}" />
+      <t-cell title="{{globalLangData.Manufacturer}}" bordered="{{false}}">
+        <t-input placeholder="{{globalLangData.please_enter_Manufacturer}}" align="right" value="{{goodsInfo.manufacturer}}" data-key="manufacturer" bindchange="handleGrInfos" slot="note"></t-input>
       </t-cell>
-      <t-cell title="目的港(所在地)" bordered="{{false}}">
-        <t-input placeholder="请填写目的港" align="right" value="{{goodsInfo.bourn}}" data-key="bourn" bindchange="handleGrInfos" slot="note"></t-input>
+      <t-cell title="{{globalLangData.destination_port}}" t-class-title="tlabel" bordered="{{false}}">
+        <t-input placeholder="{{globalLangData.please_enter_destination_port}}" align="right" value="{{goodsInfo.bourn}}" data-key="bourn" bindchange="handleGrInfos" slot="note"></t-input>
       </t-cell>
-      <t-cell title="生产时间" right-icon="chevron-down" note="{{typeText[4]}}" bind:click="onTypePicker" data-index="4" bordered="{{false}}" />
-      <t-cell title="商品介绍补充信息" bordered="{{false}}" />
-      <t-textarea value="{{goodsInfo.info}}" data-key="info" bindchange="handleGrInfos" placeholder="请填写与商品有关的信息描述，如具体特性、拉丁名、HS代码等，有利于客户更了解您的商品。" maxlength="600" disableDefaultPadding="{{true}}" indicator />
+      <t-cell title="{{globalLangData.production_date}}" t-class-title="tlabel" right-icon="chevron-down" note="{{typeText[4]}}" bind:click="onTypePicker" data-index="4" bordered="{{false}}" />
+      <t-cell title="{{globalLangData.details_info}}" bordered="{{false}}" />
+      <t-textarea value="{{goodsInfo.info}}" data-key="info" bindchange="handleGrInfos" placeholder="{{globalLangData.products_info}}" maxlength="600" disableDefaultPadding="{{true}}" indicator />
     </view>
   </view>
   <view class="goods-list">
     <view class="title">
-      <text>报价单（规格/型号）</text>
-      <view style="display: flex;justify-content: flex-end;background: #c7c8ca;padding:10rpx 15rpx;border-radius: 20rpx;" bindtap="handleHBType">
+      <text>{{globalLangData.quotation}}（{{globalLangData.grade}}/{{globalLangData.size}}）</text>
+      <!-- <view style="display: flex;justify-content: flex-end;background: #c7c8ca;padding:10rpx 15rpx;border-radius: 20rpx;" bindtap="handleHBType">
         <t-icon name="swap" color="#F22800" size="32rpx" />
         <span style="font-weight: 600;font-size: 24rpx;">美元/人民币</span>
-      </view>
+      </view> -->
     </view>
     <view class="items" wx:for="{{goodsSpec}}" wx:key="spec">
-      <t-cell title="规格" bordered="{{false}}">
-        <t-input placeholder="请填写规格" value="{{item.a1}}" data-key="a1" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
+      <t-cell title="{{globalLangData.grade}}（{{globalLangData.quality_grade}}）" bordered="{{false}}">
+        <t-input placeholder="{{globalLangData.fill_in}}" value="{{item.a1}}" data-key="a1" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
       </t-cell>
-      <t-cell title="型号" bordered="{{false}}">
-        <t-input placeholder="请填写型号" value="{{item.a2}}" data-key="a2" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
+      <t-cell title="{{globalLangData.size}}（{{globalLangData.size_classification}}）" t-class-title="tlabel" bordered="{{false}}">
+        <t-input placeholder="{{globalLangData.fill_in}}" value="{{item.a2}}" data-key="a2" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
       </t-cell>
-      <t-cell title="数量" bordered="{{false}}">
-        <t-input type="number" placeholder="请填写数量" value="{{item.a3}}" data-key="a3" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
+      <t-cell title="{{globalLangData.package}}({{globalLangData.weight_per_unit}} KG)" t-class-title="tlabel" bordered="{{false}}">
+        <t-input type="digit" placeholder="{{globalLangData.fill_in}}" value="{{item.a8}}" data-key="a8" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
       </t-cell>
-      <t-cell title="包装(kg)" bordered="{{false}}">
-        <t-input placeholder="请填写包装" value="{{item.a8}}" data-key="a8" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
+      <t-cell title="{{globalLangData.quantity}}({{globalLangData.quantity1}})" t-class-title="tlabel" bordered="{{false}}">
+        <t-input type="number" placeholder="{{globalLangData.fill_in}}" value="{{item.a3}}" data-key="a3" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
       </t-cell>
-      <t-cell title="净重(kg)" bordered="{{false}}">
-        <t-input placeholder="请填写净重" value="{{item.a4}}" data-key="a4" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
+      <t-cell title="{{globalLangData.net_weight}}(KG)" t-class-title="tlabel" bordered="{{false}}">
+        <t-input type="digit" placeholder="{{globalLangData.fill_in}}" value="{{item.a4}}" data-key="a4" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
       </t-cell>
       <t-cell title="" bordered="{{false}}">
-        <t-icon name="swap" color="#333333" size="56rpx" slot="title" bindtap="handleHBType" />
-        <text slot="left-icon">单价({{hbType==1?'USD':'CNY'}}/kg)</text>
-        <t-input placeholder="请填写单价" value="{{item.a5}}" data-key="a5" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
+        <!-- <t-icon name="swap" t-class-name="ylabel" color="#F22800" size="56rpx" slot="title" bindtap="handleHBType" /> -->
+        <t-icon name="https://imgs.phanlink.com/program/images/d_y.png" size="60rpx" slot="title" bindtap="handleHBType" />
+        <text slot="left-icon" class="tlabel">{{globalLangData.unit_price}}({{hbType==1?'USD':'CNY'}}/kg)</text>
+        <t-input type="digit" placeholder="{{globalLangData.fill_in}}" value="{{item.a5}}" data-key="a5" data-index="{{index}}" bindchange="handleBjInfos" align="right" slot="note"></t-input>
       </t-cell>
-      <t-cell wx:if="{{index>0}}" data-index="{{index}}" bordered="{{false}}" right-icon="minus-circle" note="删除" bindtap="handleDelBJ">
+      <t-cell wx:if="{{index>0}}" data-index="{{index}}" bordered="{{false}}" right-icon="minus-circle" note="{{globalLangData.delete}}" bindtap="handleDelBJ">
       </t-cell>
     </view>
     <view class="items">
-      <t-button t-class="adbjd" icon="add-circle" size="large" variant="text" block bindtap="handleAddBJ">添加报价单</t-button>
+      <t-button t-class="adbjd" icon="add-circle" size="large" variant="text" block bindtap="handleAddBJ">{{globalLangData.add_quotation}}</t-button>
     </view>
     <view class="items">
-      <view style="display: flex;justify-content: space-between;gap:20rpx;">
-        <t-input label="数量" align="right" value="{{zaMount}}" disabled="{{true}}" />
-        <t-input label="净重(KG)" align="right" value="{{zWeight}}" disabled="{{true}}" />
+      <view style="display: flex;justify-content: space-between;">
+        <t-cell title="{{globalLangData.quantity}}" hover note="{{zaMount}}" style="width:40%;" />
+        <t-cell title="{{globalLangData.total_net_weight}}(KG)" hover note="{{zWeight}}" style="width:50%;" />
       </view>
       <view>
-        <t-input label="总价({{hbType==1?'USD':'CNY'}})" align="right" value="{{zTotal}}" disabled="{{true}}" />
+        <t-cell title="{{globalLangData.amount}}({{hbType==1?'USD':'CNY'}})" hover note="{{zTotal}}" />
       </view>
     </view>
   </view>
   <view class="goods-list">
-    <view class="title">竞价时间</view>
+    <view class="title">{{globalLangData.quotation_validity_period}}</view>
     <view class="items">
-      <t-cell title="开始时间" right-icon="chevron-down" note="{{typeText[5]}}" bind:click="onTypePicker" data-index="5" bordered="{{false}}" />
-      <t-cell title="结束时间" right-icon="chevron-down" note="{{typeText[6]}}" bind:click="onTypePicker" data-index="6" bordered="{{false}}" />
+      <t-cell title="{{globalLangData.start_date}}" right-icon="chevron-down" note="{{typeText[5]}}" bind:click="onTypePicker" data-index="5" bordered="{{false}}" />
+      <t-cell title="{{globalLangData.ends}}" right-icon="chevron-down" note="{{typeText[6]}}" bind:click="onTypePicker" data-index="6" bordered="{{false}}" />
     </view>
   </view>
 </view>
 
 <view class="formBtn">
-  <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">重置</t-button>
-  <t-button size="large" style="width:450rpx;background: #FF4A26;font-size: 32rpx;" bindtap="handleTJForm">提交</t-button>
+  <t-button theme="light" size="large" style="width:200rpx;background: #F0F2F5;color: #999999;border:none;font-size: 32rpx;" bindtap="handleReset">{{globalLangData.reset}}</t-button>
+  <t-button size="large" style="width:450rpx;background: #FF4A26;font-size: 32rpx;" bindtap="handleTJForm" disabled="{{disabled}}">{{globalLangData.submit}}</t-button>
 </view>
-<t-picker visible="{{typeVisible}}" value="{{typeCurrentValue}}" data-index="{{typeCurrentIndex}}" title="请选择{{typeCurrentTitle}}" cancelBtn="取消" confirmBtn="确认" bindconfirm="handleConfirm" bindclose="handleCancel" bindcancel="handleCancel">
+<t-picker visible="{{typeVisible}}" value="{{typeCurrentValue}}" data-index="{{typeCurrentIndex}}" title="{{typeCurrentTitle}}" cancelBtn="{{globalLangData.cancel}}" confirmBtn="{{globalLangData.sure}}" bindconfirm="handleConfirm" bindclose="handleCancel" bindcancel="handleCancel">
   <t-picker-item options="{{typesCurrentList}}"></t-picker-item>
 </t-picker>
-<t-calendar visible="{{dateVisible}}" value="{{typeCurrentValue}}" min-date="{{minDate}}" max-date="{{maxDate}}" data-index="{{typeCurrentIndex}}" title="请选择{{typeCurrentTitle}}" bind:confirm="handleConfirm" bind:close="handleCancel" />
+<t-calendar visible="{{dateVisible}}" value="{{typeCurrentValue}}" min-date="{{minDate}}" max-date="{{maxDate}}" data-index="{{typeCurrentIndex}}" title="{{typeCurrentTitle}}" bind:confirm="handleConfirm" bind:close="handleCancel" />

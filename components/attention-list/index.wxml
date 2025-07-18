@@ -7,12 +7,14 @@
           <view class="top">
             <view class="title">
               <view class="text" bindtap="onClickStores" data-id="{{item.id}}">{{item.shop_name}}</view>
-              <view class="btn" bindtap="onCancelGz" data-id="{{item.id}}">取消关注</view>
+              <view wx:if="{{ly==0}}" class="btn" bindtap="onCancelGz" data-id="{{item.id}}">{{globalLangData.unfollow}}</view>
+              <navigator wx:if="{{ly==1}}" url="/pages/store/pages/card/index?storeId={{item.id}}" class="btn" bindtap="onShowCard" data-id="{{item.id}}">{{globalLangData.see_card}}</navigator>
             </view>
             <view class="tags">
-              <view class="color1">{{item.btype==2?'企业':'个体'}}</view>
-              <view class="color2">{{item.place}}</view>
-              <view class="color3">{{item.type}}</view>
+              <view class="color3" wx:if="{{item.place!=null}}">{{item.place}}</view>
+              <view class="color2" wx:if="{{item.type!=null}}">{{item.type}}</view>
+              <view class="color1">{{globalLangData.transactions}}：{{item.orders}}</view>
+              <view class="color4">{{globalLangData.bidding3}}：{{item.bjs}}</view>
             </view>
           </view>
         </view>

@@ -1,6 +1,6 @@
 .load-more {
   font-size: 24rpx;
-  height: 100rpx;
+  height: 60rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;

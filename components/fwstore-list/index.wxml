@@ -1,13 +1,13 @@
 <view class="home-grid">
   <t-grid class="block" column="{{4}}">
-    <t-grid-item jump-type="navigate-to" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="汇率查询" image="https://imgs.phanlink.com/program/images/fw1.png" />
-    <t-grid-item jump-type="navigate-to" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="关税计算" image="https://imgs.phanlink.com/program/images/fw2.png" />
-    <t-grid-item jump-type="navigate-to" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="进口数据" image="https://imgs.phanlink.com/program/images/fw3.png" />
-    <t-grid-item jump-type="navigate-to" url="" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="共享文件" image="https://imgs.phanlink.com/program/images/fw4.png" />
+    <block wx:for="{{storenavs}}" wx:for-item="item" wx:key="index">
+      <t-grid-item jump-type="navigate-to" url="{{item.url}}" t-class-image="item-image" t-class-content="content-padding" t-class-text="text-padding-0" text="{{item.title}}" image="https://imgs.phanlink.com/{{item.pic}}" />
+    </block>
+
   </t-grid>
 </view>
 <view class="fwtit">
-  <view class="left">服务商家</view>
+  <view class="left">{{globalLangData.support_service}}</view>
   <view class="right" bindtap="handleShowPicker">
     <text>{{regionTitle}}</text>
     <image src="https://imgs.phanlink.com/program/images/fiter.png"></image>
@@ -15,11 +15,11 @@
 </view>
 <view class="tabler">
   <t-tabs defaultValue="{{tabCurrent}}" bind:change="onTabsChange" bind:click="onTabsClick" t-class="custom-tabs">
-    <t-tab-panel label="全部" value="{{0}}" />
-    <t-tab-panel label="清关服务" value="{{1}}" />
-    <t-tab-panel label="融资服务" value="{{2}}" />
-    <t-tab-panel label="代采服务" value="{{3}}" />
-    <t-tab-panel label="冷库及物流" value="{{4}}" />
+    <t-tab-panel label="{{globalLangData.all}}" value="{{0}}" />
+    <t-tab-panel label="{{globalLangData.customs_clearance}}" value="{{1}}" />
+    <t-tab-panel label="{{globalLangData.po_financing}}" value="{{2}}" />
+    <t-tab-panel label="{{globalLangData.procurement_agent}}" value="{{3}}" />
+    <t-tab-panel label="{{globalLangData.cold_chain_logistics}}" value="{{4}}" />
   </t-tabs>
 </view>
 <view class="fwstorelist">
@@ -29,14 +29,19 @@
     </view>
     <view class="txt">
       <view class="tit">{{item.shop_name}}</view>
-      <view class="tags"><text>{{item.fwtype}}</text></view>
+      <view class="tags">
+        <view class="card {{item.status==2?'card--active':''}}" wx:for="{{item.fwtype}}" wx:if="{{item.fwtype!=''}}">
+          <text>{{item.fwtype}}</text>
+          <t-icon name="check" t-class="card__icon" />
+        </view>
+      </view>
       <view class="address">
         <image src="https://imgs.phanlink.com/program/images/addre.png"></image>
-        <text>{{item.address}}</text>
+        <text>{{item.address||''}}</text>
       </view>
     </view>
   </view>
 </view>
-<t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="选择地区" cancelBtn="取消" confirmBtn="确认" usingCustomNavbar bindchange="onPickerChange" bindcancel="handleShowPicker">
+<t-picker visible="{{regionVisible}}" value="{{regionValue}}" data-key="region" title="{{globalLangData.please_select}}" cancelBtn="{{globalLangData.cancel}}" confirmBtn="{{globalLangData.sure}}" usingCustomNavbar bindchange="onPickerChange" bindcancel="handleShowPicker">
   <t-picker-item options="{{regions}}" />
 </t-picker>

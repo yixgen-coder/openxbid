@@ -1,5 +1,6 @@
 page {
   background: #F7F8FA;
+  width: 100%;
 }
 .publish-wrap .publish-header {
   width: 100%;
@@ -23,6 +24,8 @@ page {
 .publish-wrap .rz {
   background: #FFFFFF;
   margin-top: 30rpx;
+  width: 100%;
+  overflow: hidden;
 }
 .publish-wrap .rz .tlabel {
   font-size: 32rpx;
@@ -36,6 +39,9 @@ page {
   right: 0rpx;
   font-size: 32rpx;
   color: #F22800;
+}
+.publish-wrap .rz .t-input__label:not(:empty) {
+  min-width: var(--td-input-label-min-width, 11em);
 }
 .publish-wrap .rz .t-icon--image {
   text-align: center;
@@ -74,9 +80,12 @@ page {
   font-size: 28rpx;
   margin: 30rpx;
 }
+.publish-wrap .rz .tabpanel .t-checkbox {
+  min-width: 170rpx;
+}
 .publish-wrap .rz .block {
   width: 100vw;
-  height: 450px;
+  height: 600px;
   background: var(--td-bg-color-container);
   border-top-left-radius: 16rpx;
   border-top-right-radius: 16rpx;
@@ -108,4 +117,14 @@ page {
 }
 .publish-wrap .tjbtn button {
   background-color: #FF6426;
+}
+.publish-wrap .t-input__label:not(:empty) {
+  min-width: var(--td-input-label-min-width, 4em);
+  max-width: var(--td-input-label-max-width, 15em);
+}
+.publish-wrap .t-tab-panel {
+  width: 95%;
+}
+.publish-wrap .t-checkbox__icon--left {
+  margin-right: 0;
 }

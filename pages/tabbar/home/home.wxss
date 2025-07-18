@@ -53,6 +53,9 @@ page {
 .home-page-header .swiper-wrap {
   margin-top: 20rpx;
 }
+.home-page-header .swiper-wrap .t-swiper-nav--bottom {
+  bottom: 50rpx;
+}
 .home-page-header .swiper-wrap .t-image__swiper {
   width: 100%;
   border-radius: 10rpx;
@@ -107,7 +110,7 @@ page {
 }
 .home-page-tabs .tabs-external__item {
   padding: 10rpx 0 10rpx 0 !important;
-  font-size: 34rpx !important;
+  font-size: 28rpx !important;
   margin-right: 56rpx;
 }
 .home-page-tabs .tabs-external__active {
@@ -127,19 +130,21 @@ page {
   padding-bottom: 15rpx;
 }
 .home-tab {
-  width: 500px;
-  padding-left: 10rpx;
   box-sizing: border-box;
   display: flex;
+  justify-content: center;
 }
 .home-tab > view {
-  color: #FFC6A6;
+  color: #ffffff;
   font-size: 32rpx;
-  margin-right: 56rpx;
+  margin-right: 80rpx;
+  font-weight: 800;
 }
 .home-tab .active {
-  color: #ffffff;
   font-size: 40rpx;
+  border-bottom: 6rpx solid #FFFFFF;
+  padding-bottom: 60rpx;
+  transition-duration: 0.3s;
 }
 .home-grid {
   background: #ffffff;
@@ -183,11 +188,12 @@ page {
   width: 400rpx;
 }
 .fish-list {
-  padding: 20rpx 10rpx;
+  padding: 0rpx 10rpx;
   box-sizing: border-box;
+  padding-bottom: 60rpx;
 }
 .store-page-container {
-  margin: 60rpx 20rpx 30rpx 20rpx;
+  margin: 30rpx 20rpx 30rpx 20rpx;
 }
 .store-page-container .storetabs {
   display: flex;
@@ -204,7 +210,7 @@ page {
   background: #FFFFFF;
   border-radius: 10rpx;
   padding: 15rpx 30rpx;
-  font-size: 30rpx;
+  font-size: 26rpx;
 }
 .store-page-container .storetabs .active {
   font-weight: bold;

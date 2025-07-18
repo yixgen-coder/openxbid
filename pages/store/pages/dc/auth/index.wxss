@@ -20,7 +20,7 @@ page {
   display: block;
   width: 80%;
   font-size: 36rpx;
-  color: #000000;
+  color: #FFFFFF;
   text-align: center;
 }
 .items {

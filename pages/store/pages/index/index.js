@@ -1,64 +1,75 @@
 // pages/my/approve/auhor/index.js
+const app = getApp()
 Page({
   data: {
+    globalLangData: app.globalData.languagePack,
     storeInfo: [],
+    userinfo: [],
     options: [],
     demoCheckboxMax: [],
-    itemTitle: '商家配置',
+    itemTitle: app.globalData.languagePack.shop_settings,
     statusbar: '',
     jiaonangheight: '',
     shop_name: '',
     shop_status: '',
     shop_time: '',
     shop_desc: '',
+    tel: '',
     address: '',
-    typeText: '商家性质',
+    typeText: app.globalData.languagePack.business_type,
     typeValue: [1],
-    typeTitle: '选择主营产品',
+    typeTitle: app.globalData.languagePack.main_products,
+    countryText: app.globalData.languagePack.lang == 1 ? 'China' : '中国',
+    countryValue: [96],
+    countryVisible: false,
     types: [{
-        label: '厂家',
+        label: app.globalData.languagePack.factory,
         value: 1
       },
       {
-        label: '贸易商',
+        label: app.globalData.languagePack.trader,
         value: 2,
       },
       {
-        label: '服务商',
+        label: app.globalData.languagePack.service_provider,
         value: 3,
       }
     ],
     fileList: [],
     imgTmp: '',
-    btnText: '保存',
+    btnText: app.globalData.languagePack.save1,
     btnStatus: false,
     visible: false,
     disselect: false,
     fwtypeVisible: false,
     fwtypeVisible1: false,
-    fwtypeText: '请选择',
-    fwtypeValue: [1],
+    fwtypeText: app.globalData.languagePack.please_select,
+    fwtypeValue: [1, 2],
     fwtypes: [{
-        label: '清关服务',
+        label: app.globalData.languagePack.customs_clearance,
+        check: false,
         value: 1
       },
       {
-        label: '融资服务',
+        label: app.globalData.languagePack.po_financing,
+        check: false,
         value: 2,
       },
       {
-        label: '代采服务',
+        label: app.globalData.languagePack.procurement_agent,
+        check: false,
         value: 3,
       },
       {
-        label: '冷库及物流',
+        label: app.globalData.languagePack.cold_chain_logistics,
+        check: false,
         value: 4,
       }
     ],
-    regionText: '中国',
+    regionText: '',
     regionValue: [96],
     regionTitle: '',
-    regions: {},
+    regions: [],
   },
 
   /**
@@ -68,7 +79,7 @@ Page({
   onRegionPicker() {
     this.setData({
       regionVisible: true,
-      regionTitle: '选择国家'
+      regionTitle: app.globalData.languagePack.select_country
     });
   },
   onSelectChange(e) {
@@ -76,21 +87,48 @@ Page({
     const {
       value
     } = e.detail;
-
+    //console.log(e);
     var label = '';
     var selected = [];
-    if (value.length > 0) {
+    if (value.length > 0 && value.length <= 10) {
       for (let i = 0; i < value.length; i++) {
         label += this.splitStringAtDelimiter(value[i], '-')[0] + ',';
-        selected.push(this.splitStringAtDelimiter(value[i], '-')[1]);
       }
+    } else if (value.length > 10) {
+      wx.showToast({
+        title: app.globalData.languagePack.lang == 1 ? 'A maximum of 10 main products can be selected' : '主营产品最多选择10个',
+        icon: 'none',
+        duration: 2000
+      });
+      return false;
     } else {
-      label = '选择主营产品'
+      label = app.globalData.languagePack.select_main_products
     }
+
     this.setData({
-      demoCheckboxMax: selected,
+      demoCheckboxMax: value,
       typeTitle: label,
     })
+  },
+  getLeftValuesSafe(array) {
+    // 使用 map 提取 '-' 左边的值，考虑异常情况
+    const leftValues = array.map(item => {
+      const parts = item.split('-', 1); // 只分割第一次出现的 '-'
+      return parts[0] || ''; // 如果没有 '-'，则返回空字符串
+    });
+
+    // 使用 join 将所有左边的值用逗号连接起来
+    return leftValues.join(',');
+  },
+  getRightValuesSafe(array) {
+    // 使用 map 提取第一个 '-' 右边的值
+    const rightValues = array.map(item => {
+      const parts = item.split('-', 1); // 限制分割次数为1，但我们需要的是右边部分，所以这里直接 split 不限制
+      return item.substring(parts[0].length + 1); // 计算并截取右边部分
+    });
+
+    // 使用 join 将所有右边的值用逗号连接起来
+    return rightValues;
   },
   splitStringAtDelimiter(inputStr, delimiter) {
     const index = inputStr.indexOf(delimiter);
@@ -107,9 +145,21 @@ Page({
     let token = wx.getStorageSync('token');
     if (!token) {
       // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
+      wx.showModal({
+        title: app.globalData.languagePack.reminder, // 标题
+        content: app.globalData.languagePack.function_registered, // 内容
+        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
+        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/tabbar/login/login',
+            });
+          } else if (res.cancel) {
+            wx.navigateBack();
+          }
+        }
+      })
     }
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
@@ -121,12 +171,14 @@ Page({
   },
   fetchData(url) {
     let token = wx.getStorageSync('token');
+    const lang = app.globalData.languagePack.lang;
     return new Promise((resolve, reject) => {
       wx.request({
         url: url,
         method: 'POST',
         data: {
-          'token': token
+          'token': token,
+          'lang': lang
         },
         header: {
           'content-type': 'application/json'
@@ -146,28 +198,41 @@ Page({
       const res = await this.fetchData(url);
       const types = this.data.types;
       const fwtypes = this.data.fwtypes;
+
+
       if (res.code == 1) {
+        const stype = res.data.info.stype;
+        let fwtype = res.data.info.fwtype;
+        let country = res.data.info.areas;
+        fwtype = (fwtype != null) ? fwtype.split(',').map(Number) : [];
+        country = (country != null) ? country.split(',').map(Number) : [];
         this.setData({
+          userinfo: res.data.userinfo,
           storeInfo: res.data.info,
           options: res.data.ftys,
-          fileList: [{
+          fileList: res.data.info.shop_logo ? [{
             'url': res.data.info.shop_logo
-          }],
+          }] : [],
           imgTmp: res.data.info.shop_logo,
           shop_name: res.data.info.shop_name,
-          shop_status: res.data.info.status == 1 ? '已开通' : '未开通',
+          shop_status: res.data.info.status == 1 ? app.globalData.languagePack.opening : app.globalData.languagePack.not_open,
           shop_time: res.data.info.uptime,
           shop_desc: res.data.info.shop_desc,
+          tel: res.data.info.tel,
           address: res.data.info.address,
-          typeText: this.findValue(res.data.info.type, types),
-          typeValue: [res.data.info.type],
-          fwtypeText: res.data.info.type == 3 ? this.findValue(res.data.info.fwtype, fwtypes) : '请选择',
-          fwtypeValue: res.data.info.type == 3 ? [res.data.info.fwtype] : [],
-          fwtypeVisible1: res.data.info.type == 3 ? true : false,
+          typeText: res.data.info.type == 0 ? app.globalData.languagePack.please_select : this.findValue(res.data.info.type, types),
+          typeValue: [Number(res.data.info.type)],
+          fwtypeText: fwtype.length == 0 ? app.globalData.languagePack.please_select : this.getLabelsByValues(fwtype, fwtypes),
+          fwtypeValue: fwtype,
+          countryText: country.length == 0 ? app.globalData.languagePack.please_select : this.getLabelsByValues(country, res.data.region),
+          countryValue: country,
           regionText: this.findValue(res.data.info.region, res.data.region),
           regionValue: [res.data.info.region],
           regions: res.data.region,
+          demoCheckboxMax: stype != null ? stype : [],
+          typeTitle: stype != null ? this.getLeftValuesSafe(stype) : app.globalData.languagePack.select_main_products
         });
+
       }
     } catch (error) {
       console.error('请求失败', error);
@@ -203,6 +268,18 @@ Page({
   onColumnChange(e) {
     //console.log('picker pick:', e);
   },
+  onPickerChange1(e) {
+    const {
+      key
+    } = e.currentTarget.dataset;
+    const {
+      value
+    } = e.detail;
+    this.setData({
+      [`${key}Value`]: value,
+    });
+    this.addInfo(key, value[0]);
+  },
   onPickerChange(e) {
     const {
       key
@@ -212,21 +289,10 @@ Page({
       label
     } = e.detail;
     this.setData({
-      [`${key}Visible`]: false,
       [`${key}Value`]: value,
-      [`${key}Text`]: label.join(' '),
+      [`${key}Text`]: label[0],
     });
-
     this.addInfo(key, value[0]);
-    if (key == 'type') {
-      this.addInfo('fwtype', 0);
-      this.setData({
-        fwtypeVisible1: true,
-        fwtypeValue: [],
-        fwtypeText: '请选择',
-      });
-    }
-
   },
 
   onPickerCancel(e) {
@@ -236,6 +302,48 @@ Page({
     this.setData({
       [`${key}Visible`]: false,
     });
+  },
+
+  onPickerConfirm(e) {
+    console.log(e);
+
+    const {
+      key
+    } = e.currentTarget.dataset;
+    const {
+      fwtypeValue,
+      fwtypes,
+      countryValue,
+      regions
+    } = this.data;
+    console.log(this.data.regions);
+    // if (fwtypeValue.length == 0) {
+    //   wx.showToast({
+    //     title: '至少选择一项吧',
+    //     icon: 'none',
+    //     duration: 2000
+    //   });
+    //   return false;
+    // }
+    this.setData({
+      [`${key}Visible`]: false,
+    });
+    this.setData({
+      [`${key}Visible`]: false,
+      [`${key}Text`]: key == 'fwtype' ? (fwtypeValue.length != 0 ? this.getLabelsByValues(fwtypeValue, fwtypes) : app.globalData.languagePack.please_select) : this.getLabelsByValues(countryValue, regions),
+    });
+    //console.log(this.data.countryText);
+    if (key == 'fwtype') {
+      this.addInfo(key, fwtypeValue.join(','));
+    } else {
+      this.addInfo(key, countryValue.join(','));
+    }
+
+  },
+  getLabelsByValues(oneDArray, twoDArray) {
+    return twoDArray
+      .filter(item => oneDArray.includes(item.value)) // 筛选出符合条件的对象
+      .map(item => item.label).join(','); // 提取 label 属性
   },
   onXZPicker() {
     const visible = this.data.visible
@@ -251,6 +359,11 @@ Page({
   onfwTitlePicker() {
     this.setData({
       fwtypeVisible: true,
+    });
+  },
+  onCountryTitlePicker() {
+    this.setData({
+      countryVisible: true,
     });
   },
   handleAdd(e) {
@@ -296,7 +409,7 @@ Page({
             imgTmp: res.data.filepath
           });
           wx.showToast({
-            title: res.data.msg,
+            title: app.globalData.languagePack.lang == 1 ? 'Upload successfully' : '上传成功',
             icon: 'success',
             duration: 2000
           });
@@ -328,11 +441,12 @@ Page({
 
     const formData = this.data.storeInfo;
     const imgTmp = this.data.imgTmp;
-    const demoCheckboxMax = this.data.demoCheckboxMax;
+    let demoCheckboxMax = this.data.demoCheckboxMax;
     const token = wx.getStorageSync('token');
     formData.token = token;
-    formData.stype = demoCheckboxMax;
+    formData.stype = demoCheckboxMax.length > 0 ? this.getRightValuesSafe(demoCheckboxMax) : [];
     formData.shop_logo = imgTmp;
+    formData.lang = app.globalData.languagePack.lang;
     //console.log(formData);
     // 发送数据到服务器
     this.sendFormData(formData);
@@ -349,12 +463,14 @@ Page({
           wx.showToast({
             title: res.data.msg,
             icon: 'success',
-            duration: 2000,
+            duration: 3000,
             mask: true,
             complete: () => {
-              wx.navigateBack({
-                delta: 1
-              });
+              setTimeout(() => {
+                wx.navigateBack({
+                  delta: 1
+                });
+              }, 2000);
             }
           });
         } else {
@@ -374,5 +490,11 @@ Page({
         });
       }
     });
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh();
   },
 })

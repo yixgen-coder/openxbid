@@ -10,7 +10,7 @@
 .community-list-wrap .community-item .date {
   width: 100rpx;
   font-weight: 600;
-  font-size: 28rpx ;
+  font-size: 28rpx;
 }
 .community-list-wrap .community-item .content-txt {
   font-size: 30rpx;
@@ -46,7 +46,7 @@
 .community-list-wrap .community-item .pj .zpl > image {
   width: 36rpx;
   height: 36rpx;
-  margin-left: 40rpx;
+  margin-left: 10rpx;
   margin-right: 10rpx;
 }
 .community-list-wrap .community-item .pj .zpl text {
@@ -70,7 +70,7 @@
   margin-top: 20rpx;
 }
 .community-list-wrap .community-item .replay > view .name {
-  color: #80766C;
+  color: #FF7426;
 }
 .community-list-wrap .community-item .replay > view .margin-5 {
   margin: 0 10rpx;

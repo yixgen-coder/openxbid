@@ -9,17 +9,20 @@
     <form bindsubmit="onFormSubmit">
       <view>
         <view class="intro">
-          <text>反馈标题</text>
-          <t-input  value="{{title}}" data-key="title" bindchange="handleGrInfos" placeholder="请输入反馈标题"  />
+          <text>{{type==1?globalLangData.feedback_title:globalLangData.title}}</text>
+          <t-input value="{{title}}" data-key="title" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" />
         </view>
         <view class="intro">
-          <text>问题描述或建议</text>
-          <t-textarea placeholder="请描述您的问题或建议，我们将不断改进~" value="{{content}}" data-key="content" bindchange="handleGrInfos" disableDefaultPadding="{{true}}" />
+          <text>{{globalLangData.lang==1?'Problem description or suggestions':'问题描述或建议'}}</text>
+          <t-textarea placeholder="{{globalLangData.lang==1?'Please describe the problem description or suggestions. We will keep improving':'请描述问题描述或建议，我们将不断改进'}}" value="{{content}}" data-key="content" bindchange="handleGrInfos" disableDefaultPadding="{{true}}" />
         </view>
-
+        <view class="intro">
+          <text>{{globalLangData.lang==1?'contact':'联系方式'}}</text>
+          <t-input value="{{contact}}" data-key="contact" bindchange="handleGrInfos" placeholder="{{globalLangData.lang==1?'Please leave your email/wechat/phone number':'请留下您的邮箱/微信/电话号码'}}" />
+        </view>
       </view>
       <view class="tjbtn">
-        <t-button disabled="{{btnStatus}}" theme="danger" size="large" type="submit" block>提交反馈</t-button>
+        <t-button disabled="{{btnStatus}}" theme="danger" size="large" type="submit" block>{{globalLangData.submit}}</t-button>
       </view>
     </form>
   </view>
