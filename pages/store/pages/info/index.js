@@ -1,4 +1,6 @@
 const app = getApp()
+// [改动] 引入统一请求层
+const { post } = require('../../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -28,35 +30,20 @@ Page({
       statusbar: res.top, // 胶囊顶部高度
       jiaonangheight: res.height // 胶囊高度
     })
-    const url = 'https://kpy.phanlink.com/v1/getStoreInfo';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.storeId = this.data.storeId;
-    formData.lang = app.globalData.languagePack.lang;
-    const oinfo = await this.fetchSetOrders(url, formData);
-    if (oinfo.result != null) {
-      this.setData({
-        storeInfo: oinfo.result,
-      });
+    // [改动] fetchSetOrders → post()
+    try {
+      const oinfo = await post('/getStoreInfo', {
+        storeId: this.data.storeId,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
+      if (oinfo.result != null) {
+        this.setData({
+          storeInfo: oinfo.result,
+        });
+      }
+    } catch (oinfo) {
+      // 静默处理
     }
-  },
-  fetchSetOrders(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
    /**
    * 页面相关事件处理函数--监听用户下拉动作

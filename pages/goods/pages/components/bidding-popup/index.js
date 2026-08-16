@@ -27,7 +27,7 @@ Component({
    * 组件的方法列表
    */
   attached() {
-    console.log('result')
+    // console.log('result')
     // this.init(true);
   },
   // async init() {

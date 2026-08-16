@@ -4,6 +4,7 @@
     <image bind:tap="handleShareShow" src="https://imgs.phanlink.com/program/images/sher.png"></image>
   </view>
   <!-- <image src="https://imgs.phanlink.com/program/images/topbg.png"></image> -->
+
   <t-swiper current="{{current}}" bindclick="previewImage" autoplay="{{autoplay}}" duration="{{duration}}" interval="{{interval}}" list="{{goodsInfo.pics}}" navigation="{{ { type: 'fraction' } }}" paginationPosition="{{paginationPosition}}" height="750rpx" />
   <view wx:if="{{hideMydata && goodsInfo.statu==2}}" class="count-down" style="background: url('https://imgs.phanlink.com/program/images/sm.png') no-repeat bottom;background-size: cover;">
     <view>{{globalLangData.bidding1}}</view>
@@ -35,7 +36,7 @@
     {{goodsInfo.title}}
   </view>
   <view class="tags">
-    <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==2&&goodsInfo.dc==1}}" variant="light">{{goodsInfo.accept_proxy_procurement}}</t-tag>
+    <t-tag class="margin-right-12" wx:if="{{goodsInfo.btype==2&&goodsInfo.dc==1}}" variant="light">{{globalLangData.accept_proxy_procurement}}</t-tag>
     <t-tag wx:if="{{goodsInfo.nature !== null}}" class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.nature}}</t-tag>
     <t-tag wx:if="{{goodsInfo.place !== null}}" class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.place}}</t-tag>
     <t-tag wx:if="{{goodsInfo.manufacturer !== null}}" class="margin-right-12" t-class="tag-class" variant="light">{{goodsInfo.manufacturer}}</t-tag>
@@ -56,7 +57,7 @@
       <view class="txt2">{{globalLangData.production_date}}</view>
     </view>
   </view>
-  <view class="price">
+  <view class="price" wx:if="{{hideMydata}}">
     <view>{{globalLangData.current}}:<text class="red">{{goodsInfo.currencyType==1?'$':'￥'}}</text><text class="red big">{{goodsInfo.current_price?goodsInfo.current_price:goodsInfo.pric}}</text></view>
     <view style="display: flex;align-items: center;" bindtap="handleGoOffer">
       <text class="red big">{{globalLangData.biding_detail}} </text>
@@ -67,64 +68,26 @@
     <text>{{globalLangData.bid}} {{goodsInfo.apply}} 次</text>
   </view>
 </view>
-<!-- 
-<view class="classify-box">
-  <view class="fixed">
-    <view style="font-size: 32rpx;color:#000000;font-weight: 600;">报价列表</view>
 
-    <view class="has-icon" bindtap="handleGoOffer"><text>{{goodsInfo.apply}}条</text>
-      <t-icon name="chevron-right" color="#999" size="42rpx" />
-    </view>
-  </view>
-</view> -->
+<!-- 隐藏的canvas用于图片拼接 -->
 
-<!-- <view class="classify-box">
-  <view class="fixed margin-b-35">
-    <view class="gray">目的港（所在地）</view>
-    <view><text>{{goodsInfo.bourn}}</text></view>
-  </view>
-  <view class="fixed margin-b-35">
-    <view class="gray">重量</view>
-    <view><text>{{goodsInfo.weight}}KG</text></view>
-  </view>
-  <view class="fixed margin-b-35">
-    <view class="gray">原产地</view>
-    <view><text>{{goodsInfo.place}}</text></view>
-  </view>
-  <view class="fixed">
-    <view class="gray">生产厂家</view>
-    <view><text>{{goodsInfo.manufacturer}}</text></view>
-  </view>
-</view> -->
+<!-- <image src="{{qrCodeUrl}}"></image> -->
+<!-- 操作按钮 -->
+<!-- <view class="controls">
+    <button class="btn btn-primary" bindtap="generatePoster">生成海报</button>
+    <button class="btn btn-secondary" bindtap="savePoster" disabled="{{!posterUrl}}">保存图片</button>
+  </view> -->
 
-<!-- 评价 -->
-<!-- <view class="classify-box">
-  <view class="circt-title">
-    <view class="left">商品评论<text> ({{goodsInfo.pldats_counts?goodsInfo.pldats_counts:0}})</text></view>
-    <view class="right" bindtap="handleGoReview"><text>查看全部</text>
-      <t-icon name="chevron-right" color="#999" size="32rpx" />
-    </view>
-  </view>
-  <view class="circt-box">
-    <view class="circt-item" wx:for="{{goodsInfo.pldats}}">
-      <view class="top">
-        <view class="left">
-          <image src="https://imgs.phanlink.com/{{item.avatar}}"></image>
-          <text>{{item.nickname}}</text>
-        </view>
-        <view class="right">{{item.addtime}}</view>
-      </view>
-      <view class="bottom">{{item.msg}}</view>
-    </view>
-  </view>
-</view> -->
 
+<!-- 隐藏的Canvas -->
+<canvas canvas-id="posterCanvas" style="width: 300px; height: 500px; position: fixed; top: -10000px; left: -10000px;"></canvas>
 <!-- 公司信息 -->
-<view class="classify-box box-fixed">
+<view class="classify-box box-fixed" wx:if="{{hideMydata}}">
   <image class="compiny-image" src="{{goodsInfo.store.shop_logo}}"></image>
   <view class="compiny-right">
     <view class="compiny-title">
-      <navigator url="/pages/store/pages/info/index?storeId={{goodsInfo.storeid}}" class="title-text">{{goodsInfo.store.shop_name}} ></navigator>
+      <navigator wx:if="{{globalLangData.lang == 2}}" url="/pages/store/pages/info/index?storeId={{goodsInfo.storeid}}" class="title-text">{{goodsInfo.store.shop_name?goodsInfo.store.shop_name:goodsInfo.store.shop_name_en}} ></navigator>
+      <navigator wx:if="{{globalLangData.lang == 1}}" url="/pages/store/pages/info/index?storeId={{goodsInfo.storeid}}" class="title-text">{{goodsInfo.store.shop_name_en?goodsInfo.store.shop_name_en:goodsInfo.store.shop_name}} ></navigator>
       <navigator bindtap="storeClickHandle" class="title-btn">{{goodsInfo.gz==1?globalLangData.following:'+'+globalLangData.follow}}</navigator>
     </view>
     <view class="rate">
@@ -164,13 +127,11 @@
         </view>
         <view class="bottom">{{item.msg}}</view>
       </view>
-      <!-- <view class="right" bindtap="handleGoReview" style="text-align: center;padding:20rpx;" wx:if="{{goodsInfo.pldats_counts>6}}"><text>查看全部</text></view> -->
-      <!-- <view class="right" bindtap="handleGoReview" style="text-align: center;padding:20rpx;" wx:if="{{goodsInfo.pldats_counts==0}}"><text>去评论</text></view> -->
     </view>
   </view>
 </view>
 <!-- 底部栏 -->
-<view class="footer-box">
+<view class="footer-box" wx:if="{{hideMydata}}">
 
   <view class="user-txt">
     <navigator url="/pages/news/pages/message/chat/index?storeId={{goodsInfo.finfo.storeid}}">
@@ -215,9 +176,23 @@
   <view class="share">
     <button class="share-item" open-type="share">
       <image src="https://imgs.phanlink.com/program/images/wx.png"></image>
-      <view>{{globalLangData.lang==1?'Share it with your wechat friends':'分享给微信好友'}}</view>
+      <view>{{globalLangData.lang==1?'Share with friends':'分享给微信好友'}}</view>
       <!-- <view style="color:#F22800;">建议先授权微信名和昵称提高转发成功率</view> -->
+    </button>
+    <button class="share-item" bindtap="generatePoster">
+      <image src="https://imgs.phanlink.com/program/images/pyq.png"></image>
+      <view>{{globalLangData.lang==1?'Share it on Moments':'分享到朋友圈'}}</view>
     </button>
   </view>
   <view bind:tap="onShareVisibleChange" class="qx">{{globalLangData.cancel}}</view>
 </t-popup>
+<!-- 海报结果 -->
+<view class="modal-overlay" wx:if="{{showModal}}" bindtap="hideModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <image class="modal-poster" src="{{posterUrl}}" mode="widthFix"></image>
+    <view class="modal-buttons">
+      <button class="modal-btn modal-btn-cancel" bindtap="hideModal">取消</button>
+      <button class="modal-btn modal-btn-save" bindtap="savePoster">保存到相册</button>
+    </view>
+  </view>
+</view>

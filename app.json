@@ -35,9 +35,12 @@
         "pages/system/index",
         "pages/about/index",
         "pages/mobile/index",
+        "pages/mail/index",
         "pages/service/rate/index",
         "pages/service/tariff/index",
         "pages/service/import/index",
+        "pages/review/index",
+        "pages/review/info/index",
         "pages/service/synergy/index"
       ]
     },
@@ -111,6 +114,9 @@
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    },
+    "scope.writePhotosAlbum": {
+      "desc": "需要保存图片到相册"
     }
   }
 }

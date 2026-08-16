@@ -10,13 +10,14 @@
           <view class="left">
 
             <view class="title-info">
-              <view class="title">{{item.shop_name}}</view>
+              <view class="title" wx:if="{{globalLangData.lang == 2}}">{{item.shop_name?item.shop_name:item.shop_name_en}}</view>
+              <view class="title" wx:if="{{globalLangData.lang == 1}}">{{item.shop_name_en?item.shop_name_en:item.shop_name}}</view>
               <view class="time">{{item.ctime}} · {{globalLangData.share_post}}</view>
             </view>
           </view>
           <view class="right">
             <view class="hitab" wx:if="{{item.active}}">
-              <navigator url="/pages/my/pages/feedback/index?type=2" style="display: flex;">
+              <navigator url="/pages/my/pages/feedback/index?type=2&dtid={{item.id}}" style="display: flex;">
                 <t-icon name="https://imgs.phanlink.com/program/images/ts1.png" size="40rpx" />
                 <view style="color:#FFFFFF;white-space: nowrap;">{{globalLangData.lang==1?'Report':'举报'}}</view>
               </navigator>

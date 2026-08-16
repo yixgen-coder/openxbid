@@ -2,7 +2,7 @@
   <view class="tit">{{globalLangData.merchant_news}}</view>
   <view class="border"></view>
   <block wx:for="{{gdDatas}}" wx:for-item="item" wx:for-index="index" wx:key="index">
-    <t-cell url="{{item.url}}" title="{{item.title}}" description="{{item.desc}}" align="top" image="{{item.img}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
+    <t-cell wx:if="{{index<5 || messGl==1}}" url="{{item.url}}" title="{{item.title}}" description="{{item.desc}}" align="top" image="{{item.img}}" hover bordered="{{false}}" t-class="cell-class" t-class-title="cell-title" t-class-image="cell-image" t-class-description="cell-class-description">
       <!-- *********** -->
       <!-- <view class="cell-note" slot="note" wx:if="{{index%2==0}}">
         <view class="time">2024-01-18</view>
@@ -16,12 +16,14 @@
         <view class="time" wx:if="{{index==2}}">{{messTime.t4==null?'':messTime.t4}}</view>
         <view class="time" wx:if="{{index==3}}">{{messTime.t5==null?'':messTime.t2}}</view>
         <view class="time" wx:if="{{index==4}}">{{messTime.t6==null?'':messTime.t6}}</view>
+        <view class="time" wx:if="{{index==5}}">{{messTime.t7==null?'':messTime.t7}}</view>
         <!-- <t-icon class="time" name="chevron-right" color="#cccccc" size="42rpx" /> -->
         <t-badge wx:if="{{index==0}}" count="{{messCount.count1}}" class="wrapper1"></t-badge>
         <t-badge wx:if="{{index==1}}" count="{{messCount.count5}}" class="wrapper1"></t-badge>
         <t-badge wx:if="{{index==2}}" count="{{messCount.count4}}" class="wrapper1"></t-badge>
         <t-badge wx:if="{{index==3}}" count="{{messCount.count2}}" class="wrapper1"></t-badge>
         <t-badge wx:if="{{index==4}}" count="{{messCount.count6}}" class="wrapper1"></t-badge>
+        <t-badge wx:if="{{index==5}}" count="{{messCount.count7}}" class="wrapper1"></t-badge>
       </view>
     </t-cell>
   </block>
@@ -29,7 +31,13 @@
   <view class="border"></view>
   <!-- ******************************************* -->
   <block wx:for="{{goodsList}}" wx:for-item="item" wx:key="index">
-    <t-cell url="/pages/news/pages/message/chat/index?storeId={{item.storeid}}" title="{{item.shop_name}}" description="{{item.msg}}" align="bottom" image="https://imgs.phanlink.com/{{item.shop_logo}}" hover bordered="{{false}}" t-class="cell-class" t-class-image="cell-image" t-class-description="cell-class-description">
+    <t-cell url="/pages/news/pages/message/chat/index?storeId={{item.storeid}}" wx:if="{{globalLangData.lang==1}}" title="{{item.shop_name_en?item.shop_name_en:item.shop_name}}" description="{{item.msg}}" align="bottom" image="https://imgs.phanlink.com/{{item.shop_logo}}" hover bordered="{{false}}" t-class="cell-class" t-class-title="cell-title" t-class-image="cell-image" t-class-description="cell-class-description">
+      <view class="cell-note" slot="note">
+        <view class="time">{{item.addtime}}</view>
+      </view>
+      <t-badge count="{{item.count}}" slot="note" />
+    </t-cell>
+    <t-cell url="/pages/news/pages/message/chat/index?storeId={{item.storeid}}" wx:if="{{globalLangData.lang==2}}" title="{{item.shop_name_en?item.shop_name_en:item.shop_name}}" description="{{item.msg}}" align="bottom" image="https://imgs.phanlink.com/{{item.shop_logo}}" hover bordered="{{false}}" t-class="cell-class" t-class-title="cell-title" t-class-image="cell-image" t-class-description="cell-class-description">
       <view class="cell-note" slot="note">
         <view class="time">{{item.addtime}}</view>
       </view>

@@ -1,4 +1,7 @@
 const app = getApp()
+// [改动] 引入统一请求层和认证服务
+const { post } = require('../../../../utils/request')
+const { requireLogin } = require('../../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -60,12 +63,9 @@ Page({
     return input.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, '');
   },
   handleSubmit: async function (e) {
-    console.log(e);
-    const formData = {};
-    formData.pjId = this.data.pjId;
-    formData.pjReply = this.data.pjReply;
-    formData.token = wx.getStorageSync('token');
-    if (formData.pjReply == '') {
+    // console.log(e);
+    // [改动] fetchDatas → post()
+    if (this.data.pjReply == '') {
       wx.showToast({
         title: app.globalData.languagePack.lang == 1 ? 'Please enter the reply content!' : '请输入回复内容！',
         icon: 'none',
@@ -73,9 +73,11 @@ Page({
       });
       return false;
     }
-    const url = 'https://kpy.phanlink.com/v1/setOrderPJReply';
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    try {
+      const res = await post('/setOrderPJReply', {
+        pjId: this.data.pjId,
+        pjReply: this.data.pjReply
+      }, { showError: false });
       wx.showToast({
         title: app.globalData.languagePack.lang == 1 ? 'Reply successful' : '回复成功',
         icon: 'success',
@@ -92,8 +94,7 @@ Page({
           }, 2000);
         }
       });
-
-    } else {
+    } catch (res) {
       wx.showToast({
         title: res.msg,
         icon: 'none',
@@ -134,13 +135,9 @@ Page({
     });
   },
   deleteData: async function (id) {
-    const url = 'https://kpy.phanlink.com/v1/setOrderPJDel';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.pjId = id;
-
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setOrderPJDel', { pjId: id }, { showError: false });
       let scount = this.data.scount;
       if (scount > 0) {
         scount--;
@@ -154,7 +151,7 @@ Page({
         icon: 'success',
         duration: 2000
       });
-    } else {
+    } catch (res) {
       wx.showToast({
         title: app.globalData.languagePack.lang == 1 ? 'Deletion failed' : '删除失败',
         icon: 'loading',
@@ -164,25 +161,8 @@ Page({
   },
 
   init() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] 替换登录检查为 requireLogin()
+    if (!requireLogin()) return;
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
       statusbar: res.top, // 胶囊顶部高度
@@ -200,25 +180,21 @@ Page({
     this.setData({
       loadStatus: 1
     });
-    const url = 'https://kpy.phanlink.com/v1/getOrderPJDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.limit = this.goodListPagination.num;
-    formData.page = fresh ? 1 : this.goodListPagination.index;
-
-    formData.action = this.data.tabIndex;
-    formData.lang = app.globalData.languagePack.lang;
+    // [改动] fetchDatas → post()
     try {
-      const res = await this.fetchDatas(url, formData);
-      if (res.code == 1) {
-        const nextList = res.result.data;
-        this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-          scount: res.result.count
-        });
-        if (nextList.length > 0) {
-          this.goodListPagination.index = formData.page + 1;
-        }
+      const res = await post('/getOrderPJDatas', {
+        limit: this.goodListPagination.num,
+        page: fresh ? 1 : this.goodListPagination.index,
+        action: this.data.tabIndex,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
+      const nextList = res.result.data;
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+        scount: res.result.count
+      });
+      if (nextList.length > 0) {
+        this.goodListPagination.index = (fresh ? 1 : this.goodListPagination.index) + 1;
       }
       this.setData({
         loadStatus: 0
@@ -228,30 +204,11 @@ Page({
         icon: 'loading',
         duration: 500
       });
-    } catch (error) {
+    } catch (res) {
       this.setData({
         loadStatus: 3
       });
-
     }
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);

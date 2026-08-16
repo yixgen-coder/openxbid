@@ -14,6 +14,10 @@
       <text>{{globalLangData.product_name}}</text>
       <t-input t-class="name" placeholder="{{globalLangData.please_enter_product_name}}" maxlength="60" value="{{goodsInfo.title}}" data-key="title" bindchange="handleGrInfos"></t-input>
     </view>
+    <view class="items">
+      <text>{{globalLangData.product_name1}}</text>
+      <t-input t-class="name" placeholder="{{globalLangData.please_enter_product_name}}" maxlength="60" value="{{goodsInfo.title_en}}" data-key="title_en" bindchange="handleGrInfos"></t-input>
+    </view>
     <!-- <view class="items">
       <text>商品封面图</text>
       <view class="desc">选择商品照片，上传一张商品封面图片</view>

@@ -61,9 +61,16 @@
   border-radius: 70rpx;
 }
 .fwstorelist .fw-items .txt .tit {
+  width: 450rpx;
   font-weight: bold;
   font-size: 32rpx;
   color: #221F1C;
+  overflow: hidden;
+  /* 超出隐藏 */
+  text-overflow: ellipsis;
+  /* 显示省略号 */
+  white-space: nowrap;
+  /* 不换行 */
 }
 .fwstorelist .fw-items .txt .tags {
   margin: 10rpx 0;

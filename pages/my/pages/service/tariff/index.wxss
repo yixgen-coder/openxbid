@@ -1,6 +1,12 @@
 page {
   background: #F7F8FA;
 }
+.publish-wrap {
+  /* index.wxss */
+  /* 搜索区域样式 */
+  /* 收起状态：限制行数并显示省略号 */
+  /* 展开状态：不限制行数 */
+}
 .publish-wrap .publish-header {
   width: 100%;
   height: 180rpx;
@@ -19,4 +25,156 @@ page {
   font-size: 36rpx;
   color: #FFFFFF;
   text-align: center;
+}
+.publish-wrap .container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+.publish-wrap .search-section {
+  background: white;
+  border-radius: 12rpx;
+  padding: 10rpx;
+  margin-bottom: 10rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+.publish-wrap .search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0rpx;
+}
+.publish-wrap .search-input {
+  flex: 1;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
+}
+.publish-wrap .search-btn {
+  margin-left: 20rpx;
+  background-color: #1aad19;
+  color: white;
+  border-radius: 8rpx;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+}
+.publish-wrap .table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.publish-wrap .table-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+.publish-wrap .page-info {
+  font-size: 24rpx;
+  color: #666;
+}
+.publish-wrap .table-container {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+.publish-wrap .table-head {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #f8f9fa;
+}
+.publish-wrap .table-row {
+  display: flex;
+  min-width: 100%;
+  align-items: center;
+}
+.publish-wrap .head-row {
+  border-bottom: 2rpx solid #e9ecef;
+}
+.publish-wrap .body-row {
+  border-bottom: 1rpx solid #e9ecef;
+}
+.publish-wrap .body-row:last-child {
+  border-bottom: none;
+}
+.publish-wrap .table-cell {
+  flex: 1;
+  min-width: 180rpx;
+  padding: 24rpx 16rpx;
+  text-align: center;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.publish-wrap .head-cell {
+  font-weight: bold;
+  color: #495057;
+  background-color: #f8f9fa;
+}
+.publish-wrap .body-cell {
+  color: #6c757d;
+  background-color: #fff;
+}
+.publish-wrap .body-row:nth-child(even) .body-cell {
+  background-color: #f8f9fa;
+}
+.publish-wrap .load-more,
+.publish-wrap .no-more {
+  padding: 30rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999;
+}
+.publish-wrap .page-indicator {
+  display: flex;
+  justify-content: center;
+  margin-top: 20rpx;
+}
+.publish-wrap .indicator-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin: 0 8rpx;
+  transition: all 0.3s;
+}
+.publish-wrap .indicator-dot.active {
+  background-color: #007bff;
+  transform: scale(1.2);
+}
+.publish-wrap .expandable-text {
+  width: 100%;
+}
+.publish-wrap .text-content {
+  font-size: 28rpx;
+  line-height: 44rpx;
+  color: #f70606;
+  word-break: break-all;
+  text-align: justify;
+}
+.publish-wrap .collapsed {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  /* 此值会由组件的 maxLines 属性动态控制，但需通过内联样式或JS更新 */
+  -webkit-box-orient: vertical;
+}
+.publish-wrap .expanded {
+  overflow: visible;
+  display: block;
+}
+.publish-wrap .button {
+  margin-top: 5rpx;
+  font-size: 26rpx;
+  color: #0a54f3;
+  text-align: right;
+  padding: 5rpx 0;
 }

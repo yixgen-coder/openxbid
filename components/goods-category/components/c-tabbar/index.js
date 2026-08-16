@@ -16,7 +16,7 @@ Component({
     activeKey(newVal) {
       if (this.properties.tabList && newVal) {
         this.setActive(newVal).catch((e) => {
-          console.error(e);
+          // console.error(e);
         });
       }
     },
@@ -27,7 +27,7 @@ Component({
   },
   attached() {
     this.setActive(this.properties.activeKey).catch((e) => {
-      console.error(e);
+      // console.error(e);
     });
   },
 
@@ -61,7 +61,7 @@ Component({
           this.triggerEvent('change', { index: currentActive });
         })
         .catch((e) => {
-          console.error(e);
+          // console.error(e);
         });
     },
   },

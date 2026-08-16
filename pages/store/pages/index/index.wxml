@@ -12,7 +12,8 @@
           <t-cell title="{{globalLangData.shop_logo}}" required />
           <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleAdd" bind:remove="handleRemove" style="margin-top:40rpx;margin-left:20rpx;" />
         </view>
-        <t-input t-class-label="tlabel" label="{{globalLangData.shop_name}}" value="{{shop_name}}" data-key="shop_name" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-input t-class-label="{{globalLangData.lang==2?'tlabel':''}}" label="{{globalLangData.shop_name}}" value="{{shop_name}}" data-key="shop_name" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-input t-class-label="{{globalLangData.lang==1?'tlabel':''}}" label="{{globalLangData.shop_name1}}" value="{{shop_name_en}}" data-key="shop_name_en" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
         <t-cell title="{{globalLangData.shop_status}}" arrow t-class-note="tnote" note="{{shop_status}}" />
         <t-cell title="{{globalLangData.opening_date}}" note="{{shop_time}}" />
         <t-cell wx:if="{{userinfo.company_type==2}}" title="{{globalLangData.business_type}}" arrow note="{{typeText}}" bind:click="onTitlePicker" required />
@@ -41,6 +42,7 @@
         </t-picker>
         <t-input label="{{globalLangData.phone}}" value="{{tel}}" data-key="tel" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
         <t-input label="{{globalLangData.operating_address}}" value="{{address}}" data-key="address" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-input label="{{globalLangData.website}}" value="{{website}}" data-key="website" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
         <t-cell title="{{globalLangData.main_products}}" arrow note="{{typeTitle}}" bind:click="onXZPicker" required />
         <t-cell title="{{globalLangData.major_trading_countries}}" arrow note="{{countryText}}" bind:click="onCountryTitlePicker" required />
         <t-popup visible="{{countryVisible}}" placement="bottom">

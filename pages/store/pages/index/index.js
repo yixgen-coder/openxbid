@@ -1,5 +1,10 @@
 // pages/my/approve/auhor/index.js
 const app = getApp()
+// [改动] 引入统一请求层和认证服务
+const { post } = require('../../../../utils/request')
+const { requireLogin } = require('../../../../services/auth')
+// [改动] 硬编码 URL → config 常量
+const { API_BASE } = require('../../../../utils/config')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -11,11 +16,13 @@ Page({
     statusbar: '',
     jiaonangheight: '',
     shop_name: '',
+    shop_name_en: '',
     shop_status: '',
     shop_time: '',
     shop_desc: '',
     tel: '',
     address: '',
+    website: '',
     typeText: app.globalData.languagePack.business_type,
     typeValue: [1],
     typeTitle: app.globalData.languagePack.main_products,
@@ -33,6 +40,9 @@ Page({
       {
         label: app.globalData.languagePack.service_provider,
         value: 3,
+      }, {
+        label: app.globalData.languagePack.others1,
+        value: 4,
       }
     ],
     fileList: [],
@@ -142,25 +152,8 @@ Page({
     }
   },
   onLoad(options) {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] 替换登录检查为 requireLogin()
+    if (!requireLogin()) return;
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
       statusbar: res.top, // 胶囊顶部高度
@@ -169,73 +162,48 @@ Page({
 
     this.fetStoreiInfoHandle();
   },
-  fetchData(url) {
-    let token = wx.getStorageSync('token');
-    const lang = app.globalData.languagePack.lang;
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: {
-          'token': token,
-          'lang': lang
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
-  },
   async fetStoreiInfoHandle() {
+    // [改动] fetchData → post()
     try {
-      const url = 'https://kpy.phanlink.com/v1/getStore';
-      const res = await this.fetchData(url);
+      const res = await post('/getStore', {}, { showError: false });
       const types = this.data.types;
       const fwtypes = this.data.fwtypes;
 
-
-      if (res.code == 1) {
-        const stype = res.data.info.stype;
-        let fwtype = res.data.info.fwtype;
-        let country = res.data.info.areas;
-        fwtype = (fwtype != null) ? fwtype.split(',').map(Number) : [];
-        country = (country != null) ? country.split(',').map(Number) : [];
-        this.setData({
-          userinfo: res.data.userinfo,
-          storeInfo: res.data.info,
-          options: res.data.ftys,
-          fileList: res.data.info.shop_logo ? [{
-            'url': res.data.info.shop_logo
-          }] : [],
-          imgTmp: res.data.info.shop_logo,
-          shop_name: res.data.info.shop_name,
-          shop_status: res.data.info.status == 1 ? app.globalData.languagePack.opening : app.globalData.languagePack.not_open,
-          shop_time: res.data.info.uptime,
-          shop_desc: res.data.info.shop_desc,
-          tel: res.data.info.tel,
-          address: res.data.info.address,
-          typeText: res.data.info.type == 0 ? app.globalData.languagePack.please_select : this.findValue(res.data.info.type, types),
-          typeValue: [Number(res.data.info.type)],
-          fwtypeText: fwtype.length == 0 ? app.globalData.languagePack.please_select : this.getLabelsByValues(fwtype, fwtypes),
-          fwtypeValue: fwtype,
-          countryText: country.length == 0 ? app.globalData.languagePack.please_select : this.getLabelsByValues(country, res.data.region),
-          countryValue: country,
-          regionText: this.findValue(res.data.info.region, res.data.region),
-          regionValue: [res.data.info.region],
-          regions: res.data.region,
-          demoCheckboxMax: stype != null ? stype : [],
-          typeTitle: stype != null ? this.getLeftValuesSafe(stype) : app.globalData.languagePack.select_main_products
-        });
-
-      }
+      const stype = res.data.info.stype;
+      let fwtype = res.data.info.fwtype;
+      let country = res.data.info.areas;
+      fwtype = (fwtype != null) ? fwtype.split(',').map(Number) : [];
+      country = (country != null) ? country.split(',').map(Number) : [];
+      this.setData({
+        userinfo: res.data.userinfo,
+        storeInfo: res.data.info,
+        options: res.data.ftys,
+        fileList: res.data.info.shop_logo ? [{
+          'url': res.data.info.shop_logo
+        }] : [],
+        imgTmp: res.data.info.shop_logo,
+        shop_name: res.data.info.shop_name,
+        shop_name_en: res.data.info.shop_name_en,
+        shop_status: res.data.info.status == 1 ? app.globalData.languagePack.opening : app.globalData.languagePack.not_open,
+        shop_time: res.data.info.uptime,
+        shop_desc: res.data.info.shop_desc,
+        tel: res.data.info.tel,
+        address: res.data.info.address,
+        website: res.data.info.website,
+        typeText: res.data.info.type == 0 ? app.globalData.languagePack.please_select : this.findValue(res.data.info.type, types),
+        typeValue: [Number(res.data.info.type)],
+        fwtypeText: fwtype.length == 0 ? app.globalData.languagePack.please_select : this.getLabelsByValues(fwtype, fwtypes),
+        fwtypeValue: fwtype,
+        countryText: country.length == 0 ? app.globalData.languagePack.please_select : this.getLabelsByValues(country, res.data.region),
+        countryValue: country,
+        regionText: this.findValue(res.data.info.region, res.data.region),
+        regionValue: [res.data.info.region],
+        regions: res.data.region,
+        demoCheckboxMax: stype != null ? stype : [],
+        typeTitle: stype != null ? this.getLeftValuesSafe(stype) : app.globalData.languagePack.select_main_products
+      });
     } catch (error) {
-      console.error('请求失败', error);
+      // console.error('请求失败', error);
     }
   },
   findValue(value, data) {
@@ -305,7 +273,7 @@ Page({
   },
 
   onPickerConfirm(e) {
-    console.log(e);
+    // console.log(e);
 
     const {
       key
@@ -316,7 +284,7 @@ Page({
       countryValue,
       regions
     } = this.data;
-    console.log(this.data.regions);
+    // console.log(this.data.regions);
     // if (fwtypeValue.length == 0) {
     //   wx.showToast({
     //     title: '至少选择一项吧',
@@ -394,7 +362,7 @@ Page({
     });
     let that = this;
     const task = wx.uploadFile({
-      url: 'https://kpy.phanlink.com/v1/uploadImgs', // 仅为示例，非真实的接口地址
+      url: `${API_BASE}/uploadImgs`, // [改动] 硬编码 URL → config 常量
       filePath: file,
       name: 'file',
       formData: {},
@@ -438,58 +406,38 @@ Page({
     });
   },
   onFormSubmit: function (e) {
-
+    // [改动] wx.request → post()
     const formData = this.data.storeInfo;
     const imgTmp = this.data.imgTmp;
     let demoCheckboxMax = this.data.demoCheckboxMax;
-    const token = wx.getStorageSync('token');
-    formData.token = token;
     formData.stype = demoCheckboxMax.length > 0 ? this.getRightValuesSafe(demoCheckboxMax) : [];
     formData.shop_logo = imgTmp;
     formData.lang = app.globalData.languagePack.lang;
-    //console.log(formData);
-    // 发送数据到服务器
     this.sendFormData(formData);
   },
-  sendFormData: function (data) {
-    const url = 'https://kpy.phanlink.com/v1/setStore'
-    wx.request({
-      url: url, // 服务器地址
-      method: 'POST',
-      data: data,
-      success: function (res) {
-        //console.log(res);
-        if (res.data.code == 1) {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'success',
-            duration: 3000,
-            mask: true,
-            complete: () => {
-              setTimeout(() => {
-                wx.navigateBack({
-                  delta: 1
-                });
-              }, 2000);
-            }
-          });
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 2000
-          });
+  sendFormData: async function (data) {
+    try {
+      const res = await post('/setStore', data, { showError: false });
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 3000,
+        mask: true,
+        complete: () => {
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 2000);
         }
-      },
-      fail: function (error) {
-        console.error('提交失败', error);
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none',
-          duration: 2000
-        });
-      }
-    });
+      });
+    } catch (res) {
+      wx.showToast({
+        title: res.msg,
+        icon: 'none',
+        duration: 2000
+      });
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

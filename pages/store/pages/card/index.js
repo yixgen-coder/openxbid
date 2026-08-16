@@ -1,4 +1,6 @@
 const app = getApp()
+// [改动] 引入统一请求层
+const { post } = require('../../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -72,13 +74,10 @@ Page({
     const {
       storeId
     } = this.data;
-    const url = 'https://kpy.phanlink.com/v1/setStoreGz';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.storeId = storeId;
-    const res = await this.fetchSetOrders(url, formData);
-    let storeInfo = this.data.storeInfo;
-    if (res.code == 1) {
+    // [改动] fetchSetOrders → post()
+    try {
+      const res = await post('/setStoreGz', { storeId: storeId }, { showError: false });
+      let storeInfo = this.data.storeInfo;
       storeInfo.gz = res.action
       this.setData({
         storeInfo: storeInfo
@@ -88,7 +87,8 @@ Page({
         icon: 'success',
         duration: 2000
       });
-
+    } catch (res) {
+      // 静默处理
     }
   },
   handleGoStore() {
@@ -121,20 +121,16 @@ Page({
 
   },
   deleteGzData: async function (id) {
-    const url = 'https://kpy.phanlink.com/v1/setStoreLxDel';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.lxid = id;
-    const oinfo = await this.fetchSetOrders(url, formData);
-
-    if (oinfo.code == 1) {
+    // [改动] fetchSetOrders → post()
+    try {
+      const oinfo = await post('/setStoreLxDel', { lxid: id }, { showError: false });
       wx.showToast({
         title: oinfo.msg,
         icon: 'success',
         duration: 2000
       });
       this.removeDataById(id);
-    } else {
+    } catch (oinfo) {
       wx.showToast({
         title: oinfo.msg,
         icon: 'loadng',
@@ -150,46 +146,45 @@ Page({
     });
   },
   init: async function () {
-
-    const url = 'https://kpy.phanlink.com/v1/getStoreLxInfo';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.storeId = this.data.storeId;
-    formData.lang = app.globalData.languagePack.lang;
-    const oinfo = await this.fetchSetOrders(url, formData);
-
-    if (oinfo.code == 1) {
+    // [改动] fetchSetOrders → post()
+    try {
+      const oinfo = await post('/getStoreLxInfo', {
+        storeId: this.data.storeId,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
       if (oinfo.result.id > 0) {
         this.setData({
           storeInfo: oinfo.result,
           storeId: oinfo.result.id,
         });
       }
-    } else if (oinfo.code == -1) {
-      wx.showModal({
-        title: app.globalData.languagePack.reminder,
-        content: oinfo.msg,
-        showCancel: true,
-        cancelText: app.globalData.languagePack.exit,
-        confirmText: app.globalData.languagePack.immediate_certification,
-        success: function (res) {
-          if (res.confirm) {
-            wx.redirectTo({
-              url: '/pages/my/pages/approve/index'
-            });
-          } else if (res.cancel) {
-            wx.navigateBack({
-              delta: 1
-            });
+    } catch (oinfo) {
+      if (oinfo.code == -1) {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: oinfo.msg,
+          showCancel: true,
+          cancelText: app.globalData.languagePack.exit,
+          confirmText: app.globalData.languagePack.immediate_certification,
+          success: function (res) {
+            if (res.confirm) {
+              wx.redirectTo({
+                url: '/pages/my/pages/approve/index'
+              });
+            } else if (res.cancel) {
+              wx.navigateBack({
+                delta: 1
+              });
+            }
           }
-        }
-      });
-    } else {
-      wx.showToast({
-        title: oinfo.msg,
-        icon: 'success',
-        duration: 2000
-      });
+        });
+      } else {
+        wx.showToast({
+          title: oinfo.msg,
+          icon: 'success',
+          duration: 2000
+        });
+      }
     }
   },
   fetchHomeDatas: async function (fresh = false) {
@@ -202,24 +197,20 @@ Page({
     this.setData({
       loadStatus: 1
     });
-    const url = 'https://kpy.phanlink.com/v1/getOrderDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.limit = this.goodListPagination.num;
-    formData.page = fresh ? 1 : this.goodListPagination.index;
-
-    formData.action = this.data.tabIndex;
-    formData.lang = this.data.globalLangData.lang;;
+    // [改动] fetchSetOrders → post()
     try {
-      const res = await this.fetchSetOrders(url, formData);
-      if (res.code == 1) {
-        const nextList = res.result;
-        this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-        });
-        if (nextList.length > 0) {
-          this.goodListPagination.index = formData.page + 1;
-        }
+      const res = await post('/getOrderDatas', {
+        limit: this.goodListPagination.num,
+        page: fresh ? 1 : this.goodListPagination.index,
+        action: this.data.tabIndex,
+        lang: this.data.globalLangData.lang
+      }, { showError: false });
+      const nextList = res.result;
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+      });
+      if (nextList.length > 0) {
+        this.goodListPagination.index = (fresh ? 1 : this.goodListPagination.index) + 1;
       }
       this.setData({
         loadStatus: 0
@@ -229,30 +220,11 @@ Page({
         icon: 'none',
         duration: 500
       });
-    } catch (error) {
+    } catch (res) {
       this.setData({
         loadStatus: 3
       });
-
     }
-  },
-  fetchSetOrders(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);

@@ -2,6 +2,25 @@ page {
   background-color: #F7F8FA;
   width: 100%;
 }
+.publish-wrap .publish-header {
+  width: 100%;
+  height: 180rpx;
+  position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.publish-wrap .publish-header .bar-right {
+  display: flex;
+  padding-left: 34rpx;
+  align-items: center;
+}
+.publish-wrap .publish-header .bar-right .avatar-text {
+  display: block;
+  width: 80%;
+  font-size: 36rpx;
+  color: #FFFFFF;
+  text-align: center;
+}
 .avatar-wrapper {
   padding-top: 30rpx;
   background-color: #FFFFFF;

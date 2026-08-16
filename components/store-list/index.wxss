@@ -23,9 +23,13 @@
   width: 78%;
 }
 .items .store > view:nth-child(2) .title {
+  width: 70%;
   font-weight: bold;
   font-size: 28rpx;
   color: #221F1C;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .items .store > view:nth-child(2) .pj {
   margin: 20rpx 0;

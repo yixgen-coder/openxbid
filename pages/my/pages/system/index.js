@@ -1,5 +1,8 @@
 // pages/my/pages/system/index.js
 const app = getApp()
+// [改动] 引入统一请求层 post()
+const { post } = require('../../../utils/request')
+const { requireLogin } = require('../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -15,25 +18,8 @@ Page({
     wx.setNavigationBarTitle({
       title: app.globalData.languagePack.account_settings
     });
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] wx.getStorageSync('token') + showModal → requireLogin()
+    if (!requireLogin()) return;
     this.fetUseriInfoHandle();
     this.getVersionInfo();
   },
@@ -51,59 +37,35 @@ Page({
         title: app.globalData.languagePack.lang == 1 ? 'Cancellation in progress' : '注销中...',
         mask: true // 禁止用户操作
       });
-      const token = wx.getStorageSync('token');
-      const that = this;
-      wx.request({
-        url: 'https://kpy.phanlink.com/v1/cancelAccount',
-        method: 'POST',
-        data: {
-          token: token
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          if (res.data.code == 1) {
-            wx.clearStorageSync();
-            wx.showToast({
-              title: res.data.msg
-            });
-            setTimeout(() => {
-              wx.reLaunch({
-                url: '/pages/tabbar/home/home'
-              })
-            }, 2000);
-          } else {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 2000
-            });
-          }
-        }
-      });
+      // [改动] 使用 post() 替代内联 wx.request，删除 token 字段
+      try {
+        const result = await post('/cancelAccount', {}, { showError: false });
+        wx.clearStorageSync();
+        wx.showToast({
+          title: result.msg
+        });
+        setTimeout(() => {
+          wx.reLaunch({
+            url: '/pages/tabbar/home/home'
+          })
+        }, 2000);
+      } catch (result) {
+        wx.showToast({
+          title: result.msg,
+          icon: 'none',
+          duration: 2000
+        });
+      }
     }
   },
-  fetUseriInfoHandle() {
-    const token = wx.getStorageSync('token');
-    const that = this;
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getmyInfo',
-      method: 'POST',
-      data: {
-        token: token
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        if (res.data.code == 1) {
-          that.setData({
-            userinfo: res.data.data
-          })
-        }
-      }
-    });
+  // [改动] 使用 post() 替代内联 wx.request，删除 token 字段
+  async fetUseriInfoHandle() {
+    try {
+      const res = await post('/getmyInfo', {}, { showError: false });
+      this.setData({
+        userinfo: res.data
+      })
+    } catch (res) {}
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

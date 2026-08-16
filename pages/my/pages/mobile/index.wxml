@@ -6,15 +6,18 @@
     </view>
   </view>
   <view class="login-form">
-      <view class="form-group">
-        <text>+86</text>
-        <input type="number" placeholder="{{globalLangData.enter}} {{globalLangData.mobile_number}}" value="{{phoneNumber}}" bindinput="handlephoneNumber" class="phone-input" />
-      </view>
-     
-      <view class="form-group">
-        <input type="number" placeholder="{{globalLangData.enter}} {{globalLangData.verification_code}}" value="{{verificationCode}}" bindinput="handleverificationCode" class="code-input" />
-        <button class="get-code-button" bindtap="getVerificationCode" disabled="{{sendcodestatus}}">{{getCodeButtonText}}</button>
-      </view>
-      <button class="submit-button" bindtap="submitForm">{{globalLangData.sure}}</button>
+    <view class="form-group">
+      <!-- <text>+86</text> -->
+      <t-dropdown-menu>
+        <t-dropdown-item options="{{product.options}}" placement="right" label="{{countryCode}}" bindchange="onChange" />
+      </t-dropdown-menu>
+      <input type="number" placeholder="{{globalLangData.enter}} {{globalLangData.mobile_number}}" value="{{phoneNumber}}" bindinput="handlephoneNumber" class="phone-input" />
     </view>
+
+    <view class="form-group">
+      <input type="number" placeholder="{{globalLangData.enter}} {{globalLangData.verification_code}}" value="{{verificationCode}}" bindinput="handleverificationCode" class="code-input" />
+      <button class="get-code-button" bindtap="getVerificationCode" disabled="{{sendcodestatus}}">{{getCodeButtonText}}</button>
+    </view>
+    <button class="submit-button" bindtap="submitForm">{{globalLangData.sure}}</button>
+  </view>
 </view>

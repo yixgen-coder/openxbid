@@ -1,4 +1,6 @@
 const app = getApp()
+// [改动] 引入统一请求层
+const { post } = require('../../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -80,42 +82,33 @@ Page({
     const {
       storeId
     } = this.data;
-    const url = 'https://kpy.phanlink.com/v1/setStoreGz';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.storeId = storeId;
-    const res = await this.fetchDatas(url, formData);
-    let storeInfo = this.data.storeInfo;
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setStoreGz', { storeId: storeId }, { showError: false });
+      let storeInfo = this.data.storeInfo;
       storeInfo.gz = res.action
       this.setData({
         storeInfo: storeInfo
       });
-      // wx.showToast({
-      //   title: res.msg,
-      //   icon: 'success',
-      //   duration: 2000
-      // });
-
+    } catch (res) {
+      // 静默处理
     }
   },
   handlePlSubmit: async function (e) {
-    const formData = {};
-    formData.msg = e.detail.msg;
-    formData.dtId = e.detail.dtId;
-    formData.token = wx.getStorageSync('token');
-
-    const url = 'https://kpy.phanlink.com/v1/setDtPl';
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setDtPl', {
+        msg: e.detail.msg,
+        dtId: e.detail.dtId,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
       let goodsList = this.data.goodsList;
       if (res.result.length > 0) {
         goodsList[e.detail.dtIndex].plDat = res.result;
         goodsList[e.detail.dtIndex].pl += 1;
       }
-
       wx.showToast({
-        title: 'Success',
+        title: res.msg,
         icon: 'success',
         duration: 2000,
         mask: true,
@@ -128,22 +121,12 @@ Page({
           }, 2000);
         }
       });
-
-    } else {
+    } catch (res) {
       wx.showModal({
         title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
+        content: res.msg, // 内容
+        showCancel: false,
+        confirmText: app.globalData.languagePack.sure, // 确认按钮文字（可选，默认为"确定"）
       })
     }
   },
@@ -151,25 +134,16 @@ Page({
 
     const dtId = e.detail.id;
     const index = e.detail.index;
-    const url = 'https://kpy.phanlink.com/v1/setDtZan';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.dtId = dtId;
-    const res = await this.fetchDatas(url, formData);
-    let goodsList = this.data.goodsList;
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setDtZan', { dtId: dtId }, { showError: false });
+      let goodsList = this.data.goodsList;
       goodsList[index].zan = res.action == 1 ? goodsList[index].zan + 1 : goodsList[index].zan - 1;
       goodsList[index].zans = res.action == 1 ? 1 : 0
       this.setData({
         goodsList: goodsList
       });
-      // wx.showToast({
-      //   title: res.msg,
-      //   icon: 'success',
-      //   duration: 2000
-      // });
-
-    } else {
+    } catch (res) {
       wx.showModal({
         title: app.globalData.languagePack.reminder, // 标题
         content: app.globalData.languagePack.function_registered, // 内容
@@ -206,58 +180,32 @@ Page({
     this.setData({
       loadStatus: 1
     });
-    const url = 'https://kpy.phanlink.com/v1/getStoreListDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.limit = this.goodListPagination.num;
-    formData.searchName = this.data.searchName;
-    formData.page = fresh ? 1 : this.goodListPagination.index;
-    formData.action = this.data.tabIndex;
-    formData.storeId = this.data.storeId;
-    formData.lang = app.globalData.languagePack.lang;
-
+    // [改动] fetchDatas → post()
     try {
-      const res = await this.fetchDatas(url, formData);
-      if (res.code == 1) {
-        const nextList = res.result.data;
-        this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-          storeInfo: res.result.storeInfo
-        });
-        if (nextList.length > 0) {
-          this.goodListPagination.index = formData.page + 1;
-
-        }
-
+      const res = await post('/getStoreListDatas', {
+        limit: this.goodListPagination.num,
+        searchName: this.data.searchName,
+        page: fresh ? 1 : this.goodListPagination.index,
+        action: this.data.tabIndex,
+        storeId: this.data.storeId,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
+      const nextList = res.result.data;
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+        storeInfo: res.result.storeInfo
+      });
+      if (nextList.length > 0) {
+        this.goodListPagination.index = (fresh ? 1 : this.goodListPagination.index) + 1;
       }
       this.setData({
         loadStatus: 0
       });
-
-    } catch (error) {
+    } catch (res) {
       this.setData({
         loadStatus: 3
       });
-
     }
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);
@@ -281,7 +229,7 @@ Page({
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res);
+      // console.log(res);
     }
     return {
       title: this.data.storeInfo.shop_name,

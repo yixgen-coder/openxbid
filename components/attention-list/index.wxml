@@ -6,7 +6,8 @@
         <view class="right">
           <view class="top">
             <view class="title">
-              <view class="text" bindtap="onClickStores" data-id="{{item.id}}">{{item.shop_name}}</view>
+              <view class="text" bindtap="onClickStores" data-id="{{item.id}}" wx:if="{{globalLangData.lang == 2}}">{{item.shop_name?item.shop_name:item.shop_name_en}}</view>
+              <view class="text" bindtap="onClickStores" data-id="{{item.id}}" wx:if="{{globalLangData.lang == 1}}">{{item.shop_name_en?item.shop_name_en:item.shop_name}}</view>
               <view wx:if="{{ly==0}}" class="btn" bindtap="onCancelGz" data-id="{{item.id}}">{{globalLangData.unfollow}}</view>
               <navigator wx:if="{{ly==1}}" url="/pages/store/pages/card/index?storeId={{item.id}}" class="btn" bindtap="onShowCard" data-id="{{item.id}}">{{globalLangData.see_card}}</navigator>
             </view>

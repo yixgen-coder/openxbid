@@ -1,4 +1,6 @@
 const app = getApp()
+const { post } = require('../../../utils/request')
+const { requireLogin } = require('../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -19,22 +21,24 @@ Page({
     const {
       uid
     } = e.currentTarget.dataset;
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.uid = uid;
-    const url = 'https://kpy.phanlink.com/v1/delmyFans';
-
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/delmyFans', { uid }, { showError: false });
       this.setData({
         fansList: this.data.fansList.filter(fans => fans.uid !== uid)
       });
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000
+      });
+    } catch (res) {
+      wx.showToast({
+        title: res.msg || '操作失败',
+        icon: 'success',
+        duration: 2000
+      });
     }
-    wx.showToast({
-      title: res.msg,
-      icon: 'success',
-      duration: 2000
-    });
   },
   handleJl(e) {
     const {
@@ -45,25 +49,8 @@ Page({
     });
   },
   init() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] wx.getStorageSync('token') + showModal → requireLogin()
+    if (!requireLogin()) return;
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
       statusbar: res.top, // 胶囊顶部高度
@@ -72,35 +59,15 @@ Page({
     this.fetchHomeDatas();
   },
   fetchHomeDatas: async function () {
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.lang = app.globalData.languagePack.lang;
-    const url = 'https://kpy.phanlink.com/v1/getmyFans';
-
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/getmyFans', { lang: app.globalData.languagePack.lang }, { showError: false });
       this.setData({
         fansList: res.result,
       });
+    } catch (res) {
+      // 静默失败
     }
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

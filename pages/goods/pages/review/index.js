@@ -1,5 +1,8 @@
 // pages/goods/pages/review/index.js
 const app = getApp()
+// [改动] 引入统一请求层和认证服务
+const { post } = require('../../../../utils/request')
+const { requireLogin } = require('../../../../services/auth')
 Page({
 
   /**
@@ -14,26 +17,8 @@ Page({
     keyboardheight: 0
   },
   checkToken() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          }
-        }
-      })
-      return false;
-    } else {
-      return true;
-    }
+    // [改动] 登录检查 → requireLogin()
+    return requireLogin();
   },
   handleShowMsg() {
     if (!this.checkToken()) {
@@ -61,7 +46,6 @@ Page({
     const formData = {};
     formData.msg = this.data.msg;
     formData.goodsId = this.data.goodsId;
-    formData.token = wx.getStorageSync('token');
     formData.lang = app.globalData.languagePack.lang;
 
     if (formData.msg == '') {
@@ -72,10 +56,9 @@ Page({
       });
       return;
     }
-    const url = 'https://kpy.phanlink.com/v1/setGoodsReviews';
-    const res = await this.fetchSetGoods(url, formData);
-    if (res.code == 1) {
-
+    // [改动] fetchSetGoods → post()
+    try {
+      const res = await post('/setGoodsReviews', formData, { showError: false });
       wx.showToast({
         title: res.msg,
         icon: 'success',
@@ -91,13 +74,8 @@ Page({
           }, 2000);
         }
       });
-
-    } else {
-      wx.showToast({
-        title: res.msg,
-        icon: 'none',
-        duration: 2000
-      });
+    } catch (res) {
+      wx.showToast({ title: res.msg, icon: 'none', duration: 2000 });
     }
   },
   /**
@@ -111,41 +89,16 @@ Page({
     this.init();
   },
   init: async function () {
-    const url = 'https://kpy.phanlink.com/v1/getGoodsReviews';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.goodsId = this.data.goodsId;
-    formData.lang = app.globalData.languagePack.lang;
-    const res = await this.fetchSetGoods(url, formData);
-    if (res.code == 1) {
-      this.setData({
-        reviewList: res.result,
-      });
-    } else {
-      wx.showToast({
-        title: res.msg,
-        icon: 'none',
-        duration: 2000
-      });
+    // [改动] fetchSetGoods → post()
+    try {
+      const res = await post('/getGoodsReviews', {
+        goodsId: this.data.goodsId,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
+      this.setData({ reviewList: res.result });
+    } catch (res) {
+      wx.showToast({ title: res.msg, icon: 'none', duration: 2000 });
     }
-  },
-  fetchSetGoods(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

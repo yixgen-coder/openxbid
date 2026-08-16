@@ -1,4 +1,5 @@
 const app = getApp()
+const { post } = require('../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -29,6 +30,7 @@ Page({
     searchName: '',
     messCount: {},
     messTime: {},
+    messGl: 0,
     messageCount: 0,
   },
 
@@ -52,11 +54,10 @@ Page({
     const formData = {};
     formData.msg = e.detail.msg;
     formData.dtId = e.detail.dtId;
-    formData.token = wx.getStorageSync('token');
+    formData.lang = app.globalData.languagePack.lang;
 
-    const url = 'https://kpy.phanlink.com/v1/setDtPl';
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    try {
+      const res = await post('/setDtPl', formData, { showError: false });
       let goodsList = this.data.goodsList;
       if (res.result.length > 0) {
         goodsList[e.detail.dtIndex].plDat = res.result;
@@ -64,7 +65,7 @@ Page({
       }
 
       wx.showToast({
-        title: 'Success',
+        title: res.msg,
         icon: 'success',
         duration: 2000,
         mask: true,
@@ -77,48 +78,32 @@ Page({
           }, 2000);
         }
       });
-
-    } else {
+    } catch (err) {
       wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.switchTab({
-              url: 'pages/tabbar/home/home' // 替换为你的 tabBar 页面路径
-            });
-          }
-        }
+        title: app.globalData.languagePack.reminder,
+        content: (err && err.msg) || app.globalData.languagePack.function_registered,
+        showCancel: false,
+        confirmText: app.globalData.languagePack.sure,
       })
     }
   },
   async artHandleNosee(e) {
-    console.log(e);
     const storeid = e.detail.storeid;
-    const url = 'https://kpy.phanlink.com/v1/setDtNosee';
     const formData = {};
-    formData.token = wx.getStorageSync('token');
     formData.storeid = storeid;
-    const res = await this.fetchDatas(url, formData);
-    let goodsList = this.data.goodsList;
-    if (res.code == 1) {
+    try {
+      const res = await post('/setDtNosee', formData, { showError: false });
+      let goodsList = this.data.goodsList;
       const dtList = goodsList.filter(item => item.storeid !== storeid);
       this.setData({
         goodsList: dtList
       });
-
-    } else {
+    } catch (err) {
       wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.function_registered,
+        cancelText: app.globalData.languagePack.cancel,
+        confirmText: app.globalData.languagePack.login,
         success: (res) => {
           if (res.confirm) {
             wx.navigateTo({
@@ -134,13 +119,11 @@ Page({
   async artZanClickHandle(e) {
     const dtId = e.detail.id;
     const index = e.detail.index;
-    const url = 'https://kpy.phanlink.com/v1/setDtZan';
     const formData = {};
-    formData.token = wx.getStorageSync('token');
     formData.dtId = dtId;
-    const res = await this.fetchDatas(url, formData);
-    let goodsList = this.data.goodsList;
-    if (res.code == 1) {
+    try {
+      const res = await post('/setDtZan', formData, { showError: false });
+      let goodsList = this.data.goodsList;
       goodsList[index].zan1 = res.action
       if (res.action == 1) {
         goodsList[index].zan += 1
@@ -150,12 +133,12 @@ Page({
       this.setData({
         goodsList: goodsList
       });
-    } else {
+    } catch (err) {
       wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+        title: app.globalData.languagePack.reminder,
+        content: app.globalData.languagePack.function_registered,
+        cancelText: app.globalData.languagePack.cancel,
+        confirmText: app.globalData.languagePack.login,
         success: (res) => {
           if (res.confirm) {
             wx.navigateTo({
@@ -201,44 +184,47 @@ Page({
       goodsListLoadStatus: 1
     });
 
-    let url = 'https://kpy.phanlink.com/v1/getDtListDatas';
+    let url = '/getDtListDatas';
     if (this.data.tabCurrent == 1 && this.data.newsTabCurrent > 0) {
-      url = 'https://kpy.phanlink.com/v1/getArtListDatas';
+      url = '/getArtListDatas';
     }
     if (this.data.tabCurrent == 0) {
-      url = 'https://kpy.phanlink.com/v1/getMyConsults';
+      url = '/getMyConsults';
     }
     const formData = {};
-    formData.token = wx.getStorageSync('token');
     formData.action = this.data.newsTabCurrent;
     formData.limit = this.goodListPagination.num;
     formData.searchName = this.data.searchName;
     formData.page = fresh ? 1 : this.goodListPagination.index;
 
     try {
-      const res = await this.fetchDatas(url, formData);
+      const res = await post(url, formData, { showError: false });
       const nextList = res.result;
-      if (res.code == 1) {
-        if (nextList.length > 0) {
-          this.goodListPagination.index = formData.page + 1;
-        }
-        if (this.data.tabCurrent == 0) {
-          this.setData({
-            messCount: res.count,
-            messTime: res.time,
-            messageCount: res.count.messageCount
-          });
-
-        }
+      if (nextList.length > 0) {
+        this.goodListPagination.index = formData.page + 1;
+      }
+      if (this.data.tabCurrent == 0) {
         this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+          messCount: res.count,
+          messTime: res.time,
+          messGl: res.gl,
+          messageCount: res.count.messageCount
         });
-      } else {
+      }
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+      });
+      this.setData({
+        goodsListLoadStatus: 0
+      });
+    } catch (err) {
+      if (err && err.code !== undefined && err.code !== 1) {
+        // 业务错误（如未登录）
         wx.showModal({
-          title: app.globalData.languagePack.reminder, // 标题
-          content: app.globalData.languagePack.function_registered, // 内容
-          cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-          confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
+          title: app.globalData.languagePack.reminder,
+          content: app.globalData.languagePack.function_registered,
+          cancelText: app.globalData.languagePack.cancel,
+          confirmText: app.globalData.languagePack.login,
           success: (res) => {
             if (res.confirm) {
               wx.navigateTo({
@@ -249,15 +235,11 @@ Page({
             }
           }
         })
+        this.setData({ goodsListLoadStatus: 0 });
+      } else {
+        // 网络错误
+        this.setData({ goodsListLoadStatus: 3 });
       }
-      this.setData({
-        goodsListLoadStatus: 0
-      });
-
-    } catch (err) {
-      this.setData({
-        goodsListLoadStatus: 3
-      });
     }
   },
 
@@ -271,15 +253,14 @@ Page({
     this.getMessageCount();
   },
   async getMessageCount() {
-    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    try {
+      const res = await post('/getMessageCounts', {}, { showError: false });
       this.getTabBar().init(res.result.messageCount);
       this.setData({
         messageCount: res.result.messageCount
       })
+    } catch (err) {
+      // 静默处理
     }
   },
   onLoad() {
@@ -306,23 +287,5 @@ Page({
       newsTabCurrent: e.detail.value
     })
     this.loadGoodsList(true);
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
 });

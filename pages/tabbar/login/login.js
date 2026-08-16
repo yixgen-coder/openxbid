@@ -1,5 +1,7 @@
 // pages/publish/index.js
 const app = getApp()
+const { post } = require('../../../utils/request')
+const { setToken } = require('../../../services/auth')
 Page({
 
   /**
@@ -12,7 +14,7 @@ Page({
     image: 'https://imgs.phanlink.com/program/images/logo.jpg',
     tabCurrent: 0,
     checked: false,
-    phoneNumber: '',
+    countryCode: '+86',
     mailNumber: '',
     password: '',
     verificationCode: '',
@@ -36,9 +38,11 @@ Page({
     })
   },
   onChange(e) {
+    //console.log(e.detail.value);
     this.setData({
       'product.label': e.detail.value,
       'product.value': e.detail.value,
+      'countryCode': e.detail.value,
     });
   },
   /**
@@ -63,22 +67,12 @@ Page({
     wx.login({
       success: function (res) {
         if (res.code) {
-          // 发起网络请求
-          wx.request({
-            url: 'https://kpy.phanlink.com/v1/getToken',
-            method: 'POST',
-            data: {
-              code: res.code
-            },
-            header: {
-              'content-type': 'application/json'
-            },
-            success: function (res) {
-              wx.setStorageSync('openid', res.data.openid);
-            }
-          });
-        } else {
-          console.log('登录失败！' + res.errMsg);
+          // [改动] wx.request → post()
+          post('/getToken', { code: res.code }, { showError: false })
+            .then((data) => {
+              wx.setStorageSync('openid', data.openid);
+            })
+            .catch(() => {});
         }
       }
     });
@@ -91,63 +85,44 @@ Page({
   getPhoneNumber(e) {
     if (e.detail.errMsg === 'getPhoneNumber:ok') {
       // 用户同意授权
-      // 获取到的加密数据和初始化向量
       const code = e.detail.code;
       const openid = wx.getStorageSync('openid');
-      wx.request({
-        url: 'https://kpy.phanlink.com/v1/getauthorLogin',
-        method: 'POST',
-        data: {
-          code: code,
-          openid: openid
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          //手机号授权登录
-          if (res.data.code == 1) {
-            wx.setStorageSync('token', res.data.token);
+      // [改动] wx.request → post()，showError:false 因需手动处理 code=2
+      post('/getauthorLogin', { code, openid }, { showError: false })
+        .then((res) => {
+          if (res.code == 1) {
+            setToken(res.token);
             wx.showToast({
-              title: res.data.msg,
+              title: res.msg,
               icon: 'success',
               duration: 3000,
               mask: true,
               complete: () => {
-                wx.navigateBack({
-                  delta: 1
-                });
+                wx.navigateBack({ delta: 1 });
               }
             });
-
-          } else if (res.data.code == 2) {
-            wx.setStorageSync('token', res.data.token);
+          } else if (res.code == 2) {
+            setToken(res.token);
             wx.showModal({
               title: app.globalData.languagePack.reminder,
               content: app.globalData.languagePack.lang == 1 ? 'Please set your avatar and nickname' : '请设置头像和昵称',
-              confirmText: app.globalData.languagePack.sure, // 默认"确定"
-              cancelText: app.globalData.languagePack.back, // 默认"取消"
+              confirmText: app.globalData.languagePack.sure,
+              cancelText: app.globalData.languagePack.back,
               success: (res) => {
                 if (res.confirm) {
-                  wx.navigateTo({
-                    url: '/pages/my/pages/info/index',
-                  });
+                  wx.navigateTo({ url: '/pages/my/pages/info/index' });
                 } else if (res.cancel) {
-                  wx.navigateBack({
-                    delta: 1
-                  });
+                  wx.navigateBack({ delta: 1 });
                 }
               }
-            })
-          } else {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none'
             });
+          } else {
+            wx.showToast({ title: res.msg, icon: 'none' });
           }
-
-        }
-      });
+        })
+        .catch((err) => {
+          wx.showToast({ title: err.msg || '登录失败', icon: 'none' });
+        });
     } else {
       // 用户拒绝授权
       wx.showModal({
@@ -236,10 +211,10 @@ Page({
 
     if (tabIndex == 1) {
       phoneNumber = this.data.phoneNumber;
-      if (!phoneNumber || !/^1[3-9]\d{9}$/.test(phoneNumber)) {
+      if (phoneNumber == '') {
         wx.showModal({
           title: app.globalData.languagePack.reminder,
-          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid mobile phone number' : '请输入有效的手机号',
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid mobile phone number' : '请输入有效的手机号码',
           showCancel: false, // 隐藏取消按钮
           confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
           confirmColor: "#007AFF", // 自定义确认按钮颜色
@@ -263,7 +238,8 @@ Page({
       sendcodestatus: true
     });
     // 发送验证码的逻辑
-    this.sendVerificationCode(phoneNumber);
+    const countryCode = this.data.countryCode;
+    this.sendVerificationCode(tabIndex, countryCode, phoneNumber);
 
     // 开始倒计时
     let countdown = 60;
@@ -282,45 +258,45 @@ Page({
       }
     }, 1000);
   },
+  handleServiceTap(e) {
+    const type = e.currentTarget.dataset.type;
 
-  sendVerificationCode: function (phoneNumber) {
-    // 发送验证码的逻辑
-    // 这里只是一个示例，实际应用中需要发送到服务器
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getVcode',
-      method: 'POST',
-      data: {
-        phone: phoneNumber,
-        lang: app.globalData.languagePack.lang
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        //手机号授权登录
-        //console.log(res.data.code);
-        if (res.data.code == 1) {
-
-          wx.showModal({
-            title: app.globalData.languagePack.reminder,
-            content: res.data.msg,
-            showCancel: false, // 隐藏取消按钮
-            confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
-            confirmColor: "#007AFF", // 自定义确认按钮颜色
-          });
-        } else {
-          wx.showModal({
-            title: app.globalData.languagePack.reminder,
-            content: res.data.msg,
-            showCancel: false, // 隐藏取消按钮
-            confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
-            confirmColor: "#007AFF", // 自定义确认按钮颜色
-          });
-        }
-
-      }
-    });
-
+    if (type === 'service') {
+      wx.navigateTo({
+        url: '/pages/my/pages/about/index?artId=2'
+      })
+    } else if (type === 'policy') {
+      wx.navigateTo({
+        url: '/pages/my/pages/about/index?artId=3'
+      })
+    }
+  },
+  sendVerificationCode: function (tabIndex, countryCode, phoneNumber) {
+    // [改动] wx.request → post()，showError:false 因成功/失败都弹窗
+    post('/getVcode', {
+      tab_index: tabIndex,
+      country_code: countryCode,
+      phone: phoneNumber,
+      lang: app.globalData.languagePack.lang
+    }, { showError: false })
+      .then((res) => {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: res.msg,
+          showCancel: false,
+          confirmText: app.globalData.languagePack.sure,
+          confirmColor: "#007AFF",
+        });
+      })
+      .catch((err) => {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: err.msg || '验证码发送失败',
+          showCancel: false,
+          confirmText: app.globalData.languagePack.sure,
+          confirmColor: "#007AFF",
+        });
+      });
   },
 
   submitForm: function () {
@@ -356,11 +332,11 @@ Page({
 
     if (tabIndex == 1) {
       phoneNumber = this.data.phoneNumber;
-      if (!phoneNumber || !/^1[3-9]\d{9}$/.test(phoneNumber)) {
+      if (phoneNumber == '') {
 
         wx.showModal({
           title: app.globalData.languagePack.reminder,
-          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid mobile phone number' : '请输入有效的手机号',
+          content: app.globalData.languagePack.lang == 1 ? 'Please enter a valid mobile phone number' : '请输入有效的手机号码',
           showCancel: false, // 隐藏取消按钮
           confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
           confirmColor: "#007AFF", // 自定义确认按钮颜色
@@ -371,6 +347,7 @@ Page({
     //console.log(phoneNumber);
     const password = this.data.password;
     const tabCurrent = this.data.tabCurrent;
+    const countryCode = this.data.countryCode;
     const verificationCode = this.data.verificationCode;
     if (tabCurrent == 2) {
       if (password == '') {
@@ -399,99 +376,66 @@ Page({
     }
 
     // 验证验证码的逻辑
-    this.verifyCode(phoneNumber, verificationCode, password, tabCurrent, app.globalData.languagePack.lang);
+    this.verifyCode(tabIndex, countryCode, phoneNumber, verificationCode, password, tabCurrent, app.globalData.languagePack.lang);
   },
 
-  verifyCode: function (phoneNumber, verificationCode, password, tabCurrent, lang) {
+  verifyCode: function (tabIndex, countryCode, phoneNumber, verificationCode, password, tabCurrent, lang) {
     const openid = wx.getStorageSync('openid');
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getLogin',
-      method: 'POST',
-      data: {
-        phone: phoneNumber,
-        password: password,
-        tabCurrent: tabCurrent,
-        verify_code: verificationCode,
-        openid: openid,
-        lang: lang
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        //手机号授权登录
-        if (res.data.code == 1) {
-          wx.setStorageSync('token', res.data.token);
+    // [改动] wx.request → post()，showError:false 因需手动处理 code=2
+    post('/getLogin', {
+      tab_index: tabIndex,
+      country_code: countryCode,
+      phone: phoneNumber,
+      password,
+      tabCurrent,
+      verify_code: verificationCode,
+      openid,
+      lang
+    }, { showError: false })
+      .then((res) => {
+        if (res.code == 1) {
+          setToken(res.token);
           wx.showToast({
-            title: res.data.msg,
+            title: res.msg,
             icon: 'success',
             duration: 2000,
             mask: true,
             complete: () => {
-              wx.navigateBack({
-                delta: 1
-              });
+              wx.navigateBack({ delta: 1 });
             }
           });
-
-        } else if (res.data.code == 2) {
-          wx.setStorageSync('token', res.data.token);
+        } else if (res.code == 2) {
+          setToken(res.token);
           wx.showModal({
             title: app.globalData.languagePack.reminder,
             content: app.globalData.languagePack.lang == 1 ? 'Please set your avatar and nickname' : '请设置头像和昵称',
-            confirmText: app.globalData.languagePack.sure, // 默认"确定"
-            cancelText: app.globalData.languagePack.back, // 默认"取消"
+            confirmText: app.globalData.languagePack.sure,
+            cancelText: app.globalData.languagePack.back,
             success: (res) => {
               if (res.confirm) {
-                wx.navigateTo({
-                  url: '/pages/my/pages/info/index',
-                });
+                wx.navigateTo({ url: '/pages/my/pages/info/index' });
               } else if (res.cancel) {
-                wx.navigateBack({
-                  delta: 1
-                });
+                wx.navigateBack({ delta: 1 });
               }
             }
-          })
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none'
           });
+        } else {
+          wx.showToast({ title: res.msg, icon: 'none' });
         }
-
-      }
-    });
+      })
+      .catch((err) => {
+        wx.showToast({ title: err.msg || '登录失败', icon: 'none' });
+      });
   },
   async getRegionCodes() {
-    const url = 'https://kpy.phanlink.com/v1/getRegionCodes';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.lang = app.globalData.languagePack.lang;
-    const res = await this.fetchDatas(url, formData);
+    // [改动] fetchDatas → post()
+    const res = await post('/getRegionCodes', {
+      lang: app.globalData.languagePack.lang
+    }, { showError: false });
     if (res.code == 1) {
-      //console.log(res.data);
       this.setData({
         product: res.data.regions
       });
     }
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
 })

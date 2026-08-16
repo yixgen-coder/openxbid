@@ -1,5 +1,7 @@
 // pages/publish/index.js
 const app = getApp()
+const { post } = require('../../../utils/request')
+const auth = require('../../../services/auth')
 Page({
 
   /**
@@ -33,55 +35,32 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.switchTab({
-              url: 'pages/tabbar/home/home' // 替换为你的 tabBar 页面路径
-            });
-          }
-        }
-      })
-    }
+    auth.requireLogin();
     this.getMessageCount();
   },
   async getMessageCount() {
-    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    const res = await this.fetchSetOrders(url, formData);
+    const res = await post('/getMessageCounts', {}, { showError: false });
     if (res.code == 1) {
       this.getTabBar().init(res.result.messageCount);
-      if (res.company_status < 2) {
-        wx.showModal({
-          title: app.globalData.languagePack.reminder, // 标题
-          content: app.globalData.languagePack.lang == 1 ? 'Please complete the membership verification before Posting' : '请进行会员认证后才能发布', // 内容
-          showCancel: false,
-          confirmText: app.globalData.languagePack.sure, // 确认按钮文字（可选，默认为"确定"）
-          success: (res) => {
-            if (res.confirm) {
-              wx.navigateTo({
-                url: '/pages/my/pages/approve/index',
-              });
-            } else if (res.cancel) {
-              wx.switchTab({
-                url: 'pages/tabbar/home/home' // 替换为你的 tabBar 页面路径
-              });
-            }
-          }
-        })
-      }
+      // if (res.company_status < 2) {
+      //   wx.showModal({
+      //     title: app.globalData.languagePack.reminder, // 标题
+      //     content: app.globalData.languagePack.lang == 1 ? 'Please complete the membership verification before Posting' : '请进行会员认证后才能发布', // 内容
+      //     showCancel: false,
+      //     confirmText: app.globalData.languagePack.sure, // 确认按钮文字（可选，默认为"确定"）
+      //     success: (res) => {
+      //       if (res.confirm) {
+      //         wx.navigateTo({
+      //           url: '/pages/my/pages/approve/index',
+      //         });
+      //       } else if (res.cancel) {
+      //         wx.switchTab({
+      //           url: 'pages/tabbar/home/home' // 替换为你的 tabBar 页面路径
+      //         });
+      //       }
+      //     }
+      //   })
+      // }
     }
   },
   /**
@@ -117,23 +96,5 @@ Page({
    */
   onShareAppMessage() {
 
-  },
-  fetchSetOrders(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
 })

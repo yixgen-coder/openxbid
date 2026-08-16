@@ -1,0 +1,187 @@
+<view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+</view>
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="home-page-container" style="padding-top: 200rpx;">
+  <!-- 页面主体内容 -->
+  <scroll-view class="container" scroll-y enhanced show-scrollbar="{{false}}" wx:if="{{tabIndex==1}}">
+    <!-- 基本信息卡片 -->
+    <view class="info-card">
+      <view class="card-title">📋 基本信息</view>
+      <view class="form-field">
+        <view class="field-label">认证状态</view>
+        <view class="field-value">{{globalLangData.lang==1?'Pending review':'待审核'}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">申请类型</view>
+        <view class="field-value">{{goodsList.company_type==2?globalLangData.company:globalLangData.personal}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">认证时间</view>
+        <view class="field-value">{{goodsList.company_time}}</view>
+      </view>
+
+    </view>
+
+    <!-- 会员信息 (仅会员审核类型显示) -->
+    <view class="info-card" wx:if="{{goodsList.company_type == 1}}">
+      <view class="card-title">👤 个人信息</view>
+      <view class="form-field">
+        <view class="field-label">姓名</view>
+        <view class="field-value">{{goodsList.gr_infos.name}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">所属国家</view>
+        <view class="field-value">{{goodsList.gr_infos.region}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">所在地区</view>
+        <view class="field-value">{{goodsList.gr_infos.city}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">手机号码</view>
+        <view class="field-value">{{goodsList.gr_infos.mobile}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">证件类型</view>
+        <view class="field-value" wx:if="{{goodsList.gr_infos.type==1}}">{{globalLangData.id_card}}</view>
+        <view class="field-value" wx:if="{{goodsList.gr_infos.type==2}}">{{globalLangData.individual_business}}</view>
+        <view class="field-value" wx:if="{{goodsList.gr_infos.type==3}}">{{globalLangData.passport}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">证件号码</view>
+        <view class="field-value">{{goodsList.gr_infos.haom}}</view>
+      </view>
+    </view>
+
+    <!-- 企业信息 (仅资质认证类型显示) -->
+    <view class="info-card" wx:if="{{goodsList.company_type == 2}}">
+      <view class="card-title">🏢 企业信息</view>
+      <view class="form-field">
+        <view class="field-label">企业名称</view>
+        <view class="field-value">{{goodsList.qy_infos.companyname}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">所属国家</view>
+        <view class="field-value">{{goodsList.qy_infos.region}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">社会信用代码</view>
+        <view class="field-value">{{goodsList.qy_infos.companyncode}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">所属地区</view>
+        <view class="field-value">{{goodsList.qy_infos.city}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">负责人</view>
+        <view class="field-value">{{goodsList.qy_infos.name}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">手机号码</view>
+        <view class="field-value">{{goodsList.qy_infos.mobile}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">邮箱</view>
+        <view class="field-value">{{goodsList.qy_infos.mail}}</view>
+      </view>
+    </view>
+
+    <!-- 申请材料与图片展示 -->
+    <view class="info-card" wx:if="{{goodsList.company_type == 2}}">
+      <!-- <view class="card-title">📄 申请材料</view>
+      <view class="form-field">
+        <view class="field-label">申请说明</view>
+        <view class="field-value multiline">{{detail.applyRemark}}</view>
+      </view> -->
+
+      <!-- 图片展示网格 -->
+      <view class="field-label" style="margin-top: 20rpx;">证明材料</view>
+      <view class="images-grid">
+        <block wx:for="{{goodsList.qy_infos.imgsList}}" wx:key="id">
+          <view class="image-wrapper" bindtap="previewImage" data-index="{{index}}">
+            <image class="material-image" src="{{item.url}}" mode="aspectFill" lazy-load />
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class="info-card" wx:if="{{goodsList.company_type == 1}}">
+      <!-- <view class="card-title">📄 申请材料</view>
+      <view class="form-field">
+        <view class="field-label">申请说明</view>
+        <view class="field-value multiline">{{detail.applyRemark}}</view>
+      </view> -->
+
+      <!-- 图片展示网格 -->
+      <view class="field-label" style="margin-top: 20rpx;">证明材料</view>
+      <view class="images-grid">
+        <block wx:for="{{goodsList.gr_infos.imgsList}}" wx:key="id">
+          <view class="image-wrapper" bindtap="previewImage" data-index="{{index}}">
+            <image class="material-image" src="{{item.url}}" mode="aspectFill" lazy-load />
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+  <scroll-view class="container" scroll-y enhanced show-scrollbar="{{false}}" wx:if="{{tabIndex==2}}">
+    <!-- 基本信息卡片 -->
+    <view class="info-card">
+      <view class="card-title">📋 基本信息</view>
+      <view class="form-field">
+        <view class="field-label">认证状态</view>
+        <view class="field-value">{{globalLangData.lang==1?'Pending review':'待审核'}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">申请类型</view>
+        <view class="field-value" wx:if="{{goodsList.type==1}}">{{globalLangData.customs_clearance}}</view>
+        <view class="field-value" wx:if="{{goodsList.type==2}}">{{globalLangData.po_financing}}</view>
+        <view class="field-value" wx:if="{{goodsList.type==3}}">{{globalLangData.procurement_agent}}</view>
+        <view class="field-value" wx:if="{{goodsList.type==4}}">{{globalLangData.cold_chain_logistics}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">认证时间</view>
+        <view class="field-value">{{goodsList.addtime}}</view>
+      </view>
+
+    </view>
+
+    <!-- 企业信息 (仅资质认证类型显示) -->
+    <view class="info-card">
+      <view class="card-title">🏢 认证信息</view>
+      <view class="form-field">
+        <view class="field-label">企业名称</view>
+        <view class="field-value">{{goodsList.name}}</view>
+      </view>
+      <view class="form-field">
+        <view class="field-label">海关备案号</view>
+        <view class="field-value">{{goodsList.hgcode}}</view>
+      </view>
+    </view>
+
+    <!-- 申请材料与图片展示 -->
+    <view class="info-card">
+      <view class="card-title">📄 申请材料</view>
+      <view class="form-field">
+        <view class="field-label">申请说明</view>
+        <view class="field-value multiline">{{goodsList.info}}</view>
+      </view>
+      <!-- 图片展示网格 -->
+      <view class="field-label" style="margin-top: 20rpx;">证明材料</view>
+      <view class="images-grid">
+        <block wx:for="{{goodsList.zl}}" wx:key="id">
+          <view class="image-wrapper" bindtap="previewImage" data-index="{{index}}">
+            <image class="material-image" src="{{item.url}}" mode="aspectFill" lazy-load />
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+</view>

@@ -33,7 +33,8 @@
         </t-upload>
       </view>
       <view wx:if="{{items==2}}">
-        <t-input t-class-label="tlabel" label="{{globalLangData.company_name}}" value="{{qyInfos.companyname}}" data-key="companyname" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-input t-class-label="{{globalLangData.lang==2?'tlabel':''}}" label="{{globalLangData.company_name}}" value="{{qyInfos.companyname}}" data-key="companyname" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
+        <t-input t-class-label="{{globalLangData.lang==1?'tlabel':''}}" label="{{globalLangData.company_en_name}}" value="{{qyInfos.companyname_en}}" data-key="companyname_en" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
         <t-cell title="{{globalLangData.select_country}}" arrow note="{{regionText}}" bind:click="onRegionPicker" required />
         <t-input t-class-label="tlabel" label="{{globalLangData.business_registration_number}}" value="{{qyInfos.companyncode}}" data-key="companyncode" bindchange="handleGrInfos" placeholder="{{globalLangData.enter}}" align="right" />
 

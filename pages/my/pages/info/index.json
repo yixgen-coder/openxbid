@@ -1,7 +1,9 @@
 {
-  "navigationBarTitleText": "个人信息",
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
   "component": true,
   "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-input": "tdesign-miniprogram/input/input",

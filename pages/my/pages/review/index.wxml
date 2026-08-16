@@ -1,0 +1,120 @@
+<view style="text-align: center; color: #b9b9b9" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" text="加载中..." inherit-color />
+</view>
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
+<!-- tab区域 -->
+<view class="tab-box">
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" defaultValue="{{tabIndex}}" bind:change="tabChangeHandle">
+    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" badge-props="{{ { count: item.count} }}" />
+  </t-tabs>
+</view>
+<view class="home-page-container">
+  <!-- <view class="gl">
+    <text>{{globalLangData.lang==1?'Total':'共'}}{{scount}}{{globalLangData.lang==1?'items':'条'}}</text>
+    <text>{{globalLangData.dashboard}}</text>
+  </view> -->
+  <view class="audit-container">
+    <!-- 审核列表 -->
+    <scroll-view class="list-container" scroll-y>
+      <block wx:for="{{goodsList}}" wx:key="id">
+        <view class="audit-item">
+          <!-- 基础信息 -->
+          <view class="item-header">
+            <view style="display: flex;gap:10rpx">
+              <image src="https://imgs.phanlink.com/{{item.avatar}}" style="width:30px;height:30px;" />
+              <text class="item-title">{{item.nickname}}</text>
+            </view>
+            <text class="item-time" style="color:#fa0606">{{globalLangData.lang==1?'Pending review':'待审核'}}</text>
+          </view>
+
+          <!-- 详细信息 -->
+          <view class="item-content" wx:if="{{tabIndex==2}}">
+            <view class="info-row">
+              <text class="info-label">认证类型：</text>
+              <text class="info-value" wx:if="{{item.type==1}}">{{globalLangData.customs_clearance}}</text>
+              <text class="info-value" wx:if="{{item.type==2}}">{{globalLangData.po_financing}}</text>
+              <text class="info-value" wx:if="{{item.type==3}}">{{globalLangData.procurement_agent}}</text>
+              <text class="info-value" wx:if="{{item.type==4}}">{{globalLangData.cold_chain_logistics}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">申请时间：</text>
+              <text class="info-value">{{item.addtime}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">商家商铺：</text>
+              <text class="info-value">{{item.shop_name}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">手机号码：</text>
+              <text class="info-value">{{item.mobile}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">邮箱：</text>
+              <text class="info-value">{{item.mail}}</text>
+            </view>
+          </view>
+          <view class="item-content" wx:if="{{tabIndex==1}}">
+            <view class="info-row">
+              <text class="info-label">认证类型：</text>
+              <text class="info-value">{{item.company_type==2?globalLangData.company:globalLangData.personal}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">认证时间：</text>
+              <text class="info-value">{{item.company_time}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">会员编号：</text>
+              <text class="info-value">{{item.code}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">手机号码：</text>
+              <text class="info-value">{{item.mobile}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">邮箱：</text>
+              <text class="info-value">{{item.mail}}</text>
+            </view>
+          </view>
+
+          <!-- 操作按钮 -->
+          <view class="item-actions">
+            <button class="btn btn-detail" bindtap="handleDetail" data-id="{{item.id}}">
+              详情
+            </button>
+            <button class="btn btn-reject" bindtap="handleReject" data-id="{{item.id}}">
+              拒绝
+            </button>
+            <button class="btn btn-pass" bindtap="handlePass" data-id="{{item.id}}">
+              通过
+            </button>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+
+    <!-- 拒绝原因弹窗 -->
+    <view class="modal" wx:if="{{showRejectModal}}">
+      <view class="modal-content">
+        <view class="modal-header">
+          <text>填写拒绝原因</text>
+        </view>
+        <view class="modal-body">
+          <textarea class="reason-textarea" placeholder="请填写拒绝原因..." placeholder-class="placeholder" maxlength="200" value="{{rejectReason}}" bindinput="onReasonInput" />
+          <text class="word-count">{{rejectReason.length}}/200</text>
+        </view>
+        <view class="modal-footer">
+          <button class="btn-modal btn-cancel" bindtap="cancelReject">取消</button>
+          <button class="btn-modal btn-confirm" bindtap="confirmReject">确认拒绝</button>
+        </view>
+      </view>
+    </view>
+  </view>
+  <load-more list-is-empty="{{!goodsList.length}}" status="{{loadStatus}}" bind:retry="onReTry" />
+</view>

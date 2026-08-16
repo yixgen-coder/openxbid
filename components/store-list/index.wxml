@@ -4,7 +4,8 @@
       <image src="{{item.shop_logo}}"></image>
     </view>
     <view>
-      <view class="title" bindtap="handleGoStoresInfo" data-id="{{item.id}}" style="user-select: text">{{item.shop_name}}></view>
+      <view class="title" bindtap="handleGoStoresInfo" data-id="{{item.id}}" style="user-select: text" wx:if="{{globalLangData.lang == 1}}">{{item.shop_name_en ? item.shop_name_en : item.shop_name}} ></view>
+      <view class="title" bindtap="handleGoStoresInfo" data-id="{{item.id}}" style="user-select: text" wx:if="{{globalLangData.lang == 2}}">{{item.shop_name ? item.shop_name : item.shop_name_en}} ></view>
       <view class="pj">
         <t-rate value="{{item.pf}}" color="#FF5959" size="24rpx" gap="0" allow-half="{{true}}" showText="{{false}}" />
       </view>

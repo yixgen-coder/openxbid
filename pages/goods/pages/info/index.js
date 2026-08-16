@@ -1,4 +1,7 @@
 const app = getApp()
+// [改动] 引入统一请求层和认证服务
+const { post } = require('../../../../utils/request')
+const { requireLogin } = require('../../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -55,11 +58,10 @@ Page({
     formData.msg = this.data.msg;
     formData.ordId = this.data.ordId;
     formData.pjvalue = this.data.pjvalue;
-    formData.token = wx.getStorageSync('token');
     formData.lang = app.globalData.languagePack.lang;
-    const url = 'https://kpy.phanlink.com/v1/setOrderPJ';
-    const res = await this.fetchSetOrders(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchSetOrders → post()
+    try {
+      const res = await post('/setOrderPJ', formData, { showError: false });
       wx.showToast({
         title: 'success',
         icon: 'success',
@@ -67,14 +69,11 @@ Page({
         mask: true,
         complete: () => {
           setTimeout(() => {
-            wx.navigateBack({
-              delta: 1
-            });
+            wx.navigateBack({ delta: 1 });
           }, 2000);
         }
       });
-
-    } else {
+    } catch (res) {
       wx.showToast({
         title: res.msg,
         icon: 'none',
@@ -83,30 +82,30 @@ Page({
     }
   },
   handleShowDel() {
-
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.ordId = this.data.ordId;
+    // [改动] 登录检查 → requireLogin()
+    if (!requireLogin()) return;
+    const ordId = this.data.ordId;
     wx.showModal({
       title: app.globalData.languagePack.reminder,
       content: app.globalData.languagePack.sure_delete,
-      success: function (res) {
+      success: async function (res) {
         if (res.confirm) {
-          const url = 'https://kpy.phanlink.com/v1/delOrder';
-          this.fetchSetOrders(url, formData);
-          wx.showToast({
-            title: 'Success',
-            icon: 'success',
-            duration: 2000,
-            mask: true
-          });
-          setTimeout(() => {
-            wx.navigateBack();
-          }, 2000);
+          // [改动] fetchSetOrders → post()
+          try {
+            await post('/delOrder', { ordId }, { showError: false });
+            wx.showToast({
+              title: 'Success',
+              icon: 'success',
+              duration: 2000,
+              mask: true
+            });
+            setTimeout(() => {
+              wx.navigateBack();
+            }, 2000);
+          } catch (err) {}
         }
       }.bind(this)
     });
-
   },
   onVisibleChange() {
     this.setData({
@@ -149,22 +148,20 @@ Page({
   },
   submitBJ: async function () {
     const formData = {};
-    formData.token = wx.getStorageSync('token');
     formData.goodsId = this.data.orderInfo.goods_id;
     formData.gg = this.data.gg;
     formData.lang = app.globalData.languagePack.lang;
-    const url = 'https://kpy.phanlink.com/v1/setGoodsQuot';
     if (formData.gg.length == 0) {
       wx.showToast({
         title: app.globalData.languagePack.lang == 1 ? 'Please make a bid first' : '请先出价',
         icon: 'none',
         duration: 2000
       });
-
       return;
     }
-    const res = await this.fetchSetOrders(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchSetOrders → post()
+    try {
+      const res = await post('/setGoodsQuot', formData, { showError: false });
       this.onVisibleChange();
       wx.showToast({
         title: res.msg,
@@ -176,15 +173,14 @@ Page({
           wx.navigateBack();
         }, 2000);
       }
-    } else {
+    } catch (res) {
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: res.msg,
-        showCancel: false, // 隐藏取消按钮
-        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
-        confirmColor: "#007AFF", // 自定义确认按钮颜色
+        showCancel: false,
+        confirmText: app.globalData.languagePack.sure,
+        confirmColor: "#007AFF",
       });
-
     }
   },
   ggainput(e) {
@@ -203,25 +199,8 @@ Page({
     });
   },
   checkUserLogin: function () {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] 登录检查 → requireLogin()
+    requireLogin();
   },
   handleGoChat() {
     wx.navigateTo({
@@ -231,16 +210,13 @@ Page({
   init: async function () {
     const res = wx.getMenuButtonBoundingClientRect()
     this.setData({
-      statusbar: res.top, // 胶囊顶部高度
-      jiaonangheight: res.height // 胶囊高度
+      statusbar: res.top,
+      jiaonangheight: res.height
     })
     this.checkUserLogin();
-    const url = 'https://kpy.phanlink.com/v1/getOrderInfo';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.ordId = this.data.ordId;
-    const oinfo = await this.fetchSetOrders(url, formData);
-    if (oinfo.code == 1) {
+    // [改动] fetchSetOrders → post()
+    try {
+      const oinfo = await post('/getOrderInfo', { ordId: this.data.ordId }, { showError: false });
       const total = this.data.total;
       total.stock = oinfo.result.orderQuantity;
       total.weight = oinfo.result.orderWeight;
@@ -250,24 +226,6 @@ Page({
         orderSpec: JSON.parse(oinfo.result.orderSpec),
         total: total,
       });
-    }
-  },
-  fetchSetOrders(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
+    } catch (err) {}
   },
 });

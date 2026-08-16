@@ -1,7 +1,13 @@
 const app = getApp()
+const { post } = require('../../../utils/request')
+const { requireLogin, getToken } = require('../../../services/auth')
+const { API_BASE } = require('../../../utils/config')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
+    itemTitle: app.globalData.languagePack.lang == 1 ? 'Personal information' : '个人信息',
+    statusbar: '',
+    jiaonangheight: '',
     userinfo: {},
     avatarUrl: '',
     mobile: '',
@@ -12,6 +18,11 @@ Page({
   },
   onLoad() {
     this.init();
+  },
+  goback: function () {
+    wx.navigateBack({
+      delta: 1
+    });
   },
   popCancel() {
     this.setData({
@@ -25,6 +36,11 @@ Page({
     return userInfo.nickname.startsWith('KPY_') || !userInfo.avatar.includes('uploads/');
   },
   init() {
+    const res = wx.getMenuButtonBoundingClientRect();
+    this.setData({
+      statusbar: res.top, // 胶囊顶部高度
+      jiaonangheight: res.height // 胶囊高度
+    })
     this.fetchData();
   },
   handlenickname: function (e) {
@@ -35,100 +51,57 @@ Page({
   },
   onFormSubmit: function (e) {
     const formData = e.detail.value;
-    const token = wx.getStorageSync('token');
-    formData.token = token;
     formData.lang = app.globalData.languagePack.lang;
     // 发送数据到服务器
     this.sendFormData(formData);
   },
-  sendFormData: function (data) {
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/setmyInfo', // 服务器地址
-      method: 'POST',
-      data: data,
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        //console.log('提交成功', res);
-        if (res.data.code === 1) {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'success',
-            duration: 2000,
-            mask: true,
-            complete: () => {
-              setTimeout(() => {
-                wx.navigateBack({
-                  delta: 1
-                });
-              }, 2000);
-            }
-          });
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 2000
-          });
+  sendFormData: async function (data) {
+    // [改动] wx.request → post()
+    try {
+      const res = await post('/setmyInfo', data, { showError: false });
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000,
+        mask: true,
+        complete: () => {
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 2000);
         }
-      },
-      fail: function (error) {
-        console.error('提交失败', error);
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none',
-          duration: 2000
-        });
-      }
-    });
+      });
+    } catch (res) {
+      wx.showToast({
+        title: res.msg || '网络错误',
+        icon: 'none',
+        duration: 2000
+      });
+    }
   },
   fetchData() {
-    const token = wx.getStorageSync('token');
+    // [改动] wx.request → post()
     const that = this;
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getmyInfo',
-      method: 'POST',
-      data: {
-        token: token
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        if (res.data.code == 1) {
-          that.setData({
-            visible: that.checkUserInfo(res.data.data) ? true : false,
-            userinfo: res.data.data,
-            avatarUrl: res.data.data.avatar,
-            mobile: res.data.data.mobile,
-            mail: res.data.data.mail,
-            nickname: res.data.data.nickname
-          })
-        }
-      }
+    post('/getmyInfo', {}, { showError: false }).then(res => {
+      that.setData({
+        visible: that.checkUserInfo(res.data) ? true : false,
+        userinfo: res.data,
+        avatarUrl: res.data.avatar,
+        mobile: res.data.mobile,
+        mail: res.data.mail,
+        nickname: res.data.nickname
+      })
     });
   },
   fetchData1() {
-    const token = wx.getStorageSync('token');
+    // [改动] wx.request → post()
     const that = this;
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getmyInfo',
-      method: 'POST',
-      data: {
-        token: token
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        if (res.data.code == 1) {
-          that.setData({
-            mobile: res.data.data.mobile,
-            mail: res.data.data.mail,
-          })
-        }
-      }
+    post('/getmyInfo', {}, { showError: false }).then(res => {
+      that.setData({
+        mobile: res.data.mobile,
+        mail: res.data.mail,
+      })
     });
   },
   /**
@@ -145,10 +118,11 @@ Page({
   },
   uploadAvatar: function (tempFilePath) {
     const that = this;
-    const token = wx.getStorageSync('token');
+    // [改动] wx.getStorageSync('token') → getToken()；硬编码 URL → API_BASE
+    const token = getToken();
     // 上传头像
     wx.uploadFile({
-      url: 'https://kpy.phanlink.com/v1/uploadFile',
+      url: `${API_BASE}/uploadFile`,
       filePath: tempFilePath,
       name: 'file',
       formData: {
@@ -165,7 +139,7 @@ Page({
         }
       },
       fail(error) {
-        console.error('上传失败', error);
+        // console.error('上传失败', error);
       }
     });
   }

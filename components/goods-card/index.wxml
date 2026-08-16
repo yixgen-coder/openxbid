@@ -1,5 +1,5 @@
 <view id="{{independentID}}" class="goods-card" bind:tap="clickHandle" data-goods="{{ goods }}">
-  <view class="pro_statu">
+  <view class="pro_statu" wx:if="{{goods.hideMydata}}">
     <span wx:if="{{goods.statu==1}}" class="cc1">{{globalLangData.notstarted}}</span>
     <span wx:if="{{goods.statu==2}}" class="cc2">{{globalLangData.bidding}}</span>
     <span wx:if="{{goods.statu==3}}" class="cc3">{{globalLangData.ended}}</span>
@@ -32,7 +32,7 @@
       <view class="goods-card__down">
         <view class="price-now"> {{globalLangData.current}}<text>{{goods.currencyType==1?'$':'￥'}}{{goods.current_price}}</text></view>
       </view>
-      <view class="goods-card__bottom">
+      <view class="goods-card__bottom" wx:if="{{goods.hideMydata}}">
         <view class="left">{{goods.hits}} {{globalLangData.watching}}</view>
         <view class="right">{{goods.apply}} {{globalLangData.bid}}</view>
       </view>

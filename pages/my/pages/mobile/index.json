@@ -4,7 +4,9 @@
   "component": true,
   "usingComponents": {
     "t-icon": "tdesign-miniprogram/icon/icon",
-    "t-button": "tdesign-miniprogram/button/button"
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-dropdown-menu": "tdesign-miniprogram/dropdown-menu/dropdown-menu",
+    "t-dropdown-item": "tdesign-miniprogram/dropdown-item/dropdown-item"
   },
   "enablePullDownRefresh": true
 }

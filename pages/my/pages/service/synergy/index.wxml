@@ -5,4 +5,10 @@
       <text class="avatar-text">{{itemTitle}}</text>
     </view>
   </view>
+  <view class="art-container">
+    <view class="tit"></view>
+    <view class="content">
+      <rich-text nodes="{{artInfo}}"></rich-text>
+    </view>
+  </view>
 </view>

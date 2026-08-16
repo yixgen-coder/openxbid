@@ -15,6 +15,10 @@ Component({
       type: Object,
       value: {},
     },
+    messGl: {
+      type: Number,
+      value: 0,
+    },
     id: {
       type: String,
       value: '',
@@ -64,6 +68,13 @@ Component({
         img: 'https://imgs.phanlink.com/program/images/msg5.png',
         desc: app.globalData.languagePack.response_to_customer_review,
         url: '/pages/store/pages/pj/index?jd=1',
+        note: 0
+      },
+      {
+        title: app.globalData.languagePack.membership,
+        img: 'https://imgs.phanlink.com/program/images/msg6.png',
+        desc: app.globalData.languagePack.membership1,
+        url: '/pages/my/pages/review/index',
         note: 0
       },
     ],

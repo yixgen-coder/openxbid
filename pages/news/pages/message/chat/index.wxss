@@ -22,10 +22,16 @@ page {
 }
 .publish-wrap .publish-header .bar-right .avatar-text {
   display: block;
-  width: 80%;
+  width: 70%;
   font-size: 36rpx;
   color: #000000;
   text-align: center;
+  overflow: hidden;
+  /* 超出隐藏 */
+  text-overflow: ellipsis;
+  /* 显示省略号 */
+  white-space: nowrap;
+  /* 不换行 */
 }
 .news-list {
   box-sizing: border-box;

@@ -1,3 +1,11 @@
+<view class="publish-wrap">
+  <view class="publish-header" style="background:url('https://imgs.phanlink.com/program/images/bg.png') no-repeat top;background-size: cover;">
+    <view class="bar-right" style="padding-top: {{statusbar}}px;height: {{jiaonangheight}}px;">
+      <t-icon name="chevron-left" color="#FFFFFF" size="56rpx" bindtap="goback" />
+      <text class="avatar-text">{{itemTitle}}</text>
+    </view>
+  </view>
+</view>
 <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" form-type="button">
   <image class="avatar" src="{{avatarUrl?avatarUrl:userinfo.avatar}}"></image>
   <text class="avatar-text">{{globalLangData.lang==1?'Change profile picture':'更换头像'}}</text>

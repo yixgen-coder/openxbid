@@ -1,4 +1,9 @@
 const app = getApp()
+// [改动] 引入统一请求层和认证服务
+const { post } = require('../../../../../utils/request')
+const { requireLogin } = require('../../../../../services/auth')
+// [改动] 硬编码 URL → config 常量
+const { API_BASE } = require('../../../../../utils/config')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -28,25 +33,8 @@ Page({
     });
   },
   init() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] 替换登录检查为 requireLogin()
+    if (!requireLogin()) return;
     this.fetchHomeDatas();
   },
   onTabsChange(e) {
@@ -56,13 +44,12 @@ Page({
     this.fetchHomeDatas();
   },
   fetchHomeDatas: async function () {
-    const url = 'https://kpy.phanlink.com/v1/getStoreDcDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.type = this.data.type;
-    formData.lang = app.globalData.languagePack.lang;
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/getStoreDcDatas', {
+        type: this.data.type,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
       const nextList = res.result;
       if (nextList.id > 0) {
         this.setData({
@@ -81,7 +68,7 @@ Page({
         icon: 'none',
         duration: 500
       });
-    } else {
+    } catch (res) {
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: res.msg,
@@ -96,26 +83,6 @@ Page({
         }
       });
     }
-
-
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   handleGrInfos(e) {
 
@@ -154,7 +121,7 @@ Page({
   onUpload(file) {
     let that = this;
     const task = wx.uploadFile({
-      url: 'https://kpy.phanlink.com/v1/uploadImgs',
+      url: `${API_BASE}/uploadImgs`, // [改动] 硬编码 URL → config 常量
       filePath: file,
       name: 'file',
       formData: {},
@@ -198,13 +165,11 @@ Page({
     });
   },
   async handleTJForm() {
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.dcInfo = this.data.dcInfo;
-    formData.imgList = this.data.imgList;
-    formData.lang = app.globalData.languagePack.lang;
+    const dcInfo = this.data.dcInfo;
+    const imgList = this.data.imgList;
+    const lang = app.globalData.languagePack.lang;
     let type = this.data.type;
-    if (formData.dcInfo.name == '') {
+    if (dcInfo.name == '') {
       wx.showToast({
         title: app.globalData.languagePack.lang==1?'Please fill in the company name!':'请填写公司名称！',
         icon: 'none',
@@ -212,7 +177,7 @@ Page({
       });
       return false;
     }
-    if (type == 3 && formData.dcInfo.hgcode == '') {
+    if (type == 3 && dcInfo.hgcode == '') {
       wx.showToast({
         title: app.globalData.languagePack.lang==1?'Please fill in the customs filing number!':'请填写海关备案号！',
         icon: 'none',
@@ -220,7 +185,7 @@ Page({
       });
       return false;
     }
-    if (formData.imgList.length == 0) {
+    if (imgList.length == 0) {
       wx.showToast({
         title: app.globalData.languagePack.lang==1?'Please upload the relevant certification qualifications':'请上传相关认证资质',
         icon: 'none',
@@ -228,9 +193,13 @@ Page({
       });
       return false;
     }
-    const url = 'https://kpy.phanlink.com/v1/setStoreDcDatas';
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setStoreDcDatas', {
+        dcInfo: dcInfo,
+        imgList: imgList,
+        lang: lang
+      }, { showError: false });
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: res.msg,
@@ -244,7 +213,7 @@ Page({
           }
         }
       });
-    } else {
+    } catch (res) {
       wx.showToast({
         title: res.msg,
         icon: 'none',

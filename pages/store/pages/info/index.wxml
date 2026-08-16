@@ -8,7 +8,8 @@
 </view>
 <view class="store-list">
   <view class="left">
-    <view class="tit">{{storeInfo.shop_name}}</view>
+    <view class="tit" wx:if="{{globalLangData.lang == 2}}">{{storeInfo.shop_name?storeInfo.shop_name:storeInfo.shop_name_en}}</view>
+    <view class="tit" wx:if="{{globalLangData.lang == 1}}">{{storeInfo.shop_name_en?storeInfo.shop_name_en:storeInfo.shop_name}}</view>
     <view class="tags"><text>{{storeInfo.region}}</text><text>{{storeInfo.type}}</text></view>
   </view>
   <view class="right">
@@ -24,6 +25,10 @@
   <view class="addr">
     <image src="https://imgs.phanlink.com/program/images/tel1.png"></image>
     <text>{{storeInfo.tel}}</text>
+  </view>
+  <view class="addr">
+    <image src="https://imgs.phanlink.com/program/images/web.png"></image>
+    <text>{{storeInfo.website!=null?storeInfo.website:''}}</text>
   </view>
 </view>
 <view class="store-addr store-info">

@@ -3,7 +3,7 @@
   <t-cell url="/pages/my/pages/about/index?artId=2" title="{{globalLangData.lang==1?'Service Agreement Terms':'服务协议条款'}}" note="" align="center" bordered="{{true}}" arrow />
   <t-cell url="/pages/my/pages/about/index?artId=3" title="{{globalLangData.lang==1?'Privacy Policy':'隐私政策'}}" note="" align="center" bordered="{{true}}" arrow />
   <t-cell title="{{globalLangData.lang==1?'Current version':'当前版本'}}" note="{{versionNo}}" align="center" bordered="{{true}}" arrow />
-  <t-cell title="{{globalLangData.lang==1?'Cancel Account':'注销账号'}}" align="center" bordered="{{true}}" bindclick="cancelAccount" arrow />
+  <t-cell title="{{globalLangData.lang==1?'Delete Account':'注销账号'}}" align="center" bordered="{{true}}" bindclick="cancelAccount" arrow />
 </view>
 
 <view class="logout" bindtap="handleLogOut"> {{globalLangData.lang==1?'Log out':'退出登录'}}</view>

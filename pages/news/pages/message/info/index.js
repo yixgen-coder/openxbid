@@ -1,4 +1,6 @@
 const app = getApp()
+const { post } = require('../../../../../utils/request')
+const { requireLogin } = require('../../../../../services/auth')
 Page({
   data: {
     statusbar: "",
@@ -44,26 +46,22 @@ Page({
       goodsListLoadStatus: 1
     });
 
-    let url = 'https://kpy.phanlink.com/v1/getMySysInfos';
-
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.action = this.data.newsTabCurrent;
-    formData.limit = this.goodListPagination.num;
-    formData.lang = app.globalData.languagePack.lang;
-    formData.page = fresh ? 1 : this.goodListPagination.index;
-
+    const page = fresh ? 1 : this.goodListPagination.index;
+    // [改动] fetchDatas → post()
     try {
-      const res = await this.fetchDatas(url, formData);
+      const res = await post('/getMySysInfos', {
+        action: this.data.newsTabCurrent,
+        limit: this.goodListPagination.num,
+        lang: app.globalData.languagePack.lang,
+        page
+      }, { showError: false });
       const nextList = res.result;
-      if (res.code == 1) {
-        if (nextList.length > 0) {
-          this.goodListPagination.index = formData.page + 1;
-        }
-        this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-        });
+      if (nextList.length > 0) {
+        this.goodListPagination.index = page + 1;
       }
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+      });
       this.setData({
         goodsListLoadStatus: 0
       });
@@ -82,31 +80,8 @@ Page({
 
 
   onLoad() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.navigateTo({
-        url: '/pages/tabbar/login/login',
-      });
-    }
+    // [改动] wx.getStorageSync('token') + navigateTo → requireLogin()
+    if (!requireLogin()) return;
     this.init(true);
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
 })

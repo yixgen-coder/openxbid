@@ -1,4 +1,5 @@
 const app = getApp()
+const { post } = require('../../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -25,12 +26,8 @@ Page({
     this.init();
   },
   async HandleZan(e) {
-
-    const url = 'https://kpy.phanlink.com/v1/setDtZan';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.dtId = this.data.dtId;
-    const res = await this.fetchDatas(url, formData);
+    // [改动] fetchDatas → post()
+    const res = await post('/setDtZan', { dtId: this.data.dtId }, { showError: false });
     let dtInfo = this.data.dtInfo;
     if (res.code == 1) {
       dtInfo.zan = res.action
@@ -82,7 +79,6 @@ Page({
     const formData = {};
     formData.msg = this.data.msg;
     formData.dtId = this.data.dtId;
-    formData.token = wx.getStorageSync('token');
 
     if (formData.msg == '') {
       wx.showToast({
@@ -92,10 +88,9 @@ Page({
       });
       return;
     }
-    const url = 'https://kpy.phanlink.com/v1/setDtPl';
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
-
+    // [改动] fetchDatas → post()，try/catch 处理 code!=1
+    try {
+      const res = await post('/setDtPl', formData, { showError: false });
       wx.showToast({
         title: 'Sucess',
         icon: 'success',
@@ -111,8 +106,7 @@ Page({
           }, 2000);
         }
       });
-
-    } else {
+    } catch (res) {
       wx.showToast({
         title: res.msg,
         icon: 'none',
@@ -128,12 +122,9 @@ Page({
 
   },
   fetchHomeDatas: async function () {
-    const url = 'https://kpy.phanlink.com/v1/getDtDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.dtId = this.data.dtId;
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()，try/catch 处理 code!=1
+    try {
+      const res = await post('/getDtDatas', { dtId: this.data.dtId }, { showError: false });
       const nextList = res.result;
       if (nextList.id > 0) {
         this.setData({
@@ -141,8 +132,7 @@ Page({
           dtInfo: nextList
         });
       }
-
-    } else {
+    } catch (res) {
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: res.msg,
@@ -150,9 +140,7 @@ Page({
         confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
-            wx.navigateBack({
-              delta: 1
-            });
+            wx.navigateBack({ delta: 1 });
           }
         }
       });
@@ -164,42 +152,18 @@ Page({
   onPullDownRefresh() {
     wx.stopPullDownRefresh();
   },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
-  },
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: async function (res) {
     if (res.from === 'button') {
-      // 来自页面内转发按钮
-      const url = 'https://kpy.phanlink.com/v1/setDtZf';
-      const formData = {};
-      formData.token = wx.getStorageSync('token');
-      formData.dtId = this.data.dtId;
-      const res = await this.fetchDatas(url, formData);
-      if (res.code == 1) {
+      // [改动] fetchDatas → post()
+      try {
+        const res2 = await post('/setDtZf', { dtId: this.data.dtId }, { showError: false });
         let dtInfo = this.data.dtInfo;
         dtInfo.zf += 1;
-        this.setData({
-          dtInfo: dtInfo
-        });
-      }
+        this.setData({ dtInfo: dtInfo });
+      } catch (e) {}
     }
     let imgs = this.data.dtInfo.pic[0].url != '' ? this.data.dtInfo.pic[0].url : ''
     return {

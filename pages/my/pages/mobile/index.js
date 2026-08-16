@@ -1,4 +1,7 @@
 const app = getApp()
+// [改动] 引入统一请求层 post()
+const { post } = require('../../../utils/request')
+const { requireLogin } = require('../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -11,37 +14,31 @@ Page({
     countdown: 0, // 倒计时
     sendcodestatus: false,
     isDisabled: true,
-    phoneNumber: ''
+    phoneNumber: '',
+    countryCode: '',
+    product: {},
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] wx.getStorageSync('token') + showModal → requireLogin()
+    if (!requireLogin()) return;
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
       statusbar: res.top, // 胶囊顶部高度
       jiaonangheight: res.height // 胶囊高度
     })
     this.fetchData();
+    this.getRegionCodes();
+  },
+  onChange(e) {
+    //console.log(e.detail.value);
+    this.setData({
+      'product.label': e.detail.value,
+      'product.value': e.detail.value,
+      'countryCode': e.detail.value,
+    });
   },
   handlephoneNumber(e) {
     this.setData({
@@ -61,60 +58,45 @@ Page({
 
   submitForm: function (e) {
     const formData = {};
-    const token = wx.getStorageSync('token');
-    formData.token = token;
+    // [改动] 删除 formData.token = wx.getStorageSync('token')，post() 自动注入
     formData.phone = this.data.phoneNumber;
+    formData.countryCode = this.data.countryCode;
     formData.code = this.data.verificationCode;
     formData.lang = app.globalData.languagePack.lang;
     // 发送数据到服务器
     this.sendFormData(formData);
   },
-  sendFormData: function (data) {
-    const url = 'https://kpy.phanlink.com/v1/setMyPhone'
-    wx.request({
-      url: url, // 服务器地址
-      method: 'POST',
-      data: data,
-      success: function (res) {
-        //console.log(res);
-        if (res.data.code == 1) {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'success',
-            duration: 2000,
-            mask: true,
-            success: () => {
-              setTimeout(() => {
-                wx.navigateBack({
-                  delta: 1
-                });
-              }, 2000);
-            }
-          });
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 2000
-          });
+  // [改动] 使用 post() 替代内联 wx.request
+  sendFormData: async function (data) {
+    try {
+      const res = await post('/setMyPhone', data, { showError: false });
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000,
+        mask: true,
+        success: () => {
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 2000);
         }
-      },
-      fail: function (error) {
-        console.error('提交失败', error);
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none',
-          duration: 2000
-        });
-      }
-    });
+      });
+    } catch (res) {
+      wx.showToast({
+        title: res.msg,
+        icon: 'none',
+        duration: 2000
+      });
+    }
   },
   getVerificationCode: function () {
     let phoneNumber = '';
     phoneNumber = this.data.phoneNumber;
     if (!phoneNumber || !/^1[3-9]\d{9}$/.test(phoneNumber)) {
       wx.showToast({
-        title: app.globalData.languagePack.lang==1?'Please enter a valid mobile phone number!':'请输入有效的手机号码！',
+        title: app.globalData.languagePack.lang == 1 ? 'Please enter a valid mobile phone number!' : '请输入有效的手机号码！',
         icon: 'none'
       });
       return;
@@ -130,64 +112,57 @@ Page({
     const interval = setInterval(() => {
       if (countdown > 0) {
         this.setData({
-          getCodeButtonText: `${countdown--} s `+app.globalData.languagePack.lang==1?'Re-send"':'后重新发送',
+          getCodeButtonText: `${countdown--} s ` + (app.globalData.languagePack.lang == 1 ? 'Re-send"' : '后重新发送'),
         });
       } else {
         clearInterval(interval);
         this.setData({
-          getCodeButtonText: app.globalData.languagePack.lang==1?'Re-send"':'重新发送',
+          getCodeButtonText: app.globalData.languagePack.lang == 1 ? 'Re-send"' : '重新发送',
           countdown: 0,
           sendcodestatus: false
         });
       }
     }, 1000);
   },
-  sendVerificationCode: function (phoneNumber) {
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getVcode',
-      method: 'POST',
-      data: {
-        phone: phoneNumber
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        if (res.data.code == 1) {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none'
-          });
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none'
-          });
-        }
-
-      }
-    });
-
+  // [改动] 使用 post() 替代内联 wx.request
+  sendVerificationCode: async function (phoneNumber) {
+    try {
+      const res = await post('/getVcode', {
+        tab_index: 1,
+        country_code: this.data.countryCode,
+        phone: phoneNumber,
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
+      wx.showToast({
+        title: res.msg,
+        icon: 'none'
+      });
+    } catch (res) {
+      wx.showToast({
+        title: res.msg,
+        icon: 'none'
+      });
+    }
   },
-  fetchData() {
-    const token = wx.getStorageSync('token');
-    const that = this;
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getmyInfo',
-      method: 'POST',
-      data: {
-        token: token
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        if (res.data.code == 1) {
-          that.setData({
-            phoneNumber: res.data.data.mobile
-          })
-        }
-      }
-    });
+  // [改动] 使用 post() 替代 fetchDatas，删除 token 字段
+  async getRegionCodes() {
+    try {
+      const res = await post('/getRegionCodes', {
+        lang: app.globalData.languagePack.lang
+      }, { showError: false });
+      this.setData({
+        product: res.data.regions
+      });
+    } catch (res) {}
+  },
+  // [改动] 使用 post() 替代内联 wx.request
+  async fetchData() {
+    try {
+      const res = await post('/getmyInfo', {}, { showError: false });
+      this.setData({
+        phoneNumber: res.data.mobile.replace(res.data.country_code, ''),
+        countryCode: res.data.country_code
+      });
+    } catch (res) {}
   }
 })

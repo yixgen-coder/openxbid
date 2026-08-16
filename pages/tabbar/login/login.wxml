@@ -64,6 +64,9 @@
       <label class="radio-label">
         <radio value="1" checked="{{checked}}" bindtap="checktap" />
         <span>{{globalLangData.privacy_policy}}</span>
+        <span catchtap="handleServiceTap" data-type="service" style="color:red;">{{globalLangData.privacy_policy1}}</span>
+        <span>{{globalLangData.privacy_policy2}}</span>
+        <span catchtap="handleServiceTap" data-type="policy" style="color:red;">{{globalLangData.privacy_policy3}}</span>
       </label>
     </radio-group>
   </view>

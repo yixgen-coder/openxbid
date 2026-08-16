@@ -1,5 +1,6 @@
 // pages/publish/index.js
 const app = getApp()
+const { requireLogin } = require('../../../../services/auth')
 Page({
 
   /**
@@ -32,25 +33,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] wx.getStorageSync('token') + showModal → requireLogin()
+    if (!requireLogin()) return;
 
   },
 

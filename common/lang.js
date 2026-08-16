@@ -133,7 +133,8 @@ const langs = {
     share_moments: 'Share Moments',
     fresh_content_alerts: 'Fresh Content Alerts',
     basic_information: 'Basic Information',
-    product_name: 'Product Name',
+    product_name: 'Product Name (CN)',
+    product_name1: 'Product Name (EN)',
     please_enter_product_name: 'enter product name',
     product_images: 'Product Images',
     product_details: 'Product Details',
@@ -230,7 +231,8 @@ const langs = {
     start_verification: 'Start Verification Now',
     immediate_certification: 'Immediate certification',
     verification_status: 'Verification Status',
-    company_name: 'Company Name',
+    company_name: 'Company Name(CN)',
+    company_en_name: 'Company Name(EN)',
     business_registration_number: 'Business Registration Number',
     select_country: 'Select Country',
     region: 'Region',
@@ -258,7 +260,8 @@ const langs = {
     passport: 'Passport',
     upload_your_id_card: 'Upload your ID Card',
     shop_logo: 'Shop LOGO',
-    shop_name: 'Shop Name',
+    shop_name: 'Shop Name(CN)',
+    shop_name1: 'Shop Name(EN)',
     shop_status: 'Shop Status',
     status: 'Status',
     opening_date: 'Opening Date',
@@ -286,7 +289,10 @@ const langs = {
     approved: 'Approved',
     openXbid: 'openXbid',
     phone_number_login: 'Phone number login',
-    privacy_policy: 'I have read and agree to the Terms of Service and Privacy Policy',
+    privacy_policy: 'I have read and agree to the Terms of',
+    privacy_policy1: 'Service',
+    privacy_policy2: 'and',
+    privacy_policy3: 'Privacy Policy',
     other_login_methods: 'Other login methods',
     account_login: 'Account login',
     verification_login: 'Verification login',
@@ -320,6 +326,9 @@ const langs = {
     function_registered: 'This function is only available to registered members',
     exit: 'Exit',
     sure_delete: 'Are you sure you want to delete it?',
+    website: 'Website',
+    membership: 'Membership certification review',
+    membership1: 'Member certification, service qualification review',
   },
   'zh_CN': {
     lang: 2,
@@ -456,7 +465,8 @@ const langs = {
     share_moments: '发布动态',
     fresh_content_alerts: '新鲜内容，及时更新',
     basic_information: '基础信息',
-    product_name: '商品名称',
+    product_name: '商品名称(中)',
+    product_name1: '商品名称（英）',
     please_enter_product_name: '请填写商品名称',
     product_images: '商品图片',
     product_details: '商品信息',
@@ -554,7 +564,8 @@ const langs = {
     verification_failed: '认证失败',
     to_be_certified: '待认证',
     verification: '认证中',
-    company_name: '企业名称',
+    company_name: '企业名称(中文)',
+    company_en_name: '企业名称(英文)',
     business_registration_number: '社会信用代码',
     select_country: '请选择国家',
     region: '地区',
@@ -582,7 +593,8 @@ const langs = {
     passport: '护照',
     upload_your_id_card: '请上传身份证证件',
     shop_logo: '商铺LOGO',
-    shop_name: '商铺名称',
+    shop_name: '商铺名称(中文)',
+    shop_name1: '商铺名称(英文)',
     shop_status: '商铺状态',
     status: '状态',
     opening_date: '开通时间',
@@ -607,7 +619,10 @@ const langs = {
     approved: '认证成功',
     openXbid: '开拍鱼',
     phone_number_login: '手机号码一键登录',
-    privacy_policy: '我已阅读、理解并同意《服务协议》及《隐私协议》',
+    privacy_policy: '我已阅读、理解并同意',
+    privacy_policy1: '《服务协议》',
+    privacy_policy2: '及',
+    privacy_policy3: '《隐私协议》',
     other_login_methods: '其他登录方式',
     account_login: '账号登录',
     verification_login: '验证码登录',
@@ -641,6 +656,9 @@ const langs = {
     function_registered: '此项功能只针对注册会员',
     exit: '退出',
     sure_delete: '确定要删除吗？',
+    website: '网址',
+    membership: '会员认证审核',
+    membership1: '会员认证,服务资质审核',
   }
 }
 // 判断是否为中文变体
@@ -666,7 +684,7 @@ function getLanguage() {
     return langs['zh_CN']
     //return langs['en']
   } catch (e) {
-    console.error('获取语言失败:', e)
+    // console.error('获取语言失败:', e)
     return langs['en']
   }
 }

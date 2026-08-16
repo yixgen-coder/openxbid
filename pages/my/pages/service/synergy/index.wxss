@@ -20,3 +20,27 @@ page {
   color: #FFFFFF;
   text-align: center;
 }
+.publish-wrap .art-container {
+  margin: 30rpx;
+}
+.publish-wrap .art-container > view {
+  margin-bottom: 30rpx;
+}
+.publish-wrap .art-container .tit {
+  font-weight: 600;
+  font-size: 36rpx;
+  color: #221F1C;
+  text-align: center;
+}
+.publish-wrap .art-container .content {
+  text-align: justify;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+  line-height: 40rpx;
+  width: 100%;
+  overflow: hidden;
+}
+.publish-wrap .art-container .content img {
+  max-width: 100%;
+  text-align: center;
+}

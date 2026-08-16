@@ -1,4 +1,6 @@
 const app = getApp()
+// [改动] 引入统一请求层
+const { post } = require('../../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -80,7 +82,7 @@ Page({
     this.fetchHomeDatas(true);
   },
   onLoad(options) {
-    console.log(options)
+    // console.log(options)
     if (options != {}) {
       let filterValue = this.data.filterValue;
       let itemTitle = this.data.itemTitle;
@@ -157,17 +159,10 @@ Page({
   },
   fetchHomeDatas: async function (fresh = false) {
     if (fresh) {
-      wx.pageScrollTo({
-        scrollTop: 0,
-      });
+      wx.pageScrollTo({ scrollTop: 0 });
     }
-
-    this.setData({
-      loadStatus: 1
-    });
-    const url = 'https://kpy.phanlink.com/v1/getGoodsListDatas';
+    this.setData({ loadStatus: 1 });
     const formData = {};
-    formData.token = wx.getStorageSync('token');
     formData.limit = this.goodListPagination.num;
     formData.searchName = this.data.searchName;
     formData.page = fresh ? 1 : this.goodListPagination.index;
@@ -181,53 +176,23 @@ Page({
     if (formData.action == 4) {
       formData.action = this.data.tabIndex;
     }
+    // [改动] fetchDatas → post()
     try {
-      const res = await this.fetchDatas(url, formData);
-      if (res.code == 1) {
-        const nextList = res.result.pros;
-        this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-          regions: res.result.regions,
-          ftys: res.result.ftys,
-        });
-        if (nextList.length > 0) {
-          this.goodListPagination.index = formData.page + 1;
-          wx.showToast({
-            // title: res.msg,
-            icon: 'loading',
-            duration: 500
-          });
-        }
-
+      const res = await post('/getGoodsListDatas', formData, { showError: false });
+      const nextList = res.result.pros;
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+        regions: res.result.regions,
+        ftys: res.result.ftys,
+      });
+      if (nextList.length > 0) {
+        this.goodListPagination.index = formData.page + 1;
+        wx.showToast({ icon: 'loading', duration: 500 });
       }
-      this.setData({
-        loadStatus: 0
-      });
-
+      this.setData({ loadStatus: 0 });
     } catch (error) {
-      this.setData({
-        loadStatus: 3
-      });
-
+      this.setData({ loadStatus: 3 });
     }
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);

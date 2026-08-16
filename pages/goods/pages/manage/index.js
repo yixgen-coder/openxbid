@@ -1,4 +1,7 @@
 const app = getApp()
+// [改动] 引入统一请求层和认证服务
+const { post } = require('../../../../utils/request')
+const { requireLogin } = require('../../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -61,28 +64,16 @@ Page({
     });
   },
   deleteData: async function (id) {
-    const url = 'https://kpy.phanlink.com/v1/setGoodsDelDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.goodsId = id;
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      await post('/setGoodsDelDatas', { goodsId: id }, { showError: false });
       this.setData({
         goodsList: this.data.goodsList.filter(item => item.id !== id)
       });
-      wx.showToast({
-        title: 'sucess',
-        icon: 'none',
-        duration: 2000
-      });
-    } else {
-      wx.showToast({
-        title: 'failed',
-        icon: 'none',
-        duration: 2000
-      });
+      wx.showToast({ title: 'sucess', icon: 'none', duration: 2000 });
+    } catch (err) {
+      wx.showToast({ title: 'failed', icon: 'none', duration: 2000 });
     }
-
   },
   onLoad(options) {
     if (options.btype) {
@@ -126,117 +117,61 @@ Page({
     });
   },
   deleteGoodsOrderData: async function (id) {
-    let url = 'https://kpy.phanlink.com/v1/delGoodsOrder';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.goodsId = id;
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      await post('/delGoodsOrder', { goodsId: id }, { showError: false });
       this.setData({
         scount: this.data.scount - 1,
         goodsList: this.data.goodsList.filter(item => item.id !== id),
       });
       wx.showToast({
         title: app.globalData.languagePack.lang == 1 ? 'Operation successful' : '操作成功',
-        icon: 'none',
-        duration: 2000
+        icon: 'none', duration: 2000
       });
-    } else {
+    } catch (err) {
       wx.showToast({
         title: app.globalData.languagePack.lang == 1 ? 'Operation failed' : '操作失败',
-        icon: 'none',
-        duration: 2000
+        icon: 'none', duration: 2000
       });
     }
   },
   init() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] 登录检查 → requireLogin()
+    if (!requireLogin()) return;
     const res = wx.getMenuButtonBoundingClientRect();
     this.setData({
-      statusbar: res.top, // 胶囊顶部高度
-      jiaonangheight: res.height // 胶囊高度
+      statusbar: res.top,
+      jiaonangheight: res.height
     })
     this.loadHomePage();
   },
   fetchHomeDatas: async function (fresh = false) {
     if (fresh) {
-      wx.pageScrollTo({
-        scrollTop: 0,
-      });
+      wx.pageScrollTo({ scrollTop: 0 });
     }
-
-    this.setData({
-      loadStatus: 1
-    });
-    const url = 'https://kpy.phanlink.com/v1/getGoodsLists';
+    this.setData({ loadStatus: 1 });
     const formData = {};
-    formData.token = wx.getStorageSync('token');
     formData.limit = this.goodListPagination.num;
     formData.btype = this.data.btype;
     formData.action = this.data.tabIndex;
     formData.lang = app.globalData.languagePack.lang;
     formData.page = fresh ? 1 : this.goodListPagination.index;
-
-    formData.action = this.data.tabIndex;
+    // [改动] fetchDatas → post()
     try {
-      const res = await this.fetchDatas(url, formData);
-      if (res.code == 1) {
-        const nextList = res.result.pros;
-        this.setData({
-          goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
-          ecount: res.result.ecount,
-          scount: res.result.scount,
-        });
-        if (nextList.length > 0) {
-          this.goodListPagination.index = formData.page + 1;
-        }
-
+      const res = await post('/getGoodsLists', formData, { showError: false });
+      const nextList = res.result.pros;
+      this.setData({
+        goodsList: fresh ? nextList : this.data.goodsList.concat(nextList),
+        ecount: res.result.ecount,
+        scount: res.result.scount,
+      });
+      if (nextList.length > 0) {
+        this.goodListPagination.index = formData.page + 1;
       }
-      this.setData({
-        loadStatus: 0
-      });
+      this.setData({ loadStatus: 0 });
     } catch (error) {
-      this.setData({
-        loadStatus: 3
-      });
-
+      this.setData({ loadStatus: 3 });
     }
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   onPullDownRefresh() {
     this.fetchHomeDatas(true);

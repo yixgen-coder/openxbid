@@ -28,7 +28,8 @@
       <image src="{{item.shop_logo}}"></image>
     </view>
     <view class="txt">
-      <view class="tit">{{item.shop_name}}</view>
+      <view class="tit" wx:if="{{globalLangData.lang == 2}}">{{item.shop_name?item.shop_name:item.shop_name_en}}</view>
+      <view class="tit" wx:if="{{globalLangData.lang == 1}}">{{item.shop_name_en?item.shop_name_en:item.shop_name}}</view>
       <view class="tags">
         <view class="card {{item.status==2?'card--active':''}}" wx:for="{{item.fwtype}}" wx:if="{{item.fwtype!=''}}">
           <text>{{item.fwtype}}</text>

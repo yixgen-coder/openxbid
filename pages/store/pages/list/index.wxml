@@ -18,8 +18,11 @@
         <image src="{{storeInfo.shop_logo}}"></image>
       </view>
       <view class="info">
-        <view class="tit">
-          <navigator url="/pages/store/pages/info/index?storeId={{storeId}}"> {{storeInfo.shop_name}} ></navigator>
+        <view class="tit" wx:if="{{globalLangData.lang == 2}}">
+          <navigator url="/pages/store/pages/info/index?storeId={{storeId}}"> {{storeInfo.shop_name?storeInfo.shop_name:storeInfo.shop_name_en}} ></navigator>
+        </view>
+        <view class="tit" wx:if="{{globalLangData.lang == 1}}">
+          <navigator url="/pages/store/pages/info/index?storeId={{storeId}}"> {{storeInfo.shop_name_en?storeInfo.shop_name_en:storeInfo.shop_name}} ></navigator>
         </view>
         <view class="tags">
           <text>{{globalLangData.certified_shop}}</text>

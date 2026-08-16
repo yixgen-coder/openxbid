@@ -1,5 +1,7 @@
 // pages/publish/index.js
 const app = getApp()
+const { post } = require('../../../utils/request')
+const { requireLogin } = require('../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -16,25 +18,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] wx.getStorageSync('token') + showModal → requireLogin()
+    if (!requireLogin()) return;
     const res = wx.getMenuButtonBoundingClientRect()
     this.setData({
       statusbar: res.top, // 胶囊顶部高度
@@ -79,25 +64,13 @@ Page({
     }
   },
   fetchData() {
-    const token = wx.getStorageSync('token');
+    // [改动] wx.request → post()
     const that = this;
-    wx.request({
-      url: 'https://kpy.phanlink.com/v1/getmyInfo',
-      method: 'POST',
-      data: {
-        token: token
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        if (res.data.code == 1) {
-          that.merchantVerifi(res.data.data);
-          that.setData({
-            items: res.data.data.company_type
-          })
-        }
-      }
+    post('/getmyInfo', {}, { showError: false }).then(res => {
+      that.merchantVerifi(res.data);
+      that.setData({
+        items: res.data.company_type
+      })
     });
   },
   /**

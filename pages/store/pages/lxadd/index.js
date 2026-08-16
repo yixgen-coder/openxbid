@@ -1,5 +1,10 @@
 // pages/my/approve/auhor/index.js
 const app = getApp()
+// [改动] 引入统一请求层和认证服务
+const { post } = require('../../../../utils/request')
+const { requireLogin } = require('../../../../services/auth')
+// [改动] 硬编码 URL → config 常量
+const { API_BASE } = require('../../../../utils/config')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -38,25 +43,8 @@ Page({
         lxid: options.id
       })
     }
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] 替换登录检查为 requireLogin()
+    if (!requireLogin()) return;
     if (this.data.lxid > 0) {
       this.fetStoreInfo();
     }
@@ -111,54 +99,30 @@ Page({
     });
 
   },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
-  },
   async fetStoreInfo() {
+    // [改动] fetchDatas → post()
     try {
-      const url = 'https://kpy.phanlink.com/v1/getStoreLx';
-      const formData = {};
-      formData.token = wx.getStorageSync('token');
-      formData.lxid = this.data.lxid;
-      const res = await this.fetchDatas(url, formData);
-      console.log(res)
-      if (res.code == 1) {
-        this.setData({
-          storeInfo: res.result,
-          fileList: [{
-            'url': res.result.avatar
-          }],
-          name: res.result.name,
-          post: res.result.post,
-          other: res.result.other,
-          tel: res.result.tel,
-          whatsapp: res.result.whatsapp,
-          wx: res.result.wx,
-          telValue: res.result.list.includes(1) ? true : false,
-          emailValue: res.result.list.includes(2) ? true : false,
-          wxValue: res.result.list.includes(3) ? true : false,
-          whatsappValue: res.result.list.includes(4) ? true : false,
-          otherValue: res.result.list.includes(5) ? true : false,
-          demoCheckboxMax: JSON.parse(res.result.list)
-        });
-      }
+      const res = await post('/getStoreLx', { lxid: this.data.lxid }, { showError: false });
+      this.setData({
+        storeInfo: res.result,
+        fileList: [{
+          'url': res.result.avatar
+        }],
+        name: res.result.name,
+        post: res.result.post,
+        other: res.result.other,
+        tel: res.result.tel,
+        whatsapp: res.result.whatsapp,
+        wx: res.result.wx,
+        telValue: res.result.list.includes(1) ? true : false,
+        emailValue: res.result.list.includes(2) ? true : false,
+        wxValue: res.result.list.includes(3) ? true : false,
+        whatsappValue: res.result.list.includes(4) ? true : false,
+        otherValue: res.result.list.includes(5) ? true : false,
+        demoCheckboxMax: JSON.parse(res.result.list)
+      });
     } catch (error) {
-      console.error('请求失败', error);
+      // console.error('请求失败', error);
     }
   },
 
@@ -211,7 +175,7 @@ Page({
     });
     let that = this;
     const task = wx.uploadFile({
-      url: 'https://kpy.phanlink.com/v1/uploadImgs', // 仅为示例，非真实的接口地址
+      url: `${API_BASE}/uploadImgs`, // [改动] 硬编码 URL → config 常量
       filePath: file,
       name: 'file',
       formData: {},
@@ -243,13 +207,11 @@ Page({
   },
 
   onFormSubmit: function (e) {
-
+    // [改动] wx.request → post()
     const formData = this.data.storeInfo;
     const imgTmp = this.data.imgTmp;
     const lxid = this.data.lxid;
     formData.demoCheckboxMax = this.data.demoCheckboxMax;
-    const token = wx.getStorageSync('token');
-    formData.token = token;
     formData.lxid = lxid;
     formData.avatar = this.data.fileList;
     formData.lang = app.globalData.languagePack.lang;
@@ -329,43 +291,27 @@ Page({
     // 发送数据到服务器
     this.sendFormData(formData);
   },
-  sendFormData: function (data) {
-    const url = 'https://kpy.phanlink.com/v1/setStoreLx'
-    wx.request({
-      url: url, // 服务器地址
-      method: 'POST',
-      data: data,
-      success: function (res) {
-        //console.log(res);
-        if (res.data.code == 1) {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'success',
-            duration: 2000,
-            mask: true,
-            complete: () => {
-              wx.redirectTo({
-                url: '/pages/store/pages/card/index'
-              });
-            }
-          });
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 2000
+  sendFormData: async function (data) {
+    try {
+      const res = await post('/setStoreLx', data, { showError: false });
+      wx.showToast({
+        title: res.msg,
+        icon: 'success',
+        duration: 2000,
+        mask: true,
+        complete: () => {
+          wx.redirectTo({
+            url: '/pages/store/pages/card/index'
           });
         }
-      },
-      fail: function (error) {
-        console.error('提交失败', error);
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none',
-          duration: 2000
-        });
-      }
-    });
+      });
+    } catch (res) {
+      wx.showToast({
+        title: res.msg,
+        icon: 'none',
+        duration: 2000
+      });
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

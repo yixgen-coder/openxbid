@@ -58,7 +58,7 @@ Component({
       });
     },
     noSee(e) {
-      console.log(e);
+      // console.log(e);
       const {
         storeid,
       } = e.currentTarget.dataset;
@@ -86,7 +86,7 @@ Component({
       });
     },
     handleShowMsg(e) {
-      console.log(e)
+      // console.log(e)
       const {
         id
       } = e.currentTarget.dataset;
@@ -108,7 +108,7 @@ Component({
       } = this.data;
       if (msg == '') {
         wx.showToast({
-          title: '评论内容不能为空！',
+          title: app.globalData.languagePack.lang == 1 ? 'The comment content cannot be empty!' : '评论内容不能为空！',
           icon: 'none',
           duration: 2000
         });

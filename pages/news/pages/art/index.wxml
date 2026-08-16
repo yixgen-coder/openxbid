@@ -40,7 +40,7 @@
   <t-icon name="star" size="40rpx" wx:if="{{artInfo.sc==0}}" bindclick="artScClickHandle" />
   <t-icon name="star" size="40rpx" color="#FF4A26" wx:if="{{artInfo.sc==1}}" bindclick="artScClickHandle" />
   <t-button icon="https://imgs.phanlink.com/program/images/fx1.png" variant="text" size="100rpx" open-type="share" style="padding:0;margin:0"></t-button>
-  <navigator url="/pages/my/pages/feedback/index?type=2">
+  <navigator url="/pages/my/pages/feedback/index?type=2&artid={{artInfo.id}}">
     <t-icon name="https://imgs.phanlink.com/program/images/ts.png" size="40rpx" />
   </navigator>
 </view>

@@ -1,4 +1,8 @@
 const app = getApp()
+const { post } = require('../../../../utils/request')
+const { requireLogin } = require('../../../../services/auth')
+// [改动] 硬编码 URL → config 常量
+const { API_BASE } = require('../../../../utils/config')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -32,38 +36,15 @@ Page({
     });
   },
   init() {
-    let token = wx.getStorageSync('token');
-    if (!token) {
-      // 用户未登录，跳转到登录页面
-      wx.showModal({
-        title: app.globalData.languagePack.reminder, // 标题
-        content: app.globalData.languagePack.function_registered, // 内容
-        cancelText: app.globalData.languagePack.cancel, // 取消按钮文字（可选，默认为"取消"）
-        confirmText: app.globalData.languagePack.login, // 确认按钮文字（可选，默认为"确定"）
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/tabbar/login/login',
-            });
-          } else if (res.cancel) {
-            wx.navigateBack();
-          }
-        }
-      })
-    }
+    // [改动] wx.getStorageSync('token') → requireLogin()
+    if (!requireLogin()) return;
     const dtId = this.data.dtId;
-    if (dtId > 0) {
-      this.fetchHomeDatas();
-    }
-
+    this.fetchHomeDatas();
   },
   fetchHomeDatas: async function () {
-    const url = 'https://kpy.phanlink.com/v1/getDtAddDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.dtId = this.data.dtId;
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()，try/catch 处理 code=-2 等
+    try {
+      const res = await post('/getDtAddDatas', { dtId: this.data.dtId, lang: app.globalData.languagePack.lang }, { showError: false });
       const nextList = res.result;
       if (nextList.dtId > 0) {
         this.setData({
@@ -78,41 +59,33 @@ Page({
         icon: 'none',
         duration: 500
       });
-    } else {
-      wx.showModal({
-        title: app.globalData.languagePack.reminder,
-        content: res.msg,
-        showCancel: false,
-        confirmText: app.globalData.languagePack.sure,
-        success: rs => {
-          if (rs.confirm) {
-            wx.navigateBack({
-              delta: 1
-            });
+    } catch (res) {
+      if (res.code == -2) {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: res.msg,
+          cancelText: app.globalData.languagePack.cancel,
+          confirmText: app.globalData.languagePack.sure,
+          success: (res) => {
+            if (res.confirm) {
+              wx.navigateTo({ url: '/pages/my/pages/approve/index' });
+            }
           }
-        }
-      });
+        });
+      } else {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: res.msg,
+          showCancel: false,
+          confirmText: app.globalData.languagePack.sure,
+          success: rs => {
+            if (rs.confirm) {
+              wx.navigateBack({ delta: 1 });
+            }
+          }
+        });
+      }
     }
-
-
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
   handleGrInfos(e) {
     const {
@@ -143,7 +116,7 @@ Page({
   onUpload(file) {
     let that = this;
     const task = wx.uploadFile({
-      url: 'https://kpy.phanlink.com/v1/uploadImgs',
+      url: `${API_BASE}/uploadImgs`, // [改动] 硬编码 URL → config 常量
       filePath: file,
       name: 'file',
       formData: {},
@@ -194,30 +167,26 @@ Page({
     wx.stopPullDownRefresh();
   },
   async handleTJForm() {
-    this.setData({
-      disabled: true
-    });
+    this.setData({ disabled: true });
     const formData = {};
-    formData.token = wx.getStorageSync('token');
     formData.dtId = this.data.dtId;
     formData.imgList = this.data.imgList;
     formData.dtTitle = this.data.dtTitle;
     formData.lang = app.globalData.languagePack.lang;
     if (formData.dtTitle == '') {
-
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: app.globalData.languagePack.lang == 1 ? 'Please fill in the dynamic content!' : '请填写动态内容！',
-        showCancel: false, // 隐藏取消按钮
-        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
-        confirmColor: "#007AFF", // 自定义确认按钮颜色
+        showCancel: false,
+        confirmText: app.globalData.languagePack.sure,
+        confirmColor: "#007AFF",
       });
+      this.setData({ disabled: false });
       return false;
     }
-
-    const url = 'https://kpy.phanlink.com/v1/setDtAddDatas';
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()，try/catch 处理 code=-2 等
+    try {
+      const res = await post('/setDtAddDatas', formData, { showError: false });
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: res.msg,
@@ -225,36 +194,33 @@ Page({
         confirmText: app.globalData.languagePack.sure,
         success: res => {
           if (res.confirm) {
-            wx.navigateBack({
-              delta: 1
-            });
+            wx.navigateBack({ delta: 1 });
           }
         }
       });
-    } else if (res.code == -2) {
-      wx.showModal({
-        title: app.globalData.languagePack.reminder,
-        content: res.msg,
-        confirmText: app.globalData.languagePack.sure, // 默认"确定"
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/my/pages/approve/index',
-            });
+    } catch (res) {
+      if (res.code == -2) {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: res.msg,
+          cancelText: app.globalData.languagePack.cancel,
+          confirmText: app.globalData.languagePack.sure,
+          success: (res) => {
+            if (res.confirm) {
+              wx.navigateTo({ url: '/pages/my/pages/approve/index' });
+            }
           }
-        }
-      })
-    } else {
-      wx.showModal({
-        title: app.globalData.languagePack.reminder,
-        content: res.msg,
-        showCancel: false, // 隐藏取消按钮
-        confirmText: app.globalData.languagePack.sure, // 自定义确认按钮文案
-        confirmColor: "#007AFF", // 自定义确认按钮颜色
-      });
+        });
+      } else {
+        wx.showModal({
+          title: app.globalData.languagePack.reminder,
+          content: res.msg,
+          showCancel: false,
+          confirmText: app.globalData.languagePack.sure,
+          confirmColor: "#007AFF",
+        });
+      }
     }
-    this.setData({
-      disabled: false
-    });
+    this.setData({ disabled: false });
   }
 })

@@ -1,4 +1,5 @@
 const app = getApp()
+const { post } = require('../../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -47,7 +48,6 @@ Page({
     const formData = {};
     formData.msg = this.data.msg;
     formData.artId = this.data.artId;
-    formData.token = wx.getStorageSync('token');
     formData.lang = app.globalData.languagePack.lang;
 
     if (formData.msg == '') {
@@ -58,10 +58,9 @@ Page({
       });
       return;
     }
-    const url = 'https://kpy.phanlink.com/v1/setArtPl';
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
-
+    // [改动] fetchDatas → post()，try/catch 处理 code!=1
+    try {
+      const res = await post('/setArtPl', formData, { showError: false });
       wx.showToast({
         title: 'Success',
         icon: 'success',
@@ -77,8 +76,7 @@ Page({
           }, 2000);
         }
       });
-
-    } else {
+    } catch (res) {
       wx.showToast({
         title: res.msg,
         icon: 'none',
@@ -94,12 +92,9 @@ Page({
 
   },
   fetchHomeDatas: async function () {
-    const url = 'https://kpy.phanlink.com/v1/getArtDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.artId = this.data.artId;
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()，try/catch 处理 code!=1
+    try {
+      const res = await post('/getArtDatas', { artId: this.data.artId }, { showError: false });
       const nextList = res.result;
       if (nextList.id > 0) {
         this.setData({
@@ -107,105 +102,46 @@ Page({
           artInfo: nextList
         });
       }
-
-    } else {
+    } catch (res) {
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: res.msg,
         showCancel: false,
-        confirmText:  app.globalData.languagePack.sure,
+        confirmText: app.globalData.languagePack.sure,
         success: rs => {
           if (rs.confirm) {
-            wx.navigateBack({
-              delta: 1
-            });
+            wx.navigateBack({ delta: 1 });
           }
         }
       });
     }
-
-
   },
   async storeClickHandle() {
-    const storeId = this.data.artInfo.store.id;
-    const url = 'https://kpy.phanlink.com/v1/setStoreGz';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.storeId = storeId;
-    const res = await this.fetchDatas(url, formData);
-    let artInfo = this.data.artInfo;
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setStoreGz', { storeId: this.data.artInfo.store.id }, { showError: false });
+      let artInfo = this.data.artInfo;
       artInfo.gz = res.action
-      this.setData({
-        artInfo: artInfo
-      });
-      // wx.showToast({
-      //   title: res.msg,
-      //   icon: 'success',
-      //   duration: 2000
-      // });
-
-    }
+      this.setData({ artInfo: artInfo });
+    } catch (e) {}
   },
   async artZanClickHandle() {
-    const artId = this.data.artId;
-    const url = 'https://kpy.phanlink.com/v1/setArtZan';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.artId = artId;
-    const res = await this.fetchDatas(url, formData);
-    let artInfo = this.data.artInfo;
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setArtZan', { artId: this.data.artId }, { showError: false });
+      let artInfo = this.data.artInfo;
       artInfo.zan = res.action
-      this.setData({
-        artInfo: artInfo
-      });
-      // wx.showToast({
-      //   title: res.msg,
-      //   icon: 'success',
-      //   duration: 2000
-      // });
-
-    }
+      this.setData({ artInfo: artInfo });
+    } catch (e) {}
   },
   async artScClickHandle() {
-    const artId = this.data.artId;
-    const url = 'https://kpy.phanlink.com/v1/setArtSc';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.artId = artId;
-    const res = await this.fetchDatas(url, formData);
-    let artInfo = this.data.artInfo;
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/setArtSc', { artId: this.data.artId }, { showError: false });
+      let artInfo = this.data.artInfo;
       artInfo.sc = res.action
-      this.setData({
-        artInfo: artInfo
-      });
-      // wx.showToast({
-      //   title: res.msg,
-      //   icon: 'success',
-      //   duration: 2000
-      // });
-
-    }
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
+      this.setData({ artInfo: artInfo });
+    } catch (e) {}
   },
    /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -219,7 +155,7 @@ Page({
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res);
+      // console.log(res);
     }
     return {
       title: this.data.artInfo.title,

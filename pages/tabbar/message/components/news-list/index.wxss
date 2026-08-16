@@ -12,16 +12,23 @@
   align-items: center;
   justify-content: space-between;
   padding: 32rpx 0;
+  gap: 20rpx;
 }
 .news-list-wrap .news-item .left {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 148rpx;
+  width: 85%;
 }
 .news-list-wrap .news-item .left .title {
   font-size: 30rpx;
   color: #221F1C;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .news-list-wrap .news-item .left .time {
   display: flex;

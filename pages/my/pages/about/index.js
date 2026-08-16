@@ -1,4 +1,5 @@
 const app = getApp()
+const { post } = require('../../../utils/request')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -23,13 +24,9 @@ Page({
 
   },
   fetchHomeDatas: async function () {
-    const url = 'https://kpy.phanlink.com/v1/getArtDatas';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    formData.artId = this.data.artId;
-    formData.lang = app.globalData.languagePack.lang;
-    const res = await this.fetchDatas(url, formData);
-    if (res.code == 1) {
+    // [改动] fetchDatas → post()
+    try {
+      const res = await post('/getArtDatas', { artId: this.data.artId, lang: app.globalData.languagePack.lang }, { showError: false });
       const nextList = res.result;
       if (nextList.id > 0) {
         this.setData({
@@ -37,7 +34,7 @@ Page({
           artInfo: nextList
         });
       }
-    } else {
+    } catch (res) {
       wx.showModal({
         title: app.globalData.languagePack.reminder,
         content: res.msg,
@@ -52,26 +49,6 @@ Page({
         }
       });
     }
-
-
-  },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
   },
    /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -85,7 +62,7 @@ Page({
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res);
+      // console.log(res);
     }
     return {
       title: this.data.artInfo.title,

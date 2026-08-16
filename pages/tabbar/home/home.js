@@ -1,4 +1,6 @@
 const app = getApp()
+const { post } = require('../../../utils/request')
+const auth = require('../../../services/auth')
 Page({
   data: {
     globalLangData: app.globalData.languagePack,
@@ -78,16 +80,13 @@ Page({
     }
   },
   async getMessageCount() {
-    const url = 'https://kpy.phanlink.com/v1/getMessageCounts';
-    const formData = {};
-    formData.token = wx.getStorageSync('token');
-    const res = await this.fetchDatas(url, formData);
+    // [改动] 使用统一请求层 post()，替代原 fetchDatas + wx.request + 硬编码 URL
+    const res = await post('/getMessageCounts', {});
     if (res.code == 1) {
       this.getTabBar().init(res.result.messageCount);
     }
   },
   onLoad() {
-    console.log(this.data.globalLangData);
     this.init();
   },
   onReachBottom() {
@@ -311,34 +310,17 @@ Page({
     }
   },
   fetchGoodsList(pageIndex, pageSize, action, currentPage, searchname, region = '', type = '', lang = 2) {
-    let token = wx.getStorageSync('token');
-    const url = 'https://kpy.phanlink.com/v1/getHomeDatas';
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: {
-          'token': token,
-          'page': pageIndex,
-          'limit': pageSize,
-          'action': action,
-          'currentPage': currentPage,
-          'searchname': searchname,
-          'region': region,
-          'type': type,
-          'lang': lang
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
+    // [改动] 使用统一请求层 post()，替代原 new Promise + wx.request + 硬编码 URL + 手动塞 token
+    return post('/getHomeDatas', {
+      page: pageIndex,
+      limit: pageSize,
+      action: action,
+      currentPage: currentPage,
+      searchname: searchname,
+      region: region,
+      type: type,
+      lang: lang
+    }, { showError: false });
   },
   goodListClickHandle(e) {
     const {
@@ -353,39 +335,20 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res);
-    }
+    // [改动] 删除原 console.log(res)
     return {
-      title: app.globalData.languagePack.lang==1?'Global Seafood Real-time Quotation System':'全球海鲜实时报价系统',
+      title: app.globalData.languagePack.lang == 1 ? 'Global Seafood Real-time Quotation System' : '全球海鲜实时报价系统',
       imageUrl: 'https://imgs.phanlink.com/program/images/ava/1.jpg',
       path: '/pages/tabbar/home/home',
     }
   },
   onShareTimeline: function (res) {
     return {
-      title: app.globalData.languagePack.lang==1?'Global Seafood Real-time Quotation System':'全球海鲜实时报价系统',
+      title: app.globalData.languagePack.lang == 1 ? 'Global Seafood Real-time Quotation System' : '全球海鲜实时报价系统',
       query: '',
       imageUrl: 'https://imgs.phanlink.com/program/images/ava/1.jpg'
     }
   },
-  fetchDatas(url, data) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        method: 'POST',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          resolve(res.data);
-        },
-        fail: function (err) {
-          reject(err);
-        }
-      });
-    });
-  },
+  // [改动] 删除原 fetchDatas 方法 —— 已被 utils/request.js 的 post() 替代
+  // [改动] 删除原 onShareAppMessage 中的 console.log(res)
 });
